@@ -2,6 +2,7 @@
 
 from __future__ import (absolute_import, division, print_function, unicode_literals)
 from strategies import *
+import matplotlib
 
 import datetime  # For datetime objects
 import os.path  # To manage paths
@@ -39,7 +40,7 @@ if __name__ == '__main__':
 
     # Add a strategy
     #cerebro.addstrategy(TestStrategy)
-    cerebro.addstrategy(SimpleStrategy_3DownPeriods)
+    cerebro.addstrategy(SimpleStrategy_SMACrossOver)
     #cerebro.addstrategy(MAcrossover)
     # TODO - print the strategy name
 
@@ -56,6 +57,12 @@ if __name__ == '__main__':
     # Set our desired cash start
     cerebro.broker.setcash(100000.0)
 
+    # Add a FixedSize sizer according to the stake
+    cerebro.addsizer(bt.sizers.FixedSize, stake=10)
+    
+    # Set the commission - 0.1% ... divide by 100 to remove the %
+    cerebro.broker.setcommission(commission=0.001)
+
     # Print out the starting conditions
     print('Starting Portfolio Value: %.2f' % cerebro.broker.getvalue())
 
@@ -65,3 +72,5 @@ if __name__ == '__main__':
     # Print out the final result
     print('Final Portfolio Value: %.2f' % cerebro.broker.getvalue())
 
+    # Plot the result
+    cerebro.plot()
