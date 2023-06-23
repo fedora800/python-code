@@ -1,4 +1,6 @@
 # https://algotrading101.com/learn/backtrader-for-backtesting/
+# https://github.com/mementum/backtrader/blob/master/samples/sigsmacross/sigsmacross.py
+
 
 from __future__ import (absolute_import, division, print_function, unicode_literals)
 from strategies import *
@@ -9,6 +11,12 @@ import os.path  # To manage paths
 import sys  # To find out the script name (in argv[0])
 
 import backtrader as bt
+
+# the display of matplotlib pot via tkinter had errors, could not find tkinter somehow.
+# i had to downgrade to below exact versions which then worked
+# backtrader    Version: 1.9.78.123
+# matplotlib    Version: 3.3.4
+# python        Version : 3.6
 
 
 # Just a basic Strategy skeleton that only prints price, no logic
@@ -47,8 +55,8 @@ if __name__ == '__main__':
     # Create a Data Feed
     data = bt.feeds.YahooFinanceCSVData(
         dataname='TSLA.csv',
-        fromdate=datetime.datetime(2022, 1, 1),
-        todate=datetime.datetime(2022, 3, 31)
+        fromdate=datetime.datetime(2021, 1, 1),
+        todate=datetime.datetime(2022, 12, 31)
     )
 
     # Add the Data Feed to Cerebro

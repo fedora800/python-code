@@ -7,7 +7,7 @@ import backtrader as bt
 # https://www.backtrader.com/docu/quickstart/quickstart/
 class SimpleStrategy_SMACrossOver(bt.Strategy):
     params = (
-        ('maperiod', 15),
+        ('maperiod', 13),
         ('exitbars', 5),
     )
 
@@ -32,12 +32,29 @@ class SimpleStrategy_SMACrossOver(bt.Strategy):
         # Add a MovingAverageSimple indicator
         self.sma = bt.indicators.SimpleMovingAverage(self.datas[0], period=self.params.maperiod)
 
+        # More indicators added for our understanding
+        # A 2nd MovingAverage (Exponential) will be added. The defaults will plot it (just like the 1st) with the data.
+        bt.indicators.ExponentialMovingAverage(self.datas[0], period=25)
+        # A 3rd MovingAverage (Weighted) will be added. Customized to plot in an own plot (even if not sensible)
+        bt.indicators.WeightedMovingAverage(self.datas[0], period=25).subplot = True
+        # A Stochastic (Slow) will be added. No change to the defaults.
+        bt.indicators.StochasticSlow(self.datas[0])
+        # A MACD will be added. No change to the defaults.
+        bt.indicators.MACDHisto(self.datas[0])
+        # A RSI will be added. No change to the defaults.
+        rsi = bt.indicators.RSI(self.datas[0])
+        # A MovingAverage (Simple) will be applied to the RSI. No change to the defaults (it will be plotted with the RSI)
+        bt.indicators.SmoothedMovingAverage(rsi, period=10)
+        # An AverageTrueRange will be added. Changed defaults to avoid it being plotted.
+        bt.indicators.ATR(self.datas[0]).plot = False
+
 
     # The strategy next method will be called on each bar of the system clock (self.datas[0]). 
     # This is true until other things come into play like indicators, which need some bars to start producing an output
     def next(self):
         # Simply log the closing price of the series from the reference
         self.log('Close, %.2f' % self.dataclose[0])
+        self.log('self=%s' % self.positionbyname)
 
         #self.log('(next) order = %s' % self.order)    # to review how and when this prints
         # Check if an order is pending ... if yes, we cannot send a 2nd one
@@ -46,6 +63,7 @@ class SimpleStrategy_SMACrossOver(bt.Strategy):
 
         # Check if we are already in a position, in which case, we SELL
         if self.position:
+            self.log('bar_executed=%d, exitbars=%d' % (self.bar_executed, self.params.exitbars))
             # Basic sell strategy of selling after holding for a fixed (5) defined in params periods
             if len(self) >= (self.bar_executed + self.params.exitbars):
                 # SELL, SELL, SELL!!! (with all possible default parameters)
