@@ -16,7 +16,7 @@ import backtrader as bt
 # i had to downgrade to below exact versions which then worked
 # backtrader    Version: 1.9.78.123
 # matplotlib    Version: 3.3.4
-# python        Version : 3.6
+# python        Version : 3.6                   (so run as C:\Python\Python36\python.exe .\basic_strategy.py)
 
 
 # Just a basic Strategy skeleton that only prints price, no logic
@@ -48,8 +48,9 @@ if __name__ == '__main__':
 
     # Add a strategy
     #cerebro.addstrategy(TestStrategy)
-    cerebro.addstrategy(SimpleStrategy_SMACrossOver)
+    #cerebro.addstrategy(SimpleStrategy_SMACrossOver)
     #cerebro.addstrategy(MAcrossover)
+    cerebro.addstrategy(EMACrossoverwithMACDandRSI)
     # TODO - print the strategy name
 
     # Create a Data Feed
