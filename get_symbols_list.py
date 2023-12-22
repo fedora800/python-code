@@ -32,10 +32,11 @@ with open(symbol_file, "w") as f:
 print('Created symbol list file = ', symbol_file)
 
 # temporary, to reduce symbols and data lookups for testing
-my_temp_filtered_stock_list =  [ symbol for symbol in list_symbols if "RS" in symbol ]
+my_temp_filtered_stock_list =  [ symbol for symbol in list_symbols if "EN" in symbol ]
 
 start = datetime.datetime(2023, 1, 1)
 end = datetime.datetime(2023, 6, 8)
+print('Now fetching quotes for [', my_temp_filtered_stock_list, '] between dates ', start, end)
 data = yf.download(my_temp_filtered_stock_list, start=start, end=end)
 
 df = data.stack().reset_index().rename(index=str, columns={"level_1": "Symbol"}).sort_values(['Symbol','Date'])
