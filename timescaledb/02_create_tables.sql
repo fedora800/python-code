@@ -2,6 +2,8 @@
 /*
 --------------------------------------------------------------------------------
 
+/* x01 - typ_asset_type */
+/* T00.5 - tbl_exchange */
 T01 - tbl_instrument
 T02 - tbl_price_data_1day
 
@@ -10,15 +12,30 @@ I01 - idx_instrument_time
 --------------------------------------------------------------------------------
 */
 
+/* x01 - typ_asset_type */
+CREATE TYPE typ_asset_type AS ENUM (
+  'STOCK', 
+  'ETF'
+);
+
+/* T00.5 - tbl_exchange */
+CREATE TABLE IF NOT EXISTS tbl_exchange (
+  exchange_code TEXT PRIMARY KEY,
+  name TEXT NOT NULL
+);
 
 /* T01 - tbl_instrument */
 CREATE TABLE IF NOT EXISTS tbl_instrument (
   ins_id SERIAL PRIMARY KEY,
   symbol TEXT NOT NULL,
   name TEXT NOT NULL,
-  industry TEXT
+  industry TEXT,
+  exchange_code TEXT REFERENCES tbl_exchange(exchange_code),
+  asset_type typ_asset_type,
+  dtime_created  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  dtime_updated  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  note_1 TEXT
 );
-
 
 /* T02 - tbl_price_data_1day */
 CREATE TABLE IF NOT EXISTS tbl_price_data_1day (
