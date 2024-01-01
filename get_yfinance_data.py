@@ -1,5 +1,6 @@
 
 # https://pypi.org/project/yfinance/
+# https://analyzingalpha.com/yfinance-python
 
 import yfinance as yf
 
