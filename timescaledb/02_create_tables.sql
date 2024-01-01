@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS tbl_exchange (
 /* T01 - tbl_instrument */
 CREATE TABLE IF NOT EXISTS tbl_instrument (
   ins_id SERIAL PRIMARY KEY,
-  symbol TEXT NOT NULL,
+  symbol TEXT UNIQUE NOT NULL,
   name TEXT NOT NULL,
   industry TEXT,
   exchange_code TEXT REFERENCES tbl_exchange(exchange_code),
@@ -39,20 +39,23 @@ CREATE TABLE IF NOT EXISTS tbl_instrument (
 
 /* T02 - tbl_price_data_1day */
 CREATE TABLE IF NOT EXISTS tbl_price_data_1day (
-   pd_ins_id INTEGER NOT NULL,
-   dtime  TIMESTAMPTZ NOT NULL,
+--   pd_ins_id INTEGER REFERENCES tbl_instrument (ins_id),
+   pd_symbol TEXT REFERENCES tbl_instrument (symbol),
+   pd_time TIMESTAMPTZ NOT NULL,
    open   DOUBLE PRECISION NOT NULL,
    high   DOUBLE PRECISION NOT NULL,
    low    DOUBLE PRECISION NOT NULL,
    close  DOUBLE PRECISION NOT NULL,
    volume INTEGER  NOT NULL,
-   PRIMARY KEY (pd_ins_id, dtime),
-   CONSTRAINT fk_instrument FOREIGN KEY (pd_ins_id) REFERENCES tbl_instrument (ins_id)
+--  vendor_id INTEGER REFERENCES data_vendors(vendor_id),
+--   PRIMARY KEY (pd_ins_id, vendor_id, dtime)
+--   PRIMARY KEY (pd_ins_id, pd_time)
+   PRIMARY KEY (pd_symbol, pd_time)
 );
 
 /* Convert the standard table into a hypertable partitioned on the time column using the create_hypertable() function provided by Timescale. */
-SELECT create_hypertable('tbl_price_data_1day', 'dtime');
+SELECT create_hypertable('tbl_price_data_1day', 'pd_time');
 
-/* I01 - idx_instrument_time */
-CREATE INDEX idx_instrument_time ON tbl_price_data_1day (pd_ins_id, dtime DESC);
+/* I01 - idx_instrument_time -- might not be required as the table has this combination as the primary key */ 
+-- CREATE INDEX idx_instrument_time ON tbl_price_data_1day (pd_symbol, pd_time DESC);
 

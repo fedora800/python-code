@@ -1,4 +1,4 @@
-exchange_id, exchange_code, name
-1, NYSE, New York Stock Exchange
-2, NASDAQ, Nasdaq Exchange
-3, BATS, CBOE US
+exchange_code, name
+NYSE, New York Stock Exchange
+NASDAQ, Nasdaq Exchange
+BATS, CBOE US
