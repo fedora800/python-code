@@ -276,4 +276,112 @@ To avoid running the compression step each time you have some data to compress y
 SELECT add_compression_policy('stocks_real_time', INTERVAL '8 days');
 
 
+--------------------------------------------------------------------------------
+## below code for simple moving average
 
+-- Create a new table to store SMA values
+CREATE TABLE IF NOT EXISTS tbl_price_data_1day_sma AS
+SELECT
+    pd_symbol,
+    pd_time,
+    close,
+    AVG(close) OVER (PARTITION BY pd_symbol ORDER BY pd_time ROWS BETWEEN 49 PRECEDING AND CURRENT ROW) AS sma_50_days
+FROM
+    tbl_price_data_1day;
+
+
+-- Add a new column for SMA values to the existing table
+ALTER TABLE tbl_price_data_1day ADD COLUMN sma_50 DOUBLE PRECISION;
+
+-- Update the existing table with SMA values
+WITH sma_values AS (
+    SELECT
+        pd_symbol,
+        pd_time,
+        AVG(close) OVER (PARTITION BY pd_symbol ORDER BY pd_time ROWS BETWEEN 49 PRECEDING AND CURRENT ROW) AS sma_50
+    FROM
+        tbl_price_data_1day
+)
+UPDATE tbl_price_data_1day
+SET sma_50 = sma_values.sma_50
+FROM sma_values
+WHERE tbl_price_data_1day.pd_symbol = sma_values.pd_symbol
+  AND tbl_price_data_1day.pd_time = sma_values.pd_time;
+--------------------------------------------------------------------------------
+
+-- below is from chatgpt, gives us the update command to compute sma50 and update the rows
+CREATE TABLE IF NOT EXISTS tbl_price_data_1day_sma (
+    pd_symbol TEXT,
+    pd_time TIMESTAMPTZ NOT NULL,
+    open DOUBLE PRECISION,
+    high DOUBLE PRECISION,
+    low DOUBLE PRECISION,
+    close DOUBLE PRECISION,
+    volume INTEGER,
+    sma_50_days DOUBLE PRECISION  -- 608: New column for SMA values
+);
+
+-- Use COPY command to insert data into the table
+COPY tbl_price_data_1day_sma (pd_symbol, pd_time, open, high, low, close, volume)
+FROM '/path/to/your/data.csv' DELIMITER ',' CSV HEADER;
+
+-- Update the new column with the calculated SMA values
+WITH sma_values AS (
+    SELECT
+        pd_symbol,
+        pd_time,
+        AVG(close) OVER (PARTITION BY pd_symbol ORDER BY pd_time ROWS BETWEEN 49 PRECEDING AND CURRENT ROW) AS sma_50_days
+    FROM
+        tbl_price_data_1day_sma
+)
+UPDATE tbl_price_data_1day_sma
+SET sma_50_days = sma_values.sma_50_days
+FROM sma_values
+WHERE tbl_price_data_1day_sma.pd_symbol = sma_values.pd_symbol
+  AND tbl_price_data_1day_sma.pd_time = sma_values.pd_time;
+
+--------------------------------------------------------------------------------
+
+
+-- below is from chatgpt, gives us the trigger that computes sma50 and updates that field on insert 
+-- 609: Create the table with the inherent SMA column
+CREATE TABLE IF NOT EXISTS tbl_price_data_1day_sma (
+    pd_symbol TEXT,
+    pd_time TIMESTAMPTZ NOT NULL,
+    open DOUBLE PRECISION,
+    high DOUBLE PRECISION,
+    low DOUBLE PRECISION,
+    close DOUBLE PRECISION,
+    volume INTEGER,
+    sma_50_days DOUBLE PRECISION  -- 609: New column for SMA values
+);
+
+-- Create a function to calculate SMA
+CREATE OR REPLACE FUNCTION fnc_calculate_sma()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE tbl_price_data_1day
+    SET sma_50 = (
+        SELECT AVG(close)
+        FROM tbl_price_data_1day_sma t
+        WHERE t.pd_symbol = NEW.pd_symbol AND t.pd_time <= NEW.pd_time
+        ORDER BY t.pd_time DESC
+        LIMIT 50
+    )
+    WHERE pd_symbol = NEW.pd_symbol AND pd_time = NEW.pd_time;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Create a trigger to run the function on INSERT
+CREATE TRIGGER IF NOT EXISTS trg_update_sma
+AFTER INSERT ON tbl_price_data_1day
+FOR EACH ROW
+EXECUTE FUNCTION fnc_calculate_sma();
+
+--------------------------------------------------------------------------------
+
+
+
+--------------------------------------------------------------------------------

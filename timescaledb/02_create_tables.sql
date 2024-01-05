@@ -4,10 +4,12 @@
 
 /* x01 - typ_asset_type */
 /* T00.5 - tbl_exchange */
+/*
 T01 - tbl_instrument
 T02 - tbl_price_data_1day
 
 I01 - idx_instrument_time
+*/
 
 --------------------------------------------------------------------------------
 */
@@ -42,11 +44,12 @@ CREATE TABLE IF NOT EXISTS tbl_price_data_1day (
 --   pd_ins_id INTEGER REFERENCES tbl_instrument (ins_id),
    pd_symbol TEXT REFERENCES tbl_instrument (symbol),
    pd_time TIMESTAMPTZ NOT NULL,
-   open   DOUBLE PRECISION NOT NULL,
-   high   DOUBLE PRECISION NOT NULL,
-   low    DOUBLE PRECISION NOT NULL,
-   close  DOUBLE PRECISION NOT NULL,
+   open   NUMERIC(10,2) NOT NULL,
+   high   NUMERIC(10,2) NOT NULL,
+   low    NUMERIC(10,2) NOT NULL,
+   close  NUMERIC(10,2) NOT NULL,
    volume INTEGER  NOT NULL,
+   --AVG(close) OVER (PARTITION BY pd_symbol ORDER BY pd_time ROWS BETWEEN 49 PRECEDING AND CURRENT ROW) AS sma_50 --will this work ?
 --  vendor_id INTEGER REFERENCES data_vendors(vendor_id),
 --   PRIMARY KEY (pd_ins_id, vendor_id, dtime)
 --   PRIMARY KEY (pd_ins_id, pd_time)
