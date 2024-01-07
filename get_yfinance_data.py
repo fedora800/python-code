@@ -27,7 +27,7 @@ def get_historical_data():
   # 25 largest S&P 500 index constituents by weighting
   # AAPL, MSFT, AMZN, NVDA, GOOGL, TSLA, GOOG, BRK.B, META, UNH, XOM, LLY, JPM, JNJ, V, PG, MA, AVGO, HD, CVX, MRK, ABBV, COST, PEP, ADBE
   #lst_symbols = ['AAPL', 'MSFT', 'AMZN', 'NVDA', 'GOOGL', 'TSLA', 'GOOG', 'BRK.B', 'META', 'UNH', 'XOM', 'LLY', 'JPM', 'JNJ', 'V', 'PG', 'MA', 'AVGO', 'HD', 'CVX', 'MRK', 'ABBV', 'COST', 'PEP', 'ADBE']
-  lst_symbols = ['AAPL', 'NVDA']
+  lst_symbols = ['META', 'TSLA', 'XOM']
   print('symbols to download = ', lst_symbols)
 
   start_date = datetime.datetime(2022, 1, 1)

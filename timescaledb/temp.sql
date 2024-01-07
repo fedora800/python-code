@@ -342,44 +342,6 @@ WHERE tbl_price_data_1day_sma.pd_symbol = sma_values.pd_symbol
 
 --------------------------------------------------------------------------------
 
-
--- below is from chatgpt, gives us the trigger that computes sma50 and updates that field on insert 
--- 609: Create the table with the inherent SMA column
-CREATE TABLE IF NOT EXISTS tbl_price_data_1day_sma (
-    pd_symbol TEXT,
-    pd_time TIMESTAMPTZ NOT NULL,
-    open DOUBLE PRECISION,
-    high DOUBLE PRECISION,
-    low DOUBLE PRECISION,
-    close DOUBLE PRECISION,
-    volume INTEGER,
-    sma_50_days DOUBLE PRECISION  -- 609: New column for SMA values
-);
-
--- Create a function to calculate SMA
-CREATE OR REPLACE FUNCTION fnc_calculate_sma()
-RETURNS TRIGGER AS $$
-BEGIN
-    UPDATE tbl_price_data_1day
-    SET sma_50 = (
-        SELECT AVG(close)
-        FROM tbl_price_data_1day_sma t
-        WHERE t.pd_symbol = NEW.pd_symbol AND t.pd_time <= NEW.pd_time
-        ORDER BY t.pd_time DESC
-        LIMIT 50
-    )
-    WHERE pd_symbol = NEW.pd_symbol AND pd_time = NEW.pd_time;
-
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- Create a trigger to run the function on INSERT
-CREATE TRIGGER IF NOT EXISTS trg_update_sma
-AFTER INSERT ON tbl_price_data_1day
-FOR EACH ROW
-EXECUTE FUNCTION fnc_calculate_sma();
-
 --------------------------------------------------------------------------------
 
 

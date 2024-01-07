@@ -13,8 +13,8 @@ group by pd_symbol;
 
 --------------------------------------------------------------------------------
 
-\copy tbl_price_data_1day (pd_time,pd_symbol,close,high,low,open,volume) FROM '~/git-projects/python-code/timescaledb/tbl_price_data_1day_data.csv' DELIMITER ',' CSV HEADER;
-\copy tbl_price_data_1day (pd_time,pd_symbol,close,high,low,open,volume) FROM '~/git-projects/python-code/AAPL.csv' DELIMITER ',' CSV HEADER;
+\copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM' ~/git-projects/python-code/timescaledb/tbl_price_data_1day_data.csv' DELIMITER ',' CSV HEADER;
+\copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '~/git-projects/python-code/AAPL.csv' DELIMITER ',' CSV HEADER;
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
