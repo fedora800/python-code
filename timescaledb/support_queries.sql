@@ -7,7 +7,12 @@ select count(*) from tbl_instrument;
 
 select pd_symbol, min(pd_time), max(pd_time), count(*) 
 from tbl_price_data_1day 
+where sma_200 is null
 group by pd_symbol;
+
+select * from tbl_price_data_1day where pd_symbol='META';
+
+delete from tbl_price_data_1day where pd_symbol='META';
 
 #truncate table tbl_price_data_1day;
 

@@ -53,7 +53,10 @@ CREATE TABLE IF NOT EXISTS tbl_price_data_1day (
    low    NUMERIC(10,2) NOT NULL,
    close  NUMERIC(10,2) NOT NULL,
    volume INTEGER  NOT NULL,
+   ema_5  NUMERIC(10,2) NULL,
+   ema_13  NUMERIC(10,2) NULL,
    sma_50  NUMERIC(10,2) NULL,
+   sma_200  NUMERIC(10,2) NULL,
 --  vendor_id INTEGER REFERENCES data_vendors(vendor_id),
 --   PRIMARY KEY (pd_ins_id, vendor_id, dtime)
 --   PRIMARY KEY (pd_ins_id, pd_time)

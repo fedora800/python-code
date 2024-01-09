@@ -25,9 +25,9 @@ def get_historical_data():
   '''
   
   # 25 largest S&P 500 index constituents by weighting
-  # AAPL, MSFT, AMZN, NVDA, GOOGL, TSLA, GOOG, BRK.B, META, UNH, XOM, LLY, JPM, JNJ, V, PG, MA, AVGO, HD, CVX, MRK, ABBV, COST, PEP, ADBE
-  #lst_symbols = ['AAPL', 'MSFT', 'AMZN', 'NVDA', 'GOOGL', 'TSLA', 'GOOG', 'BRK.B', 'META', 'UNH', 'XOM', 'LLY', 'JPM', 'JNJ', 'V', 'PG', 'MA', 'AVGO', 'HD', 'CVX', 'MRK', 'ABBV', 'COST', 'PEP', 'ADBE']
-  lst_symbols = ['META', 'TSLA', 'XOM']
+  # AAPL, MSFT, AMZN, NVDA, GOOGL, TSLA, GOOG, BRK-B, META, UNH, XOM, LLY, JPM, JNJ, V, PG, MA, AVGO, HD, CVX, MRK, ABBV, COST, PEP, ADBE
+  lst_symbols = ['AAPL', 'MSFT', 'AMZN', 'NVDA', 'GOOGL', 'TSLA', 'GOOG', 'BRK-B', 'META', 'UNH', 'XOM', 'LLY', 'JPM', 'JNJ', 'V', 'PG', 'MA', 'AVGO', 'HD', 'CVX', 'MRK', 'ABBV', 'COST', 'PEP', 'ADBE']
+  #lst_symbols = ['META', 'TSLA', 'XOM']
   print('symbols to download = ', lst_symbols)
 
   start_date = datetime.datetime(2022, 1, 1)
@@ -37,12 +37,13 @@ def get_historical_data():
 
     # get historical market data and write to csv file
     df_prices = yf.download(sym, start=start_date, end=end_date)
-    print(df_prices.head(3))
+    print(df_prices.head(1), df_prices.tail(1))
     df_prices.insert(0, "Symbol", sym) # add Symbol as 2nd column after date
     #df_prices['Symbol'] = sym   # but this will add as the last column of df
     df_prices.drop(columns=['Adj Close'], inplace=True)
-    print("modified df so as to be able to insert into postgres table : \n", df_prices.head(3))
-    df_prices.to_csv(sym + '.csv')
+    #print("modified df so as to be able to insert into postgres table : \n", df_prices.head(1))
+    output_file = "data/" + sym + ".csv"
+    df_prices.to_csv(output_file)
   
   print('--done downloading---')
 
