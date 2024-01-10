@@ -153,7 +153,20 @@ def generate_plot(df):
 
 def main():
   db_conn = connect_db() 
-  sql_query = "select * from tbl_price_data_1day where pd_symbol= 'TSLA'"
+  sql_query = "select symbol from tbl_instrument order by symbol"
+  df_symbols = pd.read_sql_query(sql_query, db_conn)
+  #print(df_symbols.head(2))
+  
+  # Selectbox (dropdown) Sidebar
+  chosen_symbol = st.sidebar.selectbox(           # Drop-down named Widget-02 with 3 selectable options
+    "Widget-02",
+    df_symbols
+  )
+  st.write('You selected:', chosen_symbol)
+  print("Symbol chosen from the select box = ", chosen_symbol)
+
+  sql_query = "select * from tbl_price_data_1day where pd_symbol= '%s'" % chosen_symbol
+  print("sql_query = ", sql_query)
 
   # Parameterized query
   # parameters are specified using the colon ( : )
@@ -196,8 +209,34 @@ def main():
 
   # --- using pandas functions ---
   df_ohlcv_symbol = pd.read_sql_query(sql_query, db_conn)
-  print(df_ohlcv_symbol)
+  print(df_ohlcv_symbol.tail(1))
   generate_plot(df_ohlcv_symbol)
+
+  data = {
+    "scan_name": ["stocks below SMA50", "stocks_above_SMA50"],
+    "scan_sqlquery": ["select * from viw_latest_price_data_by_symbol where close < sma_50", "select * from viw_latest_price_data_by_symbol where close > sma_50"]
+  }
+
+  #load data into a DataFrame object:
+  df_scans = pd.DataFrame(data)
+  chosen_sb2_option = st.selectbox( 
+     "My Scans",
+      df_scans
+  )
+  st.write('The scan you selected:', chosen_sb2_option)
+  #print("Symbol chosen from the select box = ", chosen_symbol)
+
+  print("selection OPTION chosen = ", chosen_sb2_option)
+  x11 = df_scans[df_scans["scan_name"]==chosen_sb2_option]["scan_sqlquery"].values[0]
+  print("which maps to VALUE = ", x11)
+  df_scan_output = pd.read_sql_query(x11, db_conn)
+  print(df_scan_output.tail(3))
+  generate_plot(df_scan_output)
+
+#df[df['B']==3]['A'].item()
+#Use df[df['B']==3]['A'].values[0] if you just want item itself without the brackets
+
+
 
 # main
 if __name__ == '__main__':
@@ -218,8 +257,6 @@ if __name__ == '__main__':
   
   # Add app title
   st.sidebar.title(APP_NAME)
-
-  st.header('TSLA Stock Price')
 
   main()
 

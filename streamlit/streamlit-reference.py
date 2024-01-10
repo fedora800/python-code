@@ -77,11 +77,19 @@ This code reads a CSV file named "Stock Exchange Data.csv" using the pandas libr
 # --  SIDEBAR --
 # Each element that's passed to st.sidebar is pinned to the left, allowing users to focus on the content in your app.
 # Object notation
+# Text Sidebar
 symbol = st.sidebar.text_input("Widget-01", value='AAPL', max_chars=5)    # Text input box named Widget-01 which will take max 5 chars
-add_selectbox = st.sidebar.selectbox(           # Drop-down named Widget-02 with 3 selectable options
+# Selectbox (dropdown) Sidebar
+chosen_sb_option = st.sidebar.selectbox(           # Drop-down named Widget-02 with 3 selectable options
     "Widget-02",
     ("Email", "Home phone", "Mobile phone")
 )
+st.write('You selected:', chosen_sb_option)
+# Radio button Sidebar
+ chose_rd_option = st.radio(
+        "Choose a shipping method",
+        ("Standard (5-15 days)", "Express (2-5 days)")
+    )
 
 # ....remaining to do .....
 
