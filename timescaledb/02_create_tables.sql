@@ -25,7 +25,8 @@ CREATE TYPE typ_asset_type AS ENUM (
 \echo "Creating TABLE tbl_exchange"
 CREATE TABLE IF NOT EXISTS tbl_exchange (
   exchange_code TEXT PRIMARY KEY,
-  name TEXT NOT NULL
+  name TEXT NOT NULL,
+  note_1 TEXT
 );
 
 /* T01 - tbl_instrument */

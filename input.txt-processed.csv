@@ -1,0 +1,10 @@
+ticker,type,isin,currency,shortName,fullName,description,countryOfOrigin,minTrade,digitsPrecision,quantityPrecision,exchangeId,tradable,underlyingInstrumentTicker,underlyingLeverageCoefficient,dealerExclusions,maxOpenLong,isaIneligible,extendedHoursTradingEnabled,subclasses
+00XJ1d_EQ,ETF,JE00B78NPY84,EUR,00XJ,WisdomTree Agriculture - EUR Daily Hedged,WisdomTree Agriculture - EUR Daily Hedged,JE,0.2,4,8,54,True,00XJ1d_EQ,1,['T212AU'],50000000,False,False,['EXCHANGE_TRADED_COMMODITY']
+00XK1d_EQ,ETF,JE00B78NNS84,EUR,00XK,WisdomTree Broad Commodities - EUR Daily Hedged,WisdomTree Broad Commodities - EUR Daily Hedged,JE,0.2,4,8,54,True,00XK1d_EQ,1,['T212AU'],50000000,False,False,['EXCHANGE_TRADED_COMMODITY']
+00XQd_EQ,ETF,JE00B78NPQ01,EUR,00XQ,WisdomTree Precious Metals - EUR Daily Hedged,WisdomTree Precious Metals - EUR Daily Hedged,JE,0.2,4,8,54,True,00XQd_EQ,1,['T212AU'],50000000,False,False,['EXCHANGE_TRADED_COMMODITY']
+10AJd_EQ,ETF,LU1737652823,EUR,10AJ,Amundi Index FTSE EPRA NAREIT Global DR (Dist),Amundi Index FTSE EPRA NAREIT Global UCITS ETF DR,LU,1,2,8,54,True,10AJd_EQ,1,['T212CY'],50000000,False,False,['EQUITY_FUNDS']
+1AAPl_EQ,ETF,XS2337099563,USD,1AAP,Leverage Shares 1x Apple,Leverage Shares 1x Apple Tracker ETP,IE,0.1,4,8,70,True,AAPL_US_EQ,1,['T212AU'],50000000,False,False,['EXCHANGE_TRADED_PRODUCTS']
+1AMZl_EQ,ETF,XS2337104231,USD,1AMZ,Leverage Shares 1x Amazon,Leverage Shares 1x Amazon Tracker ETP,IE,0.1,4,8,70,True,AMZN_US_EQ,1,['T212AU'],50000000,False,False,['EXCHANGE_TRADED_PRODUCTS']
+1ARGl_EQ,ETF,XS2399368062,USD,1ARG,Leverage Shares ARK Genomic Revolution,Leverage Shares ARK Genomic Revolution Tracker ETP,IE,0.1,4,8,70,True,1ARGl_EQ,1,['T212AU'],50000000,False,False,['EXCHANGE_TRADED_PRODUCTS']
+1ARKl_EQ,ETF,XS2399369037,USD,1ARK,Leverage Shares ARK Innovation,Leverage Shares ARK Innovation Tracker ETP,IE,0.1,4,8,70,True,1ARKl_EQ,1,['T212AU'],50000000,False,False,['EXCHANGE_TRADED_PRODUCTS']
+1ARWl_EQ,ETF,XS2399368575,USD,1ARW,Leverage Shares ARK NextGen Internet,Leverage Shares ARK NextGen Internet Tracker ETP,IE,0.1,4,8,70,True,1ARWl_EQ,1,['T212AU'],50000000,False,False,['EXCHANGE_TRADED_PRODUCTS']
