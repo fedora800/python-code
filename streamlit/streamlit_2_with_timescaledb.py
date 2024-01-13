@@ -10,7 +10,7 @@ import plotly.graph_objects as gobj
 def connect_db():
     # Set up a connection string
     username = 'postgres'
-    password = 'postgres'
+    password = 'postgres#123'
     host = 'localhost'
     database = 'dbs_invest'
     port = '5432'
@@ -54,6 +54,45 @@ def connect_db():
     # return handle to an opened db connection
     #print(type(connection), "---", connection)
     return connection
+
+
+def run_sql_query(db_conn, sql_query):
+  """
+  input is the db connection and the sql_query. it will run against the database and return output in a pandas df.
+  TODO - what about no output ???
+  """
+  print("Input sql_query = ", sql_query)
+
+  df_output = pd.read_sql_query(sql_query, db_conn)
+  print('Output df = ', df_output)
+  generate_table_plot(df_output)
+
+  return df_output
+
+
+
+def get_symbol_input_check_against_db(dbconn):
+  """
+  user will input symbol. we will check in instrument table if it exists.
+  if yes, we will return that entire row
+  if not, we will say that symbol not found
+  """
+
+  # Take a text input for symbol from user 
+  text_input = st.text_input(
+      "Enter some text 👇"
+#       label_visibility=st.session_state.visibility,
+#       disabled=st.session_state.disabled,
+#       placeholder=st.session_state.placeholder,
+  )
+  if text_input:
+      print('You entered Symbol : ', text_input)
+      st.write("You entered Symbol : ", text_input)
+  sql_query = "select * from tbl_instrument where symbol= '%s'" % text_input
+  run_sql_query(dbconn, sql_query)
+
+  sql_query = "select * from viw_price_data_stats_by_symbol where pd_symbol = '%s'" % text_input
+  run_sql_query(dbconn, sql_query)
 
 
 def generate_chart_plot(df):
@@ -160,10 +199,9 @@ def main():
  # sql_query = "select symbol from tbl_instrument order by symbol"
   #sql_query = "select symbol from tbl_instrument where exchange_code not like 'UNL%' and symbol like 'T%' order by symbol"
   #sql_query = "select symbol from tbl_instrument where exchange_code not like 'UN%' order by symbol"
-  sql_query = "select symbol, name from viw_instrument_uk_equities where symbol like 'VA%' order by symbol"
+  sql_query = "select symbol, name from viw_instrument_uk_equities where symbol like 'V%' order by symbol"
   df_symbols = pd.read_sql_query(sql_query, db_conn)
   print(df_symbols.head(2))
-  
   # Selectbox (dropdown) Sidebar
   chosen_symbol = st.sidebar.selectbox(           # Drop-down named Widget-02 with 3 selectable options
     "Widget-02",
@@ -243,6 +281,7 @@ def main():
 #df[df['B']==3]['A'].item()
 #Use df[df['B']==3]['A'].values[0] if you just want item itself without the brackets
 
+  get_symbol_input_check_against_db(db_conn)
 
 
 # main
@@ -251,6 +290,8 @@ if __name__ == '__main__':
 
   APP_NAME = "Stock App!"
   
+  print('--------------------------------------------------------------------------------')
+
   # Page Configuration
   st.set_page_config(
       page_title=APP_NAME,

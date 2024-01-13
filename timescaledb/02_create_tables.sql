@@ -14,11 +14,12 @@ I01 - idx_tbl_price_data_1day_symbol_time
 --------------------------------------------------------------------------------
 */
 
-/* x01 - typ_asset_type */
+-- x01 - typ_asset_type
 \echo "Creating TYPE typ_asset_type"
-CREATE TYPE typ_asset_type AS ENUM (
-  'STOCK', 
-  'ETF'
+CREATE TYPE IF NOT EXISTS typ_asset_type AS ENUM (
+  'EQUITY_FUNDS',
+  'ETF',
+  'STOCK'
 );
 
 /* T00.5 - tbl_exchange */

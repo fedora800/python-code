@@ -59,7 +59,11 @@ BEGIN
     FROM tbl_price_data_1day t
     WHERE t.pd_symbol = NEW.pd_symbol;
 
-    RAISE NOTICE 'Row count for % : %', NEW.pd_symbol, row_count;  -- Debugging output, check the PostgreSQL log or use a tool like PgAdmin to view the log messages
+    -- below prints too much, every row insert, so commented out for now
+    -- RAISE NOTICE 'Row count for % : %', NEW.pd_symbol, row_count;  -- Debugging output, check the PostgreSQL log or use a tool like PgAdmin to view the log messages
+--    RAISE LOG 'This is an informational message';
+--    RAISE WARNING 'Something unexpected happened';
+--    RAISE EXCEPTION 'An unexpected error';
 
     IF row_count >= 50 THEN
         SELECT AVG(close) INTO avg_close_50rows

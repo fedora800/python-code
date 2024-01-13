@@ -4,6 +4,7 @@
 
 -- V01 - viw_latest_price_data_by_symbol
 -- V02 - viw_instrument_uk_equities
+-- V03 - viw_price_data_stats_by_symbol 
 
 --------------------------------------------------------------------------------
 */
@@ -41,6 +42,22 @@ WHERE latest_row_num_by_symbol = 1;
 CREATE VIEW viw_instrument_uk_equities AS
 SELECT *
 FROM tbl_instrument
-WHERE exchange_code='UNKNOWN' and note_1='EQUITY_FUNDS';
+WHERE exchange_code='UK-EXCH-TODO' and asset_type='EQUITY_FUNDS';
+
+
+-- V03 - viw_price_data_stats_by_symbol 
+-- use this view when we want to see oldest and latest records by time and count of records for each symbol
+\echo "Creating VIEW viw_price_data_stats_by_symbol";
+CREATE VIEW viw_price_data_stats_by_symbol AS
+SELECT
+  pd_symbol,
+  MIN(pd_time) as oldest_rec_pd_time,
+  MAX(pd_time) as latest_rec_pd_time,
+  COUNT(*) as num_records
+FROM tbl_price_data_1day
+GROUP BY pd_symbol
+ORDER By pd_symbol;
+
+
 
 
