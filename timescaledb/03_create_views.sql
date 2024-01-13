@@ -3,6 +3,7 @@
 --------------------------------------------------------------------------------
 
 -- V01 - viw_latest_price_data_by_symbol
+-- V02 - viw_instrument_uk_equities
 
 --------------------------------------------------------------------------------
 */
@@ -32,3 +33,14 @@ WITH recent_data AS (
 SELECT *
 FROM recent_data
 WHERE latest_row_num_by_symbol = 1;
+
+
+-- V02 - viw_instrument_uk_equities
+-- use this view when we want to get all the instruments which are UK EQUITIES
+\echo "Creating VIEW viw_instrument_uk_equities";
+CREATE VIEW viw_instrument_uk_equities AS
+SELECT *
+FROM tbl_instrument
+WHERE exchange_code='UNKNOWN' and note_1='EQUITY_FUNDS';
+
+

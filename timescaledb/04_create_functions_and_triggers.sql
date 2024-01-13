@@ -70,7 +70,7 @@ BEGIN
             ORDER BY t.pd_time DESC
             LIMIT 50
         ) subquery;
-    --    RAISE NOTICE 'Avg 50 rows: %', avg_close_50rows;  -- Debugging output
+        --RAISE NOTICE 'Avg 50 rows: %', avg_close_50rows;  -- Debugging output
     END IF;
     IF row_count >= 200 THEN
         SELECT AVG(close) INTO avg_close_200rows
@@ -81,7 +81,7 @@ BEGIN
             ORDER BY t.pd_time DESC
             LIMIT 200
         ) subquery;
-    --    RAISE NOTICE 'Avg 200 rows: %', avg_close_200rows;  -- Debugging output
+        --RAISE NOTICE 'Avg 200 rows: %', avg_close_200rows;  -- Debugging output
     END IF;
 
     -- Assign the calculated moving average or another appropriate default value

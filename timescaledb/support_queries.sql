@@ -3,6 +3,10 @@
 
 select * from tbl_instrument;
 select count(*) from tbl_instrument;
+select exchange_code, count(*) from tbl_instrument
+group by exchange_code;
+select exchange_code, note_1, count(*) from tbl_instrument
+group by exchange_code, note_1;
 
 --------------------------------------------------------------------------------
 

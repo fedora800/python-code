@@ -94,3 +94,17 @@ st.write('You selected:', chosen_sb_option)
 # ....remaining to do .....
 
 # --------------------------------------------------------------------------------
+# Load a pandas dataframe into a static streamlit table
+st.table(df)
+
+# Load a pandas dataframe into an interactive streamlit table
+st.dataframe(df, 100, 200)
+
+# highlighting maximum values in each column
+st.dataframe(df.style.highlight_max(axis=0))
+
+# --------------------------------------------------------------------------------
+
+
+
+

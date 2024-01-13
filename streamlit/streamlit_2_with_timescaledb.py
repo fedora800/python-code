@@ -56,7 +56,7 @@ def connect_db():
     return connection
 
 
-def generate_plot(df):
+def generate_chart_plot(df):
 
 # this works
 #  fig = gobj.Figure(data=[gobj.Candlestick(x=df['pd_time'], 
@@ -110,7 +110,7 @@ def generate_plot(df):
   #  tickmode="array",
   )
   dct_margin=dict(l=20, r=20, t=20, b=20)
-  fig.update_layout(width=1100, height=800, 
+  fig.update_layout(width=1100, height=600, 
     yaxis=dct_y_axis,
 #    margin=dct_margin,
 #    paper_bgcolor="LightSteelBlue"
@@ -119,7 +119,7 @@ def generate_plot(df):
   #fig.show()
   
   # Render plot using plotly_chart
-  st.plotly_chart(fig,width=1100, height=900)         # make sure to increase this appropriately with the other objects
+  st.plotly_chart(fig,width=1100, height=600)         # make sure to increase this appropriately with the other objects
 
 # plot the candlesticks
 
@@ -150,12 +150,19 @@ def generate_plot(df):
 #  ---
 
 
+def generate_table_plot(df):
+  st.table(df)
+  #st.dataframe(df, 100, 200)
+
 
 def main():
   db_conn = connect_db() 
-  sql_query = "select symbol from tbl_instrument order by symbol"
+ # sql_query = "select symbol from tbl_instrument order by symbol"
+  #sql_query = "select symbol from tbl_instrument where exchange_code not like 'UNL%' and symbol like 'T%' order by symbol"
+  #sql_query = "select symbol from tbl_instrument where exchange_code not like 'UN%' order by symbol"
+  sql_query = "select symbol, name from viw_instrument_uk_equities where symbol like 'VA%' order by symbol"
   df_symbols = pd.read_sql_query(sql_query, db_conn)
-  #print(df_symbols.head(2))
+  print(df_symbols.head(2))
   
   # Selectbox (dropdown) Sidebar
   chosen_symbol = st.sidebar.selectbox(           # Drop-down named Widget-02 with 3 selectable options
@@ -210,7 +217,7 @@ def main():
   # --- using pandas functions ---
   df_ohlcv_symbol = pd.read_sql_query(sql_query, db_conn)
   print(df_ohlcv_symbol.tail(1))
-  generate_plot(df_ohlcv_symbol)
+  generate_chart_plot(df_ohlcv_symbol)
 
   data = {
     "scan_name": ["stocks below SMA50", "stocks_above_SMA50"],
@@ -231,7 +238,7 @@ def main():
   print("which maps to VALUE = ", x11)
   df_scan_output = pd.read_sql_query(x11, db_conn)
   print(df_scan_output.tail(3))
-  generate_plot(df_scan_output)
+  generate_table_plot(df_scan_output)
 
 #df[df['B']==3]['A'].item()
 #Use df[df['B']==3]['A'].values[0] if you just want item itself without the brackets
