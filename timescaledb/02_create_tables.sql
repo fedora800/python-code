@@ -2,11 +2,12 @@
 /*
 --------------------------------------------------------------------------------
 
-/* x01 - typ_asset_type */
-/* T00.5 - tbl_exchange */
-/*
-T01 - tbl_instrument
-T02 - tbl_price_data_1day
+-- TY01 - typ_asset_type
+-- TY02 - typ_data_source
+
+-- T01 - tbl_exchange
+-- T02 - tbl_instrument
+-- T02 - tbl_price_data_1day
 
 I01 - idx_tbl_price_data_1day_symbol_time 
 */
@@ -14,15 +15,25 @@ I01 - idx_tbl_price_data_1day_symbol_time
 --------------------------------------------------------------------------------
 */
 
--- x01 - typ_asset_type
+-- TY01 - typ_asset_type
 \echo "Creating TYPE typ_asset_type"
-CREATE TYPE IF NOT EXISTS typ_asset_type AS ENUM (
+CREATE TYPE typ_asset_type AS ENUM (
   'EQUITY_FUNDS',
   'ETF',
   'STOCK'
 );
 
-/* T00.5 - tbl_exchange */
+-- TY02 - typ_data_source
+\echo "Creating TYPE typ_data_source"
+CREATE TYPE typ_data_source AS ENUM (
+  'YFINANCE',
+  'THINKORSWIM',
+  'TEMPORARY'
+);
+
+--------------------------------------------------------------------------------
+
+-- T01 - tbl_exchange
 \echo "Creating TABLE tbl_exchange"
 CREATE TABLE IF NOT EXISTS tbl_exchange (
   exchange_code TEXT PRIMARY KEY,
@@ -30,7 +41,7 @@ CREATE TABLE IF NOT EXISTS tbl_exchange (
   note_1 TEXT
 );
 
-/* T01 - tbl_instrument */
+-- T02 - tbl_instrument
 \echo "Creating TABLE tbl_insrument"
 CREATE TABLE IF NOT EXISTS tbl_instrument (
   ins_id SERIAL PRIMARY KEY,
@@ -41,10 +52,14 @@ CREATE TABLE IF NOT EXISTS tbl_instrument (
   asset_type typ_asset_type,
   dtime_created  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   dtime_updated  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  sector TEXT,
+  industry TEXT,
+  sub_industry TEXT,
+  data_source typ_data_source,
   note_1 TEXT
 );
 
-/* T02 - tbl_price_data_1day */
+-- T02 - tbl_price_data_1day
 \echo "Creating TABLE tbl_price_data_1day";
 CREATE TABLE IF NOT EXISTS tbl_price_data_1day (
 --   pd_ins_id INTEGER REFERENCES tbl_instrument (ins_id),

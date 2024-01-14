@@ -82,7 +82,9 @@ symbol = st.sidebar.text_input("Widget-01", value='AAPL', max_chars=5)    # Text
 # Selectbox (dropdown) Sidebar
 chosen_sb_option = st.sidebar.selectbox(           # Drop-down named Widget-02 with 3 selectable options
     "Widget-02",
-    ("Email", "Home phone", "Mobile phone")
+    ("Email", "Home phone", "Mobile phone"),
+    key='chosen_sb_option_key',                    # this needs to be unique else "streamlit.errors.DuplicateWidgetID: There are multiple widgets with the same `key=..."
+    index=None                                     # on start up, this will make it select no option, whereas default is select 1st item
 )
 st.write('You selected:', chosen_sb_option)
 # Radio button Sidebar

@@ -71,6 +71,38 @@ def run_sql_query(db_conn, sql_query):
 
 
 
+def streamlit_sidebar_selectbox_symbol_group(dbconn):
+  """
+  this the top-left 1st selectbox on the sidebarinput 
+  user will select the group of symbols he wants to start on (eg US ETFs, UK ETFs, US S&P500 constituents etc)
+  TODO - what about no output ???
+  """
+
+  dct_options = {
+    "scan_name": [
+       "US S&P500 constituents",
+       "US ETFs",
+       "UK ETFs (incomplete)"
+    ],
+    "symlist_sqlquery": [
+       "select * from viw_instrument_us_sp500_constituents where symbol like 'O%'",
+       "select symbol from viw_instrument_uk_equities where symbol like 'JP%'",
+       "select * from viw_instrument_uk_equities"
+    ]
+  }
+
+  #load data into a DataFrame object:
+  df_select_options = pd.DataFrame(dct_options)
+  sg_chosen_option = st.sidebar.selectbox( 
+    "symbolgroups",
+    df_select_options,
+    key='sg_chosen_option',
+    index=None
+  )
+  st.write('symbolgroup sg_chosen_option : ', sg_chosen_option)
+  print("streamlit_sidebar_selectbox_symbolgroup - sg_chosen_option = ", sg_chosen_option)
+
+
 def get_symbol_input_check_against_db(dbconn):
   """
   user will input symbol. we will check in instrument table if it exists.
@@ -189,28 +221,18 @@ def generate_chart_plot(df):
 #  ---
 
 
-def generate_table_plot(df):
-  st.table(df)
-  #st.dataframe(df, 100, 200)
-
-
-def main():
-  db_conn = connect_db() 
- # sql_query = "select symbol from tbl_instrument order by symbol"
-  #sql_query = "select symbol from tbl_instrument where exchange_code not like 'UNL%' and symbol like 'T%' order by symbol"
-  #sql_query = "select symbol from tbl_instrument where exchange_code not like 'UN%' order by symbol"
-  sql_query = "select symbol, name from viw_instrument_uk_equities where symbol like 'V%' order by symbol"
-  df_symbols = pd.read_sql_query(sql_query, db_conn)
-  print(df_symbols.head(2))
+def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
   # Selectbox (dropdown) Sidebar
-  chosen_symbol = st.sidebar.selectbox(           # Drop-down named Widget-02 with 3 selectable options
+  xx_chosen_symbol = st.sidebar.selectbox(           # Drop-down named Widget-02 with 3 selectable options
     "Widget-02",
-    df_symbols
+    df,
+    key='xx_chosen_symbol',
+    index=None
   )
-  st.write('You selected:', chosen_symbol)
-  print("Symbol chosen from the select box = ", chosen_symbol)
+  st.write('You selected:', xx_chosen_symbol)
+  print("Symbol chosen from the select box = ", xx_chosen_symbol)
 
-  sql_query = "select * from tbl_price_data_1day where pd_symbol= '%s'" % chosen_symbol
+  sql_query = "select * from tbl_price_data_1day where pd_symbol= '%s'" % xx_chosen_symbol
   print("sql_query = ", sql_query)
 
   # Parameterized query
@@ -253,7 +275,7 @@ def main():
 #   print("Column headers from list(df.columns):", list(df_olhcv_symbol.columns))
 
   # --- using pandas functions ---
-  df_ohlcv_symbol = pd.read_sql_query(sql_query, db_conn)
+  df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn)
   print(df_ohlcv_symbol.tail(1))
   generate_chart_plot(df_ohlcv_symbol)
 
@@ -266,7 +288,8 @@ def main():
   df_scans = pd.DataFrame(data)
   chosen_sb2_option = st.selectbox( 
      "My Scans",
-      df_scans
+      df_scans,
+      key='chosen_sb2_option'
   )
   st.write('The scan you selected:', chosen_sb2_option)
   #print("Symbol chosen from the select box = ", chosen_symbol)
@@ -274,14 +297,30 @@ def main():
   print("selection OPTION chosen = ", chosen_sb2_option)
   x11 = df_scans[df_scans["scan_name"]==chosen_sb2_option]["scan_sqlquery"].values[0]
   print("which maps to VALUE = ", x11)
-  df_scan_output = pd.read_sql_query(x11, db_conn)
+  df_scan_output = pd.read_sql_query(x11, dbconn)
   print(df_scan_output.tail(3))
   generate_table_plot(df_scan_output)
 
 #df[df['B']==3]['A'].item()
 #Use df[df['B']==3]['A'].values[0] if you just want item itself without the brackets
 
-  get_symbol_input_check_against_db(db_conn)
+
+def generate_table_plot(df):
+  st.table(df)
+  #st.dataframe(df, 100, 200)
+
+
+def main():
+  db_conn = connect_db() 
+ # sql_query = "select symbol from tbl_instrument order by symbol"
+  #sql_query = "select symbol from tbl_instrument where exchange_code not like 'UNL%' and symbol like 'T%' order by symbol"
+  #sql_query = "select symbol from tbl_instrument where exchange_code not like 'UN%' order by symbol"
+  sql_query = "select symbol, name from viw_instrument_uk_equities where symbol like 'V%' order by symbol"
+  df_symbols = pd.read_sql_query(sql_query, db_conn)
+  print(df_symbols.head(2))
+
+  streamlit_sidebar_selectbox_symbol_group(db_conn)
+  streamlit_sidebar_selectbox_symbol_only(db_conn, df_symbols)
 
 
 # main

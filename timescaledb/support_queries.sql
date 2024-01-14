@@ -5,8 +5,13 @@ select * from tbl_instrument;
 select count(*) from tbl_instrument;
 select exchange_code, count(*) from tbl_instrument
 group by exchange_code;
-select exchange_code, note_1, count(*) from tbl_instrument
-group by exchange_code, note_1;
+
+select exchange_code, asset_type, note_1, data_source, count(*) 
+from tbl_instrument
+group by exchange_code, asset_type, note_1, data_source;
+
+delete from tbl_instrument 
+where data_source='THINKORSWIM'
 
 --------------------------------------------------------------------------------
 

@@ -3,7 +3,8 @@
 --------------------------------------------------------------------------------
 
 -- L01 - tbl_exchange_data
--- L02 - tbl_instrument
+-- L02A - tbl_instrument - S&P500 constituents
+-- L02B - tbl_instrument - US ETFs
 -- L03A - tbl_price_data_1day - USA
 -- L03B - tbl_price_data_1day - UK
 
@@ -15,9 +16,18 @@
 \copy tbl_exchange FROM '~/git-projects/python-code/timescaledb/data/tbl_exchange_data.csv' DELIMITER ',' CSV HEADER;
 
 
--- L02 - tbl_instrument
+-- L02A - tbl_instrument - S&P500 constituents
 \echo "Loading into table tbl_instrument"
-\copy tbl_instrument (symbol, name, industry, exchange_code, asset_type) FROM '~/git-projects/python-code/timescaledb/data/tbl_instrument_data.csv' DELIMITER ',' CSV HEADER;
+\copy tbl_instrument (symbol, name, industry, exchange_code, asset_type, data_source, note_1) FROM '~/git-projects/python-code/timescaledb/data/tbl_instrument_data_sp500_symbols.csv' DELIMITER ',' CSV HEADER;
+
+-- L02B - tbl_instrument - US ETFs
+-- this is a list of all (around 1917 ) US ETFS from Scan > All ETFs watchlist scan file download from ThinkorSwim
+-- $ dos2unix thinkorswim_instrument_data.csv 
+-- $ sed -i 's/$/,ETF,UNKNOWN,THINKORSWIM/' thinkorswim_instrument_data.csv 
+-- $ sed -i 's/\(Symbol,.*\)\(ETF.*\)/\1asset_type,exchange_code,data_source/' thinkorswim_instrument_data.csv 
+\echo "Loading into table tbl_instrument"
+\copy tbl_instrument (symbol, name, sector, industry, sub_industry, asset_type, exchange_code, data_source) FROM '~/git-projects/python-code/timescaledb/data/tbl_instrument_data_etf_thinkorswim.csv' DELIMITER ',' CSV HEADER;
+
 
 
 -- L03A - tbl_price_data_1day - USA
@@ -56,3 +66,5 @@
 \copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '~/git-projects/python-code/timescaledb/data/VMID.L.csv' DELIMITER ',' CSV HEADER;
 \copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '~/git-projects/python-code/timescaledb/data/VUKE.L.csv' DELIMITER ',' CSV HEADER;
 \copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '~/git-projects/python-code/timescaledb/data/VUSA.L.csv' DELIMITER ',' CSV HEADER;
+
+

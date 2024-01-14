@@ -5,6 +5,8 @@
 -- V01 - viw_latest_price_data_by_symbol
 -- V02 - viw_instrument_uk_equities
 -- V03 - viw_price_data_stats_by_symbol 
+-- V04 - viw_instrument_us_etfs
+-- V05 - viw_instrument_us_sp500_constituents
 
 --------------------------------------------------------------------------------
 */
@@ -58,6 +60,21 @@ FROM tbl_price_data_1day
 GROUP BY pd_symbol
 ORDER By pd_symbol;
 
+-- V04 - viw_instrument_us_etfs
+-- use this view when we want to get all the instruments which are US ETFs
+\echo "Creating VIEW viw_instrument_us_etfs";
+CREATE VIEW viw_instrument_us_etfs AS
+SELECT *
+FROM tbl_instrument
+WHERE exchange_code='UNKNOWN' and asset_type='ETF' and data_source='THINKORSWIM';
 
+
+-- V05 - viw_instrument_us_sp500_constituents
+-- use this view when we want to get all the instruments which are in the S&P500 index
+\echo "Creating VIEW viw_instrument_us_sp500_constituents";
+CREATE VIEW viw_instrument_us_sp500_constituents AS
+SELECT *
+FROM tbl_instrument
+WHERE asset_type='STOCK' and note_1='SP500';
 
 
