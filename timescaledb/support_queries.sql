@@ -3,6 +3,11 @@
 
 select * from tbl_instrument;
 select count(*) from tbl_instrument;
+
+select * from tbl_instrument 
+where 
+symbol like '%RS%' and note_1='SP500';
+
 select exchange_code, count(*) from tbl_instrument
 group by exchange_code;
 
@@ -11,7 +16,9 @@ from tbl_instrument
 group by exchange_code, asset_type, note_1, data_source;
 
 delete from tbl_instrument 
-where data_source='THINKORSWIM'
+where 
+--data_source='THINKORSWIM'
+--symbol like '%RS%' and note_1='SP500';
 
 --------------------------------------------------------------------------------
 
@@ -23,6 +30,8 @@ group by pd_symbol;
 select * from tbl_price_data_1day where pd_symbol='META';
 
 delete from tbl_price_data_1day where pd_symbol='META';
+
+delete from tbl_price_data_1day where pd_symbol in (select symbol from tbl_instrument where asset_type='STOCK' and symbol like '%RS%' and note_1='SP500');
 
 #truncate table tbl_price_data_1day;
 

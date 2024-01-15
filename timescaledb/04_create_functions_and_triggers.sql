@@ -97,6 +97,39 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+-- F02 - fnc_calculate_ema
+-- Create a function to calculate the ema13
+CREATE OR REPLACE FUNCTION fnc_calculate_ema_13()
+RETURNS TRIGGER AS $$
+DECLARE
+    close_price NUMERIC(10, 2);
+    ema_yesterday NUMERIC(10, 2);
+    smoothing_factor NUMERIC(10, 2) := 2.0 / (13.0 + 1.0); -- 13-day EMA
+BEGIN
+    -- Get the closing price of the current row
+    close_price := NEW.close;
+
+    -- Get the EMA value from the previous day
+    SELECT ema_13 INTO ema_yesterday
+    FROM tbl_price_data_1day
+    WHERE pd_symbol = NEW.pd_symbol
+    ORDER BY pd_time DESC
+    LIMIT 1;
+
+    -- If there is no previous EMA value, set it to the closing price
+    IF ema_yesterday IS NULL THEN
+        NEW.ema_13 := close_price;
+    ELSE
+        -- Calculate the new EMA using the smoothing factor
+        NEW.ema_13 := (close_price - ema_yesterday) * smoothing_factor + ema_yesterday;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+--------------------------------------------------------------------------------
 
 -- TR01 - trg_update_sma
 -- Create a trigger to run the function on INSERT
@@ -106,6 +139,13 @@ BEFORE INSERT ON tbl_price_data_1day
 FOR EACH ROW
 EXECUTE FUNCTION fnc_calculate_sma();
 
+
+-- TR02 - trg_update_ema
+-- Create a trigger to run the function on INSERT
+CREATE TRIGGER trg_update_ema_13
+BEFORE INSERT ON tbl_price_data_1day
+FOR EACH ROW
+EXECUTE FUNCTION fnc_calculate_ema_13();
 
 --------------------------------------------------------------------------------
 
