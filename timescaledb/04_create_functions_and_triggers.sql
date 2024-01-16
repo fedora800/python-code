@@ -3,9 +3,13 @@
 --------------------------------------------------------------------------------
 
 -- F01 - fnc_calculate_sma
+-- F02 - fnc_calculate_ema
+-- F03 - fnc_calculate_rsi
 
 
 -- TR01 - trg_update_sma
+-- TR02 - trg_update_ema
+-- TR03 - trg_update_rsi
 
 --------------------------------------------------------------------------------
 */
@@ -129,6 +133,46 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+
+-- F03 - fnc_calculate_rsi
+-- Create a function to calculate the rsi14
+CREATE OR REPLACE FUNCTION fnc_calculate_rsi()
+RETURNS TRIGGER AS $$
+DECLARE
+    avg_gain NUMERIC(10, 2);
+    avg_loss NUMERIC(10, 2);
+    rs       NUMERIC(10, 2);
+BEGIN
+    -- Calculate gains and losses for the last 14 periods
+    SELECT
+        COALESCE(AVG(gain), 0),
+        COALESCE(-AVG(loss), 0)
+    INTO avg_gain, avg_loss
+    FROM (
+        SELECT
+            CASE WHEN close > LAG(close) OVER w THEN close - LAG(close) OVER w ELSE 0 END AS gain,
+            CASE WHEN close < LAG(close) OVER w THEN LAG(close) OVER w - close ELSE 0 END AS loss
+        FROM tbl_price_data_1day
+        WHERE pd_symbol = NEW.pd_symbol
+        WINDOW w AS (PARTITION BY pd_symbol ORDER BY pd_time DESC ROWS BETWEEN 14 PRECEDING AND CURRENT ROW)
+        LIMIT 14
+    ) subquery;
+
+    -- Calculate Relative Strength (RS) and RSI
+    rs := CASE WHEN avg_loss = 0 THEN
+                CASE WHEN avg_gain = 0 THEN 0 ELSE 100 END
+             ELSE
+                100 - (100 / (1 + avg_gain / avg_loss))
+          END;
+
+    -- Update RSI_14 column
+    NEW.rsi_14 := rs;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
 --------------------------------------------------------------------------------
 
 -- TR01 - trg_update_sma
@@ -146,6 +190,10 @@ CREATE TRIGGER trg_update_ema_13
 BEFORE INSERT ON tbl_price_data_1day
 FOR EACH ROW
 EXECUTE FUNCTION fnc_calculate_ema_13();
+
+
+-- TR03 - trg_update_rsi
+
 
 --------------------------------------------------------------------------------
 

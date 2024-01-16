@@ -7,7 +7,7 @@
 
 -- T01 - tbl_exchange
 -- T02 - tbl_instrument
--- T02 - tbl_price_data_1day
+-- T03 - tbl_price_data_1day
 
 I01 - idx_tbl_price_data_1day_symbol_time 
 */
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS tbl_instrument (
   note_1 TEXT
 );
 
--- T02 - tbl_price_data_1day
+-- T03 - tbl_price_data_1day
 \echo "Creating TABLE tbl_price_data_1day";
 CREATE TABLE IF NOT EXISTS tbl_price_data_1day (
 --   pd_ins_id INTEGER REFERENCES tbl_instrument (ins_id),
@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS tbl_price_data_1day (
    ema_13  NUMERIC(10,2) NULL,
    sma_50  NUMERIC(10,2) NULL,
    sma_200  NUMERIC(10,2) NULL,
+   rsi_14  NUMERIC(10,2) NULL,
 --  vendor_id INTEGER REFERENCES data_vendors(vendor_id),
 --   PRIMARY KEY (pd_ins_id, vendor_id, dtime)
 --   PRIMARY KEY (pd_ins_id, pd_time)
