@@ -6,21 +6,19 @@ import pandas as pd
 # UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
 import plotly.graph_objects as gobj
 from plotly.subplots import make_subplots
-
+from config import DB_INFO, DEBUG_MODE
 
 
 # connect to the database
 def connect_db():
     # Set up a connection string
-    username = 'postgres'
-    password = 'postgres#123'
-    host = 'localhost'
-    database = 'dbs_invest'
-    port = '5432'
     #sslmode = 'require'  # or 'prefer' if you don't want to use SSL encryption
     #conn_str = f"postgresql://{username}:{password}@{host}:{port}/{database}?sslmode={sslmode}"
-    connect_str = f"postgresql://{username}:{password}@{host}:{port}/{database}"
+    #connect_str = f"postgresql://{username}:{password}@{host}:{port}/{database}"
+    connect_str = f"postgresql://{DB_INFO['USERNAME']}:{DB_INFO['PASSWORD']}@{DB_INFO['HOSTNAME']}:{DB_INFO['PORT']}/{DB_INFO['DATABASE']}"
     #print('DB conn_str = ', connect_str)
+
+    print(f"Debug mode is enabled. Connection String: {connect_str}") if DEBUG_MODE else None
 
     try:
       # Connect to an existing database
@@ -254,48 +252,70 @@ def generate_chart_plot_2(df):
 
   # Create subplots with specific settings
   # 
-  fig = make_subplots(rows=2,                             # 2 means one plot below the other plot vertically
+  fig = make_subplots(rows=3,                             # 3 means each plot below the other plot vertically
                       cols=1,                             # just 1, but 2 would mean one plot besides the other horizontally
                       shared_xaxes=True,                  # Share axes among subplots in the same column
                       vertical_spacing=0.03,              # Space between subplot rows in normalized plot coordinates. Must be a float between 0 and 1
-                      subplot_titles=('OHLC', 'Volume'),  # Title of each subplot as a list in row-major ordering.
-                      row_width=[0.4, 0.6]                # list of .length. rows of the relative heights of each row of subplots.
+                      subplot_titles=('OHLC', 'Volume', 'RSI'),  # Title of each subplot as a list in row-major ordering.
+                      row_width=[0.4, 0.6, 0.6]                # list of .length. rows of the relative heights of each row of subplots.
                      )
 
+  dct_textfont=dict(color="black", size=18, family="Times New Roman")
+
+  # --- subplot 1 on row 1 and column 1  (OHLC candlestick chart with 3 indicators) ---
   # Prepare subplot with a gobj.Candlestick object
   trace_subplot_row_1 = gobj.Candlestick(x=df['pd_time'], 
                                          open=df['open'], high=df['high'], low=df['low'], close=df['close']
                                         )
 
-  # Prepare subplot with a gobj.Bar object trace for volume without legend
-  trace_subplot_row_2 = gobj.Bar(x=df['pd_time'], 
-                                 y=df['volume'], showlegend=False
-                                )
-
-  # Now create a gobj.Figure called fig to display the data. Create this object passing in chart_data and assigning it to a variable named fig:
-#  fig = gobj.Figure(data=[chart_data])
-
   # To plot the moving average on top of this chart/figure, create a gobj.Scatter object, setting x with the same df time and y with the movavg df. 
   # we can also specify other settings like mode, colour, width etc
   # name value is what we will see as the the label/legend on the side of the chart, the sma line can have its own properties defined by a dict below
   # marker=dict(size=25, color=color_4, symbol=marker_list_2, line=dict(width=0.5))
-  dct_textfont=dict(color="black", size=18, family="Times New Roman")
   trace_ema_13 = gobj.Scatter(x=df['pd_time'], y=df['ema_13'], mode='lines', name='13-EMA', textfont=dct_textfont, line=dict(color='purple', width=2))
   trace_sma_50 = gobj.Scatter(x=df['pd_time'], y=df['sma_50'], mode='lines', name='50-SMA', textfont=dct_textfont, line=dict(color='blue', width=2))
   trace_sma_200 = gobj.Scatter(x=df['pd_time'], y=df['sma_200'], mode='lines', name='200-SMA', textfont=dct_textfont, line=dict(color='red', width=2))
 
-  # add all the subplots and scatter plots onto the fig object
+  # add the trace object for corresponding subplot and associated scatter plots onto the fig object
   fig.add_trace(trace_subplot_row_1, row=1, col=1)
-  fig.add_trace(trace_subplot_row_2, row=2, col=1)
   fig.add_trace(trace_ema_13)
   fig.add_trace(trace_sma_50)
   fig.add_trace(trace_sma_200)
 
+  # --- subplot 2 on row 2 and column 1 (Volume) ---
+  # Prepare subplot with a gobj.Bar object trace for volume without legend
+  trace_subplot_row_2 = gobj.Bar(x=df['pd_time'], 
+                                 y=df['volume'], showlegend=False
+                                )
+  fig.add_trace(trace_subplot_row_2, row=2, col=1)
+
+  # --- subplot 3 on row 1 and column 1 (RSI) ---
+  # Hack RSI values (*********** temporary testing as the trigger function to calculate does not work **********)
+  df_tmp_rsi = df['close'] / 3
+
+  # Prepare subplot with a gobj.Scatter object trace for RSI
+  trace_subplot_row_3 = gobj.Scatter(x=df['pd_time'],
+#                                     y=df['rsi_14'], mode='lines', name='RSI', textfont=dct_textfont,
+                                     y=df_tmp_rsi, mode='lines', name='RSI', textfont=dct_textfont,
+                                     line=dict(color='green', width=2)
+                                    )
+
+  fig.add_trace(trace_subplot_row_3, row=3, col=1)
+
+  # Now that all traces have been added, prepare the fig object to be displayed
   # Do not show OHLC's rangeslider sub plot 
   fig.update_layout(xaxis_rangeslider_visible=False)
 
   # Render plot using plotly_chart
   st.plotly_chart(fig,width=1100, height=600)         # make sure to increase this appropriately with the other objects
+
+  # Update layout to show the title for the new row
+  fig.update_layout(
+      title_text="Multiple Subplots with OHLC, Volume, and RSI",
+      title_x=0.5,
+      title_font=dict(size=20)
+  )
+
 
 
 
@@ -409,7 +429,7 @@ def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
 
   # --- using pandas functions ---
   df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn)
-  print(df_ohlcv_symbol.tail(1))
+  print(df_ohlcv_symbol.tail(20))
   #generate_chart_plot(df_ohlcv_symbol)
   generate_chart_plot_2(df_ohlcv_symbol)
   #generate_chart_plot_with_sub_plots(df_ohlcv_symbol)
