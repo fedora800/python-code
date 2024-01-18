@@ -94,7 +94,40 @@ def read_csv_into_list(file_path, has_header=True):
     for row in csv_data:
         print(row)
 
+def explain_about_module_and_package():
+  print("Module -  is a single Python file containing Python code, functions, and variables.")
+  print("Save your functions or code into a .py file. For example, common_functions.py. Define functions and variables within this file.")
+  print("In another Python script, you can import the module using the import statement")  
+  print("To access functions or variables from the module, use the module_name.function_name syntax eg - ")
+  print("common_functions.read_csv_into_list('your_file.csv', has_header=False)")
 
+  print("Package - a way of organizing related modules into a directory hierarchy.")
+  print("A package is a directory that contains an __init__.py file (can be empty) and other Python files (modules).")
+  print("Create a directory to serve as the package, and include an empty __init__.py file within the directory. This makes the directory a package.")
+  print("Place your modules (Python files) inside this directory.")
+  print("To use a package (ie import one of its module), use the import statement with the package name and module name. eg -")
+  print("from my_package import common_functions")
+  print("Now you can use functions like common_functions.read_csv_into_list(...) ")
+  print("Also, similar to modules, use the package_name.module_name.function_name syntax to access functions or variables. eg -")
+  print("my_package.common_functions.read_csv_into_list('your_file.csv', has_header=False) ")
+
+  print("Package Initialization - The __init__.py file can be used to initialize the package. It can be empty or contain code that runs when the package is imported")
+  print("__init__ is strictly not required, but is good practice")
+  '''
+  example dir structure - 
+  project_root/
+│
+├── my_package/
+│   ├── __init__.py
+│   ├── common_functions.py
+│   └── other_module.py
+│
+├── main_script.py
+└── another_script.py
+
+  In this structure, my_package is a package containing common_functions.py and other_module.py. main_script.py and another_script.py are scripts
+  that can import modules from the package.
+  '''
 
 def main():
 

@@ -1,4 +1,8 @@
 
+
+$ PGPASSWORD=postgres psql -U postgres -h localhost -d dbs_invest
+
+
 --------------------------------------------------------------------------------
 
 select * from tbl_instrument;
@@ -24,9 +28,10 @@ where
 
 select pd_symbol, min(pd_time), max(pd_time), count(*) 
 from tbl_price_data_1day 
---where 
---sma_200 is null
---rsi_14 is not null
+---where 
+---sma_200 is null
+---rsi_14 is not null
++--where sma_200 is null
 group by pd_symbol;
 
 select * from tbl_price_data_1day where pd_symbol='META';

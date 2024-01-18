@@ -112,6 +112,10 @@ st.dataframe(df.style.highlight_max(axis=0))
 
 
 # --------------------------------------------------------------------------------
+# --- below worked when i ran on acloudguru aws VPS and was able to access via browser from my PC ---
+#  sudo ufw allow 8000/tcp comment 'My Web Server Port'
+#  streamlit run streamlit_1.py --server.port 8000
+# but access can take time/be flaky. i saw that via IP:port it was not accessible during some times, but via fqdns and port it was ...
 # --------------------------------------------------------------------------------
 
 
