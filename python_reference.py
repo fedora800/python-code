@@ -1,4 +1,5 @@
 import sys
+from utils import run_sql_query
 
 
 def get_arguments_info():
@@ -129,14 +130,102 @@ def explain_about_module_and_package():
   that can import modules from the package.
   '''
 
+def common_and_utilities_files():
+  '''
+  --- common.py ---
+  Purpose:
+  Use common.py for functions and code that are widely shared and applicable across different parts of your application.
+  Functions in common.py are typically used in various modules and components of your project.
+
+  Content:
+  Functions that provide common functionality needed across different parts of your application.
+  Code that is central to the overall logic of your project.
+  Constants and configurations shared throughout your application.
+
+  Examples:
+  Functions for handling configuration settings.
+  Helper functions that perform common tasks used across different modules.
+  Constants that are shared across multiple parts of your application.   
+
+  --- utils.py ---
+  Purpose:
+  Use utils.py for utility functions that may not have a direct connection to the overall logic of your application but are still useful in various scenarios.
+  Functions in utils.py are often more specialized and may not be needed by every part of your application.
+
+  Content:
+  Helper functions that perform specific, standalone tasks.
+  Functions that provide utility or convenience but are not central to the application's core logic.
+  Tools and functions that may be useful in different projects, not just the current one.
+
+  Examples:
+  Date and time utility functions.
+  String manipulation functions.
+  File I/O utilities.
+  Mathematical or statistical helper functions.
+
+  --- Decision Factors ---
+  Reusability:
+  If a function is likely to be reused in different projects or contexts, consider placing it in a utils.py file.
+
+  Project-Specific:
+  If a function is closely tied to the specific logic of your project and is used across multiple modules, consider placing it in a common.py file.
+
+  Complexity:
+  More complex and central functions might find a home in common.py, while simpler and more specialized functions could go in utils.py.
+  Organization:
+
+  Use these files to improve the organization of your code. If a function fits naturally into one of these categories, it can make your codebase more readable and maintainable.
+
+  --- Example Directory Structure ---
+
+  project_root/
+  │
+  ├── common.py
+  ├── utils.py
+  ├── module1/
+  │   ├── __init__.py
+  │   ├── module1_file1.py
+  │   └── module1_file2.py
+  │
+  ├── module2/
+  │   ├── __init__.py
+  │   ├── module2_file1.py
+  │   └── module2_file2.py
+  │
+  └── main_script.py
+
+  --- Example Usage in Scripts or Modules ---
+
+  # main_script.py
+
+  from common import common_function
+  from utils import utility_function
+
+  # Use functions from common.py and utils.py
+  common_function()
+  utility_function()
+
+  '''
+
+def connect_to_DB_using_SQLAlchemy_and_get_results():
+
+  my_db_uri = "postgresql://postgres:postgres@localhost:5432/dbs_invest"
+  my_sql_query = "SELECT * FROM tbl_instrument;"
+  df = run_sql_query(my_db_uri, my_sql_query)
+  print(df)
+
+
+
 def main():
 
-  get_arguments_info()
+  #get_arguments_info()
   #todo_get_how_to_document()
-
-
-
+  connect_to_DB_using_SQLAlchemy_and_get_results()
+  
 # --- main ---
 if __name__ == '__main__':
   # main(sys.argv)
   main()
+
+
+

@@ -5,6 +5,7 @@
 CREATE DATABASE dbs_invest;
 
 -- connect to our database
+-- important to first connect to this db, else all the objects created after this will not be in this db
 \echo "Connecting to dbs_invest"
 \c dbs_invest;
 

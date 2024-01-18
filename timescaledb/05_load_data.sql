@@ -20,6 +20,7 @@
 \echo "Loading into table tbl_instrument"
 \copy tbl_instrument (symbol, name, industry, exchange_code, asset_type, data_source, note_1) FROM '~/git-projects/python-code/timescaledb/data/tbl_instrument_data_sp500_symbols.csv' DELIMITER ',' CSV HEADER;
 
+
 -- L02B - tbl_instrument - US ETFs
 -- this is a list of all (around 1917 ) US ETFS from Scan > All ETFs watchlist scan file download from ThinkorSwim
 -- $ dos2unix thinkorswim_instrument_data.csv 
