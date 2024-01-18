@@ -5,6 +5,7 @@
 -- L01 - tbl_exchange_data
 -- L02A - tbl_instrument - S&P500 constituents
 -- L02B - tbl_instrument - US ETFs
+-- L02C - tbl_instrument - UK ETFS -- TODO ---
 -- L03A - tbl_price_data_1day - USA
 -- L03B - tbl_price_data_1day - UK
 
@@ -29,7 +30,10 @@
 \echo "Loading into table tbl_instrument"
 \copy tbl_instrument (symbol, name, sector, industry, sub_industry, asset_type, exchange_code, data_source) FROM '~/git-projects/python-code/timescaledb/data/tbl_instrument_data_etf_thinkorswim.csv' DELIMITER ',' CSV HEADER;
 
-
+-- L02C - tbl_instrument - UK ETFS -- TODO ---
+-- this is temporary, just doing a few symbols
+\echo "Loading into table tbl_instrument"
+\copy tbl_instrument (symbol, name, sector, industry, sub_industry, asset_type, exchange_code, data_source) FROM '~/git-projects/python-code/timescaledb/data/tbl_instrument_UK_etfs.csv' DELIMITER ',' CSV HEADER;
 
 -- L03A - tbl_price_data_1day - USA
 \echo "Loading into table tbl_price_data_1day -- 2 year price data for around 25 S&P500 symbols - USA "

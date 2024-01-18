@@ -6,65 +6,19 @@ import pandas as pd
 # UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
 import plotly.graph_objects as gobj
 from plotly.subplots import make_subplots
-from config import DB_INFO, DEBUG_MODE
+from utils import connect_to_db_using_sqlalchemy
 
 
-# connect to the database
-def connect_db():
-    # Set up a connection string
-    #sslmode = 'require'  # or 'prefer' if you don't want to use SSL encryption
-    #conn_str = f"postgresql://{username}:{password}@{host}:{port}/{database}?sslmode={sslmode}"
-    #connect_str = f"postgresql://{username}:{password}@{host}:{port}/{database}"
-    connect_str = f"postgresql://{DB_INFO['USERNAME']}:{DB_INFO['PASSWORD']}@{DB_INFO['HOSTNAME']}:{DB_INFO['PORT']}/{DB_INFO['DATABASE']}"
-    #print('DB conn_str = ', connect_str)
-
-    print(f"Debug mode is enabled. Connection String: {connect_str}") if DEBUG_MODE else None
-
-    try:
-      # Connect to an existing database
-#      connection = psycopg2.connect(user="postgres",
-#                                    password="pynative@#29",
-#                                    host="127.0.0.1",
-#                                    port="5432",
-#                                    database="postgres_db")
-      connection = psycopg2.connect(connect_str)
-  
-      # Create a cursor to perform database operations
-      cursor = connection.cursor()
-      # Print PostgreSQL details
-      print("PostgreSQL server information -")
-      print(connection.get_dsn_parameters(), "\n")
-      # Executing a SQL query
-      print("Checking PostgreSQL server version using SQL query -")
-      cursor.execute("SELECT version();")
-      # Fetch result
-      record = cursor.fetchone()
-      print(record, "\n")
-  
-    except (Exception, Error) as error:
-      print("Error while connecting to PostgreSQL", error)
-    
-#    finally:
-#      if (connection):
-#          cursor.close()
-#          connection.close()
-#          print("PostgreSQL connection is closed")
-
-    cursor.close()
-
-    # return handle to an opened db connection
-    #print(type(connection), "---", connection)
-    return connection
 
 
-def run_sql_query(db_conn, sql_query):
+def run_conn_sql_query(dbconn, sql_query):
   """
   input is the db connection and the sql_query. it will run against the database and return output in a pandas df.
   TODO - what about no output ???
   """
   print("Input sql_query = ", sql_query)
 
-  df_output = pd.read_sql_query(sql_query, db_conn)
+  df_output = pd.read_sql_query(sql_query, dbconn)
   print('Output df = ', df_output)
   generate_table_plot(df_output)
 
@@ -90,14 +44,17 @@ def streamlit_sidebar_selectbox_symbol_group(dbconn):
        "UK ETFs (incomplete)"
     ],
     "symbol_groups_sqlquery": [
-       "select symbol, name from viw_instrument_us_sp500_constituents where symbol like '%RS%';",
-       "select symbol, name from viw_instrument_us_etfs where symbol like 'JP%';",
-       "select symbol, name from viw_instrument_uk_equities;"
+       """select symbol, name from viw_instrument_us_sp500_constituents where symbol like '%RS%';""",
+       """select symbol, name from viw_instrument_us_etfs where symbol like 'JP%';""",
+       """select symbol, name from viw_instrument_uk_equities;"""
     ]
   }
 
+  print('-- AA1 --', dct_options)
+
   #load data into a df
   df_select_options = pd.DataFrame(dct_options)
+  print('-- AA2 --', df_select_options)
 
   # Sidebar selectbox
   sg_chosen_option = st.sidebar.selectbox( 
@@ -467,13 +424,15 @@ def generate_table_plot(df):
 
 
 def main():
-  db_conn = connect_db() 
- # sql_query = "select symbol from tbl_instrument order by symbol"
+  #db_conn = connect_to_db_using_psycopg2() 
+  my_db_uri = "postgresql://postgres:postgres@localhost:5432/dbs_invest"
+  db_conn = connect_to_db_using_sqlalchemy(my_db_uri)
+  sql_query = "select symbol from tbl_instrument order by symbol"
   #sql_query = "select symbol from tbl_instrument where exchange_code not like 'UNL%' and symbol like 'T%' order by symbol"
   #sql_query = "select symbol from tbl_instrument where exchange_code not like 'UN%' order by symbol"
- # sql_query = "select symbol, name from viw_instrument_uk_equities where symbol like 'V%' order by symbol"
- # df_symbols = pd.read_sql_query(sql_query, db_conn)
- # print(df_symbols.head(2))
+  # sql_query = "select symbol, name from viw_instrument_uk_equities where symbol like 'V%' order by symbol"
+  df_symbols = pd.read_sql_query(sql_query, db_conn)
+  print(df_symbols.head(5))
 
   df_symbols = streamlit_sidebar_selectbox_symbol_group(db_conn)
   streamlit_sidebar_selectbox_symbol_only(db_conn, df_symbols)

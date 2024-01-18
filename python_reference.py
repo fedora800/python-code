@@ -215,6 +215,44 @@ def connect_to_DB_using_SQLAlchemy_and_get_results():
   print(df)
 
 
+def difference_between_import_and_from_module_import():
+   '''
+   from psycopg2 import Error
+
+This imports the Error class specifically from the psycopg2 module.
+With this import, you can use Error directly in your code without needing to reference psycopg2 every time.
+Example:
+
+python
+Copy code
+from psycopg2 import Error
+
+try:
+    # Your code...
+except Error as e:
+    print(f"Error: {e}")
+import psycopg2
+
+This imports the entire psycopg2 module.
+You need to reference the psycopg2 module when using its contents, such as psycopg2.Error for the Error class.
+Example:
+
+python
+Copy code
+import psycopg2
+
+try:
+    # Your code...
+except psycopg2.Error as e:
+    print(f"Error: {e}")
+In most cases, using from psycopg2 import Error is more convenient because it allows you to use Error directly in your code without having to reference psycopg2. However, if you need multiple components from psycopg2, you might prefer the second form (import psycopg2) to have access to all elements in the module without additional imports.
+
+Choose the form that suits your coding style and requirements.
+   '''
+
+
+# Call the function
+connect_to_DB_using_SQLAlchemy_and_get_results()
 
 def main():
 
