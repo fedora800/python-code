@@ -450,7 +450,7 @@ def generate_table_plot(df):
 
 def main():
   #db_conn = connect_to_db_using_psycopg2() 
-  my_db_uri = "postgresql://postgres:postgres@localhost:5432/dbs_invest"
+  my_db_uri = "postgresql://postgres:postgres#123@localhost:5432/dbs_invest"
   logger.debug(my_db_uri)
   db_conn = connect_to_db_using_sqlalchemy(my_db_uri)
   sql_query = "select symbol from tbl_instrument order by symbol"
