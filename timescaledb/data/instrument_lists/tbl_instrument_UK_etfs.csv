@@ -1,0 +1,4 @@
+Symbol,Description,Sector,Industry,Sub-Industry,asset_type,exchange_code,data_source
+VMID.L,VMID.L == UK ETF,,,,EQUITY_FUNDS,UK-EXCH-TODO,TEMPORARY
+VUKE.L,VUKE.L == UK ETF,,,,EQUITY_FUNDS,UK-EXCH-TODO,TEMPORARY
+VUSA.L,VUSA.L == UK ETF,,,,EQUITY_FUNDS,UK-EXCH-TODO,TEMPORARY

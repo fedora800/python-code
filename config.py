@@ -1,5 +1,10 @@
-DB_HOST = 'localhost'
-DB_PORT = '5432'
-DB_NAME = 'dbs_invest'
-DB_USER = 'postgres'
-DB_PASS = 'passwd'
+
+DEBUG_MODE = True
+
+DB_INFO = {
+  'USERNAME': 'postgres',
+  'PASSWORD': 'postgres#123',
+  'HOSTNAME': 'localhost',
+  'PORT':     '5432',
+  'DATABASE': 'dbs_invest'
+}

@@ -56,14 +56,14 @@ def get_historical_data():
   
 
   # this will be the full S&P 500 index constituents list
-  csv_file_path = 'sp500_constituents.csv'  # Replace with the actual path to your CSV file
-  lst_symbols = read_csv_into_list(csv_file_path, has_header=False)
+  #csv_file_path = 'sp500_constituents.csv'  # Replace with the actual path to your CSV file
+  #lst_symbols = read_csv_into_list(csv_file_path, has_header=False)
   # 25 largest S&P 500 index constituents by weighting
   # AAPL, MSFT, AMZN, NVDA, GOOGL, TSLA, GOOG, BRK-B, META, UNH, XOM, LLY, JPM, JNJ, V, PG, MA, AVGO, HD, CVX, MRK, ABBV, COST, PEP, ADBE
   #lst_symbols = ['AAPL', 'MSFT', 'AMZN', 'NVDA', 'GOOGL', 'TSLA', 'GOOG', 'BRK-B', 'META', 'UNH', 'XOM', 'LLY', 'JPM', 'JNJ', 'V', 'PG', 'MA', 'AVGO', 'HD', 'CVX', 'MRK', 'ABBV', 'COST', 'PEP', 'ADBE']
   #lst_symbols = ['META', 'TSLA', 'XOM']
   #lst_symbols = ['V3AB.L','V3AM.L','V3MB.L','V3MM.L','VAGP.L','VAGS.L','VALW.L','VAPX.L','VCPA.L','VDPG.L','VECP.L','VEGB.L','VEMT.L','VERG.L','VERX.L','VETY.L','VEUR.L','VEVE.L','VFEG.L','VFEM.L','VGER.L','VGOV.L','VGPA.L','VGVA.L','VHVG.L','VHYG.L','VHYL.L','VJPB.L','VJPN.L','VMID.L','VMIG.L','VNRG.L','VNRT.L','VPNG.L','VUAG.L','VUCP.L','VUKE.L','VUKG.L','VUSA.L','VUSC.L','VUTA.L','VUTY.L','VWRL.L','VWRP.L']
-  #lst_symbols = ['VAPX.L','VCPA.L','VDPG.L','VECP.L']
+  lst_symbols = ['VMID.L','VUKE.L','VUSA.L']
   print('symbols to download = ', lst_symbols)
 
   start_date = datetime.datetime(2023, 1, 1)
@@ -78,9 +78,12 @@ def get_historical_data():
     #df_prices['Symbol'] = sym   # but this will add as the last column of df
     df_prices.drop(columns=['Adj Close'], inplace=True)
     #print("modified df so as to be able to insert into postgres table : \n", df_prices.head(1))
-    output_file = "timescaledb/data/sp500symbols/" + sym + ".csv"
+    #output_file = "timescaledb/data/sp500symbols/" + sym + ".csv"
+    output_file = "timescaledb/data/" + sym + ".csv"
     #output_file = "/tmp/" + sym + ".csv"
     df_prices.to_csv(output_file)
+    print("created data file - ", output_file)
+    
   
   print('--done downloading---')
 

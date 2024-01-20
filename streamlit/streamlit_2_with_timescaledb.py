@@ -1,6 +1,6 @@
-from datetime import datetime
 import psycopg2
 from psycopg2 import Error
+from loguru import logger
 import streamlit as st
 import pandas as pd
 # UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
@@ -33,10 +33,9 @@ def streamlit_sidebar_selectbox_symbol_group(dbconn):
   TODO - what about no output ???
 
   returns:
-    a df with the output of the the sql_query results corresponding to what option we chose from the dropdown 
+    a df with the output of the the sql_query results (symbols list) corresponding to what option we chose from the dropdown 
   """
 
-  print('---------111---------')
   dct_options = {
     "symbol_groups": [
        "US S&P500 constituents",
@@ -50,28 +49,30 @@ def streamlit_sidebar_selectbox_symbol_group(dbconn):
     ]
   }
 
-  print('-- AA1 --', dct_options)
-
   #load data into a df
   df_select_options = pd.DataFrame(dct_options)
-  print('-- AA2 --', df_select_options)
+  logger.debug(df_select_options)
 
   # Sidebar selectbox
   sg_chosen_option = st.sidebar.selectbox( 
-    "symbol_groups",
+    "Symbol Groups Dropdown",             # Drop-down named Symbol Dropdown
     df_select_options['symbol_groups'],
     key='sg_chosen_option',
     index=None
   )
   st.write('symbol_groups sg_chosen_option : ', sg_chosen_option)
-  print("streamlit_sidebar_selectbox_symbolgroup - sg_chosen_option = ", sg_chosen_option)
+  logger.info('streamlit_sidebar_selectbox_symbolgroup - type={} sg_chosen_option={}', type(sg_chosen_option), sg_chosen_option)
 
-  # Access the selected row in the DataFrame
-  sg_chosen_sql_query = df_select_options[df_select_options['symbol_groups'] == sg_chosen_option]['symbol_groups_sqlquery'].iloc[0]
-  print("streamlit_sidebar_selectbox_symbolgroup - CHOSEN SQL_QUERY = ", sg_chosen_sql_query)
-
-  df_symbols = pd.read_sql_query(sg_chosen_sql_query, dbconn)
-  print(df_symbols.head(2))
+  # if user chooses from the symbol group dropdown, then run the sql query and return values into a dataframe
+  if sg_chosen_option is None:
+    # on startup, choice has been set up to none, so return empty df
+    df_symbols = []
+  else:
+    sg_chosen_sql_query = df_select_options[df_select_options['symbol_groups'] == sg_chosen_option]['symbol_groups_sqlquery'].iloc[0]
+    logger.info('streamlit_sidebar_selectbox_symbolgroup - CHOSEN SQL_QUERY = {}', sg_chosen_sql_query)
+    print('--1B--', sg_chosen_sql_query)
+    df_symbols = pd.read_sql_query(sg_chosen_sql_query, dbconn)
+    logger.debug(df_symbols)
 
   return df_symbols
 
@@ -209,12 +210,14 @@ def generate_chart_plot_2(df):
 
   # Create subplots with specific settings
   # 
-  fig = make_subplots(rows=3,                             # 3 means each plot below the other plot vertically
+  fig = make_subplots(rows=5,                             # 3 means each plot below the other plot vertically
                       cols=1,                             # just 1, but 2 would mean one plot besides the other horizontally
                       shared_xaxes=True,                  # Share axes among subplots in the same column
                       vertical_spacing=0.03,              # Space between subplot rows in normalized plot coordinates. Must be a float between 0 and 1
-                      subplot_titles=('OHLC', 'Volume', 'RSI'),  # Title of each subplot as a list in row-major ordering.
-                      row_width=[0.4, 0.6, 0.6]                # list of .length. rows of the relative heights of each row of subplots.
+                      subplot_titles=('OHLC', 'Volume',   # Title of each subplot need mentioning as a list in row-major ordering.
+                                      'RSI' 'MACD', 'ADX'),
+                      row_width=[0.1, 0.1, 0.1, 0.1, 0.6] # the relative HEIGHTS for each row of subplots, should total 1.0
+                                                          # NOTE - they seem to be in reverse, ie biggest 0.6 is the top-most
                      )
 
   dct_textfont=dict(color="black", size=18, family="Times New Roman")
@@ -259,19 +262,40 @@ def generate_chart_plot_2(df):
 
   fig.add_trace(trace_subplot_row_3, row=3, col=1)
 
-  # Now that all traces have been added, prepare the fig object to be displayed
+  # --- subplot 4 on row 1 and column 1 (MACD) --- TODO --
+  trace_subplot_row_4 = gobj.Scatter(x=df['pd_time'],
+                                     y=df_tmp_rsi, mode='lines', name='MACD', textfont=dct_textfont,
+                                     line=dict(color='blue', width=2)
+                                    )
+
+  fig.add_trace(trace_subplot_row_4, row=4, col=1)
+
+  # --- subplot 5 on row 1 and column 1 (ADX) --- TODO --
+  trace_subplot_row_5 = gobj.Scatter(x=df['pd_time'],
+                                     y=df_tmp_rsi, mode='lines', name='ADX', textfont=dct_textfont,
+                                     line=dict(color='red', width=2)
+                                    )
+
+  fig.add_trace(trace_subplot_row_5, row=5, col=1)
+
+
+  # --- Now that all traces have been added, prepare the fig object to be displayed ---
   # Do not show OHLC's rangeslider sub plot 
   fig.update_layout(xaxis_rangeslider_visible=False)
 
-  # Render plot using plotly_chart
-  st.plotly_chart(fig,width=1100, height=600)         # make sure to increase this appropriately with the other objects
-
   # Update layout to show the title for the new row
   fig.update_layout(
-      title_text="Multiple Subplots with OHLC, Volume, and RSI",
+      title_text="Multiple Subplots with OHLC, Volume, RSI, MACD, ADX",
       title_x=0.5,
-      title_font=dict(size=20)
+      title_font=dict(size=14)
   )
+
+  fig.update_layout(width=1100,height=900)
+
+  # Render plot using plotly_chart
+  st.plotly_chart(fig,width=1100, height=900)         # make sure to match it with the fig layout, but can also do like below
+  #st.plotly_chart(fig, use_container_height=True, use_container_width=True)
+
 
 
 
@@ -318,6 +342,7 @@ def generate_chart_plot_with_sub_plots(df):
 
   # Render plot using plotly_chart
   st.plotly_chart(fig,width=1100, height=600)         # make sure to increase this appropriately with the other objects
+  logger.info('plotly on streamlit main chart rendered')
 
 
 def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
@@ -331,19 +356,19 @@ def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
 #    a df with the output of the the sql_query results corresponding to what option we chose from the dropdown 
   """
 
-  print('---------222---------')
   # Selectbox (dropdown) Sidebar
-  sm_chosen_symbol = st.sidebar.selectbox(           # Drop-down named Widget-02 with 3 selectable options
-    "Widget-02",
+  sm_chosen_symbol = st.sidebar.selectbox(           # Drop-down named Symbol Dropdown with 3 selectable options
+    "Symbol Dropdown",
     df,
     key='sm_chosen_symbol',
     index=None
   )
   st.write('You selected:', sm_chosen_symbol)
-  print("Symbol chosen from the select box = ", sm_chosen_symbol)
+  logger.info('type={} sm_chosen_symbol={}', type(sm_chosen_symbol), sm_chosen_symbol)
 
   sql_query = "select * from tbl_price_data_1day where pd_symbol= '%s'" % sm_chosen_symbol
-  print("sql_query = ", sql_query)
+  logger.info('evaluated sql_query = {}', sql_query)
+
 
   # Parameterized query
   # parameters are specified using the colon ( : )
@@ -386,12 +411,12 @@ def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
 
   # --- using pandas functions ---
   df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn)
-  print(df_ohlcv_symbol.tail(20))
+  print(df_ohlcv_symbol.tail(10))
   #generate_chart_plot(df_ohlcv_symbol)
   generate_chart_plot_2(df_ohlcv_symbol)
   #generate_chart_plot_with_sub_plots(df_ohlcv_symbol)
 
-
+  # --- temp --- this the Scans below the chart --- need to seperate out probably --
   data = {
     "scan_name": ["stocks below SMA50", "stocks_above_SMA50"],
     "scan_sqlquery": ["select * from viw_latest_price_data_by_symbol where close < sma_50", "select * from viw_latest_price_data_by_symbol where close > sma_50"]
@@ -426,15 +451,18 @@ def generate_table_plot(df):
 def main():
   #db_conn = connect_to_db_using_psycopg2() 
   my_db_uri = "postgresql://postgres:postgres@localhost:5432/dbs_invest"
+  logger.debug(my_db_uri)
   db_conn = connect_to_db_using_sqlalchemy(my_db_uri)
   sql_query = "select symbol from tbl_instrument order by symbol"
   #sql_query = "select symbol from tbl_instrument where exchange_code not like 'UNL%' and symbol like 'T%' order by symbol"
   #sql_query = "select symbol from tbl_instrument where exchange_code not like 'UN%' order by symbol"
   # sql_query = "select symbol, name from viw_instrument_uk_equities where symbol like 'V%' order by symbol"
   df_symbols = pd.read_sql_query(sql_query, db_conn)
-  print(df_symbols.head(5))
-
+  logger.debug(df_symbols.head(5))
+  
+  # accept the user's selection on the symbols_group dropdown
   df_symbols = streamlit_sidebar_selectbox_symbol_group(db_conn)
+  # using the df returned, display the output as the next dropdown selectbox to chose from
   streamlit_sidebar_selectbox_symbol_only(db_conn, df_symbols)
 
 
@@ -443,10 +471,7 @@ if __name__ == '__main__':
 
 
   APP_NAME = "Stock App!"
-  
-  current_timestamp = datetime.now()
-  print('-----------------------   ', current_timestamp, '    -------------------------------------')
-
+  logger.info('Running', APP_NAME)
 
   # Page Configuration
   st.set_page_config(
