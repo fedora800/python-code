@@ -1,0 +1,126 @@
+
+
+
+
+where x = x bars ago
+Symbol Percent Change = (Close - Close[x]) / Close[x]
+Benchmark Percent Change = (Close - Close[x]) / Close[x]
+Relative Performance = Symbol - Benchmark
+
+Another code link - https://www.tradingview.com/script/8tovLkXm-Anchored-Relative-Strength/ 
+
+Another code link - we can see it if we add this indicator on TradingView - 
+Relative Strength by modhelius
+//@version=4
+study("Relative Strength", shorttitle="RS", resolution="")
+comparativeTickerId = input("SPX", type=input.symbol, title="Comparative Symbol")
+lenght = input(50, type=input.integer, minval=1, title="Period")
+showMA = input(defval=false, type=input.bool, title="Show Moving Average")
+lenghtMA = input(10, type=input.integer, minval=1, title="Moving Average Period")
+baseSymbol = security(syminfo.tickerid, timeframe.period, close)
+comparativeSymbol = security(comparativeTickerId, timeframe.period, close)
+hline(0, color=color.black, linestyle=hline.style_dotted)
+res = baseSymbol / baseSymbol[lenght] /
+   (comparativeSymbol / comparativeSymbol[lenght]) - 1
+plot(res, title="RS", color=#1155CC)
+sma_1 = sma(res, lenghtMA)
+plot(showMA ? sma_1 : na, color=color.gray)
+
+
+
+
+/ This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © Amphibiantrading
+
+//@version=5
+indicator("Anchored RS", overlay = true)
+
+//----------settings----------//
+date     = input.time(timestamp('Jan 01 23'), 'Anchor Date', confirm = true)
+sym      = input.symbol('SPX', 'Symbol to Compare')
+rsCol    = input.color(color.blue, 'RS Line Color')
+showComp = input.bool(true, 'Show Comparative Symbol Line', inline = '1')
+spxCol   = input.color(color.red, '', inline = '1')
+showMa   = input.bool(true, 'Show RS Moving Average', inline = '2')
+maCol    = input.color(color.fuchsia, '', inline = '2')
+maLen    = input.int(10, 'Length', inline = '2', tooltip = 'Simple moving average of the RS line.')
+offSet   = input.int(20, 'Vertical Offset', minval = 1, tooltip = 'Adjusts the vertical offset of the lines. \nThis has no effect on calculations, adjust as needed for optimal viewing.')
+
+//----------functions----------//
+getComp(x)=>
+    comp = request.security(sym, timeframe.period, close[x], gaps = barmerge.gaps_off)
+
+//----------variables----------//
+var closeArr = array.new<float>()
+var spxArr   = array.new<float>()
+rsArr        = array.new<float>()
+float avg    = na
+float sum    = 0.0
+float rs     = 0.0
+float comp   = 0.0
+
+//----------get data----------//
+if time >= date
+    closeArr.unshift(close)
+barsBack = closeArr.size()
+
+if barstate.isfirst
+    spxArr.unshift(getComp(0))
+else if not barstate.isfirst
+    spxArr.unshift(getComp(0))
+
+//----------calculate RS----------//
+if barsBack > 0 
+    for i = barsBack-1 to 0
+        rsArr.unshift(close[i] / spxArr.get(i) * 100)
+
+if rsArr.size() > maLen-1
+    for i = 0 to maLen-1
+        sum := sum + rsArr.get(i) 
+
+avg     := rsArr.size() > maLen-1 ?(sum / maLen) * offSet : na
+rs      := rsArr.size() > 0 ? rsArr.get(0) : na
+comp    := spxArr.size() > 0 ? spxArr.get(0) : na
+mult    = rsArr.size() > 0 ? comp[barsBack-1] / (rs[barsBack-1] * offSet) : na
+
+//----------draw RS line----------//
+plot(rsArr.size() > maLen-1 and showMa ? avg : na, 'MA', maCol, 2, plot.style_linebr)
+plot(time >= date ? rs*offSet : na, 'rs', rsCol, 2, plot.style_linebr)
+plot(time >= date and showComp ? comp/mult : na, 'Comp', spxCol, 2, plot.style_linebr)
+
+
+====================
+
+
+
+exit(1)
+# Compute relative returns for each S&P 500 stock
+for ticker in sp500_tickers:
+    try:
+        print(f"---{ticker} info---")
+        # Download stock data
+        df_symbol = pdr.get_data_yahoo(ticker, start_date, end_date)
+        df_symbol['Dly_Pct_Change'] = df_symbol['Adj Close'].pct_change()
+        df_symbol = df_symbol[['Adj Close','Dly_Pct_Change']]
+        print(df_symbol.tail())
+
+        # Calculate cumulative return with added emphasis on recent quarter
+#        stock_cumulative_return = (df_symbol['Dly_Pct_Change'].cumprod().iloc[-1] * 2 + df_symbol['Dly_Pct_Change'].cumprod().iloc[-63]) / 3
+
+        # Calculate relative return compared to S&P 500
+        relative_return = round(stock_cumulative_return / sp500_cumulative_return, 2)
+        relative_returns.append(relative_return)
+
+        print(f'Ticker: {ticker}; Relative Return against S&P 500: {relative_return}')
+        time.sleep(1)  # Pause to prevent overloading server
+    except Exception as e:
+        print(f'Error processing {ticker}: {e}')
+
+# Create dataframe with relative returns and RS ratings
+rs_df = pd.DataFrame({'Ticker': sp500_tickers, 'Relative Return': relative_returns})
+rs_df['RS_Rating'] = rs_df['Relative Return'].rank(pct=True) * 100
+print(rs_df)
+
+
+
+
