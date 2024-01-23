@@ -213,7 +213,21 @@ def common_and_utilities_files():
 def connect_to_DB_using_SQLAlchemy_and_get_results():
 
   my_db_uri = "postgresql://postgres:postgres@localhost:5432/dbs_invest"
-  my_sql_query = """SELECT * FROM tbl_instrument;"""   # use it in this fashion so that it does not mess when '%ET%' types are used
+  #my_sql_query = """SELECT * FROM tbl_instrument;"""   # use it in this fashion so that it does not mess when '%ET%' types are used. use as below using patterns search
+  # Replace the '%' character with ':wildcard' and bind the actual value
+  # from sqlalchemy import text           # needs this module
+  wildcard_value_1 = 'UN%'
+  wildcard_value_2 = 'TA%'
+
+  # https://www.tutorialspoint.com/sqlalchemy/sqlalchemy_core_using_textual_sql.htm
+  # https://docs.sqlalchemy.org/en/20/core/sqlelement.html
+  #sql_query = text("""SELECT symbol FROM tbl_instrument WHERE exchange_code LIKE 'NY%' AND symbol LIKE 'A%' ORDER BY symbol""")  # wildcards in the string
+  sql_query = text("""
+      SELECT symbol FROM tbl_instrument 
+      WHERE exchange_code NOT LIKE :wildcard_1 AND symbol LIKE :wildcard_2
+      ORDER BY symbol
+  """).bindparams(wildcard_1=wildcard_value_1, wildcard_2=wildcard_value_2)     # wildcards taken from variables
+
   db_conn = connect_to_db_using_sqlalchemy(my_db_uri)
   df = pd.read_sql_query(my_sql_query, db_conn)
   print(df)

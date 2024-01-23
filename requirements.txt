@@ -3,4 +3,4 @@ requests
 yfinance
 datetime
 psycopg2       # postgres module
-
+ta-lib-bin    # TA-lib does not install, so someone said installed this compiled version, this pip install worked. https://github.com/minggnim/ta-lib. we can then import talib as ta

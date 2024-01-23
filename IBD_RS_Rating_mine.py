@@ -15,7 +15,8 @@ sys.path.append(parent_dir)
 yf.pdr_override()
 
 # Retrieve S&P 500 tickers and format for Yahoo Finance
-sp500_tickers = ['AAPL', 'MSFT']
+#sp500_tickers = ['AAPL', 'MSFT']
+sp500_tickers = ['AAPL']
 
 # Set S&P 500 index ticker
 sp500_index = '^GSPC'
@@ -40,6 +41,7 @@ print(sp500_cumulative_return)
 # Compute relative returns for each S&P 500 stock
 for ticker in sp500_tickers:
     try:
+        print(f"---{ticker} info---")
         # Download stock data
         df_symbol = pdr.get_data_yahoo(ticker, start_date, end_date)
         df_symbol['Dly_Pct_Change'] = df_symbol['Adj Close'].pct_change()
@@ -47,8 +49,7 @@ for ticker in sp500_tickers:
         print(df_symbol.tail())
 
         # Calculate cumulative return with added emphasis on recent quarter
-        stock_cumulative_return = (df_symbol['Dly_Pct_Change'].cumprod().iloc[-1] * 2 + 
-                                   df_symbol['Dly_Pct_Change'].cumprod().iloc[-63]) / 3
+#        stock_cumulative_return = (df_symbol['Dly_Pct_Change'].cumprod().iloc[-1] * 2 + df_symbol['Dly_Pct_Change'].cumprod().iloc[-63]) / 3
 
         # Calculate relative return compared to S&P 500
         relative_return = round(stock_cumulative_return / sp500_cumulative_return, 2)
