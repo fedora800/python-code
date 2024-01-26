@@ -1,0 +1,20 @@
+
+$ head trading212-24jan2024.txt
+"instruments":{"items":[
+{"ticker":"00XJ1d_EQ","type":"ETF","isin":"JE00B78NPY84","currency":"EUR","shortName":"00XJ","fullName":"WisdomTree Agriculture - EUR Daily Hedged","description":"WisdomTree Agriculture - EUR Daily Hedged","countryOfOrigin":"JE","minTrade":0.2,"digitsPrecision":4,"quantityPrecision":8,"exchangeId":54,"tradable":true,"underlyingInstrumentTicker":"00XJ1d_EQ","underlyingLeverageCoefficient":1,"dealerExclusions":["T212AU"],"maxOpenLong":50000000,"isaIneligible":false,"extendedHoursTradingEnabled":false,"subclasses":["EXCHANGE_TRADED_COMMODITY"]},
+{"ticker":"00XK1d_EQ","type":"ETF","isin":"JE00B78NNS84","currency":"EUR","shortName":"00XK","fullName":"WisdomTree Broad Commodities - EUR Daily Hedged","description":"WisdomTree Broad Commodities - EUR Daily Hedged","countryOfOrigin":"JE","minTrade":0.2,"digitsPrecision":4,"quantityPrecision":8,"exchangeId":54,"tradable":true,"underlyingInstrumentTicker":"00XK1d_EQ","underlyingLeverageCoefficient":1,"dealerExclusions":["T212AU"],"maxOpenLong":50000000,"isaIneligible":false,"extendedHoursTradingEnabled":false,"subclasses":["EXCHANGE_TRADED_COMMODITY"]},
+{"ticker":"00XQd_EQ","type":"ETF","isin":"JE00B78NPQ01","currency":"EUR","shortName":"00XQ","fullName":"WisdomTree Precious Metals - EUR Daily Hedged","description":"WisdomTree Precious Metals - EUR Daily Hedged","countryOfOrigin":"JE","minTrade":0.2,"digitsPrecision":4,"quantityPrecision":8,"exchangeId":54,"tradable":true,"underlyingInstrumentTicker":"00XQd_EQ","underlyingLeverageCoefficient":1,"dealerExclusions":["T212AU"],"maxOpenLong":50000000,"isaIneligible":false,"extendedHoursTradingEnabled":false,"subclasses":["EXCHANGE_TRADED_COMMODITY"]},
+
+
+$ grep '"type":"ETF",.*"currency":"GB' trading212-24jan2024.txt  | awk -F',' '{ print $5 "        "  $6"           " $7}' | egrep -v "[1-5]x |Leverage " > trading212-24jan2024-etfs.txt
+
+$ echo "Symbol,Description,exchange_code,asset_type" > /tmp/2.csv; awk -F':' '{print $2, $4}' trading212-24jan2024-etfs.txt | awk -F'"' '{print $2".L,"$6",LSE,ETF"}' >> /tmp/2.csv
+
+5ESG.L,UBS Irl ETF plc - S\u0026P 500 ESG UCITS ETF,LSE,ETF
+AASG.L,Amundi Msci EM Asia UCITS ETF,LSE,ETF
+ABTCGBP.L,21Shares Bitcoin ETP,LSE,ETF
+
+dbs_invest=# \copy tbl_instrument (symbol, name, exchange_code, asset_type) FROM '/tmp/2.tmp' DELIMITER ',' CSV HEADER
+COPY 3
+
+--------------------------------------------------------------------------------

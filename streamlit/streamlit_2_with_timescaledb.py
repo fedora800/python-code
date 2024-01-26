@@ -4,11 +4,15 @@ from loguru import logger
 import streamlit as st
 import pandas as pd
 import talib as ta
+from datetime import datetime, timedelta
+
 
 # UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
 import plotly.graph_objects as gobj
 from plotly.subplots import make_subplots
-from utils import connect_to_db_using_sqlalchemy
+#from mod_utils_db import connect_to_db_using_sqlalchemy
+import mod_utils_db as m_ud
+import mod_yfinance as m_yf
 from sqlalchemy import text
 
 
@@ -37,11 +41,11 @@ def streamlit_sidebar_selectbox_symbol_group(dbconn):
     """
 
     dct_options = {
-        "symbol_groups": ["US S&P500 constituents", "US ETFs", "UK ETFs (incomplete)"],
+        "symbol_groups": ["US S&P500 constituents", "US ETFs", "UK ETFs"],
         "symbol_groups_sqlquery": [
             """select symbol, name from viw_instrument_us_sp500_constituents where symbol like '%RS%';""",
             """select symbol, name from viw_instrument_us_etfs where symbol like 'JP%';""",
-            """select symbol, name from viw_instrument_uk_equities;""",
+            """select symbol, name from viw_instrument_uk_equities where symbol like 'VU%';""",
         ],
     }
 
@@ -321,7 +325,6 @@ def generate_chart_plot_2(df):
     trace_subplot_row_2 = gobj.Bar(x=df["pd_time"], y=df["volume"], showlegend=False)
     fig.add_trace(trace_subplot_row_2, row=2, col=1)
 
-    print('----BEFORE here subplot 3-------', df.head(3))
     # Clean the 'close' column from NaN values
     df['close'].fillna(method='ffill', inplace=True)  # Forward fill NaN values
     df['close'].fillna(method='bfill', inplace=True)  # Backward fill remaining NaN values
@@ -331,8 +334,7 @@ def generate_chart_plot_2(df):
     # Calculate RSI(14) and update the "rsi_14" column
     #df_tmp_rsi = df["close"] / 3
     df['rsi_14'] = ta.RSI(df['close'], timeperiod=14)
-    print('----here subplot 3-------', df.head(3))
-    print('----here subplot 3 tail -------', df.tail(3))
+    print(df.head(1), df.tail(1))
 
     # Prepare subplot with a gobj.Scatter object trace for RSI
     trace_subplot_row_3 = gobj.Scatter(
@@ -485,8 +487,8 @@ def generate_chart_plot_with_sub_plots(df):
 def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
     """
     this the top-left 2nd selectbox on the sidebarinput
-    it shows a list of symbols from a group chosen by previous dropdown
-    user will select a symbol
+    it shows a list of symbols from which user will select one symbol 
+    this symbol list changes dynamically based off the group chosen on the previous dropdown
     TODO - what about no output ???
 
     returns:
@@ -500,57 +502,34 @@ def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
     st.write("You selected:", sm_chosen_symbol)
     logger.info("type={} sm_chosen_symbol={}", type(sm_chosen_symbol), sm_chosen_symbol)
 
-    sql_query = (
-        "select * from tbl_price_data_1day where pd_symbol= '%s'" % sm_chosen_symbol
-    )
-    logger.info(
-        "To get the price data for {} - evaluated sql_query = {}",
-        sm_chosen_symbol,
-        sql_query,
-    )
+    # check if there is any price data in the database for this symbol and fetch it into a df
+    df_sym_stats = m_ud.get_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol)
+    if not df_sym_stats.empty:
+      print(df_sym_stats)
+      # if there was any recent data not downloaded into the table, download now and then insert them into price data table
+      df_downloaded_price_data = m_yf.get_historical_data_symbol(df_sym_stats)
+      m_ud.insert_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol, df_downloaded_price_data, "tbl_price_data_1day")
+    else:
+      logger.warning("Price data not available for symbol {} in database", sm_chosen_symbol)
+      start_date = datetime.now() - timedelta(days=366)
+      end_date = datetime.now() - timedelta(days=1)
+      num_records = 365
+      #df = pd.DataFrame({'Symbol': sm_chosen_symbol, 'Start Date': start_date, 'End Date': end_date, 'Number of Records': num_records})
+      df = pd.DataFrame([[sm_chosen_symbol, start_date, end_date, num_records]],
+                        columns=['Symbol', 'Start Date', 'End Date', 'Number of Records'])
+      # Display the DataFrame
+      print(df)
 
-    # Parameterized query
-    # parameters are specified using the colon ( : )
-    # sql_with_param = text("""select * from tbl_price_data_1day where pd_symbol= :in_symbol""")
-    # dictionary containing parameter name value
-    # input_param = {'in_symbol': 'TSLA'}
 
-    #   # -- using list ---
-    #   try:
-    #     cursor = db_conn.cursor()
-    #     cursor.execute(sql_query)
-    #     lst_records = cursor.fetchall()
-    #
-    #     #print("Print each row and it's columns values")
-    #     #for row in lst_records:
-    #     #    print(row[0], " - ", row[1], " - ", row[2], "\n")
-    #     print('list first element=', lst_records[0])
-    #     print('list last element=', lst_records[-1])
-    #
-    #   except (Exception, psycopg2.Error) as error:
-    #     print("Error while fetching data from PostgreSQL", error)
-    #
-    #   finally:
-    #     cursor.close()
-    #
-    #   print("Closing db connection ...")
-    #   db_conn.close()
-    #   # convert list to pandas dataframe
-    #   df_olhcv_symbol = pd.DataFrame(lst_records)
-    #   print(df_olhcv_symbol.shape)
-    #   print(df_olhcv_symbol.head(1))
-    #   print(df_olhcv_symbol.tail(1))
-    #   # i notice that the column names are missing
-    #
-    #   # multiple ways of getting column names as list
-    #   print("\nThe column headers :")
-    #   print("Column headers from list(df.columns.values):", list(df_olhcv_symbol.columns.values))
-    #   print("Column headers from list(df):", list(df_olhcv_symbol))
-    #   print("Column headers from list(df.columns):", list(df_olhcv_symbol.columns))
+
+
+    print("----3333----")
+    sql_query = ("select * from tbl_price_data_1day where pd_symbol= '%s'" % sm_chosen_symbol)
+    logger.info("To get the price data for {} - evaluated sql_query = {}", sm_chosen_symbol, sql_query)
 
     # --- using pandas functions ---
     df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn)
-    logger.debug(df_ohlcv_symbol)
+    logger.debug(df_ohlcv_symbol.tail(3))
 
     return df_ohlcv_symbol
 
@@ -564,15 +543,15 @@ def main():
     # db_conn = connect_to_db_using_psycopg2()
     my_db_uri = "postgresql://postgres:postgres#123@localhost:5432/dbs_invest"
     logger.debug(my_db_uri)
-    db_conn = connect_to_db_using_sqlalchemy(my_db_uri)
+    db_conn = m_ud.connect_to_db_using_sqlalchemy(my_db_uri)
     wildcard_value_1 = "UN%"
     wildcard_value_2 = "CM%"
     sql_query = text(
-        """
+      """
       SELECT symbol FROM tbl_instrument 
       WHERE exchange_code NOT LIKE :wildcard_1 AND symbol LIKE :wildcard_2
       ORDER BY symbol
-  """
+      """
     ).bindparams(wildcard_1=wildcard_value_1, wildcard_2=wildcard_value_2)
     # sql_query = "select symbol, name from viw_instrument_uk_equities where symbol like 'V%' order by symbol"
     logger.debug(

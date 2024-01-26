@@ -45,7 +45,7 @@ WHERE latest_row_num_by_symbol = 1;
 CREATE OR REPLACE VIEW viw_instrument_uk_equities AS
 SELECT *
 FROM tbl_instrument
-WHERE exchange_code='UK-EXCH-TODO' and asset_type='EQUITY_FUNDS';
+WHERE exchange_code='LSE' and asset_type='ETF';
 
 
 -- V03 - viw_price_data_stats_by_symbol 

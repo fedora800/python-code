@@ -2,10 +2,13 @@
 # https://pypi.org/project/yfinance/
 # https://analyzingalpha.com/yfinance-python
 
+from loguru import logger
 import yfinance as yf
 import pandas as pd
 import csv
-import datetime
+from requests.exceptions import HTTPError
+from datetime import datetime, timezone, timedelta
+
 
 
 def read_csv_into_list(file_path, has_header=True):
@@ -37,7 +40,44 @@ def read_csv_into_list(file_path, has_header=True):
     return lst_csv_data
 
 
-def get_historical_data():
+def get_historical_data_symbol(df):
+
+  """ Download price data from the data venue.
+      Symbol and the timeframe will be passed by upstream function
+
+  Parameters:
+  a 1 row df containing the symbol name, start date, end date and number of records alredy in table
+
+  Returns:
+  dataframe containing latest price data (that is not in our tables) for that symbol 
+
+  """
+  data_venue = "YFINANCE"
+  symbol = df.at[0,"pd_symbol"]
+  oldest_price_date = df.at[0,"oldest_rec_pd_time"]
+  latest_price_date = df.at[0,"latest_rec_pd_time"]
+  num_records = df.at[0,"num_records"]
+  logger.debug("symbol={} oldest_price_date={} latest_price_date={} num_records={}", symbol, oldest_price_date, latest_price_date, num_records)
+
+  # do not re-download data that already exists
+  # Convert the date strings to datetime objects 
+  latest_price_date = pd.to_datetime(latest_price_date)
+  next_day = latest_price_date + timedelta(days=1)      # just start from the next day of the latest price date
+  start_date = next_day.replace(tzinfo=timezone.utc)    # get till yesterday
+  end_date = datetime.now() - timedelta(days=1)
+  logger.info("Downloading from {} for symbol={} start_date={} end__date={}", data_venue, symbol, start_date, end_date)
+  df_prices = yf.download(symbol, start=start_date, end=end_date)
+  '''
+             Date        Open        High        Low         Close       Adj Close    Volume
+             2023-02-15  176.210007  178.820007  175.000000  177.419998  176.321732   815900
+             2023-02-16  175.000000  177.279999  174.720001  176.220001  175.129166   679300
+             2023-02-17  176.419998  177.330002  175.000000  177.130005  176.033524  1829500
+  '''
+  print(df_prices)
+  return df_prices
+
+
+def get_historical_data_batch_of_symbols():
 
   '''
   # get historical market data
@@ -178,20 +218,32 @@ def get_other_data():
   # data available via: opt.calls, opt.puts
 
 
-def main():
-
-  print('Starting ...')
-
-  get_historical_data()
-
-  #get_historical_data_multiple_symbols()
-#  get_other_data()
 
 
+def get_stock_info(symbol):
+    # if symbol does not exist, handle gracefully and return None, else return ticker info object
+    try:
+        ticker = yf.Ticker(symbol)
+        info = ticker.info
+        print("longname=", info.get('longName'))
+        print("industry=", info.get('industry'))
+        print("sector=", info.get('sector'))
+        print("previousClose=", info.get('previousClose'))
+        return info
+    except HTTPError as e:
+        if e.response.status_code == 404:
+            print(f"Symbol '{symbol}' not found.")
+        else:
+            print(f"An error occurred: {e}")
+        return None
 
-# --- main ---
-if __name__ == '__main__':
-  # main(sys.argv)
-  main()
+#        # Example usage
+#        symbol = 'TSLA'
+#        stock_info = get_stock_info(symbol)
+#        
+#        if stock_info:
+#            print("Stock Information:")
+#            for key, value in stock_info.items():
+#                print(f"{key}: {value}")
 
 
