@@ -89,10 +89,10 @@ def get_symbol_price_data_stats_from_database(dbconn, symbol):
  
     sql_query = text("SELECT * FROM viw_price_data_stats_by_symbol WHERE pd_symbol = :prm_symbol"
                     ).bindparams(prm_symbol=symbol)
-    logger.debug("symbol = {} sql_query = {}", symbol, sql_query)
+    logger.info("Now fetching price data table stats from database for symbol {}", symbol)
+    logger.debug("symbol chosen = {} | sql_query = {}", symbol, sql_query)
     df_result = pd.read_sql_query(sql_query, dbconn)
-    logger.debug(df_result.info())
-    logger.debug(df_result)
+    logger.debug("Returning results df = {}", df_result)
 
     return df_result
 

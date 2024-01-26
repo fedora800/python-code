@@ -63,7 +63,8 @@ def get_historical_data_symbol(df):
   # Convert the date strings to datetime objects 
   latest_price_date = pd.to_datetime(latest_price_date)
   next_day = latest_price_date + timedelta(days=1)      # just start from the next day of the latest price date
-  start_date = next_day.replace(tzinfo=timezone.utc)    # get till yesterday
+  if not oldest_price_date:
+    start_date = next_day.replace(tzinfo=timezone.utc)    # get till yesterday
   end_date = datetime.now() - timedelta(days=1)
   logger.info("Downloading from {} for symbol={} start_date={} end__date={}", data_venue, symbol, start_date, end_date)
   df_prices = yf.download(symbol, start=start_date, end=end_date)

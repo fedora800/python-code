@@ -5,6 +5,8 @@ import streamlit as st
 import pandas as pd
 import talib as ta
 from datetime import datetime, timedelta
+from config import DB_INFO, DEBUG_MODE
+
 
 
 # UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
@@ -53,19 +55,15 @@ def streamlit_sidebar_selectbox_symbol_group(dbconn):
     df_select_options = pd.DataFrame(dct_options)
     logger.debug(df_select_options)
 
-    # Sidebar selectbox
+    # Take input from Sidebar selectbox to select a symbol list group
     sg_chosen_option = st.sidebar.selectbox(
         "Symbol Groups Dropdown",  # Drop-down named Symbol Dropdown
         df_select_options["symbol_groups"],
         key="sg_chosen_option",
         index=None,
     )
-    st.write("symbol_groups sg_chosen_option : ", sg_chosen_option)
-    logger.info(
-        "streamlit_sidebar_selectbox_symbolgroup - type={} sg_chosen_option={}",
-        type(sg_chosen_option),
-        sg_chosen_option,
-    )
+    st.write("You selected from symbol_groups dropdown :", sg_chosen_option)
+    logger.info("You selected from the Symbol Groups Dropdown - sg_chosen_option={}", sg_chosen_option)
 
     # if user chooses from the symbol group dropdown, then run the sql query and return values into a dataframe
     if sg_chosen_option is None:
@@ -82,8 +80,8 @@ def streamlit_sidebar_selectbox_symbol_group(dbconn):
         print("--1B--", sg_chosen_sql_query)
         sql_query = text(sg_chosen_sql_query)
         df_symbols = pd.read_sql_query(sql_query, dbconn)
-        logger.debug(df_symbols)
 
+    logger.debug("Returning Symbol List as df = {} ", df_symbols)
     return df_symbols
 
 
@@ -326,8 +324,10 @@ def generate_chart_plot_2(df):
     fig.add_trace(trace_subplot_row_2, row=2, col=1)
 
     # Clean the 'close' column from NaN values
-    df['close'].fillna(method='ffill', inplace=True)  # Forward fill NaN values
-    df['close'].fillna(method='bfill', inplace=True)  # Backward fill remaining NaN values
+    #df['close'].fillna(method='ffill', inplace=True)  # Forward fill NaN values
+    df['close'].ffill(inplace=True)
+    #df['close'].fillna(method='bfill', inplace=True)  # Backward fill remaining NaN values
+    df['close'].bfill(inplace=True)
 
     # --- subplot 3 on row 1 and column 1 (RSI) ---
     # Hack RSI values (*********** temporary testing as the trigger function to calculate does not work **********)
@@ -500,30 +500,37 @@ def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
         "Symbol Dropdown", df, key="sm_chosen_symbol", index=None
     )
     st.write("You selected:", sm_chosen_symbol)
-    logger.info("type={} sm_chosen_symbol={}", type(sm_chosen_symbol), sm_chosen_symbol)
+    logger.info("You selected from the Symbol Dropdown - sm_chosen_symbol={}", sm_chosen_symbol)
 
-    # check if there is any price data in the database for this symbol and fetch it into a df
-    df_sym_stats = m_ud.get_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol)
-    if not df_sym_stats.empty:
-      print(df_sym_stats)
-      # if there was any recent data not downloaded into the table, download now and then insert them into price data table
-      df_downloaded_price_data = m_yf.get_historical_data_symbol(df_sym_stats)
-      m_ud.insert_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol, df_downloaded_price_data, "tbl_price_data_1day")
-    else:
-      logger.warning("Price data not available for symbol {} in database", sm_chosen_symbol)
-      start_date = datetime.now() - timedelta(days=366)
-      end_date = datetime.now() - timedelta(days=1)
-      num_records = 365
-      #df = pd.DataFrame({'Symbol': sm_chosen_symbol, 'Start Date': start_date, 'End Date': end_date, 'Number of Records': num_records})
-      df = pd.DataFrame([[sm_chosen_symbol, start_date, end_date, num_records]],
-                        columns=['Symbol', 'Start Date', 'End Date', 'Number of Records'])
-      # Display the DataFrame
-      print(df)
-
-
-
-
-    print("----3333----")
+    if sm_chosen_symbol:
+      # check if there is any price data in the database for this symbol and fetch it into a df
+      df_sym_stats = m_ud.get_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol)
+      if not df_sym_stats.empty:
+        
+        # Get the current date and yesterday's date and compare against latest record date from table for the symbol
+        latest_record_date = df_sym_stats['latest_rec_pd_time'].iloc[0].date()
+        current_date = datetime.now().date()
+        yesterday_date = current_date - timedelta(days=1)
+        logger.debug("latest_record_date={} current_date={} yesterday_date={}", latest_record_date, current_date, yesterday_date)
+        # only download data if there is no recent price data in the table
+        if not (latest_record_date == current_date or latest_record_date == yesterday_date):
+          df_downloaded_price_data = m_yf.get_historical_data_symbol(df_sym_stats)
+          # now  insert them into price data table
+          m_ud.insert_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol, df_downloaded_price_data, "tbl_price_data_1day")
+      else:
+        logger.warning("Price data not available for symbol {} in database", sm_chosen_symbol)
+        start_date = datetime.now() - timedelta(days=366)
+        end_date = datetime.now() - timedelta(days=1)
+        num_records = 365
+        print(f"---here 4000---start_date={start_date}----end_date={end_date}---num_records={num_records}---")
+        df_default_timeframe = pd.DataFrame([[sm_chosen_symbol, start_date, end_date, num_records]],
+                                             columns=['pd_symbol', 'oldest_rec_pd_time', 'latest_rec_pd_time', 'num_records'])
+        logger.info("Downloading default historical price data ...")
+        df_downloaded_price_data = m_yf.get_historical_data_symbol(df_default_timeframe)
+        # now  insert them into price data table
+        m_ud.insert_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol, df_downloaded_price_data, "tbl_price_data_1day")
+      
+    print('---here 2323---')
     sql_query = ("select * from tbl_price_data_1day where pd_symbol= '%s'" % sm_chosen_symbol)
     logger.info("To get the price data for {} - evaluated sql_query = {}", sm_chosen_symbol, sql_query)
 
@@ -531,6 +538,7 @@ def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
     df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn)
     logger.debug(df_ohlcv_symbol.tail(3))
 
+    print('---here 1212---')
     return df_ohlcv_symbol
 
 
@@ -541,7 +549,9 @@ def generate_table_plot(df):
 
 def main():
     # db_conn = connect_to_db_using_psycopg2()
-    my_db_uri = "postgresql://postgres:postgres#123@localhost:5432/dbs_invest"
+    #my_db_uri = "postgresql://postgres:postgres#123@localhost:5432/dbs_invest"
+    my_db_uri = f"postgresql://{DB_INFO['USERNAME']}:{DB_INFO['PASSWORD']}@{DB_INFO['HOSTNAME']}:{DB_INFO['PORT']}/{DB_INFO['DATABASE']}"
+
     logger.debug(my_db_uri)
     db_conn = m_ud.connect_to_db_using_sqlalchemy(my_db_uri)
     wildcard_value_1 = "UN%"
@@ -567,11 +577,17 @@ def main():
     df_symbols = streamlit_sidebar_selectbox_symbol_group(db_conn)
     # using the above list of symbols, accept the user's selection on  next dropdown selectbox, which is to choose only one symbol from the list
     # when chosen, it will return a full price data df for that symbol
-    df_symbol_price_data = streamlit_sidebar_selectbox_symbol_only(db_conn, df_symbols)
-    # generate the main chart with all the indicators
-    # generate_chart_plot(df_symbol_price_data)
-    generate_chart_plot_2(df_symbol_price_data)
-    # generate_chart_plot_with_sub_plots(df_symbol_price_data)
+    if not df_symbols.empty:
+      print('-------050----')
+      df_symbol_price_data = streamlit_sidebar_selectbox_symbol_only(db_conn, df_symbols)
+      # generate the main chart with all the indicators
+      # generate_chart_plot(df_symbol_price_data)
+      generate_chart_plot_2(df_symbol_price_data)
+      # generate_chart_plot_with_sub_plots(df_symbol_price_data)
+
+    print('-------111----')
+
+
 
 
 # main

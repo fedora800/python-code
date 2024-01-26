@@ -28,6 +28,7 @@ CREATE TYPE typ_asset_type AS ENUM (
 CREATE TYPE typ_data_source AS ENUM (
   'YFINANCE',
   'THINKORSWIM',
+  'TRADING212',
   'TEMPORARY'
 );
 

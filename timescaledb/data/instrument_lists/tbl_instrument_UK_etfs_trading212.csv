@@ -1,782 +1,782 @@
 Symbol,Description,exchange_code,asset_type
-5ESG.L,UBS Irl ETF plc - S\u0026P 500 ESG UCITS ETF,LSE,ETF
-AASG.L,Amundi Msci EM Asia UCITS ETF,LSE,ETF
-ABTCGBP.L,21Shares Bitcoin ETP,LSE,ETF
-ACWI.L,SPDR MSCI ACWI ETF,LSE,ETF
-AEGG.L,iShares Global Aggregate Bond ESG UCITS ETF,LSE,ETF
-AETHGBP.L,21Shares Ethereum Staking ETP,LSE,ETF
-AGAP.L,WisdomTree Agriculture,LSE,ETF
-AGBP.L,iShares Core Global Aggregate Bond UCITS ETF,LSE,ETF
-AGCP.L,WisdomTree Broad Commodities,LSE,ETF
-AGES.L,iShares Ageing Population UCITS ETF,LSE,ETF
-AGGB.L,UBS ETC linked to the UBS Bloomberg CMCI Agriculture GBP Mth Hdg TR,LSE,ETF
-AGGP.L,WisdomTree Grains,LSE,ETF
-ALAG.L,Amundi Msci EM Latin America UCITS ETF,LSE,ETF
-AMAP.L,Saturna Al-Kawthar Global Focused Equity UCITS ETF,LSE,ETF
-AMPS.L,WisdomTree Battery Metals,LSE,ETF
-ANRJ.L,Amundi Global Hydrogen ESG Screened UCITS ETF,LSE,ETF
-AQWG.L,Global X Clean Water UCITS ETF,LSE,ETF
-ASPY.L,L\u0026G Emerging Cyber Security ESG Exclusions UCITS ETF,LSE,ETF
-AUEG.L,Amundi MSCI Emerging Markets UCITS ETF,LSE,ETF
-BATG.L,L\u0026G Battery Value-Chain UCITS ETF,LSE,ETF
-BBM3.L,JPMorgan Betabuilders US Treasury Bond 0-3 Months UCITS ETF,LSE,ETF
-BBTP.L,JPMorgan BetaBuilders US Treasury Bond UCITS ETF,LSE,ETF
-BCHS.L,Invesco CoinShares Global Blockchain UCITS ETF,LSE,ETF
-BCOG.L,L\u0026G All Commodities UCITS ETF,LSE,ETF
-BKCG.L,Global X Blockchain UCITS ETF,LSE,ETF
-BKCN.L,Wisdomtree Blockchain UCITS ETF,LSE,ETF
-BLOK.L,First Trust Indxx Innovative Transaction \u0026 Process UCITS ETF,LSE,ETF
-BNKE.L,Amundi Euro Stoxx Banks UCITS ETF,LSE,ETF
-BOTG.L,Global X Robotics \u0026 Artificial Intelligence UCITS ETF,LSE,ETF
-BRIC.L,iShares BIC 50 UCITS ETF,LSE,ETF
-BRNB.L,WisdomTree Bloomberg Brent Crude Oil,LSE,ETF
-BRNG.L,WisdomTree Brent Crude Oil,LSE,ETF
-BRTG.L,UBS ETC linked to the UBS Bloomberg CMCI Components Brent Crude GBP Mth Hdg TR,LSE,ETF
-BTCEGBP.L,BTCetc - ETC Group Physical Bitcoin,LSE,ETF
-BUFF.L,Buffettique Growth ETP,LSE,ETF
-BUGG.L,Global X Cybersecurity UCITS ETF,LSE,ETF
-BULP.L,WisdomTree Gold,LSE,ETF
-CAPU.L,Ossiam Shiller Barclays CAPE US Sector Value TR,LSE,ETF
-CARP.L,WisdomTree Carbon,LSE,ETF
-CARS.L,WisdomTree Global Automotive Innovators UCITS ETF,LSE,ETF
-CBUG.L,iShares USD Treasury Bond 3-7yr UCITS ETF,LSE,ETF
-CE01.L,iShares EUR Govt Bond 7-10yr UCITS ETF EUR Acc,LSE,ETF
-CE31.L,iShares EUR Govt Bond 1-3yr UCITS ETF EUR Acc,LSE,ETF
-CE71.L,iShares EUR Govt Bond 3-7yr UCITS ETF,LSE,ETF
-CEA1.L,iShares MSCI EM Asia UCITS ETF,LSE,ETF
-CEBG.L,VanEck New China ESG UCITS ETF,LSE,ETF
-CEMX.L,iShares MSCI EM Consumer Growth UCITS ETF,LSE,ETF
-CES1.L,iShares MSCI EMU Small Cap UCITS ETF,LSE,ETF
-CEU1.L,iShares Core MSCI EMU UCITS ETF,LSE,ETF
-CEUG.L,iShares Core MSCI EMU UCITS ETF,LSE,ETF
-CHGB.L,WisdomTree Short CHF Long GBP,LSE,ETF
-CHIP.L,KraneShares ICBCCS S\u0026P China 500 UCITS ETF,LSE,ETF
-CHRG.L,WisdomTree Battery Solutions UCITS ETF,LSE,ETF
-CIRC.L,Rize Circular Economy Enablers UCITS ETF,LSE,ETF
-CLMP.L,iClima Global Decarbonisation Enablers UCITS ETF,LSE,ETF
-CLO6.L,Global X Cloud Computing UCITS ETF,LSE,ETF
-CMB1.L,iShares FTSE MIB UCITS ETF EUR Acc,LSE,ETF
-CMBG.L,UBS ETC linked to UBS Bloomberg BCOM Constant Maturity Composite GBP Mth Hdg TR,LSE,ETF
-CMFP.L,L\u0026G Longer Dated All Commodities UCITS ETF,LSE,ETF
-CMGB.L,UBS ETC linked to the UBS Bloomberg CMCI Composite GBP Monthly Hedged TR Index,LSE,ETF
-CMGG.L,UBS ETC linked to UBS Bloomberg SPGSCI Constant Maturity Composite GBP Mth Hdg,LSE,ETF
-CMOP.L,Invesco Bloomberg Commodity UCITS ETF,LSE,ETF
-CMX1.L,iShares MSCI Mexico Capped UCITS ETF,LSE,ETF
-CNKY.L,iShares Nikkei 225 UCITS ETF,LSE,ETF
-CNX1.L,iShares NASDAQ 100 UCITS ETF,LSE,ETF
-CNYB.L,iShares China CNY Bond UCITS ETF,LSE,ETF
-CO2P.L,SparkChange Physical Carbon EUA ETC,LSE,ETF
-COGO.L,WisdomTree AT1 CoCo Bond UCITS ETF,LSE,ETF
-COMM.L,iShares Diversified Commodity Swap UCITS ETF,LSE,ETF
-COMX.L,Wisdomtree Broad Commodities UCITS ETF,LSE,ETF
-COPB.L,WisdomTree Copper,LSE,ETF
-COPG.L,Global X Copper Miners UCITS ETF,LSE,ETF
-COUK.L,Lyxor iBoxx GBP Liquid Corporates Long Dated UCITS ETF,LSE,ETF
-CPJ1.L,iShares Core MSCI Pacific ex-Japan UCITS ETF,LSE,ETF
-COMG.L,Amundi Bloomberg Equal-weight Commodity ex-Agriculture,LSE,ETF
-CRHG.L,iShares Global Corp Bond UCITS ETF,LSE,ETF
-CRPS.L,iShares Global Corp Bond UCITS ETF,LSE,ETF
-CRU1.L,iShares MSCI Russia ADR/GDR UCITS ETF,LSE,ETF
-CRUP.L,WisdomTree WTI Crude Oil,LSE,ETF
-CS1.L,Amundi ETF MSCI Spain UCITS ETF,LSE,ETF
-CS51.L,iShares Core EURO STOXX 50 UCITS ETF,LSE,ETF
-CSCA.L,iShares MSCI Canada UCITS ETF,LSE,ETF
-CSH2.L,Lyxor Smart Overnight Return UCITS ETF,LSE,ETF
-CSJP.L,iShares MSCI Japan UCITS ETF,LSE,ETF
-CSP1.L,iShares Core S\u0026P 500 UCITS ETF,LSE,ETF
-CSUK.L,iShares MSCI UK UCITS ETF,LSE,ETF
-CT2B.L,iShares Smart City Infrastructure UCITS ETF,LSE,ETF
-CTEG.L,Global X Cleantech UCITS ETF,LSE,ETF
-CU1.L,iShares MSCI USA UCITS ETF,LSE,ETF
-CU31.L,iShares USD Treasury Bond 1-3yr UCITS ETF USD Acc B,LSE,ETF
-CU71.L,iShares USD Treasury Bond 3-7yr UCITS ETF,LSE,ETF
-CUKX.L,iShares Core FTSE 100 UCITS ETF GBP Acc,LSE,ETF
-CUS1.L,iShares MSCI USA Small Cap ESG Enhanced UCITS ETF,LSE,ETF
-CXAS.L,UBS ETC linked to UBS Bloomberg CMCI ex-Agri ex-Lvstk Capped GBP Mth Hdg TR,LSE,ETF
-CYBP.L,Rize Cybersecurity and Data Privacy UCITS ETF,LSE,ETF
-CYGB.L,iShares China CNY Bond UCITS ETF,LSE,ETF
-CYSE.L,WisdomTree Cybersecurity UCITS ETF,LSE,ETF
-DAGB.L,VanEck Crypto and Blockchain Innovators UCITS ETF,LSE,ETF
-DDBG.L,iShares USD Development Bank Bonds UCITS ETF,LSE,ETF
-DEMS.L,WisdomTree Emerging Markets Equity Income UCITS ETF,LSE,ETF
-DEM.L,WisdomTree Emerging Markets Equity Income UCITS ETF,LSE,ETF
-DFEP.L,WisdomTree Europe SmallCap Dividend UCITS ETF,LSE,ETF
-DFE.L,WisdomTree Europe SmallCap Dividend UCITS ETF,LSE,ETF
-DFNG.L,VanEck Defense UCITS ETF,LSE,ETF
-DGIT.L,iShares Digitalisation UCITS ETF,LSE,ETF
-DGRB.L,WisdomTree US Quality Dividend Growth UCITS ETF,LSE,ETF
-DGRG.L,WisdomTree US Quality Dividend Growth UCITS ETF,LSE,ETF
-DGRP.L,WisdomTree US Quality Dividend Growth UCITS ETF,LSE,ETF
-DGSE.L,WisdomTree Emerging Markets SmallCap Dividend UCITS ETF,LSE,ETF
-DHSG.L,WisdomTree US Equity Income UCITS ETF,LSE,ETF
-DHSP.L,WisdomTree US Equity Income UCITS ETF,LSE,ETF
-DHS.L,WisdomTree US Equity Income UCITS ETF,LSE,ETF
-DHYG.L,iShares USD High Yield Corp Bond ESG UCITS ETF,LSE,ETF
-DJMC.L,iShares EURO STOXX Mid UCITS ETF,LSE,ETF
-DJSC.L,iShares EURO STOXX Small UCITS ETF,LSE,ETF
-DMAD.L,Global X Disruptive Materials UCITS ETF,LSE,ETF
-DMAG.L,Global X Disruptive Materials UCITS ETF,LSE,ETF
-DPYG.L,iShares Developed Markets Property Yield UCITS ETF,LSE,ETF
-DRDR.L,iShares Healthcare Innovation UCITS ETF,LSE,ETF
-DRVG.L,Global X Autonomous \u0026 Electric Vehicles UCITS ETF,LSE,ETF
-DTEC.L,Lyxor MSCI Disruptive Technology ESG Filtered DR UCITS ETF,LSE,ETF
-DXJG.L,WisdomTree Japan Equity UCITS ETF,LSE,ETF
-DXJP.L,WisdomTree Japan Equity UCITS ETF,LSE,ETF
-EDG2.L,iShares MSCI EM ESG Enhanced UCITS ETF,LSE,ETF
-EDOG.L,Global X Telemedicine \u0026 Digital Health UCITS ETF,LSE,ETF
-EEDG.L,iShares MSCI USA ESG Enhanced UCITS ETF,LSE,ETF
-EEIP.L,WisdomTree Europe Equity Income UCITS ETF,LSE,ETF
-EEI.L,WisdomTree Europe Equity Income UCITS ETF,LSE,ETF
-EEJG.L,iShares MSCI Japan ESG Enhanced UCITS ETF,LSE,ETF
-EEUD.L,iShares MSCI Europe ESG Enhanced UCITS ETF,LSE,ETF
-EEWG.L,iShares MSCI World ESG Enhanced UCITS ETF,LSE,ETF
-EEXF.L,iShares EUR Corp Bond ex-Financials UCITS ETF,LSE,ETF
-EGDM.L,iShares MSCI EM ESG Enhanced UCITS ETF,LSE,ETF
-EGMW.L,iShares MSCI World ESG Enhanced UCITS ETF,LSE,ETF
-EGRG.L,WisdomTree Eurozone Quality Dividend Growth UCITS ETF,LSE,ETF
-EGRP.L,WisdomTree Eurozone Quality Dividend Growth UCITS ETF,LSE,ETF
-EHYG.L,iShares EUR High Yield Corp Bond ESG UCITS ETF,LSE,ETF
-ELCR.L,Lyxor MSCI Future Mobility ESG Filtered DR UCITS ETF,LSE,ETF
-ELEP.L,Electric Vehicle Charging Infrastructure UCITS ETF,LSE,ETF
-ELTCGBP.L,ETC Group Physical Litecoin,LSE,ETF
-EMAS.L,SPDR MSCI EM Asia ETF,LSE,ETF
-EMCP.L,iShares JP Morgan USD EM Corp Bond UCITS ETF,LSE,ETF
-EMDL.L,SPDR Bloomberg Emerging Markets Local Bond UCITS ETF,LSE,ETF
-EMGU.L,iShares Core MSCI EM IMI UCITS ETF,LSE,ETF
-EMHG.L,iShares J.P. Morgan USD EM Bond UCITS ETF,LSE,ETF
-EMIM.L,iShares Core MSCI EM IMI UCITS ETF,LSE,ETF
-EMQP.L,EMQQ Emerging Markets Internet \u0026 Ecommerce UCITS ETF,LSE,ETF
-EMSM.L,SPDR MSCI Emerging Markets Small Cap ETF,LSE,ETF
-EMUD.L,iShares MSCI EMU ESG Enhanced UCITS ETF,LSE,ETF
-EMUG.L,L\u0026G ESG Emerging Markets Corporate Bond USD UCITS ETF,LSE,ETF
-EMV.L,iShares Edge MSCI EM Minimum Volatility UCITS ETF,LSE,ETF
-EMXG.L,AMUNDI MSCI EMERGING EX CHINA ESG LEADERS SELECT UCITS ETF DR,LSE,ETF
-ENCG.L,L\u0026G Multi-Strategy Enhanced Commodities UCITS ETF,LSE,ETF
-ENGB.L,UBS ETC linked to the UBS Bloomberg CMCI Energy GBP Monthly Hedged TR Index,LSE,ETF
-ENGE.L,SPDR MSCI Europe Energy UCITS ETF,LSE,ETF
-ENGW.L,SPDR MSCI World Energy UCITS ETF,LSE,ETF
-EPRA.L,Amundi Index FTSE EPRA NAREIT Global UCITS ETF DR,LSE,ETF
-EPRE.L,Amundi FTSE EPRA Europe Real Estate,LSE,ETF
-EQDS.L,iShares MSCI Europe Quality Dividend ESG UCITS ETF,LSE,ETF
-EQGB.L,Invesco EQQQ Nasdaq-100 UCITS ETF,LSE,ETF
-EQJS.L,Invesco NASDAQ Next Generation 100 UCITS ETF,LSE,ETF
-EQQQ.L,Invesco EQQQ Nasdaq-100 UCITS ETF,LSE,ETF
-EQSG.L,Invesco Nasdaq-100 Swap UCITS ETF,LSE,ETF
-ERN1.L,iShares EUR Ultrashort Bond UCITS ETF,LSE,ETF
-ERNS.L,iShares GBP Ultrashort Bond UCITS ETF,LSE,ETF
-ERNU.L,iShares USD Ultrashort Bond UCITS ETF,LSE,ETF
-ESDG.L,AMUNDI INDEX MSCI EUROPE SRI PAB ETF,LSE,ETF
-ESEU.L,Invesco MSCI Europe Ex UK ESG Universal Screened UCITS ETF,LSE,ETF
-ESGB.L,VanEck Video Gaming and eSports UCITS ETF,LSE,ETF
-ESGG.L,Invesco MSCI World ESG Universal Screened UCITS ETF,LSE,ETF
-ESGP.L,Auag ESG Gold Mining UCITS ETF,LSE,ETF
-ESIC.L,iShares Msci Europe Consumer Discretionary Sector UCITS ETF,LSE,ETF
-ESIE.L,iShares MSCI Europe Energy Sector UCITS ETF,LSE,ETF
-ESIF.L,iShares MSCI Europe Financials Sector UCITS ETF,LSE,ETF
-ESIH.L,iShares MSCI Europe Health Care Sector UCITS ETF,LSE,ETF
-ESIN.L,iShares MSCI Europe Industrials Sector UCITS ETF,LSE,ETF
-ESIS.L,iShares MSCI Europe Consumer Staples Sector UCITS ETF,LSE,ETF
-ESIT.L,iShares MSCI Europe Information Technology Sector UCITS ETF,LSE,ETF
-ESOLGBP.L,SOLetc - ETC Group Physical Solana,LSE,ETF
-EUDV.L,SPDR S\u0026P Euro Dividend Aristocrats UCITS ETF,LSE,ETF
-EUE.L,iShares Core EURO STOXX 50 UCITS ETF EUR Dist,LSE,ETF
-EUGD.L,HANetf European Green Deal UCITS ETF,LSE,ETF
-EUHD.L,Invesco EURO STOXX High Dividend Low Volatility UCITS ETF,LSE,ETF
-EUN.L,iShares STOXX Europe 50 UCITS ETF,LSE,ETF
-EUSR.L,UBS Lux Fund Solutions - MSCI EMU Socially Responsible UCITS ETF,LSE,ETF
-EUXS.L,iShares MSCI Europe ex-UK GBP Hedged UCITS ETF Dist,LSE,ETF
-EVAL.L,SPDR MSCI Europe Value UCITS ETF,LSE,ETF
-EWSP.L,iShares S\u0026P 500 Equal Weight UCITS ETF,LSE,ETF
-EXCS.L,iShares MSCI EM EX-China UCITS ETF,LSE,ETF
-EYED.L,iShares MSCI Europe Energy Sector UCITS ETF,LSE,ETF
-FANP.L,GraniteShares FAANG ETP,LSE,ETF
-FASE.L,Invesco FTSE All Share ESG Climate UCITS ETF,LSE,ETF
-FCSG.L,First Trust Global Capital Strength ESG Leaders UCITS ETF,LSE,ETF
-FDNI.L,First Trust Dow Jones International Internet UCITS ETF,LSE,ETF
-FDN.L,First Trust Dow Jones Internet UCITS ETF,LSE,ETF
-FEDG.L,Amundi Fed Funds US Dollar Cash UCITS ETF,LSE,ETF
-FEMP.L,Fidelity Sustainable USD EM Bond UCITS ETF,LSE,ETF
-FEM.L,First Trust Emerging Markets AlphaDEX UCITS - CU,LSE,ETF
-FEQD.L,Fidelity Europe Quality Income UCITS ETF,LSE,ETF
-FEQP.L,Fidelity Europe Quality Income UCITS ETF,LSE,ETF
-FEUI.L,Fidelity Europe Quality Income UCITS ETF,LSE,ETF
-FEUR.L,Fidelity Sustainable Research Enhanced Europe Equity UCITS ETF,LSE,ETF
-FEUZ.L,First Trust Eurozone AlphaDEX UCITS ETF,LSE,ETF
-FEX.L,First Trust US Large Cap Core AlphaDEX UCITS ETF,LSE,ETF
-FGQD.L,Fidelity Global Quality Income UCITS ETF,LSE,ETF
-FING.L,Global X Fintech UCITS ETF,LSE,ETF
-FKU.L,First Trust United Kingdom AlphaDEX UCITS ETF,LSE,ETF
-FLO5.L,iShares USD Floating Rate Bond UCITS ETF,LSE,ETF
-FLOS.L,iShares USD Floating Rate Bond UCITS ETF,LSE,ETF
-FLXD.L,Franklin European Quality Dividend UCITS ETF,LSE,ETF
-FLXE.L,Franklin Emerging Markets UCITS ETF,LSE,ETF
-FLXX.L,Franklin Global Quality Dividend UCITS ETF,LSE,ETF
-FNCW.L,SPDR MSCI World Financials UCITS ETF,LSE,ETF
-FOGB.L,Rize Sustainable Future of Food UCITS ETF,LSE,ETF
-FPX.L,First Trust US Equity Opportunities UCITS ETF,LSE,ETF
-FRGP.L,iShares France Govt Bond UCITS ETF,LSE,ETF
-FRIN.L,Franklin FTSE India UCITS ETF,LSE,ETF
-FRXT.L,Franklin FTSE Taiwan UCITS ETF,LSE,ETF
-FSED.L,Fidelity Sustainable USD EM Bond UCITS ETF,LSE,ETF
-FSEU.L,iShares Edge MSCI Europe Multifactor UCITS ETF,LSE,ETF
-FSKY.L,First Trust Cloud Computing UCITS ETF,LSE,ETF
-FSMG.L,Fidelity Sustainable Global Corporate Bond Paris-Aligned Multifactor UCITS ETF,LSE,ETF
-FSUS.L,iShares Edge MSCI USA Multifactor UCITS ETF,LSE,ETF
-FSWD.L,iShares Edge MSCI World Multifactor UCITS ETF,LSE,ETF
-FTAD.L,SPDR FTSE UK All Share UCITS ETF,LSE,ETF
-FTAL.L,SPDR FTSE UK All Share UCITS ETF,LSE,ETF
-FTNP.L,GraniteShares FATANG ETP,LSE,ETF
-FTWG.L,Invesco FTSE All-World UCITS ETF,LSE,ETF
-FUQA.L,Fidelity US Quality Income UCITS ETF,LSE,ETF
-FUSI.L,Fidelity US Quality Income UCITS ETF,LSE,ETF
-FUSP.L,Fidelity US Quality Income UCITS ETF,LSE,ETF
-FWRG.L,Invesco FTSE All-World UCITS ETF,LSE,ETF
-FXC.L,iShares China Large Cap UCITS ETF,LSE,ETF
-G500.L,Invesco S\u0026P 500 UCITS ETF,LSE,ETF
-GBCH.L,WisdomTree Long CHF Short GBP,LSE,ETF
-GBDV.L,SPDR S\u0026P Global Dividend Aristocrats UCITS ETF,LSE,ETF
-GBJP.L,WisdomTree Long JPY Short GBP,LSE,ETF
-GBRE.L,SPDR Dow Jones Global Real Estate UCITS ETF,LSE,ETF
-GBSP.L,WisdomTree Physical Gold - GBP Daily Hedged,LSE,ETF
-GBSS.L,Gold Bullion Securities Ltd,LSE,ETF
-GBUR.L,WisdomTree Long EUR Short GBP,LSE,ETF
-GBUS.L,WisdomTree Long USD Short GBP,LSE,ETF
-GCGB.L,UBS ETC linked to the UBS Bloomberg CMCI Components Gold GBP Mth Hdg TR,LSE,ETF
-GDGB.L,VanEck Gold Miners UCITS ETF,LSE,ETF
-GEDM.L,iShares MSCI EM IMI ESG Screened UCITS ETF,LSE,ETF
-GFMP.L,GraniteShares GAFAM ETP,LSE,ETF
-GFOP.L,Grayscale Future of Finance UCITS ETF,LSE,ETF
-GGRB.L,WisdomTree Global Quality Dividend Growth UCITS ETF,LSE,ETF
-GGRG.L,WisdomTree Global Quality Dividend Growth UCITS ETF,LSE,ETF
-GGRP.L,WisdomTree Global Quality Dividend Growth UCITS ETF,LSE,ETF
-GHYG.L,iShares Global High Yield Corp Bond UCITS ETF,LSE,ETF
-GHYS.L,iShares Global High Yield Corp Bond GBP Hedged UCITS ETF Dist,LSE,ETF
-GIL5.L,Amundi UK Government Bond 0-5Y UCITS ETF,LSE,ETF
-GILG.L,iShares Global Inflation Linked Govt Bond UCITS ETF,LSE,ETF
-GILI.L,Amundi UK Government Inflation-Linked Bond UCITS ETF,LSE,ETF
-GILS.L,Amundi UK Government Bond UCITS ETF,LSE,ETF
-GIN.L,SPDR Morningstar Multi-Asset Global Infrastructure UCITS ETF,LSE,ETF
-GISG.L,Amundi Global Government Inflation-Linked Bond 1-10Y,LSE,ETF
-GLCB.L,SPDR Refinitiv Global Convertible Bond UCITS ETF,LSE,ETF
-GLCO.L,UBS Lux Fund Solutions - Bloomberg MSCI Global Liquid Corporates Sustainable UCI,LSE,ETF
-GLDW.L,WisdomTree Core Physical Gold,LSE,ETF
-GLGG.L,L\u0026G Clean Water UCITS ETF,LSE,ETF
-GLT5.L,Invesco UK Gilt 1-5 Year UCITS ETF,LSE,ETF
-GLTL.L,SPDR Bloomberg Barclays 15+ Year Gilt UCITS ETF,LSE,ETF
-GLTP.L,Invesco UK Gilts UCITS ETF,LSE,ETF
-GLTS.L,SPDR Bloomberg 1-5 Year Gilt UCITS ETF,LSE,ETF
-GLTY.L,SPDR Bloomberg UK Gilt UCITS ETF,LSE,ETF
-GNOG.L,Global X Genomics \u0026 Biotechnology UCITS ETF,LSE,ETF
-GOVD.L,Amundi Global Government Bond II,LSE,ETF
-GOVP.L,iShares USD Treasury Bond UCITS ETF,LSE,ETF
-GPSA.L,iShares MSCI USA ESG Screened UCITS ETF,LSE,ETF
-GSPX.L,iShares Core S\u0026P 500 UCITS ETF,LSE,ETF
-H50E.L,HSBC EURO STOXX 50 UCITS ETF,LSE,ETF
-HBKS.L,HSBC Global Funds ICAV - Global Sukuk UCITS ETF,LSE,ETF
-HBRL.L,HSBC MSCI Brazil UCITS ETF,LSE,ETF
-HCAN.L,HSBC MSCI Canada UCITS ETF,LSE,ETF
-HDEM.L,Invesco FTSE Emerging Markets High Dividend Low Volatility UCITS ETF,LSE,ETF
-HDGB.L,VanEck Hydrogen Economy UCITS ETF,LSE,ETF
-HDIQ.L,iShares MSCI USA Quality Dividend ESG UCITS ETF,LSE,ETF
-HDLG.L,Invesco S\u0026P 500 High Dividend Low Volatility UCITS ETF,LSE,ETF
-HEAW.L,SPDR MSCI World Health Care UCITS ETF,LSE,ETF
-HEDG.L,WisdomTree Europe Equity UCITS ETF,LSE,ETF
-HEDP.L,WisdomTree Europe Equity UCITS ETF,LSE,ETF
-HEDS.L,WisdomTree Europe Equity UCITS ETF,LSE,ETF
-HERG.L,Global X Video Games \u0026 Esports UCITS ETF,LSE,ETF
-HIDR.L,HSBC MSCI Indonesia UCITS ETF,LSE,ETF
-HIES.L,HSBC MSCI Emerging Markets Islamic ESG UCITS ETF,LSE,ETF
-HIGG.L,iShares EUR High Yield Corp Bond UCITS ETF,LSE,ETF
-HIJS.L,HSBC MSCI Japan Islamic ESG UCITS ETF,LSE,ETF
-HIPS.L,HSBC MSCI Europe Islamic ESG UCITS ETF,LSE,ETF
-HIUS.L,HSBC MSCI USA Islamic ESG UCITS ETF,LSE,ETF
-HIWS.L,HSBC MSCI World Islamic ESG UCITS ETF,LSE,ETF
-HKOR.L,HSBC MSCI Korea Capped UCITS ETF,LSE,ETF
-HLAL.L,Wahed FTSE USA Shariah ETP,LSE,ETF
-HMCA.L,HSBC MSCI China A UCITS ETF,LSE,ETF
-HMCH.L,HSBC MSCI China UCITS ETF,LSE,ETF
-HMCX.L,HSBC FTSE 250 UCITS ETF,LSE,ETF
-HMEU.L,HSBC MSCI Europe UCITS ETF,LSE,ETF
-HMEX.L,HSBC MSCI Mexico Capped UCITS ETF,LSE,ETF
-HMJP.L,HSBC MSCI Japan UCITS ETF,LSE,ETF
-HMUS.L,HSBC MSCI USA UCITS ETF,LSE,ETF
-HMWO.L,HSBC MSCI World UCITS ETF,LSE,ETF
-HMXJ.L,HSBC MSCI Pacific ex Japan UCITS ETF,LSE,ETF
-HODLGBP.L,21Shares Crypto Basket Index ETP,LSE,ETF
-HPAO.L,HSBC MSCI World Climate Paris Aligned UCITS ETF,LSE,ETF
-HPRO.L,HSBC FTSE EPRA/NAREIT Developed UCITS ETF,LSE,ETF
-HSPX.L,HSBC S\u0026P 500 UCITS ETF,LSE,ETF
-HSTC.L,HSBC Hang Seng Tech UCITS ETF,LSE,ETF
-HSUK.L,HSBC UK Sustainable Equity UCITS ETF,LSE,ETF
-HTRY.L,HSBC MSCI Turkey UCITS ETF,LSE,ETF
-HTWG.L,L\u0026G Hydrogen Economy UCITS ETF,LSE,ETF
-HTWN.L,HSBC MSCI Taiwan Capped UCITS ETF,LSE,ETF
-HUKX.L,HSBC FTSE 100 UCITS ETF,LSE,ETF
-HVPE.L,HarbourVest Global Private Equity Ltd,LSE,ETF
-HWWA.L,HSBC Multi Factor Worldwide Equity UCITS ETF,LSE,ETF
-HYGG.L,Global X Hydrogen UCITS ETF,LSE,ETF
-HYSD.L,iShares Broad USD High Yield Corp Bond UCITS ETF,LSE,ETF
-I500.L,iShares S\u0026P 500 Swap UCITS ETF,LSE,ETF
-IAEX.L,iShares AEX UCITS ETF,LSE,ETF
-IAPD.L,iShares Asia Pacific Dividend UCITS ETF,LSE,ETF
-IASH.L,iShares MSCI China A UCITS ETF,LSE,ETF
-IASP.L,iShares Asia Property Yield UCITS ETF,LSE,ETF
-IBCI.L,iShares EUR Inflation Linked Govt Bond UCITS ETF,LSE,ETF
-IBGE.L,Ishares III Plc - Ishares C Govt Bond 0-1Yr Ucits Etf,LSE,ETF
-IBGL.L,iShares EUR Govt Bond 15-30yr UCITS ETF,LSE,ETF
-IBGM.L,iShares II plc - iShares EUR Govt Bond 7-10yr UCITS ETF,LSE,ETF
-IBGS.L,iShares EUR Govt Bond 1-3yr UCITS ETF,LSE,ETF
-IBGX.L,iShares EUR Govt Bond 3-5yr UCITS ETF,LSE,ETF
-IBGY.L,iShares EUR Govt Bond 5-7yr UCITS ETF,LSE,ETF
-IBGZ.L,iShares EUR Govt Bond 10-15yr UCITS ETF,LSE,ETF
-IBTG.L,iShares USD Treasury Bond 1-3yr UCITS ETF,LSE,ETF
-IBTL.L,iShares USD Treasury Bond 20+yr UCITS ETF,LSE,ETF
-IBTM.L,iShares USD Treasury Bond 7-10yr UCITS ETF,LSE,ETF
-IBTS.L,iShares USD Treasury Bond 1-3yr UCITS ETF,LSE,ETF
-IBZL.L,iShares MSCI Brazil UCITS ETF USD Dist,LSE,ETF
-ICDU.L,iShares S\u0026P 500 Consumer Discretionary Sector UCITS ETF,LSE,ETF
-ICSU.L,iShares S\u0026P 500 Consumer Staples Sector UCITS ETF,LSE,ETF
-IDJG.L,iShares Euro Total Market Growth Large UCITS ETF,LSE,ETF
-IDTG.L,iShares USD Treasury Bond 20+yr UCITS ETF,LSE,ETF
-IDVY.L,iShares Euro Dividend UCITS ETF,LSE,ETF
-IE1G.L,iShares EUR Corp Bond 1-5yr UCITS ETF,LSE,ETF
-IEAH.L,iShares Core EUR Corp Bond UCITS ETF,LSE,ETF
-IEBC.L,iShares Core EUR Corp Bond UCITS ETF,LSE,ETF
-IEEM.L,iShares MSCI EM UCITS ETF USD Dist,LSE,ETF
-IEER.L,iShares MSCI Eastern Europe Capped UCITS ETF,LSE,ETF
-IEFM.L,iShares Edge MSCI Europe Momentum Factor UCITS ETF,LSE,ETF
-IEFQ.L,iShares Edge MSCI Europe Quality Factor UCITS ETF,LSE,ETF
-IEFS.L,iShares Edge MSCI Europe Size Factor UCITS ETF,LSE,ETF
-IEFV.L,iShares Edge MSCI Europe Value Factor UCITS ETF,LSE,ETF
-IEMI.L,iShares EM Infrastructure UCITS ETF,LSE,ETF
-IESG.L,iShares MSCI Europe SRI UCITS ETF,LSE,ETF
-IESU.L,iShares S\u0026P 500 Energy Sector UCITS ETF,LSE,ETF
-IEUX.L,iShares MSCI Europe ex-UK UCITS ETF,LSE,ETF
-IFFF.L,iShares plc - iShares MSCI AC Far East ex-Japan UCITS ETF,LSE,ETF
-IGBE.L,Invesco GBP Corporate Bond ESG UCITS ETF,LSE,ETF
-IGCB.L,Invesco GBP Corporate Bond UCITS ETF,LSE,ETF
-IGHY.L,iShares Global High Yield Corp Bond UCITS ETF,LSE,ETF
-IGL5.L,iShares UK Gilts 0-5yr UCITS ETF,LSE,ETF
-IGLG.L,iShares Physical Gold GBP Hedged ETC,LSE,ETF
-IGLH.L,iShares Global Govt Bond UCITS ETF,LSE,ETF
-IGLS.L,iShares UK Gilts 0-5yr UCITS ETF,LSE,ETF
-IGLT.L,iShares Core UK Gilts UCITS ETF,LSE,ETF
-IGSD.L,iShares USD Short Duration Corp Bond UCITS ETF,LSE,ETF
-IGSG.L,iShares Dow Jones Global Sustainability Screened UCITS ETF,LSE,ETF
-IGTM.L,iShares USD Treasury Bond 7-10yr UCITS ETF,LSE,ETF
-IGUS.L,iShares S\u0026P 500 GBP Hedged UCITS ETF Acc,LSE,ETF
-IGWD.L,iShares MSCI World GBP Hedged UCITS ETF Acc,LSE,ETF
-IH2O.L,iShares Global Water UCITS ETF,LSE,ETF
-IHCU.L,iShares S\u0026P 500 Health Care Sector UCITS ETF,LSE,ETF
-IHHG.L,iShares USD High Yield Corp Bond UCITS ETF,LSE,ETF
-IIND.L,iShares MSCI India UCITS ETF,LSE,ETF
-IISU.L,iShares S\u0026P 500 Industrials Sector UCITS ETF,LSE,ETF
-IITU.L,iShares S\u0026P 500 Information Technology Sector UCITS ETF,LSE,ETF
-IJPH.L,iShares MSCI Japan GBP Hedged UCITS ETF Acc,LSE,ETF
-IJPN.L,iShares MSCI Japan UCITS ETF USD Dist,LSE,ETF
-IKOR.L,iShares MSCI Korea UCITS ETF USD Dist,LSE,ETF
-IMEU.L,iShares Core MSCI Europe UCITS ETF,LSE,ETF
-IMGP.L,iShares US Mortgage Backed Securities UCITS ETF,LSE,ETF
-IMIB.L,iShares FTSE MIB UCITS ETF EUR Dist,LSE,ETF
-IMSU.L,iShares S\u0026P 500 Materials Sector UCITS ETF,LSE,ETF
-IMV.L,iShares Edge MSCI Europe Minimum Volatility UCITS ETF,LSE,ETF
-INAA.L,iShares MSCI North America UCITS ETF,LSE,ETF
-INDU.L,WisdomTree Industrial Metals,LSE,ETF
-INFR.L,iShares Global Infrastructure UCITS ETF,LSE,ETF
-INMG.L,UBS ETC linked to the UBS Bloomberg CMCI Industrial Metals GBP Mth Hdg TR,LSE,ETF
-INRG.L,iShares Global Clean Energy UCITS ETF,LSE,ETF
-INTL.L,WisdomTree Artificial Intelligence UCITS ETF,LSE,ETF
-INXG.L,iShares GBP Index-Linked Gilts UCITS ETF,LSE,ETF
-IPRP.L,iShares European Property Yield UCITS ETF,LSE,ETF
-IPRV.L,iShares Listed Private Equity UCITS ETF,LSE,ETF
-IS15.L,iShares GBP Corp Bond 0-5yr UCITS ETF,LSE,ETF
-ISFE.L,iShares MSCI AC Far East ex-Japan Small Cap UCITS ETF,LSE,ETF
-ISFR.L,iShares MSCI France UCITS ETF,LSE,ETF
-ISF.L,iShares plc - iShares Core FTSE 100 UCITS ETF,LSE,ETF
-ISJP.L,iShares MSCI Japan Small Cap UCITS ETF,LSE,ETF
-ISP6.L,iShares S\u0026P Small Cap 600 UCITS ETF,LSE,ETF
-ISPE.L,iShares S\u0026P 500 Equal Weight UCITS ETF,LSE,ETF
-ISPY.L,L\u0026G Cyber Security UCITS ETF,LSE,ETF
-ISUS.L,iShares MSCI USA Islamic UCITS ETF,LSE,ETF
-ISWD.L,iShares MSCI World Islamic UCITS ETF,LSE,ETF
-ISXF.L,iShares GBP Corp Bond ex-Financials UCITS ETF,LSE,ETF
-ITEB.L,iShares Italy Govt Bond UCITS ETF,LSE,ETF
-ITEP.L,HAN-GINS Tech Megatrend Equal Weight UCITS ETF,LSE,ETF
-ITKY.L,iShares MSCI Turkey UCITS ETF,LSE,ETF
-ITPG.L,iShares USD TIPS UCITS ETF,LSE,ETF
-ITPS.L,iShares USD TIPS UCITS ETF,LSE,ETF
-ITWN.L,iShares MSCI Taiwan UCITS ETF,LSE,ETF
-IUGA.L,iShares US Aggregate Bond UCITS ETF,LSE,ETF
-IUKD.L,iShares UK Dividend UCITS ETF,LSE,ETF
-IUKP.L,iShares UK Property UCITS ETF,LSE,ETF
-IUMF.L,iShares Edge MSCI USA Momentum Factor UCITS ETF,LSE,ETF
-IUQF.L,iShares Edge MSCI USA Quality Factor UCITS ETF,LSE,ETF
-IUSA.L,iShares Core S\u0026P 500 UCITS ETF USD Dist,LSE,ETF
-IUSF.L,iShares Edge MSCI USA Size Factor UCITS ETF,LSE,ETF
-IUSP.L,iShares US Property Yield UCITS ETF,LSE,ETF
-IUSU.L,iShares S\u0026P 500 Utilities Sector UCITS ETF,LSE,ETF
-IUVF.L,iShares Edge MSCI USA Value Factor UCITS ETF,LSE,ETF
-IWDG.L,iShares Core MSCI World UCITS ETF,LSE,ETF
-IWDP.L,iShares Developed Markets Property Yield UCITS ETF,LSE,ETF
-IWFM.L,iShares Edge MSCI World Momentum Factor UCITS ETF,LSE,ETF
-IWFQ.L,iShares Edge MSCI World Quality Factor UCITS ETF,LSE,ETF
-IWFS.L,iShares IV plc - iShares Edge MSCI World Size Factor UCITS ETF,LSE,ETF
-IWFV.L,iShares Edge MSCI World Value Factor UCITS ETF,LSE,ETF
-IWRD.L,iShares MSCI World UCITS ETF,LSE,ETF
-IWVG.L,iShares Edge MSCI World Value Factor UCITS ETF,LSE,ETF
-JARI.L,Amundi Index MSCI Japan SRI PAB ETF,LSE,ETF
-JETP.L,US Global Jets UCITS ETF,LSE,ETF
-JG15.L,JPMorgan BetaBuilders UK Gilt 1-5 YR UCITS ETF,LSE,ETF
-JGST.L,JPMorgan GBP Ultra-Short Income UCITS ETF,LSE,ETF
-JNKS.L,SPDR Bloomberg SASB U.S. High Yield Corporate ESG UCITS ETF,LSE,ETF
-JPGB.L,WisdomTree Short JPY Long GBP,LSE,ETF
-JPJP.L,SPDR MSCI Japan UCITS ETF,LSE,ETF
-JPLG.L,JPMorgan Global Equity Multi-Factor UCITS ETF,LSE,ETF
-JPNL.L,Amundi Japan TOPIX II UCITS ETF,LSE,ETF
-JPSG.L,iShares IV Public Limited Company - iShares MSCI Japan SRI UCITS ETF USD,LSE,ETF
-KLWD.L,WisdomTree Cloud Computing UCITS ETF,LSE,ETF
-KOIP.L,ETC Group Digital Assets And Blockchain Equity UCITS ETF,LSE,ETF
-KROG.L,Global X Agtech \u0026 Food Innovation UCITS ETF,LSE,ETF
-KWBP.L,KraneShares CSI China Internet UCITS ETF,LSE,ETF
-L100.L,Amundi FTSE 100 UCITS ETF,LSE,ETF
-LAZG.L,L\u0026G Optical Technology \u0026 Photonics ESG Exclusions UCITS ETF,LSE,ETF
-LCAL.L,Amundi MSCI Emerging Asia II UCITS ETF,LSE,ETF
-LCRP.L,SPDR Bloomberg 10+ Year U.S. Corporate Bond UCITS ETF,LSE,ETF
-LCUK.L,Lyxor Core UK Equity All Cap DR UCITS ETF,LSE,ETF
-LCWL.L,Amundi MSCI World V UCITS ETF,LSE,ETF
-LDAG.L,L\u0026G Quality Equity Dividends ESG Exclusions Asia Pacific ex-Japan UCITS ETF,LSE,ETF
-LDEG.L,L\u0026G Quality Equity Dividends ESG Exclusions Europe ex-UK UCITS ETF,LSE,ETF
-LDUK.L,L\u0026G Quality Equity Dividends ESG Exclusions UK UCITS ETF,LSE,ETF
-LGAG.L,L\u0026G Asia Pacific ex Japan Equity UCITS ETF,LSE,ETF
-LGCF.L,Invesco Commodity Composite UCITS ETF,LSE,ETF
-LGEG.L,L\u0026G Europe ex UK Equity UCITS ETF,LSE,ETF
-LGGG.L,L\u0026G Global Equity UCITS ETF,LSE,ETF
-LGJG.L,L\u0026G Japan Equity UCITS ETF,LSE,ETF
-LGUK.L,L\u0026G UK Equity UCITS ETF,LSE,ETF
-LITG.L,Global X Lithium \u0026 Battery Tech UCITS ETF,LSE,ETF
-LIVP.L,UBS ETC linked to the UBS Bloomberg CMCI Livestock GBP Mth Hdg TR,LSE,ETF
-LQDG.L,iShares USD Corp Bond Interest Rate Hedged UCITS ETF,LSE,ETF
-LQDS.L,iShares USD Corp Bond UCITS ETF,LSE,ETF
-LQGH.L,iShares USD Corp Bond UCITS ETF,LSE,ETF
-LTAM.L,iShares MSCI EM Latin America UCITS ETF,LSE,ETF
-LUXG.L,Amundi S\u0026P Global Luxury UCITS ETF,LSE,ETF
-LVNG.L,Rize Environmental Impact 100 UCITS ETF,LSE,ETF
-MACG.L,BlackRock ESG Multi-Asset Conservative Portfolio UCITS ETF,LSE,ETF
-MAGG.L,BlackRock ESG Multi-Asset Growth Portfolio UCITS ETF,LSE,ETF
-MAMG.L,BlackRock ESG Multi-Asset Moderate Portfolio UCITS ETF,LSE,ETF
-MCHS.L,Invesco MSCI China All Shares Stock Connect UCITS ETF,LSE,ETF
-MCTS.L,Invesco MSCI China Technology All Shares Stock Connect UCITS ETF,LSE,ETF
-METP.L,ETC Group Global Metaverse UCITS ETF,LSE,ETF
-MEUD.L,Lyxor Core STOXX Europe 600 DR,LSE,ETF
-MEXP.L,Finamex Mexico S\u0026 P/BMV International UMS Sovereign Bond 5-10yr UCITS ETF,LSE,ETF
-MIDD.L,iShares FTSE 250 UCITS ETF,LSE,ETF
-MINV.L,iShares Edge MSCI World Minimum Volatility UCITS ETF,LSE,ETF
-MOGB.L,VanEck Morningstar US Sustainable Wide Moat UCITS ETF,LSE,ETF
-MSAP.L,Invesco MSCI Saudi Arabia UCITS ETF,LSE,ETF
-MSDG.L,Amundi Index MSCI Emerging Markets SRI PAB ETF,LSE,ETF
-MSRG.L,Amundi Index MSCI Emerging Markets SRI PAB ETF,LSE,ETF
-MUNS.L,Invesco US Municipal Bond UCITS ETF,LSE,ETF
-MVEA.L,iShares MSCI USA Minimum Volatility ESG UCITS ETF,LSE,ETF
-MVEE.L,iShares MSCI Europe Minimum Volatility ESG UCITS ETF,LSE,ETF
-MVEW.L,iShares Edge MSCI World Minimum Volatility ESG UCITS ETF,LSE,ETF
-MVUS.L,iShares Edge S\u0026P 500 Minimum Volatility UCITS ETF,LSE,ETF
-MXUK.L,Invesco MSCI Europe ex-UK UCITS ETF,LSE,ETF
-MXWS.L,Invesco MSCI World UCITS ETF,LSE,ETF
-NASL.L,Amundi Nasdaq-100 II UCITS ETF,LSE,ETF
-NATP.L,Future of Defence UCITS ETF,LSE,ETF
-NGAG.L,UBS ETC linked to the UBS Bloomberg CMCI Components Natural Gas GBP Mth Hdg TR,LSE,ETF
-NGSP.L,WisdomTree Natural Gas,LSE,ETF
-NRGT.L,WisdomTree Energy Transition Metals,LSE,ETF
-NRJL.L,Amundi MSCI New Energy ESG Screened UCITS ETF,LSE,ETF
-NUCG.L,VanEck Uranium and Nuclear Technologies UCITS ETF,LSE,ETF
-OILG.L,UBS ETC linked to the UBS Bloomberg CMCI Components WTI Crude Oil GBP Mth Hdg TR,LSE,ETF
-OMXS.L,iShares OMX Stockholm Capped UCITS ETF,LSE,ETF
-PADV.L,SPDR S\u0026P Pan Asia Dividend Aristocrats UCITS ETF,LSE,ETF
-PAVG.L,Global X US Infrastructure Development UCITS ETF,LSE,ETF
-PAYG.L,Rize Digital Payments Economy UCITS ETF,LSE,ETF
-PBRT.L,WisdomTree Brent Crude Oil - GBP Daily Hedged,LSE,ETF
-PCRD.L,WisdomTree WTI Crude Oil - GBP Daily Hedged,LSE,ETF
-PHGP.L,WisdomTree Physical Gold,LSE,ETF
-PHPP.L,WisdomTree Physical Precious Metals,LSE,ETF
-PHSP.L,WisdomTree Physical Silver,LSE,ETF
-PIGI.L,Digital Infrastructure \u0026 Connectivity UCITS ETF,LSE,ETF
-PIMT.L,WisdomTree Industrial Metals - GBP Daily Hedged,LSE,ETF
-PMLP.L,Alerian Midstream Energy Dividend UCITS ETF,LSE,ETF
-PPDX.L,WisdomTree Physical Palladium,LSE,ETF
-PPTX.L,WisdomTree Physical Platinum,LSE,ETF
-PQVG.L,Invesco S\u0026P 500 QVM UCITS ETF,LSE,ETF
-PRIW.L,Amundi Prime Global UCITS ETF DR,LSE,ETF
-PRMG.L,UBS ETC linked to the UBS Bloomberg CMCI Precious Metals GBP Mth Hdg TR,LSE,ETF
-PRUK.L,Amundi Prime UK Mid \u0026 Small Cap,LSE,ETF
-PSRE.L,Invesco FTSE RAFI Europe UCITS ETF,LSE,ETF
-PSRF.L,Invesco FTSE RAFI US 1000 UCITS ETF,LSE,ETF
-PSRM.L,Invesco FTSE RAFI Emerging Markets UCITS ETF,LSE,ETF
-PSRU.L,Invesco FTSE RAFI UK 100 UCITS ETF,LSE,ETF
-PSRW.L,Invesco FTSE RAFI All World 3000 UCITS ETF,LSE,ETF
-QCLN.L,First Trust Nasdaq Clean Edge Green Energy UCITS ETF,LSE,ETF
-QDFD.L,FlexShares Developed Markets High Dividend Climate ESG UCITS ETF,LSE,ETF
-QUID.L,PIMCO Sterling Short Maturity UCITS ETF,LSE,ETF
-QVFD.L,FlexShares Developed Markets Low Volatility Climate ESG UCITS ETF,LSE,ETF
-QYLP.L,Global X Nasdaq 100 Covered Call UCITS ETF,LSE,ETF
-R2SC.L,SPDR Russell 2000 U.S. Small Cap UCITS ETF,LSE,ETF
-RAYG.L,Global X Solar UCITS ETF,LSE,ETF
-RAYS.L,Invesco Solar Energy UCITS ETF,LSE,ETF
-RBTX.L,iShares Automation \u0026 Robotics UCITS ETF,LSE,ETF
-RDANGBP.L,ADAetc - ETC Group Physical Cardano,LSE,ETF
-RECY.L,WisdomTree Recycling Decarbonisation UCITS ETF,LSE,ETF
-REGB.L,VanEck Rare Earth and Strategic Metals UCITS ETF,LSE,ETF
-RENG.L,L\u0026G Clean Energy UCITS ETF,LSE,ETF
-REUG.L,Vaneck Circular Economy UCITS ETF,LSE,ETF
-RISE.L,iShares Fallen Angels High Yield Corp Bond UCITS ETF,LSE,ETF
-RMAP.L,Royal Mint Responsibly Sourced Physical Gold ETC,LSE,ETF
-RNRU.L,Global X Renewable Energy Producers UCITS ETF,LSE,ETF
-ROLG.L,iShares Bloomberg Enhanced Roll Yield Commodity Swap UCITS ETF,LSE,ETF
-RSGL.L,Amundi Russell 1000 Growth UCITS ETF,LSE,ETF
-RTWP.L,L\u0026G Russell 2000 SM CAP Quality,LSE,ETF
-S100.L,Invesco FTSE 100 UCITS ETF,LSE,ETF
-S250.L,Invesco FTSE 250 UCITS ETF,LSE,ETF
-S2HGBA.L,UBS Lux Fund Solutions - MSCI Switzerland 20/35 UCITS ETF,LSE,ETF
-S400.L,Invesco JPX-Nikkei 400 UCITS ETF,LSE,ETF
-SAAA.L,iShares Global AAA-AA Govt Bond UCITS ETF,LSE,ETF
-SAEU.L,iShares MSCI Europe ESG Screened UCITS ETF,LSE,ETF
-SAGG.L,iShares Core Global Aggregate Bond UCITS ETF,LSE,ETF
-SAUM.L,iShares MSCI EMU ESG Screened UCITS ETF,LSE,ETF
-SAUS.L,iShares MSCI Australia UCITS ETF,LSE,ETF
-SBEM.L,UBS Lux Fund Solutions - Bloomberg USD Emerging Markets Sovereign UCITS ETF,LSE,ETF
-SDEU.L,iShares Germany Govt Bond UCITS ETF,LSE,ETF
-SDGH.L,iShares USD Short Duration Corp Bond UCITS ETF,LSE,ETF
-SDHG.L,iShares USD Short Duration High Yield Corp Bond UCITS ETF,LSE,ETF
-SDIP.L,Global X Superdividend UCITS ETF,LSE,ETF
-SDUE.L,iShares MSCI Europe ESG Screened UCITS ETF,LSE,ETF
-SE15.L,iShares EUR Corp Bond 1-5yr UCITS ETF,LSE,ETF
-SEAG.L,iShares EUR Aggregate Bond ESG UCITS ETF,LSE,ETF
-SEDY.L,iShares EM Dividend UCITS ETF,LSE,ETF
-SEGA.L,iShares Core EUR Govt Bond UCITS ETF,LSE,ETF
-SEGM.L,iShares MSCI EM IMI ESG Screened UCITS ETF,LSE,ETF
-SEMA.L,iShares MSCI EM UCITS ETF USD Acc,LSE,ETF
-SEMB.L,iShares J.P. Morgan USD EM Bond UCITS ETF,LSE,ETF
-SEMH.L,SPDR ICE BofA 0-5 Year EM USD Government Bond UCITS ETF,LSE,ETF
-SEML.L,iShares JP Morgan EM Local Government Bond UCITS ETF,LSE,ETF
-SETP.L,Sprott Energy Transition Materials UCITS ETF,LSE,ETF
-SGBX.L,WisdomTree Physical Swiss Gold,LSE,ETF
-SGEA.L,iShares Emerging Asia Local Govt Bond UCITS ETF,LSE,ETF
-SGIL.L,iShares Global Inflation Linked Govt Bond UCITS ETF,LSE,ETF
-SGJP.L,iShares MSCI Japan ESG Screened UCITS ETF,LSE,ETF
-SGLN.L,iShares Physical Gold ETC,LSE,ETF
-SGLO.L,iShares Global Govt Bond UCITS ETF,LSE,ETF
-SGLP.L,Invesco Physical Gold ETC,LSE,ETF
-SGLS.L,Invesco Physical Gold GBP Hedged ETC,LSE,ETF
-SGSU.L,iShares USD Corp Bond 0-3yr ESG UCITS ETF,LSE,ETF
-SGWS.L,iShares MSCI World SRI UCITS ETF,LSE,ETF
-SHLG.L,iShares Digital Security UCITS ETF,LSE,ETF
-SHYG.L,iShares EUR High Yield Corp Bond UCITS ETF,LSE,ETF
-SHYU.L,iShares USD High Yield Corp Bond UCITS ETF,LSE,ETF
-SILG.L,Global X Silver Miners UCITS ETF,LSE,ETF
-SJPA.L,iShares Core MSCI Japan IMI UCITS ETF,LSE,ETF
-SKYP.L,HAN-GINS Cloud Technology Equal Weight UCITS ETF,LSE,ETF
-SLVP.L,Invesco Physical Silver ETC,LSE,ETF
-SLXX.L,iShares Core GBP Corp Bond UCITS ETF,LSE,ETF
-SMBS.L,iShares US Mortgage Backed Securities UCITS ETF,LSE,ETF
-SMEA.L,iShares Core MSCI Europe UCITS ETF EUR Acc,LSE,ETF
-SMGB.L,VanEck Semiconductor UCITS ETF,LSE,ETF
-SMUD.L,iShares MSCI EMU ESG Screened UCITS ETF,LSE,ETF
-SNGB.L,iShares JP Morgan USD EM Corp Bond UCITS ETF,LSE,ETF
-SNSG.L,Global X Internet of Things UCITS ETF,LSE,ETF
-SPAG.L,iShares Agribusiness UCITS ETF,LSE,ETF
-SPDM.L,iShares Physical Palladium ETC,LSE,ETF
-SPEP.L,Invesco Markets PLC - Invesco S\u0026P 500 ESG UCITS ETF,LSE,ETF
-SPES.L,Invesco S\u0026P 500 Equal Weight UCITS ETF,LSE,ETF
-SPEX.L,Invesco S\u0026P 500 Equal Weight UCITS ETF,LSE,ETF
-SPGP.L,iShares Gold Producers UCITS ETF,LSE,ETF
-SPLT.L,iShares Physical Platinum ETC,LSE,ETF
-SPOG.L,iShares Oil \u0026 Gas Exploration \u0026 Production UCITS ETF,LSE,ETF
-SPOL.L,iShares MSCI Poland UCITS ETF,LSE,ETF
-SPPB.L,iShares Spain Govt Bond UCITS ETF,LSE,ETF
-SPPP.L,Invesco Physical Platinum ETC,LSE,ETF
-SPX5.L,SPDR S\u0026P 500 UCITS ETF,LSE,ETF
-SPXJ.L,iShares III plc - iShares MSCI Pacific ex-Japan UCITS ETF,LSE,ETF
-SPXP.L,Invesco S\u0026P 500 UCITS ETF,LSE,ETF
-SRHE.L,AMUNDI INDEX MSCI EMU SRI PAB ETF,LSE,ETF
-SRSA.L,iShares MSCI South Africa UCITS ETF,LSE,ETF
-SRUG.L,UBS Irl ETF PLC - MSCI USA Socially Responsible UCITS ETF,LSE,ETF
-SSAC.L,iShares MSCI ACWI UCITS ETF,LSE,ETF
-SSHY.L,PIMCO US Short-Term High Yield Corporate Bond Index UCITS ETF,LSE,ETF
-SSLN.L,iShares Physical Silver ETC,LSE,ETF
-STHS.L,PIMCO US Short-Term High Yield Corporate Bond Index UCITS ETF,LSE,ETF
-STPH.L,Amundi US Curve steepening 2-10Y UCITS ETF,LSE,ETF
-SUAG.L,iShares US Aggregate Bond UCITS ETF,LSE,ETF
-SUAP.L,iShares MSCI USA SRI UCITS ETF,LSE,ETF
-SUES.L,iShares MSCI EM SRI UCITS ETF,LSE,ETF
-SUJA.L,iShares IV Public Limited Company - iShares MSCI Japan SRI UCITS ETF USD,LSE,ETF
-SUJS.L,iShares MSCI Japan SRI EUR Hedged UCITS ETF Acc,LSE,ETF
-SUKC.L,SPDR Bloomberg 0-5 Year Sterling Corporate Bond UCITS ETF,LSE,ETF
-SUOG.L,iShares EUR Corp Bond ESG UCITS ETF,LSE,ETF
-SUOP.L,iShares USD Corp Bond ESG UCITS ETF,LSE,ETF
-SUSD.L,SPDR Bloomberg 0-3 Year U.S. Corporate Bond UCITS ETF,LSE,ETF
-SUSS.L,iShares EUR Corp Bond 0-3yr ESG UCITS ETF,LSE,ETF
-SUUS.L,iShares MSCI USA SRI UCITS ETF,LSE,ETF
-SUWG.L,iShares MSCI World SRI UCITS ETF,LSE,ETF
-SWDA.L,iShares Core MSCI World UCITS ETF,LSE,ETF
-SWLD.L,SPDR MSCI World UCITS ETF,LSE,ETF
-TANP.L,Solar Energy UCITS ETF,LSE,ETF
-TDGB.L,VanEck Morningstar Developed Markets Dividend Leaders UCITS ETF,LSE,ETF
-TECW.L,SPDR MSCI World Technology UCITS ETF,LSE,ETF
-TFRP.L,WisdomTree USD Floating Rate Treasury Bond UCITS ETF,LSE,ETF
-TI5G.L,iShares II plc - iShares $ Tips 0-5 UCITS ETF,LSE,ETF
-TIGG.L,L\u0026G India INR Government Bond UCITS ETF,LSE,ETF
-TIPG.L,Amundi US TIPS Government Inflation-Linked Bond UCITS ETF,LSE,ETF
-TP05.L,iShares II plc - iShares $ Tips 0-5 UCITS ETF,LSE,ETF
-TREG.L,VanEck Global Real Estate UCITS ETF,LSE,ETF
-TRIP.L,THE TRAVEL UCITS ETF,LSE,ETF
-TRIS.L,Invesco US Treasury Bond 0-1 Year UCITS ETF,LSE,ETF
-TSGB.L,VanEck Sustainable World Equal Weight UCITS ETF,LSE,ETF
-TSY3.L,SPDR Bloomberg 1-3 Year U.S. Treasury Bond UCITS ETF,LSE,ETF
-TURL.L,Lyxor MSCI Turkey UCITS ETF,LSE,ETF
-U71G.L,Amundi US Treasury Bond 7-10Y,LSE,ETF
-UC15.L,UBS ETF CMCI Composite SF UCITS ETF,LSE,ETF
-UC44.L,UBS Lux Fund Solutions - MSCI World Socially Responsible UCITS ETF,LSE,ETF
-UC46.L,UBS Lux Fund Solutions - MSCI USA Socially Responsible UCITS ETF,LSE,ETF
-UC96.L,UBS Irl ETF Plc - Factor MSCI USA Prime Value ESG UCITS ETF,LSE,ETF
-UC99.L,UBS Irl ETF plc - Factor MSCI USA Quality ESG UCITS ETF,LSE,ETF
-UESD.L,iShares GBP Ultrashort Bond ESG UCITS ETF,LSE,ETF
-UFOP.L,Procure Space UCITS ETF,LSE,ETF
-UGRW.L,WisdomTree UK Quality Dividend Growth UCITS ETF,LSE,ETF
-UIFS.L,iShares S\u0026P 500 Financials Sector UCITS ETF USD ACC,LSE,ETF
-UINC.L,First Trust US Equity Income UCITS ETF,LSE,ETF
-UKCO.L,SPDR Bloomberg Sterling Corporate Bond UCITS ETF,LSE,ETF
-UKDV.L,SPDR S\u0026P UK Dividend Aristocrats UCITS ETF,LSE,ETF
-UKEL.L,iShares MSCI UK IMI ESG Leaders UCITS ETF,LSE,ETF
-UKRE.L,iShares MSCI Target UK Real Estate UCITS ETF,LSE,ETF
-UKSR.L,UBS Irl ETF plc - MSCI United Kingdom IMI Socially Responsible UCITS ETF,LSE,ETF
-UQLTH.L,UBS Irl ETF plc - Factor MSCI USA Quality ESG UCITS ETF,LSE,ETF
-URGB.L,WisdomTree Short EUR Long GBP,LSE,ETF
-URND.L,Global X Uranium UCITS ETF,LSE,ETF
-URNG.L,Global X Uranium UCITS ETF,LSE,ETF
-URNP.L,Sprott Uranium Miners UCITS ETF,LSE,ETF
-USDG.L,L\u0026G ESG USD Corporate Bond UCITS ETF,LSE,ETF
-USDV.L,SPDR S\u0026P US Dividend Aristocrats UCITS ETF,LSE,ETF
-USFM.L,UBS Irl ETF plc - MSCI USA Select Factor Mix UCITS ETF,LSE,ETF
-USGB.L,WisdomTree Short USD Long GBP,LSE,ETF
-USLV.L,SPDR S\u0026P 500 Low Volatility UCITS ETF,LSE,ETF
-USTY.L,SPDR Bloomberg U.S. Treasury Bond UCITS ETF,LSE,ETF
-UTIP.L,SPDR Bloomberg U.S. TIPS UCITS ETF,LSE,ETF
-V3AB.L,Vanguard ESG Global All Cap UCITS ETF,LSE,ETF
-V3AM.L,Vanguard ESG Global All Cap UCITS ETF,LSE,ETF
-V3MB.L,Vanguard ESG Emerging Market All Cap UCITS ETF,LSE,ETF
-V3MM.L,Vanguard ESG Emerging Market All Cap UCITS ETF,LSE,ETF
-VAGP.L,Vanguard Global Aggregate Bond UCITS ETF,LSE,ETF
-VAGS.L,Vanguard Global Aggregate Bond UCITS ETF,LSE,ETF
-VALW.L,SPDR MSCI World Value UCITS ETF,LSE,ETF
-VAPX.L,Vanguard FTSE Developed Asia Pacific ex Japan UCITS ETF,LSE,ETF
-VCPA.L,Vanguard USD Corporate Bond UCITS ETF,LSE,ETF
-VDPG.L,Vanguard FTSE Developed Asia Pacific ex Japan UCITS ETF,LSE,ETF
-VECP.L,Vanguard EUR Corporate Bond UCITS ETF,LSE,ETF
-VEGB.L,Vaneck Sustainable Future of Food UCITS ETF,LSE,ETF
-VEMT.L,Vanguard USD Emerging Markets Government Bond UCITS ETF,LSE,ETF
-VERG.L,Vanguard FTSE Developed Europe ex UK UCITS ETF,LSE,ETF
-VERX.L,Vanguard FTSE Developed Europe ex UK UCITS ETF,LSE,ETF
-VETY.L,Vanguard EUR Eurozone Government Bond UCITS ETF,LSE,ETF
-VEUR.L,Vanguard FTSE Developed Europe UCITS ETF,LSE,ETF
-VEVE.L,Vanguard FTSE Developed World UCITS ETF,LSE,ETF
-VFEG.L,Vanguard FTSE Emerging Markets UCITS ETF,LSE,ETF
-VFEM.L,Vanguard FTSE Emerging Markets UCITS ETF,LSE,ETF
-VGER.L,Vanguard Germany All Cap UCITS ETF,LSE,ETF
-VGOV.L,Vanguard U.K. Gilt UCITS ETF,LSE,ETF
-VGPA.L,Vanguard USD Corporate Bond UCITS ETF,LSE,ETF
-VGVA.L,Vanguard U.K. Gilt UCITS ETF,LSE,ETF
-VHVG.L,Vanguard FTSE Developed World UCITS ETF,LSE,ETF
-VHYG.L,Vanguard FTSE All-World High Dividend Yield UCITS ETF,LSE,ETF
-VHYL.L,Vanguard FTSE All-World High Dividend Yield UCITS ETF,LSE,ETF
-VJPB.L,Vanguard FTSE Japan UCITS ETF,LSE,ETF
-VJPN.L,Vanguard FTSE Japan UCITS ETF,LSE,ETF
-VMID.L,Vanguard FTSE 250 UCITS ETF,LSE,ETF
-VMIG.L,Vanguard FTSE 250 UCITS ETF,LSE,ETF
-VNRG.L,Vanguard FTSE North America UCITS ETF,LSE,ETF
-VNRT.L,Vanguard FTSE North America UCITS ETF,LSE,ETF
-VPNG.L,Global X Data Center REITs \u0026 Digital Infrastructure UCITS ETF,LSE,ETF
-VUAG.L,Vanguard S\u0026P 500 UCITS ETF,LSE,ETF
-VUCP.L,Vanguard USD Corporate Bond UCITS ETF,LSE,ETF
-VUKE.L,Vanguard FTSE 100 UCITS ETF,LSE,ETF
-VUKG.L,Vanguard FTSE 100 UCITS ETF,LSE,ETF
-VUSA.L,Vanguard S\u0026P 500 UCITS ETF,LSE,ETF
-VUSC.L,Vanguard USD Corporate 1-3 Year Bond UCITS ETF,LSE,ETF
-VUTA.L,Vanguard USD Treasury Bond UCITS ETF,LSE,ETF
-VUTY.L,Vanguard USD Treasury Bond UCITS ETF,LSE,ETF
-VWRL.L,Vanguard FTSE All-World UCITS ETF,LSE,ETF
-VWRP.L,Vanguard FTSE All-World UCITS ETF,LSE,ETF
-WATL.L,Amundi MSCI Water ESG Screened UCITS ETF,LSE,ETF
-WBIO.L,Wisdomtree Biorevolution UCITS ETF,LSE,ETF
-WCCP.L,WisdomTree California Carbon,LSE,ETF
-WCOB.L,Wisdomtree Enhanced Commodity UCITS ETF,LSE,ETF
-WCOG.L,Wisdomtree Enhanced Commodity UCITS ETF,LSE,ETF
-WCOM.L,Wisdomtree Enhanced Commodity UCITS ETF,LSE,ETF
-WEAP.L,WisdomTree Wheat,LSE,ETF
-WELP.L,HAN-GINS Indxx Healthcare Megatrend Equal Weight UCITS ETF,LSE,ETF
-WENS.L,iShares MSCI World Energy Sector UCITS ETF,LSE,ETF
-WIGG.L,iShares Fallen Angels High Yield Corp Bond UCITS ETF,LSE,ETF
-WLDS.L,Ishares III PLC - Ishares Msci World Small Cap UCITS ETF,LSE,ETF
-WMGG.L,WisdomTree Megatrends UCITS ETF,LSE,ETF
-WMVG.L,iShares Edge MSCI World Minimum Volatility UCITS ETF,LSE,ETF
-WNDG.L,Global X Wind Energy UCITS ETF,LSE,ETF
-WNEW.L,WisdomTree New Economy Real Estate UCITS ETF,LSE,ETF
-WOOD.L,iShares Global Timber \u0026 Forestry UCITS ETF,LSE,ETF
-WOSC.L,SPDR MSCI World Small Cap UCITS ETF,LSE,ETF
-WQDS.L,iShares MSCI World Quality Dividend ESG UCITS ETF,LSE,ETF
-WREN.L,WisdomTree Renewable Energy UCITS ETF,LSE,ETF
-WSRI.L,Amundi Index MSCI World SRI PAB ETF,LSE,ETF
-WTEF.L,WisdomTree US Efficient Core UCITS ETF,LSE,ETF
-WTIB.L,WisdomTree Bloomberg WTI Crude Oil,LSE,ETF
-WTNR.L,WisdomTree New Economy Real Estate UCITS ETF,LSE,ETF
-WUKD.L,WisdomTree UK Equity Income UCITS ETF,LSE,ETF
-XCX4.L,Xtrackers MSCI Thailand UCITS ETF,LSE,ETF
-XCX5.L,Xtrackers MSCI India Swap UCITS ETF,LSE,ETF
-XDEM.L,Xtrackers MSCI World Momentum UCITS ETF,LSE,ETF
-XDEQ.L,Xtrackers MSCI World Quality UCITS ETF,LSE,ETF
-XDER.L,Xtrackers FTSE Developed Europe Real Estate UCITS ETF,LSE,ETF
-XDEV.L,Xtrackers MSCI World Value UCITS ETF,LSE,ETF
-XDEX.L,Xtrackers MSCI Emerging Markets ESG Screened UCITS ETF,LSE,ETF
-XDJP.L,Xtrackers Nikkei 225 UCITS ETF,LSE,ETF
-XDN0.L,Xtrackers MSCI Nordic UCITS ETF,LSE,ETF
-XDPG.L,Xtrackers S\u0026P 500 UCITS ETF,LSE,ETF
-XDUS.L,Xtrackers MSCI USA UCITS ETF,LSE,ETF
-XESX.L,Xtrackers Euro Stoxx 50 UCITS ETF,LSE,ETF
-XFSN.L,Xtrackers MSCI Fintech Innovation UCITS ETF,LSE,ETF
-XFVT.L,Xtrackers FTSE Vietnam Swap UCITS ETF,LSE,ETF
-XG7S.L,Xtrackers II Global Government Bond UCITS ETF,LSE,ETF
-XGDG.L,Xtrackers IE Physical Gold GBP Hedged ETC Securities,LSE,ETF
-XGLS.L,Xtrackers Physical Gold GBP Hedged ETC,LSE,ETF
-XGSD.L,Xtrackers Stoxx Global Select Dividend 100 Swap UCITS ETF,LSE,ETF
-XLEP.L,Invesco Energy S\u0026P US Select Sector UCITS ETF,LSE,ETF
-XLFQ.L,Invesco Financials S\u0026P US Select Sector UCITS ETF,LSE,ETF
-XLKQ.L,Invesco Technology S\u0026P US Select Sector UCITS ETF,LSE,ETF
-XLPE.L,Xtrackers LPX Private Equity Swap UCITS ETF,LSE,ETF
-XMCX.L,Xtrackers FTSE 250 UCITS ETF,LSE,ETF
-XMEM.L,Xtrackers MSCI Emerging Markets Swap UCITS ETF,LSE,ETF
-XMID.L,Xtrackers MSCI Indonesia Swap UCITS ETF,LSE,ETF
-XNAQ.L,Xtrackers NASDAQ 100 UCITS ETF,LSE,ETF
-XNGS.L,Xtrackers MSCI Next Generation Internet Innovation UCITS ETF,LSE,ETF
-XNIF.L,Xtrackers Nifty 50 Swap UCITS ETF,LSE,ETF
-XREP.L,Invesco Real Estate S\u0026P US Select Sector UCITS ETF,LSE,ETF
-XRSG.L,Xtrackers Russell 2000 UCITS ETF,LSE,ETF
-XS6R.L,Xtrackers MSCI Europe Utilities ESG Screened UCITS ETF,LSE,ETF
-XSCS.L,Xtrackers MSCI USA Consumer Staples UCITS ETF,LSE,ETF
-XSEN.L,Xtrackers MSCI USA Energy UCITS ETF,LSE,ETF
-XSFN.L,Xtrackers MSCI USA Financials UCITS ETF,LSE,ETF
-XSHC.L,Xtrackers MSCI USA Health Care UCITS ETF,LSE,ETF
-XSOP.L,WisdomTree Emerging Markets ex-State Owned Enterprises UCITS ETF,LSE,ETF
-XSPS.L,Xtrackers S\u0026P 500 Inverse Daily Swap UCITS ETF,LSE,ETF
-XSPX.L,Xtrackers S\u0026P 500 Swap UCITS ETF,LSE,ETF
-XSTC.L,Xtrackers MSCI USA Information Technology UCITS ETF,LSE,ETF
-XSTR.L,Xtrackers II GBP Overnight Rate Swap UCITS ETF,LSE,ETF
-XSX6.L,Xtrackers Stoxx Europe 600 UCITS ETF,LSE,ETF
-XT01.L,Xtrackers US Treasuries Ultrashort Bond UCITS ETF,LSE,ETF
-XUEK.L,Xtrackers S\u0026P Europe ex UK UCITS ETF,LSE,ETF
-XUFB.L,Xtrackers MSCI USA Banks UCITS ETF,LSE,ETF
-XUKS.L,Xtrackers FTSE 100 Short Daily Swap UCITS ETF,LSE,ETF
-XUKX.L,Xtrackers FTSE 100 Income UCITS ETF,LSE,ETF
-XX25.L,Xtrackers FTSE China 50 UCITS ETF,LSE,ETF
-XXSC.L,Xtrackers MSCI Europe Small Cap UCITS ETF,LSE,ETF
-XXTW.L,Xtrackers MSCI World Information Technology UCITS ETF,LSE,ETF
-XYLP.L,Global X S\u0026P 500 Covered Call UCITS ETF,LSE,ETF
-ZERP.L,HANetf S\u0026P Global Clean Energy Select HANzero UCITS ETF,LSE,ETF
-ZETHGBP.L,ETHetc - ETC Group Physical Ethereum,LSE,ETF
+5ESG.L,UBS Irl ETF plc - S\u0026P 500 ESG UCITS ETF,LSE,ETF,TRADING212
+AASG.L,Amundi Msci EM Asia UCITS ETF,LSE,ETF,TRADING212
+ABTCGBP.L,21Shares Bitcoin ETP,LSE,ETF,TRADING212
+ACWI.L,SPDR MSCI ACWI ETF,LSE,ETF,TRADING212
+AEGG.L,iShares Global Aggregate Bond ESG UCITS ETF,LSE,ETF,TRADING212
+AETHGBP.L,21Shares Ethereum Staking ETP,LSE,ETF,TRADING212
+AGAP.L,WisdomTree Agriculture,LSE,ETF,TRADING212
+AGBP.L,iShares Core Global Aggregate Bond UCITS ETF,LSE,ETF,TRADING212
+AGCP.L,WisdomTree Broad Commodities,LSE,ETF,TRADING212
+AGES.L,iShares Ageing Population UCITS ETF,LSE,ETF,TRADING212
+AGGB.L,UBS ETC linked to the UBS Bloomberg CMCI Agriculture GBP Mth Hdg TR,LSE,ETF,TRADING212
+AGGP.L,WisdomTree Grains,LSE,ETF,TRADING212
+ALAG.L,Amundi Msci EM Latin America UCITS ETF,LSE,ETF,TRADING212
+AMAP.L,Saturna Al-Kawthar Global Focused Equity UCITS ETF,LSE,ETF,TRADING212
+AMPS.L,WisdomTree Battery Metals,LSE,ETF,TRADING212
+ANRJ.L,Amundi Global Hydrogen ESG Screened UCITS ETF,LSE,ETF,TRADING212
+AQWG.L,Global X Clean Water UCITS ETF,LSE,ETF,TRADING212
+ASPY.L,L\u0026G Emerging Cyber Security ESG Exclusions UCITS ETF,LSE,ETF,TRADING212
+AUEG.L,Amundi MSCI Emerging Markets UCITS ETF,LSE,ETF,TRADING212
+BATG.L,L\u0026G Battery Value-Chain UCITS ETF,LSE,ETF,TRADING212
+BBM3.L,JPMorgan Betabuilders US Treasury Bond 0-3 Months UCITS ETF,LSE,ETF,TRADING212
+BBTP.L,JPMorgan BetaBuilders US Treasury Bond UCITS ETF,LSE,ETF,TRADING212
+BCHS.L,Invesco CoinShares Global Blockchain UCITS ETF,LSE,ETF,TRADING212
+BCOG.L,L\u0026G All Commodities UCITS ETF,LSE,ETF,TRADING212
+BKCG.L,Global X Blockchain UCITS ETF,LSE,ETF,TRADING212
+BKCN.L,Wisdomtree Blockchain UCITS ETF,LSE,ETF,TRADING212
+BLOK.L,First Trust Indxx Innovative Transaction \u0026 Process UCITS ETF,LSE,ETF,TRADING212
+BNKE.L,Amundi Euro Stoxx Banks UCITS ETF,LSE,ETF,TRADING212
+BOTG.L,Global X Robotics \u0026 Artificial Intelligence UCITS ETF,LSE,ETF,TRADING212
+BRIC.L,iShares BIC 50 UCITS ETF,LSE,ETF,TRADING212
+BRNB.L,WisdomTree Bloomberg Brent Crude Oil,LSE,ETF,TRADING212
+BRNG.L,WisdomTree Brent Crude Oil,LSE,ETF,TRADING212
+BRTG.L,UBS ETC linked to the UBS Bloomberg CMCI Components Brent Crude GBP Mth Hdg TR,LSE,ETF,TRADING212
+BTCEGBP.L,BTCetc - ETC Group Physical Bitcoin,LSE,ETF,TRADING212
+BUFF.L,Buffettique Growth ETP,LSE,ETF,TRADING212
+BUGG.L,Global X Cybersecurity UCITS ETF,LSE,ETF,TRADING212
+BULP.L,WisdomTree Gold,LSE,ETF,TRADING212
+CAPU.L,Ossiam Shiller Barclays CAPE US Sector Value TR,LSE,ETF,TRADING212
+CARP.L,WisdomTree Carbon,LSE,ETF,TRADING212
+CARS.L,WisdomTree Global Automotive Innovators UCITS ETF,LSE,ETF,TRADING212
+CBUG.L,iShares USD Treasury Bond 3-7yr UCITS ETF,LSE,ETF,TRADING212
+CE01.L,iShares EUR Govt Bond 7-10yr UCITS ETF EUR Acc,LSE,ETF,TRADING212
+CE31.L,iShares EUR Govt Bond 1-3yr UCITS ETF EUR Acc,LSE,ETF,TRADING212
+CE71.L,iShares EUR Govt Bond 3-7yr UCITS ETF,LSE,ETF,TRADING212
+CEA1.L,iShares MSCI EM Asia UCITS ETF,LSE,ETF,TRADING212
+CEBG.L,VanEck New China ESG UCITS ETF,LSE,ETF,TRADING212
+CEMX.L,iShares MSCI EM Consumer Growth UCITS ETF,LSE,ETF,TRADING212
+CES1.L,iShares MSCI EMU Small Cap UCITS ETF,LSE,ETF,TRADING212
+CEU1.L,iShares Core MSCI EMU UCITS ETF,LSE,ETF,TRADING212
+CEUG.L,iShares Core MSCI EMU UCITS ETF,LSE,ETF,TRADING212
+CHGB.L,WisdomTree Short CHF Long GBP,LSE,ETF,TRADING212
+CHIP.L,KraneShares ICBCCS S\u0026P China 500 UCITS ETF,LSE,ETF,TRADING212
+CHRG.L,WisdomTree Battery Solutions UCITS ETF,LSE,ETF,TRADING212
+CIRC.L,Rize Circular Economy Enablers UCITS ETF,LSE,ETF,TRADING212
+CLMP.L,iClima Global Decarbonisation Enablers UCITS ETF,LSE,ETF,TRADING212
+CLO6.L,Global X Cloud Computing UCITS ETF,LSE,ETF,TRADING212
+CMB1.L,iShares FTSE MIB UCITS ETF EUR Acc,LSE,ETF,TRADING212
+CMBG.L,UBS ETC linked to UBS Bloomberg BCOM Constant Maturity Composite GBP Mth Hdg TR,LSE,ETF,TRADING212
+CMFP.L,L\u0026G Longer Dated All Commodities UCITS ETF,LSE,ETF,TRADING212
+CMGB.L,UBS ETC linked to the UBS Bloomberg CMCI Composite GBP Monthly Hedged TR Index,LSE,ETF,TRADING212
+CMGG.L,UBS ETC linked to UBS Bloomberg SPGSCI Constant Maturity Composite GBP Mth Hdg,LSE,ETF,TRADING212
+CMOP.L,Invesco Bloomberg Commodity UCITS ETF,LSE,ETF,TRADING212
+CMX1.L,iShares MSCI Mexico Capped UCITS ETF,LSE,ETF,TRADING212
+CNKY.L,iShares Nikkei 225 UCITS ETF,LSE,ETF,TRADING212
+CNX1.L,iShares NASDAQ 100 UCITS ETF,LSE,ETF,TRADING212
+CNYB.L,iShares China CNY Bond UCITS ETF,LSE,ETF,TRADING212
+CO2P.L,SparkChange Physical Carbon EUA ETC,LSE,ETF,TRADING212
+COGO.L,WisdomTree AT1 CoCo Bond UCITS ETF,LSE,ETF,TRADING212
+COMM.L,iShares Diversified Commodity Swap UCITS ETF,LSE,ETF,TRADING212
+COMX.L,Wisdomtree Broad Commodities UCITS ETF,LSE,ETF,TRADING212
+COPB.L,WisdomTree Copper,LSE,ETF,TRADING212
+COPG.L,Global X Copper Miners UCITS ETF,LSE,ETF,TRADING212
+COUK.L,Lyxor iBoxx GBP Liquid Corporates Long Dated UCITS ETF,LSE,ETF,TRADING212
+CPJ1.L,iShares Core MSCI Pacific ex-Japan UCITS ETF,LSE,ETF,TRADING212
+COMG.L,Amundi Bloomberg Equal-weight Commodity ex-Agriculture,LSE,ETF,TRADING212
+CRHG.L,iShares Global Corp Bond UCITS ETF,LSE,ETF,TRADING212
+CRPS.L,iShares Global Corp Bond UCITS ETF,LSE,ETF,TRADING212
+CRU1.L,iShares MSCI Russia ADR/GDR UCITS ETF,LSE,ETF,TRADING212
+CRUP.L,WisdomTree WTI Crude Oil,LSE,ETF,TRADING212
+CS1.L,Amundi ETF MSCI Spain UCITS ETF,LSE,ETF,TRADING212
+CS51.L,iShares Core EURO STOXX 50 UCITS ETF,LSE,ETF,TRADING212
+CSCA.L,iShares MSCI Canada UCITS ETF,LSE,ETF,TRADING212
+CSH2.L,Lyxor Smart Overnight Return UCITS ETF,LSE,ETF,TRADING212
+CSJP.L,iShares MSCI Japan UCITS ETF,LSE,ETF,TRADING212
+CSP1.L,iShares Core S\u0026P 500 UCITS ETF,LSE,ETF,TRADING212
+CSUK.L,iShares MSCI UK UCITS ETF,LSE,ETF,TRADING212
+CT2B.L,iShares Smart City Infrastructure UCITS ETF,LSE,ETF,TRADING212
+CTEG.L,Global X Cleantech UCITS ETF,LSE,ETF,TRADING212
+CU1.L,iShares MSCI USA UCITS ETF,LSE,ETF,TRADING212
+CU31.L,iShares USD Treasury Bond 1-3yr UCITS ETF USD Acc B,LSE,ETF,TRADING212
+CU71.L,iShares USD Treasury Bond 3-7yr UCITS ETF,LSE,ETF,TRADING212
+CUKX.L,iShares Core FTSE 100 UCITS ETF GBP Acc,LSE,ETF,TRADING212
+CUS1.L,iShares MSCI USA Small Cap ESG Enhanced UCITS ETF,LSE,ETF,TRADING212
+CXAS.L,UBS ETC linked to UBS Bloomberg CMCI ex-Agri ex-Lvstk Capped GBP Mth Hdg TR,LSE,ETF,TRADING212
+CYBP.L,Rize Cybersecurity and Data Privacy UCITS ETF,LSE,ETF,TRADING212
+CYGB.L,iShares China CNY Bond UCITS ETF,LSE,ETF,TRADING212
+CYSE.L,WisdomTree Cybersecurity UCITS ETF,LSE,ETF,TRADING212
+DAGB.L,VanEck Crypto and Blockchain Innovators UCITS ETF,LSE,ETF,TRADING212
+DDBG.L,iShares USD Development Bank Bonds UCITS ETF,LSE,ETF,TRADING212
+DEMS.L,WisdomTree Emerging Markets Equity Income UCITS ETF,LSE,ETF,TRADING212
+DEM.L,WisdomTree Emerging Markets Equity Income UCITS ETF,LSE,ETF,TRADING212
+DFEP.L,WisdomTree Europe SmallCap Dividend UCITS ETF,LSE,ETF,TRADING212
+DFE.L,WisdomTree Europe SmallCap Dividend UCITS ETF,LSE,ETF,TRADING212
+DFNG.L,VanEck Defense UCITS ETF,LSE,ETF,TRADING212
+DGIT.L,iShares Digitalisation UCITS ETF,LSE,ETF,TRADING212
+DGRB.L,WisdomTree US Quality Dividend Growth UCITS ETF,LSE,ETF,TRADING212
+DGRG.L,WisdomTree US Quality Dividend Growth UCITS ETF,LSE,ETF,TRADING212
+DGRP.L,WisdomTree US Quality Dividend Growth UCITS ETF,LSE,ETF,TRADING212
+DGSE.L,WisdomTree Emerging Markets SmallCap Dividend UCITS ETF,LSE,ETF,TRADING212
+DHSG.L,WisdomTree US Equity Income UCITS ETF,LSE,ETF,TRADING212
+DHSP.L,WisdomTree US Equity Income UCITS ETF,LSE,ETF,TRADING212
+DHS.L,WisdomTree US Equity Income UCITS ETF,LSE,ETF,TRADING212
+DHYG.L,iShares USD High Yield Corp Bond ESG UCITS ETF,LSE,ETF,TRADING212
+DJMC.L,iShares EURO STOXX Mid UCITS ETF,LSE,ETF,TRADING212
+DJSC.L,iShares EURO STOXX Small UCITS ETF,LSE,ETF,TRADING212
+DMAD.L,Global X Disruptive Materials UCITS ETF,LSE,ETF,TRADING212
+DMAG.L,Global X Disruptive Materials UCITS ETF,LSE,ETF,TRADING212
+DPYG.L,iShares Developed Markets Property Yield UCITS ETF,LSE,ETF,TRADING212
+DRDR.L,iShares Healthcare Innovation UCITS ETF,LSE,ETF,TRADING212
+DRVG.L,Global X Autonomous \u0026 Electric Vehicles UCITS ETF,LSE,ETF,TRADING212
+DTEC.L,Lyxor MSCI Disruptive Technology ESG Filtered DR UCITS ETF,LSE,ETF,TRADING212
+DXJG.L,WisdomTree Japan Equity UCITS ETF,LSE,ETF,TRADING212
+DXJP.L,WisdomTree Japan Equity UCITS ETF,LSE,ETF,TRADING212
+EDG2.L,iShares MSCI EM ESG Enhanced UCITS ETF,LSE,ETF,TRADING212
+EDOG.L,Global X Telemedicine \u0026 Digital Health UCITS ETF,LSE,ETF,TRADING212
+EEDG.L,iShares MSCI USA ESG Enhanced UCITS ETF,LSE,ETF,TRADING212
+EEIP.L,WisdomTree Europe Equity Income UCITS ETF,LSE,ETF,TRADING212
+EEI.L,WisdomTree Europe Equity Income UCITS ETF,LSE,ETF,TRADING212
+EEJG.L,iShares MSCI Japan ESG Enhanced UCITS ETF,LSE,ETF,TRADING212
+EEUD.L,iShares MSCI Europe ESG Enhanced UCITS ETF,LSE,ETF,TRADING212
+EEWG.L,iShares MSCI World ESG Enhanced UCITS ETF,LSE,ETF,TRADING212
+EEXF.L,iShares EUR Corp Bond ex-Financials UCITS ETF,LSE,ETF,TRADING212
+EGDM.L,iShares MSCI EM ESG Enhanced UCITS ETF,LSE,ETF,TRADING212
+EGMW.L,iShares MSCI World ESG Enhanced UCITS ETF,LSE,ETF,TRADING212
+EGRG.L,WisdomTree Eurozone Quality Dividend Growth UCITS ETF,LSE,ETF,TRADING212
+EGRP.L,WisdomTree Eurozone Quality Dividend Growth UCITS ETF,LSE,ETF,TRADING212
+EHYG.L,iShares EUR High Yield Corp Bond ESG UCITS ETF,LSE,ETF,TRADING212
+ELCR.L,Lyxor MSCI Future Mobility ESG Filtered DR UCITS ETF,LSE,ETF,TRADING212
+ELEP.L,Electric Vehicle Charging Infrastructure UCITS ETF,LSE,ETF,TRADING212
+ELTCGBP.L,ETC Group Physical Litecoin,LSE,ETF,TRADING212
+EMAS.L,SPDR MSCI EM Asia ETF,LSE,ETF,TRADING212
+EMCP.L,iShares JP Morgan USD EM Corp Bond UCITS ETF,LSE,ETF,TRADING212
+EMDL.L,SPDR Bloomberg Emerging Markets Local Bond UCITS ETF,LSE,ETF,TRADING212
+EMGU.L,iShares Core MSCI EM IMI UCITS ETF,LSE,ETF,TRADING212
+EMHG.L,iShares J.P. Morgan USD EM Bond UCITS ETF,LSE,ETF,TRADING212
+EMIM.L,iShares Core MSCI EM IMI UCITS ETF,LSE,ETF,TRADING212
+EMQP.L,EMQQ Emerging Markets Internet \u0026 Ecommerce UCITS ETF,LSE,ETF,TRADING212
+EMSM.L,SPDR MSCI Emerging Markets Small Cap ETF,LSE,ETF,TRADING212
+EMUD.L,iShares MSCI EMU ESG Enhanced UCITS ETF,LSE,ETF,TRADING212
+EMUG.L,L\u0026G ESG Emerging Markets Corporate Bond USD UCITS ETF,LSE,ETF,TRADING212
+EMV.L,iShares Edge MSCI EM Minimum Volatility UCITS ETF,LSE,ETF,TRADING212
+EMXG.L,AMUNDI MSCI EMERGING EX CHINA ESG LEADERS SELECT UCITS ETF DR,LSE,ETF,TRADING212
+ENCG.L,L\u0026G Multi-Strategy Enhanced Commodities UCITS ETF,LSE,ETF,TRADING212
+ENGB.L,UBS ETC linked to the UBS Bloomberg CMCI Energy GBP Monthly Hedged TR Index,LSE,ETF,TRADING212
+ENGE.L,SPDR MSCI Europe Energy UCITS ETF,LSE,ETF,TRADING212
+ENGW.L,SPDR MSCI World Energy UCITS ETF,LSE,ETF,TRADING212
+EPRA.L,Amundi Index FTSE EPRA NAREIT Global UCITS ETF DR,LSE,ETF,TRADING212
+EPRE.L,Amundi FTSE EPRA Europe Real Estate,LSE,ETF,TRADING212
+EQDS.L,iShares MSCI Europe Quality Dividend ESG UCITS ETF,LSE,ETF,TRADING212
+EQGB.L,Invesco EQQQ Nasdaq-100 UCITS ETF,LSE,ETF,TRADING212
+EQJS.L,Invesco NASDAQ Next Generation 100 UCITS ETF,LSE,ETF,TRADING212
+EQQQ.L,Invesco EQQQ Nasdaq-100 UCITS ETF,LSE,ETF,TRADING212
+EQSG.L,Invesco Nasdaq-100 Swap UCITS ETF,LSE,ETF,TRADING212
+ERN1.L,iShares EUR Ultrashort Bond UCITS ETF,LSE,ETF,TRADING212
+ERNS.L,iShares GBP Ultrashort Bond UCITS ETF,LSE,ETF,TRADING212
+ERNU.L,iShares USD Ultrashort Bond UCITS ETF,LSE,ETF,TRADING212
+ESDG.L,AMUNDI INDEX MSCI EUROPE SRI PAB ETF,LSE,ETF,TRADING212
+ESEU.L,Invesco MSCI Europe Ex UK ESG Universal Screened UCITS ETF,LSE,ETF,TRADING212
+ESGB.L,VanEck Video Gaming and eSports UCITS ETF,LSE,ETF,TRADING212
+ESGG.L,Invesco MSCI World ESG Universal Screened UCITS ETF,LSE,ETF,TRADING212
+ESGP.L,Auag ESG Gold Mining UCITS ETF,LSE,ETF,TRADING212
+ESIC.L,iShares Msci Europe Consumer Discretionary Sector UCITS ETF,LSE,ETF,TRADING212
+ESIE.L,iShares MSCI Europe Energy Sector UCITS ETF,LSE,ETF,TRADING212
+ESIF.L,iShares MSCI Europe Financials Sector UCITS ETF,LSE,ETF,TRADING212
+ESIH.L,iShares MSCI Europe Health Care Sector UCITS ETF,LSE,ETF,TRADING212
+ESIN.L,iShares MSCI Europe Industrials Sector UCITS ETF,LSE,ETF,TRADING212
+ESIS.L,iShares MSCI Europe Consumer Staples Sector UCITS ETF,LSE,ETF,TRADING212
+ESIT.L,iShares MSCI Europe Information Technology Sector UCITS ETF,LSE,ETF,TRADING212
+ESOLGBP.L,SOLetc - ETC Group Physical Solana,LSE,ETF,TRADING212
+EUDV.L,SPDR S\u0026P Euro Dividend Aristocrats UCITS ETF,LSE,ETF,TRADING212
+EUE.L,iShares Core EURO STOXX 50 UCITS ETF EUR Dist,LSE,ETF,TRADING212
+EUGD.L,HANetf European Green Deal UCITS ETF,LSE,ETF,TRADING212
+EUHD.L,Invesco EURO STOXX High Dividend Low Volatility UCITS ETF,LSE,ETF,TRADING212
+EUN.L,iShares STOXX Europe 50 UCITS ETF,LSE,ETF,TRADING212
+EUSR.L,UBS Lux Fund Solutions - MSCI EMU Socially Responsible UCITS ETF,LSE,ETF,TRADING212
+EUXS.L,iShares MSCI Europe ex-UK GBP Hedged UCITS ETF Dist,LSE,ETF,TRADING212
+EVAL.L,SPDR MSCI Europe Value UCITS ETF,LSE,ETF,TRADING212
+EWSP.L,iShares S\u0026P 500 Equal Weight UCITS ETF,LSE,ETF,TRADING212
+EXCS.L,iShares MSCI EM EX-China UCITS ETF,LSE,ETF,TRADING212
+EYED.L,iShares MSCI Europe Energy Sector UCITS ETF,LSE,ETF,TRADING212
+FANP.L,GraniteShares FAANG ETP,LSE,ETF,TRADING212
+FASE.L,Invesco FTSE All Share ESG Climate UCITS ETF,LSE,ETF,TRADING212
+FCSG.L,First Trust Global Capital Strength ESG Leaders UCITS ETF,LSE,ETF,TRADING212
+FDNI.L,First Trust Dow Jones International Internet UCITS ETF,LSE,ETF,TRADING212
+FDN.L,First Trust Dow Jones Internet UCITS ETF,LSE,ETF,TRADING212
+FEDG.L,Amundi Fed Funds US Dollar Cash UCITS ETF,LSE,ETF,TRADING212
+FEMP.L,Fidelity Sustainable USD EM Bond UCITS ETF,LSE,ETF,TRADING212
+FEM.L,First Trust Emerging Markets AlphaDEX UCITS - CU,LSE,ETF,TRADING212
+FEQD.L,Fidelity Europe Quality Income UCITS ETF,LSE,ETF,TRADING212
+FEQP.L,Fidelity Europe Quality Income UCITS ETF,LSE,ETF,TRADING212
+FEUI.L,Fidelity Europe Quality Income UCITS ETF,LSE,ETF,TRADING212
+FEUR.L,Fidelity Sustainable Research Enhanced Europe Equity UCITS ETF,LSE,ETF,TRADING212
+FEUZ.L,First Trust Eurozone AlphaDEX UCITS ETF,LSE,ETF,TRADING212
+FEX.L,First Trust US Large Cap Core AlphaDEX UCITS ETF,LSE,ETF,TRADING212
+FGQD.L,Fidelity Global Quality Income UCITS ETF,LSE,ETF,TRADING212
+FING.L,Global X Fintech UCITS ETF,LSE,ETF,TRADING212
+FKU.L,First Trust United Kingdom AlphaDEX UCITS ETF,LSE,ETF,TRADING212
+FLO5.L,iShares USD Floating Rate Bond UCITS ETF,LSE,ETF,TRADING212
+FLOS.L,iShares USD Floating Rate Bond UCITS ETF,LSE,ETF,TRADING212
+FLXD.L,Franklin European Quality Dividend UCITS ETF,LSE,ETF,TRADING212
+FLXE.L,Franklin Emerging Markets UCITS ETF,LSE,ETF,TRADING212
+FLXX.L,Franklin Global Quality Dividend UCITS ETF,LSE,ETF,TRADING212
+FNCW.L,SPDR MSCI World Financials UCITS ETF,LSE,ETF,TRADING212
+FOGB.L,Rize Sustainable Future of Food UCITS ETF,LSE,ETF,TRADING212
+FPX.L,First Trust US Equity Opportunities UCITS ETF,LSE,ETF,TRADING212
+FRGP.L,iShares France Govt Bond UCITS ETF,LSE,ETF,TRADING212
+FRIN.L,Franklin FTSE India UCITS ETF,LSE,ETF,TRADING212
+FRXT.L,Franklin FTSE Taiwan UCITS ETF,LSE,ETF,TRADING212
+FSED.L,Fidelity Sustainable USD EM Bond UCITS ETF,LSE,ETF,TRADING212
+FSEU.L,iShares Edge MSCI Europe Multifactor UCITS ETF,LSE,ETF,TRADING212
+FSKY.L,First Trust Cloud Computing UCITS ETF,LSE,ETF,TRADING212
+FSMG.L,Fidelity Sustainable Global Corporate Bond Paris-Aligned Multifactor UCITS ETF,LSE,ETF,TRADING212
+FSUS.L,iShares Edge MSCI USA Multifactor UCITS ETF,LSE,ETF,TRADING212
+FSWD.L,iShares Edge MSCI World Multifactor UCITS ETF,LSE,ETF,TRADING212
+FTAD.L,SPDR FTSE UK All Share UCITS ETF,LSE,ETF,TRADING212
+FTAL.L,SPDR FTSE UK All Share UCITS ETF,LSE,ETF,TRADING212
+FTNP.L,GraniteShares FATANG ETP,LSE,ETF,TRADING212
+FTWG.L,Invesco FTSE All-World UCITS ETF,LSE,ETF,TRADING212
+FUQA.L,Fidelity US Quality Income UCITS ETF,LSE,ETF,TRADING212
+FUSI.L,Fidelity US Quality Income UCITS ETF,LSE,ETF,TRADING212
+FUSP.L,Fidelity US Quality Income UCITS ETF,LSE,ETF,TRADING212
+FWRG.L,Invesco FTSE All-World UCITS ETF,LSE,ETF,TRADING212
+FXC.L,iShares China Large Cap UCITS ETF,LSE,ETF,TRADING212
+G500.L,Invesco S\u0026P 500 UCITS ETF,LSE,ETF,TRADING212
+GBCH.L,WisdomTree Long CHF Short GBP,LSE,ETF,TRADING212
+GBDV.L,SPDR S\u0026P Global Dividend Aristocrats UCITS ETF,LSE,ETF,TRADING212
+GBJP.L,WisdomTree Long JPY Short GBP,LSE,ETF,TRADING212
+GBRE.L,SPDR Dow Jones Global Real Estate UCITS ETF,LSE,ETF,TRADING212
+GBSP.L,WisdomTree Physical Gold - GBP Daily Hedged,LSE,ETF,TRADING212
+GBSS.L,Gold Bullion Securities Ltd,LSE,ETF,TRADING212
+GBUR.L,WisdomTree Long EUR Short GBP,LSE,ETF,TRADING212
+GBUS.L,WisdomTree Long USD Short GBP,LSE,ETF,TRADING212
+GCGB.L,UBS ETC linked to the UBS Bloomberg CMCI Components Gold GBP Mth Hdg TR,LSE,ETF,TRADING212
+GDGB.L,VanEck Gold Miners UCITS ETF,LSE,ETF,TRADING212
+GEDM.L,iShares MSCI EM IMI ESG Screened UCITS ETF,LSE,ETF,TRADING212
+GFMP.L,GraniteShares GAFAM ETP,LSE,ETF,TRADING212
+GFOP.L,Grayscale Future of Finance UCITS ETF,LSE,ETF,TRADING212
+GGRB.L,WisdomTree Global Quality Dividend Growth UCITS ETF,LSE,ETF,TRADING212
+GGRG.L,WisdomTree Global Quality Dividend Growth UCITS ETF,LSE,ETF,TRADING212
+GGRP.L,WisdomTree Global Quality Dividend Growth UCITS ETF,LSE,ETF,TRADING212
+GHYG.L,iShares Global High Yield Corp Bond UCITS ETF,LSE,ETF,TRADING212
+GHYS.L,iShares Global High Yield Corp Bond GBP Hedged UCITS ETF Dist,LSE,ETF,TRADING212
+GIL5.L,Amundi UK Government Bond 0-5Y UCITS ETF,LSE,ETF,TRADING212
+GILG.L,iShares Global Inflation Linked Govt Bond UCITS ETF,LSE,ETF,TRADING212
+GILI.L,Amundi UK Government Inflation-Linked Bond UCITS ETF,LSE,ETF,TRADING212
+GILS.L,Amundi UK Government Bond UCITS ETF,LSE,ETF,TRADING212
+GIN.L,SPDR Morningstar Multi-Asset Global Infrastructure UCITS ETF,LSE,ETF,TRADING212
+GISG.L,Amundi Global Government Inflation-Linked Bond 1-10Y,LSE,ETF,TRADING212
+GLCB.L,SPDR Refinitiv Global Convertible Bond UCITS ETF,LSE,ETF,TRADING212
+GLCO.L,UBS Lux Fund Solutions - Bloomberg MSCI Global Liquid Corporates Sustainable UCI,LSE,ETF,TRADING212
+GLDW.L,WisdomTree Core Physical Gold,LSE,ETF,TRADING212
+GLGG.L,L\u0026G Clean Water UCITS ETF,LSE,ETF,TRADING212
+GLT5.L,Invesco UK Gilt 1-5 Year UCITS ETF,LSE,ETF,TRADING212
+GLTL.L,SPDR Bloomberg Barclays 15+ Year Gilt UCITS ETF,LSE,ETF,TRADING212
+GLTP.L,Invesco UK Gilts UCITS ETF,LSE,ETF,TRADING212
+GLTS.L,SPDR Bloomberg 1-5 Year Gilt UCITS ETF,LSE,ETF,TRADING212
+GLTY.L,SPDR Bloomberg UK Gilt UCITS ETF,LSE,ETF,TRADING212
+GNOG.L,Global X Genomics \u0026 Biotechnology UCITS ETF,LSE,ETF,TRADING212
+GOVD.L,Amundi Global Government Bond II,LSE,ETF,TRADING212
+GOVP.L,iShares USD Treasury Bond UCITS ETF,LSE,ETF,TRADING212
+GPSA.L,iShares MSCI USA ESG Screened UCITS ETF,LSE,ETF,TRADING212
+GSPX.L,iShares Core S\u0026P 500 UCITS ETF,LSE,ETF,TRADING212
+H50E.L,HSBC EURO STOXX 50 UCITS ETF,LSE,ETF,TRADING212
+HBKS.L,HSBC Global Funds ICAV - Global Sukuk UCITS ETF,LSE,ETF,TRADING212
+HBRL.L,HSBC MSCI Brazil UCITS ETF,LSE,ETF,TRADING212
+HCAN.L,HSBC MSCI Canada UCITS ETF,LSE,ETF,TRADING212
+HDEM.L,Invesco FTSE Emerging Markets High Dividend Low Volatility UCITS ETF,LSE,ETF,TRADING212
+HDGB.L,VanEck Hydrogen Economy UCITS ETF,LSE,ETF,TRADING212
+HDIQ.L,iShares MSCI USA Quality Dividend ESG UCITS ETF,LSE,ETF,TRADING212
+HDLG.L,Invesco S\u0026P 500 High Dividend Low Volatility UCITS ETF,LSE,ETF,TRADING212
+HEAW.L,SPDR MSCI World Health Care UCITS ETF,LSE,ETF,TRADING212
+HEDG.L,WisdomTree Europe Equity UCITS ETF,LSE,ETF,TRADING212
+HEDP.L,WisdomTree Europe Equity UCITS ETF,LSE,ETF,TRADING212
+HEDS.L,WisdomTree Europe Equity UCITS ETF,LSE,ETF,TRADING212
+HERG.L,Global X Video Games \u0026 Esports UCITS ETF,LSE,ETF,TRADING212
+HIDR.L,HSBC MSCI Indonesia UCITS ETF,LSE,ETF,TRADING212
+HIES.L,HSBC MSCI Emerging Markets Islamic ESG UCITS ETF,LSE,ETF,TRADING212
+HIGG.L,iShares EUR High Yield Corp Bond UCITS ETF,LSE,ETF,TRADING212
+HIJS.L,HSBC MSCI Japan Islamic ESG UCITS ETF,LSE,ETF,TRADING212
+HIPS.L,HSBC MSCI Europe Islamic ESG UCITS ETF,LSE,ETF,TRADING212
+HIUS.L,HSBC MSCI USA Islamic ESG UCITS ETF,LSE,ETF,TRADING212
+HIWS.L,HSBC MSCI World Islamic ESG UCITS ETF,LSE,ETF,TRADING212
+HKOR.L,HSBC MSCI Korea Capped UCITS ETF,LSE,ETF,TRADING212
+HLAL.L,Wahed FTSE USA Shariah ETP,LSE,ETF,TRADING212
+HMCA.L,HSBC MSCI China A UCITS ETF,LSE,ETF,TRADING212
+HMCH.L,HSBC MSCI China UCITS ETF,LSE,ETF,TRADING212
+HMCX.L,HSBC FTSE 250 UCITS ETF,LSE,ETF,TRADING212
+HMEU.L,HSBC MSCI Europe UCITS ETF,LSE,ETF,TRADING212
+HMEX.L,HSBC MSCI Mexico Capped UCITS ETF,LSE,ETF,TRADING212
+HMJP.L,HSBC MSCI Japan UCITS ETF,LSE,ETF,TRADING212
+HMUS.L,HSBC MSCI USA UCITS ETF,LSE,ETF,TRADING212
+HMWO.L,HSBC MSCI World UCITS ETF,LSE,ETF,TRADING212
+HMXJ.L,HSBC MSCI Pacific ex Japan UCITS ETF,LSE,ETF,TRADING212
+HODLGBP.L,21Shares Crypto Basket Index ETP,LSE,ETF,TRADING212
+HPAO.L,HSBC MSCI World Climate Paris Aligned UCITS ETF,LSE,ETF,TRADING212
+HPRO.L,HSBC FTSE EPRA/NAREIT Developed UCITS ETF,LSE,ETF,TRADING212
+HSPX.L,HSBC S\u0026P 500 UCITS ETF,LSE,ETF,TRADING212
+HSTC.L,HSBC Hang Seng Tech UCITS ETF,LSE,ETF,TRADING212
+HSUK.L,HSBC UK Sustainable Equity UCITS ETF,LSE,ETF,TRADING212
+HTRY.L,HSBC MSCI Turkey UCITS ETF,LSE,ETF,TRADING212
+HTWG.L,L\u0026G Hydrogen Economy UCITS ETF,LSE,ETF,TRADING212
+HTWN.L,HSBC MSCI Taiwan Capped UCITS ETF,LSE,ETF,TRADING212
+HUKX.L,HSBC FTSE 100 UCITS ETF,LSE,ETF,TRADING212
+HVPE.L,HarbourVest Global Private Equity Ltd,LSE,ETF,TRADING212
+HWWA.L,HSBC Multi Factor Worldwide Equity UCITS ETF,LSE,ETF,TRADING212
+HYGG.L,Global X Hydrogen UCITS ETF,LSE,ETF,TRADING212
+HYSD.L,iShares Broad USD High Yield Corp Bond UCITS ETF,LSE,ETF,TRADING212
+I500.L,iShares S\u0026P 500 Swap UCITS ETF,LSE,ETF,TRADING212
+IAEX.L,iShares AEX UCITS ETF,LSE,ETF,TRADING212
+IAPD.L,iShares Asia Pacific Dividend UCITS ETF,LSE,ETF,TRADING212
+IASH.L,iShares MSCI China A UCITS ETF,LSE,ETF,TRADING212
+IASP.L,iShares Asia Property Yield UCITS ETF,LSE,ETF,TRADING212
+IBCI.L,iShares EUR Inflation Linked Govt Bond UCITS ETF,LSE,ETF,TRADING212
+IBGE.L,Ishares III Plc - Ishares C Govt Bond 0-1Yr Ucits Etf,LSE,ETF,TRADING212
+IBGL.L,iShares EUR Govt Bond 15-30yr UCITS ETF,LSE,ETF,TRADING212
+IBGM.L,iShares II plc - iShares EUR Govt Bond 7-10yr UCITS ETF,LSE,ETF,TRADING212
+IBGS.L,iShares EUR Govt Bond 1-3yr UCITS ETF,LSE,ETF,TRADING212
+IBGX.L,iShares EUR Govt Bond 3-5yr UCITS ETF,LSE,ETF,TRADING212
+IBGY.L,iShares EUR Govt Bond 5-7yr UCITS ETF,LSE,ETF,TRADING212
+IBGZ.L,iShares EUR Govt Bond 10-15yr UCITS ETF,LSE,ETF,TRADING212
+IBTG.L,iShares USD Treasury Bond 1-3yr UCITS ETF,LSE,ETF,TRADING212
+IBTL.L,iShares USD Treasury Bond 20+yr UCITS ETF,LSE,ETF,TRADING212
+IBTM.L,iShares USD Treasury Bond 7-10yr UCITS ETF,LSE,ETF,TRADING212
+IBTS.L,iShares USD Treasury Bond 1-3yr UCITS ETF,LSE,ETF,TRADING212
+IBZL.L,iShares MSCI Brazil UCITS ETF USD Dist,LSE,ETF,TRADING212
+ICDU.L,iShares S\u0026P 500 Consumer Discretionary Sector UCITS ETF,LSE,ETF,TRADING212
+ICSU.L,iShares S\u0026P 500 Consumer Staples Sector UCITS ETF,LSE,ETF,TRADING212
+IDJG.L,iShares Euro Total Market Growth Large UCITS ETF,LSE,ETF,TRADING212
+IDTG.L,iShares USD Treasury Bond 20+yr UCITS ETF,LSE,ETF,TRADING212
+IDVY.L,iShares Euro Dividend UCITS ETF,LSE,ETF,TRADING212
+IE1G.L,iShares EUR Corp Bond 1-5yr UCITS ETF,LSE,ETF,TRADING212
+IEAH.L,iShares Core EUR Corp Bond UCITS ETF,LSE,ETF,TRADING212
+IEBC.L,iShares Core EUR Corp Bond UCITS ETF,LSE,ETF,TRADING212
+IEEM.L,iShares MSCI EM UCITS ETF USD Dist,LSE,ETF,TRADING212
+IEER.L,iShares MSCI Eastern Europe Capped UCITS ETF,LSE,ETF,TRADING212
+IEFM.L,iShares Edge MSCI Europe Momentum Factor UCITS ETF,LSE,ETF,TRADING212
+IEFQ.L,iShares Edge MSCI Europe Quality Factor UCITS ETF,LSE,ETF,TRADING212
+IEFS.L,iShares Edge MSCI Europe Size Factor UCITS ETF,LSE,ETF,TRADING212
+IEFV.L,iShares Edge MSCI Europe Value Factor UCITS ETF,LSE,ETF,TRADING212
+IEMI.L,iShares EM Infrastructure UCITS ETF,LSE,ETF,TRADING212
+IESG.L,iShares MSCI Europe SRI UCITS ETF,LSE,ETF,TRADING212
+IESU.L,iShares S\u0026P 500 Energy Sector UCITS ETF,LSE,ETF,TRADING212
+IEUX.L,iShares MSCI Europe ex-UK UCITS ETF,LSE,ETF,TRADING212
+IFFF.L,iShares plc - iShares MSCI AC Far East ex-Japan UCITS ETF,LSE,ETF,TRADING212
+IGBE.L,Invesco GBP Corporate Bond ESG UCITS ETF,LSE,ETF,TRADING212
+IGCB.L,Invesco GBP Corporate Bond UCITS ETF,LSE,ETF,TRADING212
+IGHY.L,iShares Global High Yield Corp Bond UCITS ETF,LSE,ETF,TRADING212
+IGL5.L,iShares UK Gilts 0-5yr UCITS ETF,LSE,ETF,TRADING212
+IGLG.L,iShares Physical Gold GBP Hedged ETC,LSE,ETF,TRADING212
+IGLH.L,iShares Global Govt Bond UCITS ETF,LSE,ETF,TRADING212
+IGLS.L,iShares UK Gilts 0-5yr UCITS ETF,LSE,ETF,TRADING212
+IGLT.L,iShares Core UK Gilts UCITS ETF,LSE,ETF,TRADING212
+IGSD.L,iShares USD Short Duration Corp Bond UCITS ETF,LSE,ETF,TRADING212
+IGSG.L,iShares Dow Jones Global Sustainability Screened UCITS ETF,LSE,ETF,TRADING212
+IGTM.L,iShares USD Treasury Bond 7-10yr UCITS ETF,LSE,ETF,TRADING212
+IGUS.L,iShares S\u0026P 500 GBP Hedged UCITS ETF Acc,LSE,ETF,TRADING212
+IGWD.L,iShares MSCI World GBP Hedged UCITS ETF Acc,LSE,ETF,TRADING212
+IH2O.L,iShares Global Water UCITS ETF,LSE,ETF,TRADING212
+IHCU.L,iShares S\u0026P 500 Health Care Sector UCITS ETF,LSE,ETF,TRADING212
+IHHG.L,iShares USD High Yield Corp Bond UCITS ETF,LSE,ETF,TRADING212
+IIND.L,iShares MSCI India UCITS ETF,LSE,ETF,TRADING212
+IISU.L,iShares S\u0026P 500 Industrials Sector UCITS ETF,LSE,ETF,TRADING212
+IITU.L,iShares S\u0026P 500 Information Technology Sector UCITS ETF,LSE,ETF,TRADING212
+IJPH.L,iShares MSCI Japan GBP Hedged UCITS ETF Acc,LSE,ETF,TRADING212
+IJPN.L,iShares MSCI Japan UCITS ETF USD Dist,LSE,ETF,TRADING212
+IKOR.L,iShares MSCI Korea UCITS ETF USD Dist,LSE,ETF,TRADING212
+IMEU.L,iShares Core MSCI Europe UCITS ETF,LSE,ETF,TRADING212
+IMGP.L,iShares US Mortgage Backed Securities UCITS ETF,LSE,ETF,TRADING212
+IMIB.L,iShares FTSE MIB UCITS ETF EUR Dist,LSE,ETF,TRADING212
+IMSU.L,iShares S\u0026P 500 Materials Sector UCITS ETF,LSE,ETF,TRADING212
+IMV.L,iShares Edge MSCI Europe Minimum Volatility UCITS ETF,LSE,ETF,TRADING212
+INAA.L,iShares MSCI North America UCITS ETF,LSE,ETF,TRADING212
+INDU.L,WisdomTree Industrial Metals,LSE,ETF,TRADING212
+INFR.L,iShares Global Infrastructure UCITS ETF,LSE,ETF,TRADING212
+INMG.L,UBS ETC linked to the UBS Bloomberg CMCI Industrial Metals GBP Mth Hdg TR,LSE,ETF,TRADING212
+INRG.L,iShares Global Clean Energy UCITS ETF,LSE,ETF,TRADING212
+INTL.L,WisdomTree Artificial Intelligence UCITS ETF,LSE,ETF,TRADING212
+INXG.L,iShares GBP Index-Linked Gilts UCITS ETF,LSE,ETF,TRADING212
+IPRP.L,iShares European Property Yield UCITS ETF,LSE,ETF,TRADING212
+IPRV.L,iShares Listed Private Equity UCITS ETF,LSE,ETF,TRADING212
+IS15.L,iShares GBP Corp Bond 0-5yr UCITS ETF,LSE,ETF,TRADING212
+ISFE.L,iShares MSCI AC Far East ex-Japan Small Cap UCITS ETF,LSE,ETF,TRADING212
+ISFR.L,iShares MSCI France UCITS ETF,LSE,ETF,TRADING212
+ISF.L,iShares plc - iShares Core FTSE 100 UCITS ETF,LSE,ETF,TRADING212
+ISJP.L,iShares MSCI Japan Small Cap UCITS ETF,LSE,ETF,TRADING212
+ISP6.L,iShares S\u0026P Small Cap 600 UCITS ETF,LSE,ETF,TRADING212
+ISPE.L,iShares S\u0026P 500 Equal Weight UCITS ETF,LSE,ETF,TRADING212
+ISPY.L,L\u0026G Cyber Security UCITS ETF,LSE,ETF,TRADING212
+ISUS.L,iShares MSCI USA Islamic UCITS ETF,LSE,ETF,TRADING212
+ISWD.L,iShares MSCI World Islamic UCITS ETF,LSE,ETF,TRADING212
+ISXF.L,iShares GBP Corp Bond ex-Financials UCITS ETF,LSE,ETF,TRADING212
+ITEB.L,iShares Italy Govt Bond UCITS ETF,LSE,ETF,TRADING212
+ITEP.L,HAN-GINS Tech Megatrend Equal Weight UCITS ETF,LSE,ETF,TRADING212
+ITKY.L,iShares MSCI Turkey UCITS ETF,LSE,ETF,TRADING212
+ITPG.L,iShares USD TIPS UCITS ETF,LSE,ETF,TRADING212
+ITPS.L,iShares USD TIPS UCITS ETF,LSE,ETF,TRADING212
+ITWN.L,iShares MSCI Taiwan UCITS ETF,LSE,ETF,TRADING212
+IUGA.L,iShares US Aggregate Bond UCITS ETF,LSE,ETF,TRADING212
+IUKD.L,iShares UK Dividend UCITS ETF,LSE,ETF,TRADING212
+IUKP.L,iShares UK Property UCITS ETF,LSE,ETF,TRADING212
+IUMF.L,iShares Edge MSCI USA Momentum Factor UCITS ETF,LSE,ETF,TRADING212
+IUQF.L,iShares Edge MSCI USA Quality Factor UCITS ETF,LSE,ETF,TRADING212
+IUSA.L,iShares Core S\u0026P 500 UCITS ETF USD Dist,LSE,ETF,TRADING212
+IUSF.L,iShares Edge MSCI USA Size Factor UCITS ETF,LSE,ETF,TRADING212
+IUSP.L,iShares US Property Yield UCITS ETF,LSE,ETF,TRADING212
+IUSU.L,iShares S\u0026P 500 Utilities Sector UCITS ETF,LSE,ETF,TRADING212
+IUVF.L,iShares Edge MSCI USA Value Factor UCITS ETF,LSE,ETF,TRADING212
+IWDG.L,iShares Core MSCI World UCITS ETF,LSE,ETF,TRADING212
+IWDP.L,iShares Developed Markets Property Yield UCITS ETF,LSE,ETF,TRADING212
+IWFM.L,iShares Edge MSCI World Momentum Factor UCITS ETF,LSE,ETF,TRADING212
+IWFQ.L,iShares Edge MSCI World Quality Factor UCITS ETF,LSE,ETF,TRADING212
+IWFS.L,iShares IV plc - iShares Edge MSCI World Size Factor UCITS ETF,LSE,ETF,TRADING212
+IWFV.L,iShares Edge MSCI World Value Factor UCITS ETF,LSE,ETF,TRADING212
+IWRD.L,iShares MSCI World UCITS ETF,LSE,ETF,TRADING212
+IWVG.L,iShares Edge MSCI World Value Factor UCITS ETF,LSE,ETF,TRADING212
+JARI.L,Amundi Index MSCI Japan SRI PAB ETF,LSE,ETF,TRADING212
+JETP.L,US Global Jets UCITS ETF,LSE,ETF,TRADING212
+JG15.L,JPMorgan BetaBuilders UK Gilt 1-5 YR UCITS ETF,LSE,ETF,TRADING212
+JGST.L,JPMorgan GBP Ultra-Short Income UCITS ETF,LSE,ETF,TRADING212
+JNKS.L,SPDR Bloomberg SASB U.S. High Yield Corporate ESG UCITS ETF,LSE,ETF,TRADING212
+JPGB.L,WisdomTree Short JPY Long GBP,LSE,ETF,TRADING212
+JPJP.L,SPDR MSCI Japan UCITS ETF,LSE,ETF,TRADING212
+JPLG.L,JPMorgan Global Equity Multi-Factor UCITS ETF,LSE,ETF,TRADING212
+JPNL.L,Amundi Japan TOPIX II UCITS ETF,LSE,ETF,TRADING212
+JPSG.L,iShares IV Public Limited Company - iShares MSCI Japan SRI UCITS ETF USD,LSE,ETF,TRADING212
+KLWD.L,WisdomTree Cloud Computing UCITS ETF,LSE,ETF,TRADING212
+KOIP.L,ETC Group Digital Assets And Blockchain Equity UCITS ETF,LSE,ETF,TRADING212
+KROG.L,Global X Agtech \u0026 Food Innovation UCITS ETF,LSE,ETF,TRADING212
+KWBP.L,KraneShares CSI China Internet UCITS ETF,LSE,ETF,TRADING212
+L100.L,Amundi FTSE 100 UCITS ETF,LSE,ETF,TRADING212
+LAZG.L,L\u0026G Optical Technology \u0026 Photonics ESG Exclusions UCITS ETF,LSE,ETF,TRADING212
+LCAL.L,Amundi MSCI Emerging Asia II UCITS ETF,LSE,ETF,TRADING212
+LCRP.L,SPDR Bloomberg 10+ Year U.S. Corporate Bond UCITS ETF,LSE,ETF,TRADING212
+LCUK.L,Lyxor Core UK Equity All Cap DR UCITS ETF,LSE,ETF,TRADING212
+LCWL.L,Amundi MSCI World V UCITS ETF,LSE,ETF,TRADING212
+LDAG.L,L\u0026G Quality Equity Dividends ESG Exclusions Asia Pacific ex-Japan UCITS ETF,LSE,ETF,TRADING212
+LDEG.L,L\u0026G Quality Equity Dividends ESG Exclusions Europe ex-UK UCITS ETF,LSE,ETF,TRADING212
+LDUK.L,L\u0026G Quality Equity Dividends ESG Exclusions UK UCITS ETF,LSE,ETF,TRADING212
+LGAG.L,L\u0026G Asia Pacific ex Japan Equity UCITS ETF,LSE,ETF,TRADING212
+LGCF.L,Invesco Commodity Composite UCITS ETF,LSE,ETF,TRADING212
+LGEG.L,L\u0026G Europe ex UK Equity UCITS ETF,LSE,ETF,TRADING212
+LGGG.L,L\u0026G Global Equity UCITS ETF,LSE,ETF,TRADING212
+LGJG.L,L\u0026G Japan Equity UCITS ETF,LSE,ETF,TRADING212
+LGUK.L,L\u0026G UK Equity UCITS ETF,LSE,ETF,TRADING212
+LITG.L,Global X Lithium \u0026 Battery Tech UCITS ETF,LSE,ETF,TRADING212
+LIVP.L,UBS ETC linked to the UBS Bloomberg CMCI Livestock GBP Mth Hdg TR,LSE,ETF,TRADING212
+LQDG.L,iShares USD Corp Bond Interest Rate Hedged UCITS ETF,LSE,ETF,TRADING212
+LQDS.L,iShares USD Corp Bond UCITS ETF,LSE,ETF,TRADING212
+LQGH.L,iShares USD Corp Bond UCITS ETF,LSE,ETF,TRADING212
+LTAM.L,iShares MSCI EM Latin America UCITS ETF,LSE,ETF,TRADING212
+LUXG.L,Amundi S\u0026P Global Luxury UCITS ETF,LSE,ETF,TRADING212
+LVNG.L,Rize Environmental Impact 100 UCITS ETF,LSE,ETF,TRADING212
+MACG.L,BlackRock ESG Multi-Asset Conservative Portfolio UCITS ETF,LSE,ETF,TRADING212
+MAGG.L,BlackRock ESG Multi-Asset Growth Portfolio UCITS ETF,LSE,ETF,TRADING212
+MAMG.L,BlackRock ESG Multi-Asset Moderate Portfolio UCITS ETF,LSE,ETF,TRADING212
+MCHS.L,Invesco MSCI China All Shares Stock Connect UCITS ETF,LSE,ETF,TRADING212
+MCTS.L,Invesco MSCI China Technology All Shares Stock Connect UCITS ETF,LSE,ETF,TRADING212
+METP.L,ETC Group Global Metaverse UCITS ETF,LSE,ETF,TRADING212
+MEUD.L,Lyxor Core STOXX Europe 600 DR,LSE,ETF,TRADING212
+MEXP.L,Finamex Mexico S\u0026 P/BMV International UMS Sovereign Bond 5-10yr UCITS ETF,LSE,ETF,TRADING212
+MIDD.L,iShares FTSE 250 UCITS ETF,LSE,ETF,TRADING212
+MINV.L,iShares Edge MSCI World Minimum Volatility UCITS ETF,LSE,ETF,TRADING212
+MOGB.L,VanEck Morningstar US Sustainable Wide Moat UCITS ETF,LSE,ETF,TRADING212
+MSAP.L,Invesco MSCI Saudi Arabia UCITS ETF,LSE,ETF,TRADING212
+MSDG.L,Amundi Index MSCI Emerging Markets SRI PAB ETF,LSE,ETF,TRADING212
+MSRG.L,Amundi Index MSCI Emerging Markets SRI PAB ETF,LSE,ETF,TRADING212
+MUNS.L,Invesco US Municipal Bond UCITS ETF,LSE,ETF,TRADING212
+MVEA.L,iShares MSCI USA Minimum Volatility ESG UCITS ETF,LSE,ETF,TRADING212
+MVEE.L,iShares MSCI Europe Minimum Volatility ESG UCITS ETF,LSE,ETF,TRADING212
+MVEW.L,iShares Edge MSCI World Minimum Volatility ESG UCITS ETF,LSE,ETF,TRADING212
+MVUS.L,iShares Edge S\u0026P 500 Minimum Volatility UCITS ETF,LSE,ETF,TRADING212
+MXUK.L,Invesco MSCI Europe ex-UK UCITS ETF,LSE,ETF,TRADING212
+MXWS.L,Invesco MSCI World UCITS ETF,LSE,ETF,TRADING212
+NASL.L,Amundi Nasdaq-100 II UCITS ETF,LSE,ETF,TRADING212
+NATP.L,Future of Defence UCITS ETF,LSE,ETF,TRADING212
+NGAG.L,UBS ETC linked to the UBS Bloomberg CMCI Components Natural Gas GBP Mth Hdg TR,LSE,ETF,TRADING212
+NGSP.L,WisdomTree Natural Gas,LSE,ETF,TRADING212
+NRGT.L,WisdomTree Energy Transition Metals,LSE,ETF,TRADING212
+NRJL.L,Amundi MSCI New Energy ESG Screened UCITS ETF,LSE,ETF,TRADING212
+NUCG.L,VanEck Uranium and Nuclear Technologies UCITS ETF,LSE,ETF,TRADING212
+OILG.L,UBS ETC linked to the UBS Bloomberg CMCI Components WTI Crude Oil GBP Mth Hdg TR,LSE,ETF,TRADING212
+OMXS.L,iShares OMX Stockholm Capped UCITS ETF,LSE,ETF,TRADING212
+PADV.L,SPDR S\u0026P Pan Asia Dividend Aristocrats UCITS ETF,LSE,ETF,TRADING212
+PAVG.L,Global X US Infrastructure Development UCITS ETF,LSE,ETF,TRADING212
+PAYG.L,Rize Digital Payments Economy UCITS ETF,LSE,ETF,TRADING212
+PBRT.L,WisdomTree Brent Crude Oil - GBP Daily Hedged,LSE,ETF,TRADING212
+PCRD.L,WisdomTree WTI Crude Oil - GBP Daily Hedged,LSE,ETF,TRADING212
+PHGP.L,WisdomTree Physical Gold,LSE,ETF,TRADING212
+PHPP.L,WisdomTree Physical Precious Metals,LSE,ETF,TRADING212
+PHSP.L,WisdomTree Physical Silver,LSE,ETF,TRADING212
+PIGI.L,Digital Infrastructure \u0026 Connectivity UCITS ETF,LSE,ETF,TRADING212
+PIMT.L,WisdomTree Industrial Metals - GBP Daily Hedged,LSE,ETF,TRADING212
+PMLP.L,Alerian Midstream Energy Dividend UCITS ETF,LSE,ETF,TRADING212
+PPDX.L,WisdomTree Physical Palladium,LSE,ETF,TRADING212
+PPTX.L,WisdomTree Physical Platinum,LSE,ETF,TRADING212
+PQVG.L,Invesco S\u0026P 500 QVM UCITS ETF,LSE,ETF,TRADING212
+PRIW.L,Amundi Prime Global UCITS ETF DR,LSE,ETF,TRADING212
+PRMG.L,UBS ETC linked to the UBS Bloomberg CMCI Precious Metals GBP Mth Hdg TR,LSE,ETF,TRADING212
+PRUK.L,Amundi Prime UK Mid \u0026 Small Cap,LSE,ETF,TRADING212
+PSRE.L,Invesco FTSE RAFI Europe UCITS ETF,LSE,ETF,TRADING212
+PSRF.L,Invesco FTSE RAFI US 1000 UCITS ETF,LSE,ETF,TRADING212
+PSRM.L,Invesco FTSE RAFI Emerging Markets UCITS ETF,LSE,ETF,TRADING212
+PSRU.L,Invesco FTSE RAFI UK 100 UCITS ETF,LSE,ETF,TRADING212
+PSRW.L,Invesco FTSE RAFI All World 3000 UCITS ETF,LSE,ETF,TRADING212
+QCLN.L,First Trust Nasdaq Clean Edge Green Energy UCITS ETF,LSE,ETF,TRADING212
+QDFD.L,FlexShares Developed Markets High Dividend Climate ESG UCITS ETF,LSE,ETF,TRADING212
+QUID.L,PIMCO Sterling Short Maturity UCITS ETF,LSE,ETF,TRADING212
+QVFD.L,FlexShares Developed Markets Low Volatility Climate ESG UCITS ETF,LSE,ETF,TRADING212
+QYLP.L,Global X Nasdaq 100 Covered Call UCITS ETF,LSE,ETF,TRADING212
+R2SC.L,SPDR Russell 2000 U.S. Small Cap UCITS ETF,LSE,ETF,TRADING212
+RAYG.L,Global X Solar UCITS ETF,LSE,ETF,TRADING212
+RAYS.L,Invesco Solar Energy UCITS ETF,LSE,ETF,TRADING212
+RBTX.L,iShares Automation \u0026 Robotics UCITS ETF,LSE,ETF,TRADING212
+RDANGBP.L,ADAetc - ETC Group Physical Cardano,LSE,ETF,TRADING212
+RECY.L,WisdomTree Recycling Decarbonisation UCITS ETF,LSE,ETF,TRADING212
+REGB.L,VanEck Rare Earth and Strategic Metals UCITS ETF,LSE,ETF,TRADING212
+RENG.L,L\u0026G Clean Energy UCITS ETF,LSE,ETF,TRADING212
+REUG.L,Vaneck Circular Economy UCITS ETF,LSE,ETF,TRADING212
+RISE.L,iShares Fallen Angels High Yield Corp Bond UCITS ETF,LSE,ETF,TRADING212
+RMAP.L,Royal Mint Responsibly Sourced Physical Gold ETC,LSE,ETF,TRADING212
+RNRU.L,Global X Renewable Energy Producers UCITS ETF,LSE,ETF,TRADING212
+ROLG.L,iShares Bloomberg Enhanced Roll Yield Commodity Swap UCITS ETF,LSE,ETF,TRADING212
+RSGL.L,Amundi Russell 1000 Growth UCITS ETF,LSE,ETF,TRADING212
+RTWP.L,L\u0026G Russell 2000 SM CAP Quality,LSE,ETF,TRADING212
+S100.L,Invesco FTSE 100 UCITS ETF,LSE,ETF,TRADING212
+S250.L,Invesco FTSE 250 UCITS ETF,LSE,ETF,TRADING212
+S2HGBA.L,UBS Lux Fund Solutions - MSCI Switzerland 20/35 UCITS ETF,LSE,ETF,TRADING212
+S400.L,Invesco JPX-Nikkei 400 UCITS ETF,LSE,ETF,TRADING212
+SAAA.L,iShares Global AAA-AA Govt Bond UCITS ETF,LSE,ETF,TRADING212
+SAEU.L,iShares MSCI Europe ESG Screened UCITS ETF,LSE,ETF,TRADING212
+SAGG.L,iShares Core Global Aggregate Bond UCITS ETF,LSE,ETF,TRADING212
+SAUM.L,iShares MSCI EMU ESG Screened UCITS ETF,LSE,ETF,TRADING212
+SAUS.L,iShares MSCI Australia UCITS ETF,LSE,ETF,TRADING212
+SBEM.L,UBS Lux Fund Solutions - Bloomberg USD Emerging Markets Sovereign UCITS ETF,LSE,ETF,TRADING212
+SDEU.L,iShares Germany Govt Bond UCITS ETF,LSE,ETF,TRADING212
+SDGH.L,iShares USD Short Duration Corp Bond UCITS ETF,LSE,ETF,TRADING212
+SDHG.L,iShares USD Short Duration High Yield Corp Bond UCITS ETF,LSE,ETF,TRADING212
+SDIP.L,Global X Superdividend UCITS ETF,LSE,ETF,TRADING212
+SDUE.L,iShares MSCI Europe ESG Screened UCITS ETF,LSE,ETF,TRADING212
+SE15.L,iShares EUR Corp Bond 1-5yr UCITS ETF,LSE,ETF,TRADING212
+SEAG.L,iShares EUR Aggregate Bond ESG UCITS ETF,LSE,ETF,TRADING212
+SEDY.L,iShares EM Dividend UCITS ETF,LSE,ETF,TRADING212
+SEGA.L,iShares Core EUR Govt Bond UCITS ETF,LSE,ETF,TRADING212
+SEGM.L,iShares MSCI EM IMI ESG Screened UCITS ETF,LSE,ETF,TRADING212
+SEMA.L,iShares MSCI EM UCITS ETF USD Acc,LSE,ETF,TRADING212
+SEMB.L,iShares J.P. Morgan USD EM Bond UCITS ETF,LSE,ETF,TRADING212
+SEMH.L,SPDR ICE BofA 0-5 Year EM USD Government Bond UCITS ETF,LSE,ETF,TRADING212
+SEML.L,iShares JP Morgan EM Local Government Bond UCITS ETF,LSE,ETF,TRADING212
+SETP.L,Sprott Energy Transition Materials UCITS ETF,LSE,ETF,TRADING212
+SGBX.L,WisdomTree Physical Swiss Gold,LSE,ETF,TRADING212
+SGEA.L,iShares Emerging Asia Local Govt Bond UCITS ETF,LSE,ETF,TRADING212
+SGIL.L,iShares Global Inflation Linked Govt Bond UCITS ETF,LSE,ETF,TRADING212
+SGJP.L,iShares MSCI Japan ESG Screened UCITS ETF,LSE,ETF,TRADING212
+SGLN.L,iShares Physical Gold ETC,LSE,ETF,TRADING212
+SGLO.L,iShares Global Govt Bond UCITS ETF,LSE,ETF,TRADING212
+SGLP.L,Invesco Physical Gold ETC,LSE,ETF,TRADING212
+SGLS.L,Invesco Physical Gold GBP Hedged ETC,LSE,ETF,TRADING212
+SGSU.L,iShares USD Corp Bond 0-3yr ESG UCITS ETF,LSE,ETF,TRADING212
+SGWS.L,iShares MSCI World SRI UCITS ETF,LSE,ETF,TRADING212
+SHLG.L,iShares Digital Security UCITS ETF,LSE,ETF,TRADING212
+SHYG.L,iShares EUR High Yield Corp Bond UCITS ETF,LSE,ETF,TRADING212
+SHYU.L,iShares USD High Yield Corp Bond UCITS ETF,LSE,ETF,TRADING212
+SILG.L,Global X Silver Miners UCITS ETF,LSE,ETF,TRADING212
+SJPA.L,iShares Core MSCI Japan IMI UCITS ETF,LSE,ETF,TRADING212
+SKYP.L,HAN-GINS Cloud Technology Equal Weight UCITS ETF,LSE,ETF,TRADING212
+SLVP.L,Invesco Physical Silver ETC,LSE,ETF,TRADING212
+SLXX.L,iShares Core GBP Corp Bond UCITS ETF,LSE,ETF,TRADING212
+SMBS.L,iShares US Mortgage Backed Securities UCITS ETF,LSE,ETF,TRADING212
+SMEA.L,iShares Core MSCI Europe UCITS ETF EUR Acc,LSE,ETF,TRADING212
+SMGB.L,VanEck Semiconductor UCITS ETF,LSE,ETF,TRADING212
+SMUD.L,iShares MSCI EMU ESG Screened UCITS ETF,LSE,ETF,TRADING212
+SNGB.L,iShares JP Morgan USD EM Corp Bond UCITS ETF,LSE,ETF,TRADING212
+SNSG.L,Global X Internet of Things UCITS ETF,LSE,ETF,TRADING212
+SPAG.L,iShares Agribusiness UCITS ETF,LSE,ETF,TRADING212
+SPDM.L,iShares Physical Palladium ETC,LSE,ETF,TRADING212
+SPEP.L,Invesco Markets PLC - Invesco S\u0026P 500 ESG UCITS ETF,LSE,ETF,TRADING212
+SPES.L,Invesco S\u0026P 500 Equal Weight UCITS ETF,LSE,ETF,TRADING212
+SPEX.L,Invesco S\u0026P 500 Equal Weight UCITS ETF,LSE,ETF,TRADING212
+SPGP.L,iShares Gold Producers UCITS ETF,LSE,ETF,TRADING212
+SPLT.L,iShares Physical Platinum ETC,LSE,ETF,TRADING212
+SPOG.L,iShares Oil \u0026 Gas Exploration \u0026 Production UCITS ETF,LSE,ETF,TRADING212
+SPOL.L,iShares MSCI Poland UCITS ETF,LSE,ETF,TRADING212
+SPPB.L,iShares Spain Govt Bond UCITS ETF,LSE,ETF,TRADING212
+SPPP.L,Invesco Physical Platinum ETC,LSE,ETF,TRADING212
+SPX5.L,SPDR S\u0026P 500 UCITS ETF,LSE,ETF,TRADING212
+SPXJ.L,iShares III plc - iShares MSCI Pacific ex-Japan UCITS ETF,LSE,ETF,TRADING212
+SPXP.L,Invesco S\u0026P 500 UCITS ETF,LSE,ETF,TRADING212
+SRHE.L,AMUNDI INDEX MSCI EMU SRI PAB ETF,LSE,ETF,TRADING212
+SRSA.L,iShares MSCI South Africa UCITS ETF,LSE,ETF,TRADING212
+SRUG.L,UBS Irl ETF PLC - MSCI USA Socially Responsible UCITS ETF,LSE,ETF,TRADING212
+SSAC.L,iShares MSCI ACWI UCITS ETF,LSE,ETF,TRADING212
+SSHY.L,PIMCO US Short-Term High Yield Corporate Bond Index UCITS ETF,LSE,ETF,TRADING212
+SSLN.L,iShares Physical Silver ETC,LSE,ETF,TRADING212
+STHS.L,PIMCO US Short-Term High Yield Corporate Bond Index UCITS ETF,LSE,ETF,TRADING212
+STPH.L,Amundi US Curve steepening 2-10Y UCITS ETF,LSE,ETF,TRADING212
+SUAG.L,iShares US Aggregate Bond UCITS ETF,LSE,ETF,TRADING212
+SUAP.L,iShares MSCI USA SRI UCITS ETF,LSE,ETF,TRADING212
+SUES.L,iShares MSCI EM SRI UCITS ETF,LSE,ETF,TRADING212
+SUJA.L,iShares IV Public Limited Company - iShares MSCI Japan SRI UCITS ETF USD,LSE,ETF,TRADING212
+SUJS.L,iShares MSCI Japan SRI EUR Hedged UCITS ETF Acc,LSE,ETF,TRADING212
+SUKC.L,SPDR Bloomberg 0-5 Year Sterling Corporate Bond UCITS ETF,LSE,ETF,TRADING212
+SUOG.L,iShares EUR Corp Bond ESG UCITS ETF,LSE,ETF,TRADING212
+SUOP.L,iShares USD Corp Bond ESG UCITS ETF,LSE,ETF,TRADING212
+SUSD.L,SPDR Bloomberg 0-3 Year U.S. Corporate Bond UCITS ETF,LSE,ETF,TRADING212
+SUSS.L,iShares EUR Corp Bond 0-3yr ESG UCITS ETF,LSE,ETF,TRADING212
+SUUS.L,iShares MSCI USA SRI UCITS ETF,LSE,ETF,TRADING212
+SUWG.L,iShares MSCI World SRI UCITS ETF,LSE,ETF,TRADING212
+SWDA.L,iShares Core MSCI World UCITS ETF,LSE,ETF,TRADING212
+SWLD.L,SPDR MSCI World UCITS ETF,LSE,ETF,TRADING212
+TANP.L,Solar Energy UCITS ETF,LSE,ETF,TRADING212
+TDGB.L,VanEck Morningstar Developed Markets Dividend Leaders UCITS ETF,LSE,ETF,TRADING212
+TECW.L,SPDR MSCI World Technology UCITS ETF,LSE,ETF,TRADING212
+TFRP.L,WisdomTree USD Floating Rate Treasury Bond UCITS ETF,LSE,ETF,TRADING212
+TI5G.L,iShares II plc - iShares $ Tips 0-5 UCITS ETF,LSE,ETF,TRADING212
+TIGG.L,L\u0026G India INR Government Bond UCITS ETF,LSE,ETF,TRADING212
+TIPG.L,Amundi US TIPS Government Inflation-Linked Bond UCITS ETF,LSE,ETF,TRADING212
+TP05.L,iShares II plc - iShares $ Tips 0-5 UCITS ETF,LSE,ETF,TRADING212
+TREG.L,VanEck Global Real Estate UCITS ETF,LSE,ETF,TRADING212
+TRIP.L,THE TRAVEL UCITS ETF,LSE,ETF,TRADING212
+TRIS.L,Invesco US Treasury Bond 0-1 Year UCITS ETF,LSE,ETF,TRADING212
+TSGB.L,VanEck Sustainable World Equal Weight UCITS ETF,LSE,ETF,TRADING212
+TSY3.L,SPDR Bloomberg 1-3 Year U.S. Treasury Bond UCITS ETF,LSE,ETF,TRADING212
+TURL.L,Lyxor MSCI Turkey UCITS ETF,LSE,ETF,TRADING212
+U71G.L,Amundi US Treasury Bond 7-10Y,LSE,ETF,TRADING212
+UC15.L,UBS ETF CMCI Composite SF UCITS ETF,LSE,ETF,TRADING212
+UC44.L,UBS Lux Fund Solutions - MSCI World Socially Responsible UCITS ETF,LSE,ETF,TRADING212
+UC46.L,UBS Lux Fund Solutions - MSCI USA Socially Responsible UCITS ETF,LSE,ETF,TRADING212
+UC96.L,UBS Irl ETF Plc - Factor MSCI USA Prime Value ESG UCITS ETF,LSE,ETF,TRADING212
+UC99.L,UBS Irl ETF plc - Factor MSCI USA Quality ESG UCITS ETF,LSE,ETF,TRADING212
+UESD.L,iShares GBP Ultrashort Bond ESG UCITS ETF,LSE,ETF,TRADING212
+UFOP.L,Procure Space UCITS ETF,LSE,ETF,TRADING212
+UGRW.L,WisdomTree UK Quality Dividend Growth UCITS ETF,LSE,ETF,TRADING212
+UIFS.L,iShares S\u0026P 500 Financials Sector UCITS ETF USD ACC,LSE,ETF,TRADING212
+UINC.L,First Trust US Equity Income UCITS ETF,LSE,ETF,TRADING212
+UKCO.L,SPDR Bloomberg Sterling Corporate Bond UCITS ETF,LSE,ETF,TRADING212
+UKDV.L,SPDR S\u0026P UK Dividend Aristocrats UCITS ETF,LSE,ETF,TRADING212
+UKEL.L,iShares MSCI UK IMI ESG Leaders UCITS ETF,LSE,ETF,TRADING212
+UKRE.L,iShares MSCI Target UK Real Estate UCITS ETF,LSE,ETF,TRADING212
+UKSR.L,UBS Irl ETF plc - MSCI United Kingdom IMI Socially Responsible UCITS ETF,LSE,ETF,TRADING212
+UQLTH.L,UBS Irl ETF plc - Factor MSCI USA Quality ESG UCITS ETF,LSE,ETF,TRADING212
+URGB.L,WisdomTree Short EUR Long GBP,LSE,ETF,TRADING212
+URND.L,Global X Uranium UCITS ETF,LSE,ETF,TRADING212
+URNG.L,Global X Uranium UCITS ETF,LSE,ETF,TRADING212
+URNP.L,Sprott Uranium Miners UCITS ETF,LSE,ETF,TRADING212
+USDG.L,L\u0026G ESG USD Corporate Bond UCITS ETF,LSE,ETF,TRADING212
+USDV.L,SPDR S\u0026P US Dividend Aristocrats UCITS ETF,LSE,ETF,TRADING212
+USFM.L,UBS Irl ETF plc - MSCI USA Select Factor Mix UCITS ETF,LSE,ETF,TRADING212
+USGB.L,WisdomTree Short USD Long GBP,LSE,ETF,TRADING212
+USLV.L,SPDR S\u0026P 500 Low Volatility UCITS ETF,LSE,ETF,TRADING212
+USTY.L,SPDR Bloomberg U.S. Treasury Bond UCITS ETF,LSE,ETF,TRADING212
+UTIP.L,SPDR Bloomberg U.S. TIPS UCITS ETF,LSE,ETF,TRADING212
+V3AB.L,Vanguard ESG Global All Cap UCITS ETF,LSE,ETF,TRADING212
+V3AM.L,Vanguard ESG Global All Cap UCITS ETF,LSE,ETF,TRADING212
+V3MB.L,Vanguard ESG Emerging Market All Cap UCITS ETF,LSE,ETF,TRADING212
+V3MM.L,Vanguard ESG Emerging Market All Cap UCITS ETF,LSE,ETF,TRADING212
+VAGP.L,Vanguard Global Aggregate Bond UCITS ETF,LSE,ETF,TRADING212
+VAGS.L,Vanguard Global Aggregate Bond UCITS ETF,LSE,ETF,TRADING212
+VALW.L,SPDR MSCI World Value UCITS ETF,LSE,ETF,TRADING212
+VAPX.L,Vanguard FTSE Developed Asia Pacific ex Japan UCITS ETF,LSE,ETF,TRADING212
+VCPA.L,Vanguard USD Corporate Bond UCITS ETF,LSE,ETF,TRADING212
+VDPG.L,Vanguard FTSE Developed Asia Pacific ex Japan UCITS ETF,LSE,ETF,TRADING212
+VECP.L,Vanguard EUR Corporate Bond UCITS ETF,LSE,ETF,TRADING212
+VEGB.L,Vaneck Sustainable Future of Food UCITS ETF,LSE,ETF,TRADING212
+VEMT.L,Vanguard USD Emerging Markets Government Bond UCITS ETF,LSE,ETF,TRADING212
+VERG.L,Vanguard FTSE Developed Europe ex UK UCITS ETF,LSE,ETF,TRADING212
+VERX.L,Vanguard FTSE Developed Europe ex UK UCITS ETF,LSE,ETF,TRADING212
+VETY.L,Vanguard EUR Eurozone Government Bond UCITS ETF,LSE,ETF,TRADING212
+VEUR.L,Vanguard FTSE Developed Europe UCITS ETF,LSE,ETF,TRADING212
+VEVE.L,Vanguard FTSE Developed World UCITS ETF,LSE,ETF,TRADING212
+VFEG.L,Vanguard FTSE Emerging Markets UCITS ETF,LSE,ETF,TRADING212
+VFEM.L,Vanguard FTSE Emerging Markets UCITS ETF,LSE,ETF,TRADING212
+VGER.L,Vanguard Germany All Cap UCITS ETF,LSE,ETF,TRADING212
+VGOV.L,Vanguard U.K. Gilt UCITS ETF,LSE,ETF,TRADING212
+VGPA.L,Vanguard USD Corporate Bond UCITS ETF,LSE,ETF,TRADING212
+VGVA.L,Vanguard U.K. Gilt UCITS ETF,LSE,ETF,TRADING212
+VHVG.L,Vanguard FTSE Developed World UCITS ETF,LSE,ETF,TRADING212
+VHYG.L,Vanguard FTSE All-World High Dividend Yield UCITS ETF,LSE,ETF,TRADING212
+VHYL.L,Vanguard FTSE All-World High Dividend Yield UCITS ETF,LSE,ETF,TRADING212
+VJPB.L,Vanguard FTSE Japan UCITS ETF,LSE,ETF,TRADING212
+VJPN.L,Vanguard FTSE Japan UCITS ETF,LSE,ETF,TRADING212
+VMID.L,Vanguard FTSE 250 UCITS ETF,LSE,ETF,TRADING212
+VMIG.L,Vanguard FTSE 250 UCITS ETF,LSE,ETF,TRADING212
+VNRG.L,Vanguard FTSE North America UCITS ETF,LSE,ETF,TRADING212
+VNRT.L,Vanguard FTSE North America UCITS ETF,LSE,ETF,TRADING212
+VPNG.L,Global X Data Center REITs \u0026 Digital Infrastructure UCITS ETF,LSE,ETF,TRADING212
+VUAG.L,Vanguard S\u0026P 500 UCITS ETF,LSE,ETF,TRADING212
+VUCP.L,Vanguard USD Corporate Bond UCITS ETF,LSE,ETF,TRADING212
+VUKE.L,Vanguard FTSE 100 UCITS ETF,LSE,ETF,TRADING212
+VUKG.L,Vanguard FTSE 100 UCITS ETF,LSE,ETF,TRADING212
+VUSA.L,Vanguard S\u0026P 500 UCITS ETF,LSE,ETF,TRADING212
+VUSC.L,Vanguard USD Corporate 1-3 Year Bond UCITS ETF,LSE,ETF,TRADING212
+VUTA.L,Vanguard USD Treasury Bond UCITS ETF,LSE,ETF,TRADING212
+VUTY.L,Vanguard USD Treasury Bond UCITS ETF,LSE,ETF,TRADING212
+VWRL.L,Vanguard FTSE All-World UCITS ETF,LSE,ETF,TRADING212
+VWRP.L,Vanguard FTSE All-World UCITS ETF,LSE,ETF,TRADING212
+WATL.L,Amundi MSCI Water ESG Screened UCITS ETF,LSE,ETF,TRADING212
+WBIO.L,Wisdomtree Biorevolution UCITS ETF,LSE,ETF,TRADING212
+WCCP.L,WisdomTree California Carbon,LSE,ETF,TRADING212
+WCOB.L,Wisdomtree Enhanced Commodity UCITS ETF,LSE,ETF,TRADING212
+WCOG.L,Wisdomtree Enhanced Commodity UCITS ETF,LSE,ETF,TRADING212
+WCOM.L,Wisdomtree Enhanced Commodity UCITS ETF,LSE,ETF,TRADING212
+WEAP.L,WisdomTree Wheat,LSE,ETF,TRADING212
+WELP.L,HAN-GINS Indxx Healthcare Megatrend Equal Weight UCITS ETF,LSE,ETF,TRADING212
+WENS.L,iShares MSCI World Energy Sector UCITS ETF,LSE,ETF,TRADING212
+WIGG.L,iShares Fallen Angels High Yield Corp Bond UCITS ETF,LSE,ETF,TRADING212
+WLDS.L,Ishares III PLC - Ishares Msci World Small Cap UCITS ETF,LSE,ETF,TRADING212
+WMGG.L,WisdomTree Megatrends UCITS ETF,LSE,ETF,TRADING212
+WMVG.L,iShares Edge MSCI World Minimum Volatility UCITS ETF,LSE,ETF,TRADING212
+WNDG.L,Global X Wind Energy UCITS ETF,LSE,ETF,TRADING212
+WNEW.L,WisdomTree New Economy Real Estate UCITS ETF,LSE,ETF,TRADING212
+WOOD.L,iShares Global Timber \u0026 Forestry UCITS ETF,LSE,ETF,TRADING212
+WOSC.L,SPDR MSCI World Small Cap UCITS ETF,LSE,ETF,TRADING212
+WQDS.L,iShares MSCI World Quality Dividend ESG UCITS ETF,LSE,ETF,TRADING212
+WREN.L,WisdomTree Renewable Energy UCITS ETF,LSE,ETF,TRADING212
+WSRI.L,Amundi Index MSCI World SRI PAB ETF,LSE,ETF,TRADING212
+WTEF.L,WisdomTree US Efficient Core UCITS ETF,LSE,ETF,TRADING212
+WTIB.L,WisdomTree Bloomberg WTI Crude Oil,LSE,ETF,TRADING212
+WTNR.L,WisdomTree New Economy Real Estate UCITS ETF,LSE,ETF,TRADING212
+WUKD.L,WisdomTree UK Equity Income UCITS ETF,LSE,ETF,TRADING212
+XCX4.L,Xtrackers MSCI Thailand UCITS ETF,LSE,ETF,TRADING212
+XCX5.L,Xtrackers MSCI India Swap UCITS ETF,LSE,ETF,TRADING212
+XDEM.L,Xtrackers MSCI World Momentum UCITS ETF,LSE,ETF,TRADING212
+XDEQ.L,Xtrackers MSCI World Quality UCITS ETF,LSE,ETF,TRADING212
+XDER.L,Xtrackers FTSE Developed Europe Real Estate UCITS ETF,LSE,ETF,TRADING212
+XDEV.L,Xtrackers MSCI World Value UCITS ETF,LSE,ETF,TRADING212
+XDEX.L,Xtrackers MSCI Emerging Markets ESG Screened UCITS ETF,LSE,ETF,TRADING212
+XDJP.L,Xtrackers Nikkei 225 UCITS ETF,LSE,ETF,TRADING212
+XDN0.L,Xtrackers MSCI Nordic UCITS ETF,LSE,ETF,TRADING212
+XDPG.L,Xtrackers S\u0026P 500 UCITS ETF,LSE,ETF,TRADING212
+XDUS.L,Xtrackers MSCI USA UCITS ETF,LSE,ETF,TRADING212
+XESX.L,Xtrackers Euro Stoxx 50 UCITS ETF,LSE,ETF,TRADING212
+XFSN.L,Xtrackers MSCI Fintech Innovation UCITS ETF,LSE,ETF,TRADING212
+XFVT.L,Xtrackers FTSE Vietnam Swap UCITS ETF,LSE,ETF,TRADING212
+XG7S.L,Xtrackers II Global Government Bond UCITS ETF,LSE,ETF,TRADING212
+XGDG.L,Xtrackers IE Physical Gold GBP Hedged ETC Securities,LSE,ETF,TRADING212
+XGLS.L,Xtrackers Physical Gold GBP Hedged ETC,LSE,ETF,TRADING212
+XGSD.L,Xtrackers Stoxx Global Select Dividend 100 Swap UCITS ETF,LSE,ETF,TRADING212
+XLEP.L,Invesco Energy S\u0026P US Select Sector UCITS ETF,LSE,ETF,TRADING212
+XLFQ.L,Invesco Financials S\u0026P US Select Sector UCITS ETF,LSE,ETF,TRADING212
+XLKQ.L,Invesco Technology S\u0026P US Select Sector UCITS ETF,LSE,ETF,TRADING212
+XLPE.L,Xtrackers LPX Private Equity Swap UCITS ETF,LSE,ETF,TRADING212
+XMCX.L,Xtrackers FTSE 250 UCITS ETF,LSE,ETF,TRADING212
+XMEM.L,Xtrackers MSCI Emerging Markets Swap UCITS ETF,LSE,ETF,TRADING212
+XMID.L,Xtrackers MSCI Indonesia Swap UCITS ETF,LSE,ETF,TRADING212
+XNAQ.L,Xtrackers NASDAQ 100 UCITS ETF,LSE,ETF,TRADING212
+XNGS.L,Xtrackers MSCI Next Generation Internet Innovation UCITS ETF,LSE,ETF,TRADING212
+XNIF.L,Xtrackers Nifty 50 Swap UCITS ETF,LSE,ETF,TRADING212
+XREP.L,Invesco Real Estate S\u0026P US Select Sector UCITS ETF,LSE,ETF,TRADING212
+XRSG.L,Xtrackers Russell 2000 UCITS ETF,LSE,ETF,TRADING212
+XS6R.L,Xtrackers MSCI Europe Utilities ESG Screened UCITS ETF,LSE,ETF,TRADING212
+XSCS.L,Xtrackers MSCI USA Consumer Staples UCITS ETF,LSE,ETF,TRADING212
+XSEN.L,Xtrackers MSCI USA Energy UCITS ETF,LSE,ETF,TRADING212
+XSFN.L,Xtrackers MSCI USA Financials UCITS ETF,LSE,ETF,TRADING212
+XSHC.L,Xtrackers MSCI USA Health Care UCITS ETF,LSE,ETF,TRADING212
+XSOP.L,WisdomTree Emerging Markets ex-State Owned Enterprises UCITS ETF,LSE,ETF,TRADING212
+XSPS.L,Xtrackers S\u0026P 500 Inverse Daily Swap UCITS ETF,LSE,ETF,TRADING212
+XSPX.L,Xtrackers S\u0026P 500 Swap UCITS ETF,LSE,ETF,TRADING212
+XSTC.L,Xtrackers MSCI USA Information Technology UCITS ETF,LSE,ETF,TRADING212
+XSTR.L,Xtrackers II GBP Overnight Rate Swap UCITS ETF,LSE,ETF,TRADING212
+XSX6.L,Xtrackers Stoxx Europe 600 UCITS ETF,LSE,ETF,TRADING212
+XT01.L,Xtrackers US Treasuries Ultrashort Bond UCITS ETF,LSE,ETF,TRADING212
+XUEK.L,Xtrackers S\u0026P Europe ex UK UCITS ETF,LSE,ETF,TRADING212
+XUFB.L,Xtrackers MSCI USA Banks UCITS ETF,LSE,ETF,TRADING212
+XUKS.L,Xtrackers FTSE 100 Short Daily Swap UCITS ETF,LSE,ETF,TRADING212
+XUKX.L,Xtrackers FTSE 100 Income UCITS ETF,LSE,ETF,TRADING212
+XX25.L,Xtrackers FTSE China 50 UCITS ETF,LSE,ETF,TRADING212
+XXSC.L,Xtrackers MSCI Europe Small Cap UCITS ETF,LSE,ETF,TRADING212
+XXTW.L,Xtrackers MSCI World Information Technology UCITS ETF,LSE,ETF,TRADING212
+XYLP.L,Global X S\u0026P 500 Covered Call UCITS ETF,LSE,ETF,TRADING212
+ZERP.L,HANetf S\u0026P Global Clean Energy Select HANzero UCITS ETF,LSE,ETF,TRADING212
+ZETHGBP.L,ETHetc - ETC Group Physical Ethereum,LSE,ETF,TRADING212
