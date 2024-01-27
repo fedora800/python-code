@@ -1,6 +1,7 @@
 import sys
 import inspect
 #import logging
+from loguru import logger
 import pandas as pd
 from utils import connect_to_db_using_sqlalchemy
 #import utils
@@ -451,7 +452,7 @@ def main():
   #explain_about_module_and_package():
   #connect_to_DB_using_SQLAlchemy_and_get_results()
   #how_to_use_logger_module()
-  how_to_use_loguru_module_for_logging()
+    how_to_use_loguru_module_for_logging()
 
 # --- main ---
 if __name__ == '__main__':

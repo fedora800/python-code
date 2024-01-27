@@ -7,7 +7,7 @@ import yfinance as yf
 import pandas as pd
 import csv
 from requests.exceptions import HTTPError
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 
 
 
@@ -35,7 +35,7 @@ def read_csv_into_list(file_path, has_header=True):
         # Iterate over rows and append them to the list
         for row in csvreader:
            # lst_csv_data.append(row)
-            lst_csv_data.extend(row)  # single-column file so we just extend the value into the list
+           lst_csv_data.extend(row)  # single-column file so we just extend the value into the list
 
     return lst_csv_data
 
@@ -57,16 +57,21 @@ def get_historical_data_symbol(df):
   oldest_price_date = df.at[0,"oldest_rec_pd_time"]
   latest_price_date = df.at[0,"latest_rec_pd_time"]
   num_records = df.at[0,"num_records"]
-  logger.debug("symbol={} oldest_price_date={} latest_price_date={} num_records={}", symbol, oldest_price_date, latest_price_date, num_records)
+  logger.info("Received arguments : symbol={} oldest_price_date={} latest_price_date={} num_records={}", symbol, oldest_price_date, latest_price_date, num_records)
 
-  # do not re-download data that already exists
-  # Convert the date strings to datetime objects 
-  latest_price_date = pd.to_datetime(latest_price_date)
-  next_day = latest_price_date + timedelta(days=1)      # just start from the next day of the latest price date
-  if not oldest_price_date:
-    start_date = next_day.replace(tzinfo=timezone.utc)    # get till yesterday
-  end_date = datetime.now() - timedelta(days=1)
-  logger.info("Downloading from {} for symbol={} start_date={} end__date={}", data_venue, symbol, start_date, end_date)
+  # Convert the date strings to datetime objects and zero out time component
+  start_date = oldest_price_date.replace(hour=0, minute=0, second=0, microsecond=0)
+  #latest_price_date = pd.to_datetime(latest_price_date)
+  end_date = latest_price_date.replace(hour=0, minute=0, second=0, microsecond=0)
+
+#  # do not re-download data that already exists
+#  next_day = latest_price_date + timedelta(days=1)      # just start from the next day of the latest price date
+#  if not oldest_price_date:
+#    start_date = next_day.replace(tzinfo=timezone.utc)    # get till yesterday
+#  end_date = datetime.now() - timedelta(days=1)
+
+  logger.info("Downloading from {} for symbol={} start_date={} end_date={}", data_venue, symbol, start_date, end_date)
+  #logger.info("Downloading from {} for symbol={} start_date={} end_date={}", data_venue, symbol, oldest_price_date, latest_price_date)
   df_prices = yf.download(symbol, start=start_date, end=end_date)
   '''
              Date        Open        High        Low         Close       Adj Close    Volume
@@ -74,7 +79,9 @@ def get_historical_data_symbol(df):
              2023-02-16  175.000000  177.279999  174.720001  176.220001  175.129166   679300
              2023-02-17  176.419998  177.330002  175.000000  177.130005  176.033524  1829500
   '''
-  print(df_prices)
+  #print(df_prices)
+  df_head_foot = pd.concat([df_prices.head(1), df_prices.tail(1)])
+  logger.debug("Downloaded - head/foot rows = {}", df_head_foot)
   return df_prices
 
 
@@ -217,6 +224,7 @@ def get_other_data():
   # get option chain for specific expiration
   opt = msft.option_chain('YYYY-MM-DD')
   # data available via: opt.calls, opt.puts
+  print(opt)
 
 
 

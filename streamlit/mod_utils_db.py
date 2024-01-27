@@ -54,9 +54,9 @@ def connect_to_db_using_psycopg2():
       # Fetch result
       record = cursor.fetchone()
       print(record, "\n")
-  
-    except (Exception, Error) as error:
-      print("Error while connecting to PostgreSQL", error)
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
     
 #    finally:
 #      if (connection):
@@ -103,9 +103,8 @@ def insert_symbol_price_data_stats_from_database(dbconn, symbol, df, table_name)
     70                          Open        High        Low         Close       Adj Close    Volume
     71   Date       2023-02-15  176.210007  178.820007  175.000000  177.419998  176.321732   815900
     '''
-
-    print('---- here 666 ---')
-    logger.debug("INSERT DATA IN TABLE - dbconn={} symbol={} df={} tbl_name={}", dbconn, symbol, df.tail(2), table_name)
+    df_head_foot = pd.concat([df.head(1), df.tail(1)])
+    logger.debug("Received arguments : dbconn={} symbol={} df={} tbl_name={}", dbconn, symbol, df_head_foot, table_name)
     # prepare the df for inserting into the table
     df.reset_index(inplace=True)   # reset the Date index and make it into a column by itself. will be the 1st column
     df.insert(0, "Symbol", symbol) # add Symbol as 2nd column after date
@@ -126,8 +125,9 @@ def insert_symbol_price_data_stats_from_database(dbconn, symbol, df, table_name)
     }
     if column_mapping:
         df = df.rename(columns=column_mapping)
-    logger.debug("df before inserting into table {} = {} {}", table_name, df.head(1), df.tail(1))
+    df_head_foot = pd.concat([df.head(1), df.tail(1)])
     # Insert the DataFrame into the specified table
     # index=False to avoid saving the DataFrame index as a separate column in the table
     df.to_sql(name=table_name, con=dbconn, if_exists='append', index=False)
+    logger.debug("DB insert completed - {} into table {} = {}", symbol, table_name, df_head_foot)
 

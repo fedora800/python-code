@@ -24,15 +24,24 @@ where
 --data_source='THINKORSWIM'
 --symbol like '%RS%' and note_1='SP500';
 
+--  SELECT * FROM tbl_instrument WHERE exchange_code='LSE' and asset_type='ETF';
+select * from viw_instrument_uk_equities
+where symbol like 'B%'
+order by symbol
+
+
 --------------------------------------------------------------------------------
 
-select pd_symbol, min(pd_time), max(pd_time), count(*) 
-from tbl_price_data_1day 
---where 
+select pd_symbol, min(pd_time), max(pd_time), count(*)
+from tbl_price_data_1day
+where
 --sma_200 is null
 --rsi_14 is not null
 --where sma_200 is null
-group by pd_symbol;
+pd_symbol like 'A%'
+AND pd_symbol in (select symbol from tbl_instrument where exchange_code='LSE')
+group by pd_symbol
+order by pd_symbol;
 
 select * from tbl_price_data_1day where pd_symbol='META';
 

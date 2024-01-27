@@ -1,5 +1,6 @@
-import psycopg2
-from psycopg2 import Error
+import sys
+import psycopg2 as psy
+#from psycopg2 import Error
 from loguru import logger
 import streamlit as st
 import pandas as pd
@@ -47,7 +48,7 @@ def streamlit_sidebar_selectbox_symbol_group(dbconn):
         "symbol_groups_sqlquery": [
             """select symbol, name from viw_instrument_us_sp500_constituents where symbol like '%RS%';""",
             """select symbol, name from viw_instrument_us_etfs where symbol like 'JP%';""",
-            """select symbol, name from viw_instrument_uk_equities where symbol like 'VU%';""",
+            """select symbol, name from viw_instrument_uk_equities where symbol like 'BR%';""",
         ],
     }
 
@@ -103,13 +104,13 @@ def get_symbol_input_check_against_db(dbconn):
         print("You entered Symbol : ", text_input)
         st.write("You entered Symbol : ", text_input)
     sql_query = "select * from tbl_instrument where symbol= '%s'" % text_input
-    run_sql_query(dbconn, sql_query)
+    psy.run_sql_query(dbconn, sql_query)
 
     sql_query = (
         "select * from viw_price_data_stats_by_symbol where pd_symbol = '%s'"
         % text_input
     )
-    run_sql_query(dbconn, sql_query)
+    psy.run_sql_query(dbconn, sql_query)
 
 
 def generate_chart_plot(df):
@@ -192,7 +193,7 @@ def generate_chart_plot(df):
         #  ticktext=["pricelevel 100", "pricelevel 200", "pricelevel 300 (getting expensive)", "pricelevel 400"],   # for the tickvals, these texts will appear on the left
         #  tickmode="array",
     )
-    dct_margin = dict(l=20, r=20, t=20, b=20)
+    #dct_margin = dict(l=20, r=20, t=20, b=20)
     fig.update_layout(
         width=1100,
         height=600,
@@ -428,7 +429,18 @@ def generate_chart_plot_2(df):
         title_font=dict(size=14),
     )
 
-    fig.update_layout(width=1100, height=900)
+    """     
+    # Update the layout for X-axis so that weekends and holidays (shows gaps on chart) are omitted from plotting
+    fig.update_xaxes(
+        rangebreaks = [
+            # NOTE: Below values are bound (not single values), ie. hide x to y
+            dict(bounds=["sat", "mon"]),                 # hide weekends, eg. hide sat to before mon
+            dict(bounds=[16, 9.5], pattern="hour"),      # hide hours outside of 9.30am-4pm
+            # dict(values=["2023-12-25", "2024-01-01"])  # hide holidays (Christmas and New Year's, etc)
+        ]
+    ) 
+    """
+
 
     # Render plot using st.plotly_chart
     st.plotly_chart(
@@ -506,14 +518,14 @@ def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
       # check if there is any price data in the database for this symbol and fetch it into a df
       df_sym_stats = m_ud.get_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol)
       if not df_sym_stats.empty:
-        
         # Get the current date and yesterday's date and compare against latest record date from table for the symbol
-        latest_record_date = df_sym_stats['latest_rec_pd_time'].iloc[0].date()
         current_date = datetime.now().date()
         yesterday_date = current_date - timedelta(days=1)
-        logger.debug("latest_record_date={} current_date={} yesterday_date={}", latest_record_date, current_date, yesterday_date)
-        # only download data if there is no recent price data in the table
+        latest_record_date = df_sym_stats['latest_rec_pd_time'].iloc[0].date()
+        logger.debug("Price data is available in table for {} : latest_record_date={} current_date={} yesterday_date={}", sm_chosen_symbol, latest_record_date, current_date, yesterday_date)
+        # but there could be a few recent days/weeks missing, so check for that
         if not (latest_record_date == current_date or latest_record_date == yesterday_date):
+          print("--here---888----")
           df_downloaded_price_data = m_yf.get_historical_data_symbol(df_sym_stats)
           # now  insert them into price data table
           m_ud.insert_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol, df_downloaded_price_data, "tbl_price_data_1day")
@@ -592,24 +604,39 @@ def main():
 
 # main
 if __name__ == "__main__":
-    APP_NAME = "Stock App!"
-    logger.info("Running", APP_NAME)
 
-    # Page Configuration
-    st.set_page_config(
-        page_title=APP_NAME,
-        layout="wide",
-        initial_sidebar_state="expanded",
-    )
+  print('-------MAIN 1 ----')
+  logger.remove()  # First remove the default logger
+  
+  if DEBUG_MODE:
+    print('-------MAIN 2 ----')
+    LOGGING_LEVEL = 'TRACE'
+    #LOGGING_LEVEL = 'DEBUG'     # this is the loguru default
+  else:
+    LOGGING_LEVEL = 'INFO'      # our default logging level
+  
+  logger.add(sys.stderr, level=LOGGING_LEVEL)   # sets the logging level
+  logger.info("Logging level set to {} ", LOGGING_LEVEL)
+  
+  print('-------MAIN 3 ----')
+  APP_NAME = "Stock App!"
+  logger.info("Running", APP_NAME)
 
-    # Add some markdown
-    st.sidebar.markdown("Made with love using [Streamlit](https://streamlit.io/).")
-    st.sidebar.markdown("# :chart_with_upwards_trend:")
+  # Page Configuration
+  st.set_page_config(
+      page_title=APP_NAME,
+      layout="wide",
+      initial_sidebar_state="expanded",
+  )
 
-    # Add app title
-    st.sidebar.title(APP_NAME)
+  # Add some markdown
+  st.sidebar.markdown("Made with love using [Streamlit](https://streamlit.io/).")
+  st.sidebar.markdown("# :chart_with_upwards_trend:")
 
-    main()
+  # Add app title
+  st.sidebar.title(APP_NAME)
+
+  main()
 
 #  streamlit run streamlit_1.py --server.port 8000
 
