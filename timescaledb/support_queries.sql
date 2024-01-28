@@ -45,7 +45,11 @@ order by pd_symbol;
 
 select * from tbl_price_data_1day where pd_symbol='META';
 
-delete from tbl_price_data_1day where pd_symbol='META';
+delete from tbl_price_data_1day 
+where 
+pd_symbol='META'
+--AND pd_time < NOW() - INTERVAL '30 days';  --older
+AND pd_time > NOW() - INTERVAL '30 days';   --newer
 
 delete from tbl_price_data_1day where pd_symbol in (select symbol from tbl_instrument where asset_type='STOCK' and symbol like '%RS%' and note_1='SP500');
 

@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-import psycopg2
+import psycopg2 as psy
 from loguru import logger
 from config import DB_INFO, DEBUG_MODE
 import pandas as pd
@@ -131,3 +131,28 @@ def insert_symbol_price_data_stats_from_database(dbconn, symbol, df, table_name)
     df.to_sql(name=table_name, con=dbconn, if_exists='append', index=False)
     logger.debug("DB insert completed - {} into table {} = {}", symbol, table_name, df_head_foot)
 
+def get_symbol_input_check_against_db_using_psycopg2(dbconn):
+    """
+    user will input symbol. we will check in instrument table if it exists.
+    if yes, we will return that entire row
+    if not, we will say that symbol not found
+    """
+
+    # Take a text input for symbol from user
+    text_input = st.text_input(
+        "Enter some text 👇"
+        #       label_visibility=st.session_state.visibility,
+        #       disabled=st.session_state.disabled,
+        #       placeholder=st.session_state.placeholder,
+    )
+    if text_input:
+        print("You entered Symbol : ", text_input)
+        st.write("You entered Symbol : ", text_input)
+    sql_query = "select * from tbl_instrument where symbol= '%s'" % text_input
+    psy.run_sql_query(dbconn, sql_query)
+
+    sql_query = (
+        "select * from viw_price_data_stats_by_symbol where pd_symbol = '%s'"
+        % text_input
+    )
+    psy.run_sql_query(dbconn, sql_query)
