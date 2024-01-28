@@ -7,15 +7,15 @@ import pandas as pd
 import talib as ta
 from datetime import datetime, timedelta
 from config import DB_INFO, DEBUG_MODE
-
+from mod_utils_date import compute_date_difference
 
 
 # UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
 import plotly.graph_objects as gobj
 from plotly.subplots import make_subplots
 #from mod_utils_db import connect_to_db_using_sqlalchemy
-import mod_utils_db as m_ud
-import mod_yfinance as m_yf
+import mod_utils_db as m_udb
+import mod_yfinance as m_yfn
 from sqlalchemy import text
 
 
@@ -516,19 +516,19 @@ def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
 
     if sm_chosen_symbol:
       # check if there is any price data in the database for this symbol and fetch it into a df
-      df_sym_stats = m_ud.get_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol)
+      df_sym_stats = m_udb.get_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol)
       if not df_sym_stats.empty:
-        # Get the current date and yesterday's date and compare against latest record date from table for the symbol
-        current_date = datetime.now().date()
-        yesterday_date = current_date - timedelta(days=1)
-        latest_record_date = df_sym_stats['latest_rec_pd_time'].iloc[0].date()
-        logger.debug("Price data is available in table for {} : latest_record_date={} current_date={} yesterday_date={}", sm_chosen_symbol, latest_record_date, current_date, yesterday_date)
-        # but there could be a few recent days/weeks missing, so check for that
-        if not (latest_record_date == current_date or latest_record_date == yesterday_date):
+        dt_latest_record_date = df_sym_stats['latest_rec_pd_time'].iloc[0].date()
+        diff_days = compute_date_difference(dt_latest_record_date)
+        # df_is not empty but there could be a few recent days/weeks missing, so check for that
+        if diff_days > 1:
           print("--here---888----")
-          df_downloaded_price_data = m_yf.get_historical_data_symbol(df_sym_stats)
-          # now  insert them into price data table
-          m_ud.insert_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol, df_downloaded_price_data, "tbl_price_data_1day")
+          logger.debug("Update the df with correct start and end dates for this missing data ")
+          df_sym_stats.loc[0, 'oldest_rec_pd_time'] = df_sym_stats.loc[0, 'latest_rec_pd_time'] + timedelta(days=1)
+          df_sym_stats.loc[0, 'latest_rec_pd_time'] = datetime.now()
+          logger.debug("Now fetch and insert this missing recent data into price data table")
+          df_downloaded_price_data = m_yfn.get_historical_data_symbol(df_sym_stats)
+          m_udb.insert_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol, df_downloaded_price_data, "tbl_price_data_1day")
       else:
         logger.warning("Price data not available for symbol {} in database", sm_chosen_symbol)
         start_date = datetime.now() - timedelta(days=366)
@@ -538,9 +538,9 @@ def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
         df_default_timeframe = pd.DataFrame([[sm_chosen_symbol, start_date, end_date, num_records]],
                                              columns=['pd_symbol', 'oldest_rec_pd_time', 'latest_rec_pd_time', 'num_records'])
         logger.info("Downloading default historical price data ...")
-        df_downloaded_price_data = m_yf.get_historical_data_symbol(df_default_timeframe)
+        df_downloaded_price_data = m_yfn.get_historical_data_symbol(df_default_timeframe)
         # now  insert them into price data table
-        m_ud.insert_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol, df_downloaded_price_data, "tbl_price_data_1day")
+        m_udb.insert_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol, df_downloaded_price_data, "tbl_price_data_1day")
       
     print('---here 2323---')
     sql_query = ("select * from tbl_price_data_1day where pd_symbol= '%s'" % sm_chosen_symbol)
@@ -565,7 +565,7 @@ def main():
     my_db_uri = f"postgresql://{DB_INFO['USERNAME']}:{DB_INFO['PASSWORD']}@{DB_INFO['HOSTNAME']}:{DB_INFO['PORT']}/{DB_INFO['DATABASE']}"
 
     logger.debug(my_db_uri)
-    db_conn = m_ud.connect_to_db_using_sqlalchemy(my_db_uri)
+    db_conn = m_udb.connect_to_db_using_sqlalchemy(my_db_uri)
     wildcard_value_1 = "UN%"
     wildcard_value_2 = "CM%"
     sql_query = text(
