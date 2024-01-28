@@ -11,7 +11,8 @@ from mod_utils_date import compute_date_difference
 # UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
 import plotly.graph_objects as gobj
 from plotly.subplots import make_subplots
-#from mod_utils_db import connect_to_db_using_sqlalchemy
+
+# from mod_utils_db import connect_to_db_using_sqlalchemy
 import mod_utils_db as m_udb
 import mod_yfinance as m_yfn
 from sqlalchemy import text
@@ -53,7 +54,9 @@ def streamlit_sidebar_selectbox_symbol_group(dbconn):
 
     # load data into a df
     df_select_options = pd.DataFrame(dct_options)
-    logger.debug("type={}. df_select_options={}", type(df_select_options), df_select_options)
+    logger.debug(
+        "type={}. df_select_options={}", type(df_select_options), df_select_options
+    )
 
     # Take input from Sidebar selectbox to select a symbol list group
     sg_chosen_option = st.sidebar.selectbox(
@@ -63,15 +66,23 @@ def streamlit_sidebar_selectbox_symbol_group(dbconn):
         index=None,
     )
     st.write("You selected from symbol_groups dropdown :", sg_chosen_option)
-    logger.info("You selected from the Symbol Groups Dropdown - sg_chosen_option={}", sg_chosen_option)
+    logger.info(
+        "You selected from the Symbol Groups Dropdown - sg_chosen_option={}",
+        sg_chosen_option,
+    )
 
     # initial the return df
     df_symbols = pd.DataFrame()
-    
+
     # if user chooses from the symbol group dropdown, then run the sql query and return values into a dataframe
     if sg_chosen_option:
-        sg_chosen_sql_query = df_select_options[df_select_options["symbol_groups"] == sg_chosen_option]["symbol_groups_sqlquery"].iloc[0]
-        logger.info("streamlit_sidebar_selectbox_symbolgroup - CHOSEN SQL_QUERY = {}", sg_chosen_sql_query)
+        sg_chosen_sql_query = df_select_options[
+            df_select_options["symbol_groups"] == sg_chosen_option
+        ]["symbol_groups_sqlquery"].iloc[0]
+        logger.info(
+            "streamlit_sidebar_selectbox_symbolgroup - CHOSEN SQL_QUERY = {}",
+            sg_chosen_sql_query,
+        )
         logger.info("User chose from Symbol Groups Dropdown : {} ", sg_chosen_sql_query)
         sql_query = text(sg_chosen_sql_query)
         df_symbols = pd.read_sql_query(sql_query, dbconn)
@@ -160,7 +171,7 @@ def generate_chart_plot(df):
         #  ticktext=["pricelevel 100", "pricelevel 200", "pricelevel 300 (getting expensive)", "pricelevel 400"],   # for the tickvals, these texts will appear on the left
         #  tickmode="array",
     )
-    #dct_margin = dict(l=20, r=20, t=20, b=20)
+    # dct_margin = dict(l=20, r=20, t=20, b=20)
     fig.update_layout(
         width=1100,
         height=600,
@@ -234,8 +245,8 @@ def generate_chart_plot_2(df):
             0.1,
             0.1,
             0.1,
-            0.6
-        ]  # the relative HEIGHTS for each row of subplots, should total 1.0
+            0.6,
+        ],  # the relative HEIGHTS for each row of subplots, should total 1.0
         # NOTE - they seem to be in reverse, ie biggest 0.6 is the top-most
     )
 
@@ -292,23 +303,23 @@ def generate_chart_plot_2(df):
     fig.add_trace(trace_subplot_row_2, row=2, col=1)
 
     # Clean the 'close' column from NaN values
-    #df['close'].fillna(method='ffill', inplace=True)  # Forward fill NaN values
-    df['close'].ffill(inplace=True)
-    #df['close'].fillna(method='bfill', inplace=True)  # Backward fill remaining NaN values
-    df['close'].bfill(inplace=True)
+    # df['close'].fillna(method='ffill', inplace=True)  # Forward fill NaN values
+    df["close"].ffill(inplace=True)
+    # df['close'].fillna(method='bfill', inplace=True)  # Backward fill remaining NaN values
+    df["close"].bfill(inplace=True)
 
     # --- subplot 3 on row 1 and column 1 (RSI) ---
     # Hack RSI values (*********** temporary testing as the trigger function to calculate does not work **********)
     # Calculate RSI(14) and update the "rsi_14" column
-    #df_tmp_rsi = df["close"] / 3
-    df['rsi_14'] = ta.RSI(df['close'], timeperiod=14)
+    # df_tmp_rsi = df["close"] / 3
+    df["rsi_14"] = ta.RSI(df["close"], timeperiod=14)
     print(df.head(1), df.tail(1))
 
     # Prepare subplot with a gobj.Scatter object trace for RSI
     trace_subplot_row_3 = gobj.Scatter(
         x=df["pd_time"],
         #                           y=df['rsi_14'], mode='lines', name='RSI', textfont=dct_textfont,
-        y=df['rsi_14'],
+        y=df["rsi_14"],
         mode="lines",
         name="RSI",
         textfont=dct_textfont,
@@ -321,10 +332,11 @@ def generate_chart_plot_2(df):
     fig.update_yaxes(
         rangemode="tozero",  # This ensures that the y-axis starts from 0
         range=[0, 100],  # Customize the y-axis range if needed
-        row=3, col=1,  # Specify the subplot
-        #showgrid=False,  # Hide grid lines
-        #zeroline=False,  # Hide the zero line
-        #showline=False,  # Hide the axis line
+        row=3,
+        col=1,  # Specify the subplot
+        # showgrid=False,  # Hide grid lines
+        # zeroline=False,  # Hide the zero line
+        # showline=False,  # Hide the axis line
         ticks="",  # Hide tick marks
     )
 
@@ -358,7 +370,7 @@ def generate_chart_plot_2(df):
     # --- subplot 4 on row 4 and column 1 (MACD) --- TODO --
     trace_subplot_row_4 = gobj.Scatter(
         x=df["pd_time"],
-        y=df['rsi_14'],                   # ** temporary ***
+        y=df["rsi_14"],  # ** temporary ***
         mode="lines",
         name="MACD",
         textfont=dct_textfont,
@@ -367,15 +379,18 @@ def generate_chart_plot_2(df):
 
     fig.add_trace(trace_subplot_row_4, row=4, col=1)
 
-  
     # --- subplot 5 on row 1 and column 1 (ADX) --- TODO --
-    trace_subplot_row_5 = gobj.Scatter(x=df['pd_time'],
-                                        y=df['rsi_14'], mode='lines', name='ADX', textfont=dct_textfont,
-                                        line=dict(color='red', width=2)
-                                        )
-    
+    trace_subplot_row_5 = gobj.Scatter(
+        x=df["pd_time"],
+        y=df["rsi_14"],
+        mode="lines",
+        name="ADX",
+        textfont=dct_textfont,
+        line=dict(color="red", width=2),
+    )
+
     fig.add_trace(trace_subplot_row_5, row=5, col=1)
-  
+
     # --- Now that all traces have been added, prepare the fig object to be displayed ---
     # Update layout to show y-axis titles
     fig.update_layout(
@@ -407,7 +422,6 @@ def generate_chart_plot_2(df):
         ]
     ) 
     """
-
 
     # Render plot using st.plotly_chart
     st.plotly_chart(
@@ -466,7 +480,7 @@ def generate_chart_plot_with_sub_plots(df):
 def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
     """
     this the top-left 2nd selectbox on the sidebarinput
-    it shows a list of symbols from which user will select one symbol 
+    it shows a list of symbols from which user will select one symbol
     this symbol list changes dynamically based off the group chosen on the previous dropdown
     TODO - what about no output ???
 
@@ -481,47 +495,91 @@ def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
         "Symbol Dropdown", df, key="sm_chosen_symbol", index=None
     )
     st.write("You selected:", sm_chosen_symbol)
-    logger.info("You selected from the Symbol Dropdown - sm_chosen_symbol={}", sm_chosen_symbol)
+    logger.info(
+        "You selected from the Symbol Dropdown - sm_chosen_symbol={}", sm_chosen_symbol
+    )
 
     if sm_chosen_symbol:
-      # check if there is any price data in the database for this symbol and fetch it into a df
-      df_sym_stats = m_udb.get_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol)
-      if not df_sym_stats.empty:
-        dt_latest_record_date = df_sym_stats['latest_rec_pd_time'].iloc[0].date()
-        diff_days = compute_date_difference(dt_latest_record_date)
-        # df_is not empty but there could be a few recent days/weeks missing, so check for that
-        if diff_days > 1:
-          print("--here---888----")
-          logger.debug("Number of days of missing data = {}. Now update the df with correct start and end dates for this missing data ", diff_days)
-          df_sym_stats.loc[0, 'oldest_rec_pd_time'] = df_sym_stats.loc[0, 'latest_rec_pd_time'] + timedelta(days=1)
-          df_sym_stats.loc[0, 'latest_rec_pd_time'] = pd.to_datetime(datetime.now(), utc=True)
-          logger.debug("Now fetch and insert this missing recent data into price data table")
-          df_downloaded_price_data = m_yfn.get_historical_data_symbol(df_sym_stats)
-          m_udb.insert_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol, df_downloaded_price_data, "tbl_price_data_1day")
-      else:
-        # df_sym_stats empty
-        logger.warning("Price data not available for symbol {} in database", sm_chosen_symbol)
-        start_date = datetime.now() - timedelta(days=366)
-        end_date = datetime.now() - timedelta(days=1)
-        num_records = 365
-        df_default_timeframe = pd.DataFrame([[sm_chosen_symbol, start_date, end_date, num_records]],
-                                             columns=['pd_symbol', 'oldest_rec_pd_time', 'latest_rec_pd_time', 'num_records'])
-        logger.info("Downloading historical price data with a default lookback period...")
-        df_downloaded_price_data = m_yfn.get_historical_data_symbol(df_default_timeframe)
-        # now  insert them into price data table
-        m_udb.insert_symbol_price_data_stats_from_database(dbconn, sm_chosen_symbol, df_downloaded_price_data, "tbl_price_data_1day")
-      
-      # now that symbol has been chosen from the dropdown, prepare the sql query to be able to fetch requisite data for it from db
-      #sql_query = ("select * from tbl_price_data_1day where pd_symbol= '%s'" % sm_chosen_symbol)
-      sql_query = text("""select * from tbl_price_data_1day where pd_symbol= :param""").bindparams(param=sm_chosen_symbol)
-      logger.info("To get the price data for {} - evaluated sql_query = {}", sm_chosen_symbol, sql_query)
-      df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn)
-      df_head_foot = pd.concat([df.head(1), df.tail(1)])
-      logger.debug("Returning df = {}", df_head_foot)
-      return df_ohlcv_symbol
+        # check if there is any price data in the database for this symbol and fetch it into a df
+        df_sym_stats = m_udb.get_symbol_price_data_stats_from_database(
+            dbconn, sm_chosen_symbol
+        )
+        if not df_sym_stats.empty:
+            dt_latest_record_date = df_sym_stats["latest_rec_pd_time"].iloc[0].date()
+            diff_days = compute_date_difference(dt_latest_record_date)
+            # df_is not empty but there could be a few recent days/weeks missing, so check for that
+            if diff_days > 1:
+                print("--here---888----")
+                logger.debug(
+                    "Number of days of missing data = {}. Now update the df with correct start and end dates for this missing data ",
+                    diff_days,
+                )
+                df_sym_stats.loc[0, "oldest_rec_pd_time"] = df_sym_stats.loc[
+                    0, "latest_rec_pd_time"
+                ] + timedelta(days=1)
+                df_sym_stats.loc[0, "latest_rec_pd_time"] = pd.to_datetime(
+                    datetime.now(), utc=True
+                )
+                logger.debug(
+                    "Now fetch and insert this missing recent data into price data table"
+                )
+                df_downloaded_price_data = m_yfn.get_historical_data_symbol(
+                    df_sym_stats
+                )
+                m_udb.insert_symbol_price_data_stats_from_database(
+                    dbconn,
+                    sm_chosen_symbol,
+                    df_downloaded_price_data,
+                    "tbl_price_data_1day",
+                )
+        else:
+            # df_sym_stats empty
+            logger.warning(
+                "Price data not available for symbol {} in database", sm_chosen_symbol
+            )
+            start_date = datetime.now() - timedelta(days=366)
+            end_date = datetime.now() - timedelta(days=1)
+            num_records = 365
+            df_default_timeframe = pd.DataFrame(
+                [[sm_chosen_symbol, start_date, end_date, num_records]],
+                columns=[
+                    "pd_symbol",
+                    "oldest_rec_pd_time",
+                    "latest_rec_pd_time",
+                    "num_records",
+                ],
+            )
+            logger.info(
+                "Downloading historical price data with a default lookback period..."
+            )
+            df_downloaded_price_data = m_yfn.get_historical_data_symbol(
+                df_default_timeframe
+            )
+            # now  insert them into price data table
+            m_udb.insert_symbol_price_data_stats_from_database(
+                dbconn,
+                sm_chosen_symbol,
+                df_downloaded_price_data,
+                "tbl_price_data_1day",
+            )
+
+        # now that symbol has been chosen from the dropdown, prepare the sql query to be able to fetch requisite data for it from db
+        # sql_query = ("select * from tbl_price_data_1day where pd_symbol= '%s'" % sm_chosen_symbol)
+        sql_query = text(
+            """select * from tbl_price_data_1day where pd_symbol= :param"""
+        ).bindparams(param=sm_chosen_symbol)
+        logger.info(
+            "To get the price data for {} - evaluated sql_query = {}",
+            sm_chosen_symbol,
+            sql_query,
+        )
+        df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn)
+        df_head_foot = pd.concat([df.head(1), df.tail(1)])
+        logger.debug("Returning df = {}", df_head_foot)
+        return df_ohlcv_symbol
 
     # sm_chosen_symbol not yet chosen
-    print('---here 11---end of streamlit_sidebar_selectbox_symbol_only---')
+    print("---here 11---end of streamlit_sidebar_selectbox_symbol_only---")
 
 
 def generate_table_plot(df):
@@ -531,7 +589,7 @@ def generate_table_plot(df):
 
 def main():
     # db_conn = connect_to_db_using_psycopg2()
-    #my_db_uri = "postgresql://postgres:postgres#123@localhost:5432/dbs_invest"
+    # my_db_uri = "postgresql://postgres:postgres#123@localhost:5432/dbs_invest"
     my_db_uri = f"postgresql://{DB_INFO['USERNAME']}:{DB_INFO['PASSWORD']}@{DB_INFO['HOSTNAME']}:{DB_INFO['PORT']}/{DB_INFO['DATABASE']}"
 
     logger.debug(my_db_uri)
@@ -539,7 +597,7 @@ def main():
     wildcard_value_1 = "UN%"
     wildcard_value_2 = "CM%"
     sql_query = text(
-      """
+        """
       SELECT symbol FROM tbl_instrument 
       WHERE exchange_code NOT LIKE :wildcard_1 AND symbol LIKE :wildcard_2
       ORDER BY symbol
@@ -557,53 +615,54 @@ def main():
 
     # accept the user's selection on the symbols_group dropdown and returns list of symbols from that symbols group only
     df_symbols_list = streamlit_sidebar_selectbox_symbol_group(db_conn)
-    # using the above list of symbols, accept the user's selection on  next dropdown selectbox, which is to choose only one symbol from the list
+    # using the above list of symbols, now await the user's selection on the next dropdown selectbox, which is to choose only one symbol from the list
     # when chosen, it will return a full price data df for that symbol
     if not df_symbols_list.empty:
-      print('-------050----')
+      print(f"---2000--type= {type(df_symbols_list)} ----")
+      df_symbol_price_data = pd.DataFrame()
       df_symbol_price_data = streamlit_sidebar_selectbox_symbol_only(db_conn, df_symbols_list)
-      # generate the main chart with all the indicators
-      # generate_chart_plot(df_symbol_price_data)
-      generate_chart_plot_2(df_symbol_price_data)
-      # generate_chart_plot_with_sub_plots(df_symbol_price_data)
+      if not df_symbol_price_data.empty:
+        # generate the main chart with all the indicators
+        # generate_chart_plot(df_symbol_price_data)
+        logger.debug("df_symbol_price_data = {}", df_symbol_price_data)
+        generate_chart_plot_2(df_symbol_price_data)
+        # generate_chart_plot_with_sub_plots(df_symbol_price_data)
 
-    print('--- end of main() ---')
-
-
+    print("---3000---")
+    print("--- end of main() ---")
 
 
 # main
 if __name__ == "__main__":
+    logger.remove()  # First remove the default logger
 
-  logger.remove()  # First remove the default logger
-  
-  if DEBUG_MODE:
-    LOGGING_LEVEL = 'TRACE'
-    #LOGGING_LEVEL = 'DEBUG'     # this is the loguru default
-  else:
-    LOGGING_LEVEL = 'INFO'      # our default logging level
-  
-  logger.add(sys.stderr, level=LOGGING_LEVEL)   # sets the logging level
-  logger.info("Logging level set to {} ", LOGGING_LEVEL)
-  
-  APP_NAME = "Stock App!"
-  logger.info("Running", APP_NAME)
+    if DEBUG_MODE:
+        LOGGING_LEVEL = "TRACE"
+        # LOGGING_LEVEL = 'DEBUG'     # this is the loguru default
+    else:
+        LOGGING_LEVEL = "INFO"  # our default logging level
 
-  # Page Configuration
-  st.set_page_config(
-      page_title=APP_NAME,
-      layout="wide",
-      initial_sidebar_state="expanded",
-  )
+    logger.add(sys.stderr, level=LOGGING_LEVEL)  # sets the logging level
+    logger.info("Logging level set to {} ", LOGGING_LEVEL)
 
-  # Add some markdown
-  st.sidebar.markdown("Made with love using [Streamlit](https://streamlit.io/).")
-  st.sidebar.markdown("# :chart_with_upwards_trend:")
+    APP_NAME = "Stock App!"
+    logger.info("Running", APP_NAME)
 
-  # Add app title
-  st.sidebar.title(APP_NAME)
+    # Page Configuration
+    st.set_page_config(
+        page_title=APP_NAME,
+        layout="wide",
+        initial_sidebar_state="expanded",
+    )
 
-  main()
+    # Add some markdown
+    st.sidebar.markdown("Made with love using [Streamlit](https://streamlit.io/).")
+    st.sidebar.markdown("# :chart_with_upwards_trend:")
+
+    # Add app title
+    st.sidebar.title(APP_NAME)
+
+    main()
 
 #  streamlit run streamlit_1.py --server.port 8000
 
