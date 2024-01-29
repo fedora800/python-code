@@ -44,7 +44,7 @@ def connect_to_db_using_psycopg2():
         #                                    host="127.0.0.1",
         #                                    port="5432",
         #                                    database="postgres_db")
-        connection = psycopg2.connect(connect_str)
+        connection = psy.connect(connect_str)
 
         # Create a cursor to perform database operations
         cursor = connection.cursor()
@@ -154,16 +154,9 @@ def get_symbol_input_check_against_db_using_psycopg2(dbconn):
     if not, we will say that symbol not found
     """
 
-    # Take a text input for symbol from user
-    text_input = st.text_input(
-        "Enter some text 👇"
-        #       label_visibility=st.session_state.visibility,
-        #       disabled=st.session_state.disabled,
-        #       placeholder=st.session_state.placeholder,
-    )
+    text_input = 'AAPL'
     if text_input:
         print("You entered Symbol : ", text_input)
-        st.write("You entered Symbol : ", text_input)
     sql_query = "select * from tbl_instrument where symbol= '%s'" % text_input
     psy.run_sql_query(dbconn, sql_query)
 
@@ -172,3 +165,50 @@ def get_symbol_input_check_against_db_using_psycopg2(dbconn):
         % text_input
     )
     psy.run_sql_query(dbconn, sql_query)
+
+
+def record_exists(dbconn, pd_symbol, pd_time):
+  # Check if a record with the given pd_symbol and pd_time already exists
+  sql_query = text("""
+      SELECT 1
+      FROM tbl_price_data_1day
+      WHERE pd_symbol = :symbol AND pd_time = :time
+  """)
+
+  result = dbconn.execute(sql_query, symbol=pd_symbol, time=pd_time)
+  return result.fetchone() is not None
+
+
+def insert_record_into_table(dbconn, symbol, df, tbl_name):
+
+  df_head_foot = pd.concat([df.head(1), df.tail(1)])
+  logger.debug(
+      "Received arguments : dbconn={} symbol={} df={} tbl_name={}",
+      dbconn,
+      symbol,
+      df_head_foot,
+      tbl_name,
+  )
+  
+  # Iterate over rows in the DataFrame and insert records
+  for index, row in df.iterrows():
+    pd_symbol = row['pd_symbol']
+    pd_time = row['pd_time']
+
+    if not record_exists(dbconn, pd_symbol, pd_time):
+      # Prepare the INSERT SQL statement
+      insert_query = text("""
+          INSERT INTO :tbl_name (pd_symbol, pd_time, other_columns)
+          VALUES (:symbol, :time, :other_values)
+      """)
+      # Perform the insertion
+      dbconn.execute(
+          insert_query,
+          symbol=pd_symbol,
+          time=pd_time,
+          other_values=row['other_columns']
+          # Include other column values in a similar manner
+      )
+      print(f"Inserted record for {pd_symbol} at {pd_time}")
+    else:
+      print(f"Record for {pd_symbol} at {pd_time} already exists. Skipping.")

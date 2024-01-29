@@ -13,7 +13,6 @@ I01 - idx_tbl_price_data_1day_symbol_time
 */
 
 --------------------------------------------------------------------------------
-*/
 
 -- TY01 - typ_asset_type
 \echo "Creating TYPE typ_asset_type"

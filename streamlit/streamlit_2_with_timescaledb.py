@@ -48,7 +48,7 @@ def streamlit_sidebar_selectbox_symbol_group(dbconn):
         "symbol_groups_sqlquery": [
             """select symbol, name from viw_instrument_us_sp500_constituents where symbol like '%RS%';""",
             """select symbol, name from viw_instrument_us_etfs where symbol like 'JP%';""",
-            """select symbol, name from viw_instrument_uk_equities where symbol like 'CO%';""",
+            """select symbol, name from viw_instrument_uk_equities where symbol like 'D%';""",
         ],
     }
 
@@ -87,7 +87,7 @@ def streamlit_sidebar_selectbox_symbol_group(dbconn):
         sql_query = text(sg_chosen_sql_query)
         df_symbols = pd.read_sql_query(sql_query, dbconn)
 
-    logger.debug("Returning Symbol List as df = {} ", df_symbols)
+    logger.debug("Returning Symbol List as df = {} ", df_symbols.head(2))
     return df_symbols
 
 
@@ -368,16 +368,83 @@ def generate_chart_plot_2(df):
     )
 
     # --- subplot 4 on row 4 and column 1 (MACD) --- TODO --
-    trace_subplot_row_4 = gobj.Scatter(
+    df_macd = pd.DataFrame()
+    MACD_FAST = 12
+    MACD_SLOW = 26
+    MACD_SIGNAL = 9
+    na_macd, na_macd_signal, na_macd_hist = ta.MACD(df["close"].to_numpy(), fastperiod=MACD_FAST, slowperiod=MACD_SLOW, signalperiod=MACD_SIGNAL)
+    df_macd["macd"] = na_macd
+    df_macd["signal"] = na_macd_signal
+    df_macd["histogram"] = na_macd_hist
+    print(f"-------{df_macd.info()}---df_macd = {df_macd}---")  
+
+
+    trace_macd_macd = gobj.Scatter(
         x=df["pd_time"],
-        y=df["rsi_14"],  # ** temporary ***
+        y=df_macd["macd"],
         mode="lines",
         name="MACD",
         textfont=dct_textfont,
         line=dict(color="blue", width=2),
     )
+    trace_macd_signal = gobj.Scatter(
+        x=df["pd_time"],
+        y=df_macd["signal"],
+        mode="lines",
+        name="MACD Signal",
+        textfont=dct_textfont,
+        line=dict(color="red", width=2),
+    )
+    trace_macd_histogram = gobj.Bar(
+        x=df["pd_time"],
+        y=df_macd["histogram"],
+        name="MACD Histogram",
+        #textfont=dct_textfont,
+        #marker=dict(color="green", width=2),
+        marker={
+            "color": "rgba(128,128,128,0.5)",
+        }
+    )
 
-    fig.add_trace(trace_subplot_row_4, row=4, col=1)
+
+
+    # add the trace object for corresponding subplot and associated scatter plots onto the fig object
+    fig.add_trace(trace_macd_macd, row=4, col=1)
+    fig.add_trace(trace_macd_signal, row=4, col=1)
+    fig.add_trace(trace_macd_histogram, row=4, col=1)
+
+    '''
+    # Create RSI
+    rsi = RSI(data.close, timeperiod=14)
+
+    # Create MACD
+    macd, macdsignal, macdhist = MACD(
+        data.close, 
+        fastperiod=12, 
+        slowperiod=26, 
+        signalperiod=9
+    )
+
+    macd = pd.DataFrame(
+        {
+            "MACD": macd,
+            "MACD Signal": macdsignal,
+            "MACD History": macdhist,
+        }
+    )
+    https://pyquantnews.com/technical-df_macd-python-3-indicators/
+    https://tradewithpython.com/generating-buy-sell-signals-using-python
+    https://www.exfinsis.com/tutorials/python-programming-language/macd-stock-technical-indicator-with-python/
+
+
+    # Plotting MACD
+    plt.subplot(2, 1, 2)
+    plt.plot(data['MACD'], label='MACD Line', color='blue')
+    plt.plot(data['MACD_Signal'], label='Signal Line', color='red')
+    plt.bar(data.index, data['MACD_Diff'], label='Histogram', color='grey', alpha=0.5)
+    plt.legend()
+    '''
+
 
     # --- subplot 5 on row 1 and column 1 (ADX) --- TODO --
     trace_subplot_row_5 = gobj.Scatter(
@@ -411,17 +478,21 @@ def generate_chart_plot_2(df):
         title_font=dict(size=14),
     )
 
-    """     
-    # Update the layout for X-axis so that weekends and holidays (shows gaps on chart) are omitted from plotting
-    fig.update_xaxes(
-        rangebreaks = [
-            # NOTE: Below values are bound (not single values), ie. hide x to y
-            dict(bounds=["sat", "mon"]),                 # hide weekends, eg. hide sat to before mon
-            dict(bounds=[16, 9.5], pattern="hour"),      # hide hours outside of 9.30am-4pm
-            # dict(values=["2023-12-25", "2024-01-01"])  # hide holidays (Christmas and New Year's, etc)
-        ]
-    ) 
-    """
+#     # Update the layout for X-axis so that weekends and holidays (shows gaps on chart) are omitted from plotting
+#     fig.update_xaxes(
+#         rangebreaks = [
+#             # NOTE: Below values are bound (not single values), ie. hide x to y
+#             dict(bounds=["sat", "mon"]),                 # hide weekends, eg. hide sat to before mon
+#             dict(bounds=[16, 9.5], pattern="hour"),      # hide hours outside of 9.30am-4pm
+#             # dict(values=["2023-12-25", "2024-01-01"])  # hide holidays (Christmas and New Year's, etc)
+#         ]
+#     ) 
+
+    fig.update_layout(
+        width=1100,
+        height=600,
+        paper_bgcolor="LightSteelBlue"
+    )
 
     # Render plot using st.plotly_chart
     st.plotly_chart(
@@ -434,7 +505,7 @@ def generate_chart_plot_with_sub_plots(df):
     """
     TODO
     https://stackoverflow.com/questions/64689342/plotly-how-to-add-volume-to-a-candlestick-chart
-    https://web3-ethereum-defi.readthedocs.io/tutorials/uniswap-v3-price-analysis.html
+    https://web3-ethereum-defi.readthedocs.io/tutorials/uniswap-v3-price-df_macd.html
     """
 
     candlesticks = gobj.Candlestick(
@@ -488,7 +559,7 @@ def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
       a df with price data generated by the sql_query results for the symbol chosen by user from the Symbol Dropdown
     """
 
-    logger.debug("Arguments : dbconn = {}, df = {}", dbconn, df)
+    logger.debug("Arguments : dbconn = {}, df = {}", dbconn, df.head(2))
 
     # Selectbox (dropdown) Sidebar
     sm_chosen_symbol = st.sidebar.selectbox(  # Drop-down named Symbol Dropdown with 3 selectable options
@@ -523,15 +594,16 @@ def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
                 logger.debug(
                     "Now fetch and insert this missing recent data into price data table"
                 )
-                df_downloaded_price_data = m_yfn.get_historical_data_symbol(
+                df_downloaded_missing_price_data = m_yfn.get_historical_data_symbol(
                     df_sym_stats
                 )
-                m_udb.insert_symbol_price_data_stats_from_database(
-                    dbconn,
-                    sm_chosen_symbol,
-                    df_downloaded_price_data,
-                    "tbl_price_data_1day",
-                )
+                # m_udb.insert_symbol_price_data_stats_from_database(
+                #     dbconn,
+                #     sm_chosen_symbol,
+                #     df_downloaded_price_data,
+                #     "tbl_price_data_1day",
+                # )
+                m_udb.insert_record_into_table(dbconn, sm_chosen_symbol, df_downloaded_missing_price_data, "tbl_price_data_1day")
         else:
             # df_sym_stats empty
             logger.warning(
@@ -621,7 +693,8 @@ def main():
       print(f"---2000--type= {type(df_symbols_list)} ----")
       df_symbol_price_data = pd.DataFrame()
       df_symbol_price_data = streamlit_sidebar_selectbox_symbol_only(db_conn, df_symbols_list)
-      if not df_symbol_price_data.empty:
+      print(f"---222--type= {type(df_symbol_price_data)} ----df = {df_symbol_price_data}----")
+      if df_symbol_price_data is not None:
         # generate the main chart with all the indicators
         # generate_chart_plot(df_symbol_price_data)
         logger.debug("df_symbol_price_data = {}", df_symbol_price_data)
