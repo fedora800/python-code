@@ -402,11 +402,9 @@ def generate_chart_plot_2(df):
         #textfont=dct_textfont,
         #marker=dict(color="green", width=2),
         marker={
-            "color": "rgba(128,128,128,0.5)",
+            "color": "rgba(0,255,0,0.5)",
         }
     )
-
-
 
     # add the trace object for corresponding subplot and associated scatter plots onto the fig object
     fig.add_trace(trace_macd_macd, row=4, col=1)
@@ -446,17 +444,49 @@ def generate_chart_plot_2(df):
     '''
 
 
-    # --- subplot 5 on row 1 and column 1 (ADX) --- TODO --
-    trace_subplot_row_5 = gobj.Scatter(
+    # --- subplot 5 on row 1 and column 1 (ADX) ---
+    df_adx = pd.DataFrame()
+    TIME_PERIOD=14
+    na_ADX       = ta.ADX(df["high"], df["low"], df["close"], TIME_PERIOD)
+    na_DMI_MINUS = ta.MINUS_DI(df["high"], df["low"], df["close"], TIME_PERIOD)
+    na_DMI_PLUS  = ta.PLUS_DI(df["high"], df["low"], df["close"], TIME_PERIOD)
+
+    df_adx["adx"] = na_ADX
+    df_adx["dmi_minus"] = na_DMI_MINUS
+    df_adx["dmi_plus"] = na_DMI_PLUS
+    print(f"-------{df_adx.info()}---df_adx = {df_adx}---")  
+
+
+    trace_adx_adx = gobj.Scatter(
         x=df["pd_time"],
-        y=df["rsi_14"],
+        y=df_adx["adx"],
         mode="lines",
-        name="ADX",
+        name="MACD",
+        textfont=dct_textfont,
+        line=dict(color="blue", width=2),
+    )
+    trace_adx_minus = gobj.Scatter(
+        x=df["pd_time"],
+        y=df_adx["dmi_minus"],
+        mode="lines",
+        name="DMI MINUS",
         textfont=dct_textfont,
         line=dict(color="red", width=2),
     )
+    trace_adx_plus = gobj.Scatter(
+        x=df["pd_time"],
+        y=df_adx["dmi_plus"],
+        mode="lines",
+        name="DMI PLUS",
+        textfont=dct_textfont,
+        line=dict(color="green", width=2),
+    )
 
-    fig.add_trace(trace_subplot_row_5, row=5, col=1)
+    # add the trace object for corresponding subplot and associated scatter plots onto the fig object
+    fig.add_trace(trace_adx_adx, row=5, col=1)
+    fig.add_trace(trace_adx_minus, row=5, col=1)
+    fig.add_trace(trace_adx_plus, row=5, col=1)
+
 
     # --- Now that all traces have been added, prepare the fig object to be displayed ---
     # Update layout to show y-axis titles
@@ -491,7 +521,7 @@ def generate_chart_plot_2(df):
     fig.update_layout(
         width=1100,
         height=600,
-        paper_bgcolor="LightSteelBlue"
+        #paper_bgcolor="LightSteelBlue"
     )
 
     # Render plot using st.plotly_chart
@@ -501,51 +531,6 @@ def generate_chart_plot_2(df):
     # st.plotly_chart(fig, use_container_height=True, use_container_width=True)
 
 
-def generate_chart_plot_with_sub_plots(df):
-    """
-    TODO
-    https://stackoverflow.com/questions/64689342/plotly-how-to-add-volume-to-a-candlestick-chart
-    https://web3-ethereum-defi.readthedocs.io/tutorials/uniswap-v3-price-df_macd.html
-    """
-
-    candlesticks = gobj.Candlestick(
-        x=df["pd_time"],
-        open=df["open"],
-        high=df["high"],
-        low=df["low"],
-        close=df["close"],
-        showlegend=False,
-    )
-
-    volume_bars = gobj.Bar(
-        x=df["pd_time"],
-        y=df["volume"],
-        showlegend=False,
-        marker={
-            "color": "rgba(128,128,128,0.5)",
-        },
-    )
-
-    fig = gobj.Figure(candlesticks)
-    fig = make_subplots(specs=[[{"secondary_y": True}]])
-    fig.add_trace(candlesticks, secondary_y=True)
-    fig.add_trace(volume_bars, secondary_y=False)
-    fig.update_layout(
-        title="ETH/USDC pool price data at the very beginning of Uniswap v3",
-        height=800,
-        # Hide Plotly scrolling minimap below the price chart
-        xaxis={"rangeslider": {"visible": False}},
-    )
-    fig.update_yaxes(title="Price $", secondary_y=True, showgrid=True)
-    fig.update_yaxes(title="Volume $", secondary_y=False, showgrid=False)
-
-    #  fig.show()
-
-    # Render plot using plotly_chart
-    st.plotly_chart(
-        fig, width=1100, height=600
-    )  # make sure to increase this appropriately with the other objects
-    logger.info("plotly on streamlit main chart rendered")
 
 
 def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
