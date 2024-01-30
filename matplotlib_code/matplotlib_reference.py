@@ -1,105 +1,103 @@
-
 import matplotlib.pyplot as plt
 import pandas as pd
 
 
 # --------------------------------------------------------------------------------
-def fn_01_simple_chart(df):
+def fn_01_simple_chart(symbol, df):
 
 
+  # Set the size pf chart
+  #plt.figure(figsize=(12, 6))
 
-# Set the size pf chart
-#plt.figure(figsize=(12, 6))
-
-# Define the title name of the figure
-plt.title(f"{symbol} Price Chart", fontsize=16)
+  # Define the title name of the figure
+  plt.title(f"{symbol} Price Chart", fontsize=16)
 
 
-# Define the labels for x-axis and y-axis
-plt.xlabel('Date', fontsize=14)
-plt.ylabel('Closing Price', fontsize=14)
+  # Define the labels for x-axis and y-axis
+  plt.xlabel('Date', fontsize=14)
+  plt.ylabel('Closing Price', fontsize=14)
 
-# Plot the grid lines
-plt.grid(which="major", color='k', linestyle='-.', linewidth=0.5)
+  # Plot the grid lines
+  plt.grid(which="major", color='k', linestyle='-.', linewidth=0.5)
 
-# Line plot of closing prices
-plt.plot(df['Close'], label=f'{symbol} Closing Price', linewidth=2)
-#plt.plot(df['Close'])
+  # Line plot of closing prices
+  plt.plot(df['Close'], label=f'{symbol} Closing Price', linewidth=2)
+  #plt.plot(df['Close'])
 
-# Show the legend
-#A legend is an area describing the elements of the graph. In the Matplotlib library, there’s a function called legend() which is used to place a legend on the axes
-# ie INSIDE the chart image
-# if the plt.plot(..., label="my-label-1") is defined, then the legend will show this label name
-# Function add a legend
-#plt.legend(["symbol_price", "test_legend"], loc="lower right")
-plt.legend()
+  # Show the legend
+  #A legend is an area describing the elements of the graph. In the Matplotlib library, there’s a function called legend() which is used to place a legend on the axes
+  # ie INSIDE the chart image
+  # if the plt.plot(..., label="my-label-1") is defined, then the legend will show this label name
+  # Function add a legend
+  #plt.legend(["symbol_price", "test_legend"], loc="lower right")
+  plt.legend()
 
-plt.show()
-# note - the x axis dates will not show correctly, it will show datapoints like 200, 400, 600 etc
+  plt.show()
+  # note - the x axis dates will not show correctly, it will show datapoints like 200, 400, 600 etc
 
 
 
 # --------------------------------------------------------------------------------
 
-def fn_02_subplots_with_pandas(df_sym, sym)
+def fn_02_subplots_with_pandas(df, sym):
 
-NUM_SUBPLOTS=2
-NUM_COLUMNS=1
+  NUM_SUBPLOTS=2
+  NUM_COLUMNS=1
 
-'''
- matplotlib.pyplot.subplots(nrows=1, ncols=1, *, sharex=False, sharey=False, squeeze=True, width_ratios=None,
-         height_ratios=None, subplot_kw=None, gridspec_kw=None, **fig_kw)
-subplots() without arguments returns a Figure and a single Axes.
-'''
+  '''
+  matplotlib.pyplot.subplots(nrows=1, ncols=1, *, sharex=False, sharey=False, squeeze=True, width_ratios=None,
+          height_ratios=None, subplot_kw=None, gridspec_kw=None, **fig_kw)
+  subplots() without arguments returns a Figure and a single Axes.
+  '''
 
-'''
-A figure with just one subplot
-fig, ax = plt.subplots()
-ax.plot(x, y)
-ax.set_title('A single plot')
-'''
-
-
-fig, axs = plt.subplots(nrows=NUM_SUBPLOTS, ncols=NUM_COLUMNS)
-# fig, (ax1, ax2) = plt.subplots(nrows=2, figsize=(6, 6), layout='constrained')
-
-'''
-ax1.legend(handles=[ml.Line2D([], [], ls='--', label='Gaps in daily data')])
-ax1.xaxis.set_major_locator(DayLocator())
-ax1.xaxis.set_major_formatter(DateFormatter('%a'))
-'''
+  '''
+  A figure with just one subplot
+  fig, ax = plt.subplots()
+  ax.plot(x, y)
+  ax.set_title('A single plot')
+  '''
 
 
-# plot 1
-axs[0].set_xlabel('Date', fontsize=12)
-axs[0].set_ylabel('Close Price', fontsize=12)
-axs[0].grid(which="major", color='k', linestyle='-.', linewidth=0.5)
-axs[0].plot(df['Date'], df['Close'], label=f'{sym} Closing Price', linewidth=2)  # by default 1st is x axis, 2nd is y axis
-axs[0].legend(["symbol_price"], loc="lower right")
-axs[0].set_title("--Closing Prices--")
+  fig, axs = plt.subplots(nrows=NUM_SUBPLOTS, ncols=NUM_COLUMNS)
+  # fig, (ax1, ax2) = plt.subplots(nrows=2, figsize=(6, 6), layout='constrained')
+
+  '''
+  ax1.legend(handles=[ml.Line2D([], [], ls='--', label='Gaps in daily data')])
+  ax1.xaxis.set_major_locator(DayLocator())
+  ax1.xaxis.set_major_formatter(DateFormatter('%a'))
+  '''
 
 
-# Set the size pf chart
-#plt.figure(figsize=(12, 6))
-
-# Define the title name of the figure
-#plt.title(f"{sym} Price Chart", fontsize=16)
-
-
-# plot 2
-axs[1].set_title("--Volume--")
-axs[1].bar(df['Date'], df['Volume'], color='red', label=f'{sym} lbl_Volume', linewidth=2)
-axs[1].tick_params('y', colors='purple')
-axs[1].axhline(100000, color='black', linestyle='dotted')       # draw a horizontal line
+  # plot 1
+  axs[0].set_xlabel('Date', fontsize=12)
+  axs[0].set_ylabel('Close Price', fontsize=12)
+  axs[0].grid(which="major", color='k', linestyle='-.', linewidth=0.5)
+  axs[0].plot(df['Date'], df['Close'], label=f'{sym} Closing Price', linewidth=2)  # by default 1st is x axis, 2nd is y axis
+  axs[0].legend(["symbol_price"], loc="lower right")
+  axs[0].set_title("--Closing Prices--")
 
 
+  # Set the size pf chart
+  #plt.figure(figsize=(12, 6))
 
-fig.suptitle('Vertically stacked subplots')
-plt.show()
+  # Define the title name of the figure
+  #plt.title(f"{sym} Price Chart", fontsize=16)
+
+
+  # plot 2
+  axs[1].set_title("--Volume--")
+  axs[1].bar(df['Date'], df['Volume'], color='red', label=f'{sym} lbl_Volume', linewidth=2)
+  axs[1].tick_params('y', colors='purple')
+  axs[1].axhline(100000, color='black', linestyle='dotted')       # draw a horizontal line
+
+
+
+  fig.suptitle('Vertically stacked subplots')
+  plt.show()
 
 
 # --------------------------------------------------------------------------------
- def fn_03_relative_strength_chart(df_bch, bch_sy, df_sym, sym):
+def fn_03_relative_strength_chart(df_bch, bch_sym, df_sym, sym):
 
   NUM_SUBPLOTS=5
   NUM_COLUMNS=1
@@ -126,9 +124,7 @@ plt.show()
 
   # Parameters
   length = 50
-  show_MA = True
-  length_MA = 10
-
+  
   # Calculate Relative Strength
   # used my Trading Reference gdoc and TradingView RS pinecode from someone and ultimately ChatGPT for getting this right
   df_merged['Relative_Strength'] = (df_merged['Close_SYMB'] / df_merged['Close_SYMB'].shift(length) /
@@ -210,8 +206,8 @@ def main():
 
   benchmark_symbol_file = "SPY.csv"
   benchmark_symbol = "SPY"
-  symbol_file = "AAPL.csv"
-  symbol="AAPL"
+  symbol_file = "MSFT.csv"
+  symbol="MSFT"
   
   df_benchmark_symbol = pd.read_csv(benchmark_symbol_file)
   df_benchmark_symbol['Date'] = pd.to_datetime(df_benchmark_symbol['Date'])     # convert Date to a datetime object

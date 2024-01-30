@@ -46,7 +46,7 @@ def streamlit_sidebar_selectbox_symbol_group(dbconn):
     dct_options = {
         "symbol_groups": ["US S&P500 constituents", "US ETFs", "UK ETFs"],
         "symbol_groups_sqlquery": [
-            """select symbol, name from viw_instrument_us_sp500_constituents where symbol like '%RS%';""",
+            """select symbol, name from viw_instrument_us_sp500_constituents where symbol like '%AA%';""",
             """select symbol, name from viw_instrument_us_etfs where symbol like 'JP%';""",
             """select symbol, name from viw_instrument_uk_equities where symbol like 'D%';""",
         ],
@@ -346,9 +346,9 @@ def generate_chart_plot_2(df):
             type="line",
             x0=df["pd_time"].iloc[0],
             x1=df["pd_time"].iloc[-1],
-            y0=20,
-            y1=20,
-            line=dict(color="red", width=2),
+            y0=40,
+            y1=40,
+            line=dict(color="red", width=1),
         ),
         row=3,
         col=1,
@@ -359,9 +359,9 @@ def generate_chart_plot_2(df):
             type="line",
             x0=df["pd_time"].iloc[0],
             x1=df["pd_time"].iloc[-1],
-            y0=80,
-            y1=80,
-            line=dict(color="blue", width=2),
+            y0=60,
+            y1=60,
+            line=dict(color="blue", width=1),
         ),
         row=3,
         col=1,
@@ -471,7 +471,7 @@ def generate_chart_plot_2(df):
         mode="lines",
         name="DMI MINUS",
         textfont=dct_textfont,
-        line=dict(color="red", width=2),
+        line=dict(color="red", width=1),
     )
     trace_adx_plus = gobj.Scatter(
         x=df["pd_time"],
@@ -479,13 +479,27 @@ def generate_chart_plot_2(df):
         mode="lines",
         name="DMI PLUS",
         textfont=dct_textfont,
-        line=dict(color="green", width=2),
+        line=dict(color="green", width=1),
     )
 
     # add the trace object for corresponding subplot and associated scatter plots onto the fig object
     fig.add_trace(trace_adx_adx, row=5, col=1)
     fig.add_trace(trace_adx_minus, row=5, col=1)
     fig.add_trace(trace_adx_plus, row=5, col=1)
+
+    # add a line at 25 level on this sub-plot
+    fig.add_shape(
+        dict(
+            type="line",
+            x0=df["pd_time"].iloc[0],
+            x1=df["pd_time"].iloc[-1],
+            y0=25,
+            y1=25,
+            line=dict(color="brown", width=1),
+        ),
+        row=5,
+        col=1,
+    )
 
 
     # --- Now that all traces have been added, prepare the fig object to be displayed ---
@@ -520,13 +534,16 @@ def generate_chart_plot_2(df):
 
     fig.update_layout(
         width=1100,
-        height=600,
+        #height=600,
+        height=2000,
         #paper_bgcolor="LightSteelBlue"
     )
 
     # Render plot using st.plotly_chart
     st.plotly_chart(
-        fig, width=1100, height=900
+        fig, width=1100, 
+        #height=900
+        height=2000
     )  # make sure to match it with the fig layout, but can also do like below
     # st.plotly_chart(fig, use_container_height=True, use_container_width=True)
 
@@ -579,16 +596,8 @@ def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
                 logger.debug(
                     "Now fetch and insert this missing recent data into price data table"
                 )
-                df_downloaded_missing_price_data = m_yfn.get_historical_data_symbol(
-                    df_sym_stats
-                )
-                # m_udb.insert_symbol_price_data_stats_from_database(
-                #     dbconn,
-                #     sm_chosen_symbol,
-                #     df_downloaded_price_data,
-                #     "tbl_price_data_1day",
-                # )
-                m_udb.insert_record_into_table(dbconn, sm_chosen_symbol, df_downloaded_missing_price_data, "tbl_price_data_1day")
+                df_downloaded_missing_price_data = m_yfn.get_historical_data_symbol(df_sym_stats)
+                m_udb.insert_symbol_price_data_into_db(dbconn, sm_chosen_symbol, df_downloaded_missing_price_data, "tbl_price_data_1day")
         else:
             # df_sym_stats empty
             logger.warning(
@@ -613,7 +622,7 @@ def streamlit_sidebar_selectbox_symbol_only(dbconn, df):
                 df_default_timeframe
             )
             # now  insert them into price data table
-            m_udb.insert_symbol_price_data_stats_from_database(
+            m_udb.insert_symbol_price_data_into_db(
                 dbconn,
                 sm_chosen_symbol,
                 df_downloaded_price_data,

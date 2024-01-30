@@ -103,48 +103,57 @@ def get_symbol_price_data_stats_from_database(dbconn, symbol):
     return df_result
 
 
-def insert_symbol_price_data_stats_from_database(dbconn, symbol, df, table_name):
-    """
-    70                          Open        High        Low         Close       Adj Close    Volume
-    71   Date       2023-02-15  176.210007  178.820007  175.000000  177.419998  176.321732   815900
-    """
-    df_head_foot = pd.concat([df.head(1), df.tail(1)])
-    logger.debug(
-        "Received arguments : dbconn={} symbol={} df={} tbl_name={}",
-        dbconn,
-        symbol,
-        df_head_foot,
-        table_name,
-    )
-    # prepare the df for inserting into the table
-    df.reset_index(
-        inplace=True
-    )  # reset the Date index and make it into a column by itself. will be the 1st column
-    df.insert(0, "Symbol", symbol)  # add Symbol as 2nd column after date
-    df.drop(columns=["Adj Close"], inplace=True)
-    column_mapping = {
-        "Symbol": "pd_symbol",
-        "Date": "pd_time",
-        "Open": "open",
-        "High": "high",
-        "Low": "low",
-        "Close": "close",
-        "Volume": "volume",
-        "ema_5": None,
-        "ema_13": None,
-        "sma_50": None,
-        "sma_200": None,
-        "rsi_14": None,
-    }
-    if column_mapping:
-        df = df.rename(columns=column_mapping)
-    df_head_foot = pd.concat([df.head(1), df.tail(1)])
-    # Insert the DataFrame into the specified table
-    # index=False to avoid saving the DataFrame index as a separate column in the table
-    df.to_sql(name=table_name, con=dbconn, if_exists="append", index=False)
-    logger.debug(
-        "DB insert completed - {} into table {} = {}", symbol, table_name, df_head_foot
-    )
+def insert_symbol_price_data_into_db(dbconn, symbol, df, table_name):
+  """Using the df provided, insert OHLC data into the table for this particular symbol
+
+  Args:
+      dbconn (db connection object): SQLAlchemy db connection handle
+      symbol (string): symbol for which we need the data inserted
+      df (dataframe): dataframe containing olhc data for the symbol
+      table_name (string): name of the table into which we need this data inserted
+  """
+
+  """
+  70                          Open        High        Low         Close       Adj Close    Volume
+  71   Date       2023-02-15  176.210007  178.820007  175.000000  177.419998  176.321732   815900
+  """
+  df_head_foot = pd.concat([df.head(1), df.tail(1)])
+  logger.debug(
+      "Received arguments : dbconn={} symbol={} df={} tbl_name={}",
+      dbconn,
+      symbol,
+      df_head_foot,
+      table_name,
+  )
+  # prepare the df for inserting into the table
+  df.reset_index(
+      inplace=True
+  )  # reset the Date index and make it into a column by itself. will be the 1st column
+  df.insert(0, "Symbol", symbol)  # add Symbol as 2nd column after date
+  df.drop(columns=["Adj Close"], inplace=True)
+  column_mapping = {
+      "Symbol": "pd_symbol",
+      "Date": "pd_time",
+      "Open": "open",
+      "High": "high",
+      "Low": "low",
+      "Close": "close",
+      "Volume": "volume",
+      "ema_5": None,
+      "ema_13": None,
+      "sma_50": None,
+      "sma_200": None,
+      "rsi_14": None,
+  }
+  if column_mapping:
+      df = df.rename(columns=column_mapping)
+  df_head_foot = pd.concat([df.head(1), df.tail(1)])
+  # Insert the DataFrame into the specified table
+  # index=False to avoid saving the DataFrame index as a separate column in the table
+  df.to_sql(name=table_name, con=dbconn, if_exists="append", index=False)
+  logger.debug(
+      "DB insert completed - {} into table {} = {}", symbol, table_name, df_head_foot
+  )
 
 
 def get_symbol_input_check_against_db_using_psycopg2(dbconn):
@@ -154,7 +163,7 @@ def get_symbol_input_check_against_db_using_psycopg2(dbconn):
     if not, we will say that symbol not found
     """
 
-    text_input = 'AAPL'
+    text_input = "AAPL"
     if text_input:
         print("You entered Symbol : ", text_input)
     sql_query = "select * from tbl_instrument where symbol= '%s'" % text_input
@@ -168,47 +177,16 @@ def get_symbol_input_check_against_db_using_psycopg2(dbconn):
 
 
 def record_exists(dbconn, pd_symbol, pd_time):
-  # Check if a record with the given pd_symbol and pd_time already exists
-  sql_query = text("""
+    # Check if a record with the given pd_symbol and pd_time already exists
+    sql_query = text(
+        """
       SELECT 1
       FROM tbl_price_data_1day
       WHERE pd_symbol = :symbol AND pd_time = :time
-  """)
+  """
+    )
 
-  result = dbconn.execute(sql_query, symbol=pd_symbol, time=pd_time)
-  return result.fetchone() is not None
+    result = dbconn.execute(sql_query, symbol=pd_symbol, time=pd_time)
+    return result.fetchone() is not None
 
 
-def insert_record_into_table(dbconn, symbol, df, tbl_name):
-
-  df_head_foot = pd.concat([df.head(1), df.tail(1)])
-  logger.debug(
-      "Received arguments : dbconn={} symbol={} df={} tbl_name={}",
-      dbconn,
-      symbol,
-      df_head_foot,
-      tbl_name,
-  )
-  
-  # Iterate over rows in the DataFrame and insert records
-  for index, row in df.iterrows():
-    pd_symbol = row['pd_symbol']
-    pd_time = row['pd_time']
-
-    if not record_exists(dbconn, pd_symbol, pd_time):
-      # Prepare the INSERT SQL statement
-      insert_query = text("""
-          INSERT INTO :tbl_name (pd_symbol, pd_time, other_columns)
-          VALUES (:symbol, :time, :other_values)
-      """)
-      # Perform the insertion
-      dbconn.execute(
-          insert_query,
-          symbol=pd_symbol,
-          time=pd_time,
-          other_values=row['other_columns']
-          # Include other column values in a similar manner
-      )
-      print(f"Inserted record for {pd_symbol} at {pd_time}")
-    else:
-      print(f"Record for {pd_symbol} at {pd_time} already exists. Skipping.")
