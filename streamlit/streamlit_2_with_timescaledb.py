@@ -46,7 +46,7 @@ def streamlit_sidebar_selectbox_symbol_group(dbconn):
     dct_options = {
         "symbol_groups": ["US S&P500 constituents", "US ETFs", "UK ETFs"],
         "symbol_groups_sqlquery": [
-            """select symbol, name from viw_instrument_us_sp500_constituents where symbol like '%AA%';""",
+            """select symbol, name from viw_instrument_us_sp500_constituents where symbol like '%CO%';""",
             """select symbol, name from viw_instrument_us_etfs where symbol like 'JP%';""",
             """select symbol, name from viw_instrument_uk_equities where symbol like 'D%';""",
         ],
@@ -653,6 +653,64 @@ def generate_table_plot(df):
     # st.dataframe(df, 100, 200)
 
 
+def st_selectbox_scans(dbconn):
+  """_summary_
+
+  Args:
+      dbconn (_type_): db connection handle
+
+  Returns:
+      _type_: _description_
+  """  
+
+  """
+  this the top-left 1st selectbox on the sidebarinput
+  user will select the group of symbols he wants to start on (eg US ETFs, UK ETFs, US S&P500 constituents etc)
+  TODO - what about no output ???
+
+  returns:
+    a df with the output of the the sql_query results (symbols list) corresponding to what option we chose from the dropdown
+  """
+
+  logger.debug("Arguments : {}", dbconn)
+
+  dct_options = {
+    "scan_name": ["stocks below SMA50", "stocks_above_SMA50"],
+    "scan_sqlquery": ["select * from viw_latest_price_data_by_symbol where close < sma_50", 
+                      "select * from viw_latest_price_data_by_symbol where close > sma_50"]
+    }
+
+  # load data into a DataFrame object:
+  df_select_options = pd.DataFrame(dct_options)
+  logger.debug("type={}. df_select_options={}", type(df_select_options), df_select_options)
+
+  # Take input from selectbox to select a specific scan
+  chosen_sb_option_scan = st.selectbox(
+      "Scans Dropdown",  # Drop-down named Scans Dropdown
+      df_select_options["scan_name"],
+      key="chosen_sb_option_scan",
+      index=None,
+  )
+  st.write("You selected from scans dropdown :", chosen_sb_option_scan)
+  logger.info("You selected from the Scans Dropdown - chosen_sb_option_scan={}",  chosen_sb_option_scan)
+
+  # initial the return df
+  df_symbols = pd.DataFrame()
+
+  # if user chooses from the Scans dropdown, then run the sql query and return values into a dataframe
+  if chosen_sb_option_scan:
+      chosen_sql_query_scan = df_select_options[df_select_options["scan_name"] == chosen_sb_option_scan]["scan_sqlquery"].iloc[0]
+      logger.info("st_selectbox_scans - CHOSEN SQL_QUERY = {}", chosen_sql_query_scan)
+      sql_query = text(chosen_sql_query_scan)
+      df_symbols = pd.read_sql_query(sql_query, dbconn)
+
+      logger.debug("Returning df ={} ", df_symbols)
+  
+  return df_symbols
+
+
+
+
 def main():
     # db_conn = connect_to_db_using_psycopg2()
     # my_db_uri = "postgresql://postgres:postgres#123@localhost:5432/dbs_invest"
@@ -696,6 +754,10 @@ def main():
         # generate_chart_plot_with_sub_plots(df_symbol_price_data)
 
     print("---3000---")
+
+    df_scans = st_selectbox_scans(db_conn)
+    print("----df_scans result = ", df_scans)
+    print("---4000---")
     print("--- end of main() ---")
 
 
@@ -733,33 +795,3 @@ if __name__ == "__main__":
 
 #  streamlit run streamlit_1.py --server.port 8000
 
-
-# -----------------------------
-
-"""   # --- temp --- this the Scans below the chart --- need to seperate out probably --
-  data = {
-    "scan_name": ["stocks below SMA50", "stocks_above_SMA50"],
-    "scan_sqlquery": ["select * from viw_latest_price_data_by_symbol where close < sma_50", "select * from viw_latest_price_data_by_symbol where close > sma_50"]
-  }
-
-  #load data into a DataFrame object:
-  df_scans = pd.DataFrame(data)
-  chosen_sb2_option = st.selectbox( 
-     "My Scans",
-      df_scans,
-      key='chosen_sb2_option'
-  )
-  st.write('The scan you selected:', chosen_sb2_option)
-  #print("Symbol chosen from the select box = ", chosen_symbol)
-
-  print("selection OPTION chosen = ", chosen_sb2_option)
-  x11 = df_scans[df_scans["scan_name"]==chosen_sb2_option]["scan_sqlquery"].values[0]
-  print("which maps to VALUE = ", x11)
-  df_scan_output = pd.read_sql_query(x11, dbconn)
-  print(df_scan_output.tail(3))
-  generate_table_plot(df_scan_output)
-
-#df[df['B']==3]['A'].item()
-#Use df[df['B']==3]['A'].values[0] if you just want item itself without the brackets """
-
-# ---------------------
