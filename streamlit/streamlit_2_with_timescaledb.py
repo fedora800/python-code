@@ -41,6 +41,8 @@ def st_sb_selectbox_symbol_group(dbconn):
     returns:
       a df with the output of the the sql_query results (symbols list) corresponding to what option we chose from the dropdown
     """
+
+    print("---100---st_sb_selectbox_symbol_group------START-----")
     logger.debug("Arguments : {}", dbconn)
 
     dct_options = {
@@ -89,6 +91,7 @@ def st_sb_selectbox_symbol_group(dbconn):
 
     df_head_foot = pd.concat([df_symbols.head(1), df_symbols.tail(1)])
     logger.debug("Returning Symbol List as df_head_foot = {} ", df_head_foot)
+    print("---100---st_sb_selectbox_symbol_group------END     RETURNING-----")
     return df_symbols
 
 
@@ -315,7 +318,6 @@ def generate_chart_plot_2(df):
     df["rsi_14"] = ta.RSI(df["close"], timeperiod=14)
     logger.trace("--dfhead={}----dftail={}----", df.head(1), df.tail(1))
 
-
     # Prepare subplot with a gobj.Scatter object trace for RSI
     trace_subplot_row_3 = gobj.Scatter(
         x=df["pd_time"],
@@ -373,12 +375,16 @@ def generate_chart_plot_2(df):
     MACD_FAST = 12
     MACD_SLOW = 26
     MACD_SIGNAL = 9
-    na_macd, na_macd_signal, na_macd_hist = ta.MACD(df["close"].to_numpy(), fastperiod=MACD_FAST, slowperiod=MACD_SLOW, signalperiod=MACD_SIGNAL)
+    na_macd, na_macd_signal, na_macd_hist = ta.MACD(
+        df["close"].to_numpy(),
+        fastperiod=MACD_FAST,
+        slowperiod=MACD_SLOW,
+        signalperiod=MACD_SIGNAL,
+    )
     df_macd["macd"] = na_macd
     df_macd["signal"] = na_macd_signal
     df_macd["histogram"] = na_macd_hist
-    logger.trace("-------df_macd.info={}---df_macd={}---", df_macd.info(), df_macd)  
-
+    logger.trace("-------df_macd.info={}---df_macd={}---", df_macd.info(), df_macd)
 
     trace_macd_macd = gobj.Scatter(
         x=df["pd_time"],
@@ -400,11 +406,11 @@ def generate_chart_plot_2(df):
         x=df["pd_time"],
         y=df_macd["histogram"],
         name="MACD Histogram",
-        #textfont=dct_textfont,
-        #marker=dict(color="green", width=2),
+        # textfont=dct_textfont,
+        # marker=dict(color="green", width=2),
         marker={
             "color": "rgba(0,255,0,0.5)",
-        }
+        },
     )
 
     # add the trace object for corresponding subplot and associated scatter plots onto the fig object
@@ -412,19 +418,17 @@ def generate_chart_plot_2(df):
     fig.add_trace(trace_macd_signal, row=4, col=1)
     fig.add_trace(trace_macd_histogram, row=4, col=1)
 
-
     # --- subplot 5 on row 1 and column 1 (ADX) ---
     df_adx = pd.DataFrame()
-    TIME_PERIOD=14
-    na_ADX       = ta.ADX(df["high"], df["low"], df["close"], TIME_PERIOD)
+    TIME_PERIOD = 14
+    na_ADX = ta.ADX(df["high"], df["low"], df["close"], TIME_PERIOD)
     na_DMI_MINUS = ta.MINUS_DI(df["high"], df["low"], df["close"], TIME_PERIOD)
-    na_DMI_PLUS  = ta.PLUS_DI(df["high"], df["low"], df["close"], TIME_PERIOD)
+    na_DMI_PLUS = ta.PLUS_DI(df["high"], df["low"], df["close"], TIME_PERIOD)
 
     df_adx["adx"] = na_ADX
     df_adx["dmi_minus"] = na_DMI_MINUS
     df_adx["dmi_plus"] = na_DMI_PLUS
-    print(f"-------{df_adx.info()}---df_adx = {df_adx}---")  
-
+    print(f"-------{df_adx.info()}---df_adx = {df_adx}---")
 
     trace_adx_adx = gobj.Scatter(
         x=df["pd_time"],
@@ -470,7 +474,6 @@ def generate_chart_plot_2(df):
         col=1,
     )
 
-
     # --- Now that all traces have been added, prepare the fig object to be displayed ---
     # Update layout to show y-axis titles
     fig.update_layout(
@@ -491,32 +494,31 @@ def generate_chart_plot_2(df):
         title_font=dict(size=14),
     )
 
-#     # Update the layout for X-axis so that weekends and holidays (shows gaps on chart) are omitted from plotting
-#     fig.update_xaxes(
-#         rangebreaks = [
-#             # NOTE: Below values are bound (not single values), ie. hide x to y
-#             dict(bounds=["sat", "mon"]),                 # hide weekends, eg. hide sat to before mon
-#             dict(bounds=[16, 9.5], pattern="hour"),      # hide hours outside of 9.30am-4pm
-#             # dict(values=["2023-12-25", "2024-01-01"])  # hide holidays (Christmas and New Year's, etc)
-#         ]
-#     ) 
+    #     # Update the layout for X-axis so that weekends and holidays (shows gaps on chart) are omitted from plotting
+    #     fig.update_xaxes(
+    #         rangebreaks = [
+    #             # NOTE: Below values are bound (not single values), ie. hide x to y
+    #             dict(bounds=["sat", "mon"]),                 # hide weekends, eg. hide sat to before mon
+    #             dict(bounds=[16, 9.5], pattern="hour"),      # hide hours outside of 9.30am-4pm
+    #             # dict(values=["2023-12-25", "2024-01-01"])  # hide holidays (Christmas and New Year's, etc)
+    #         ]
+    #     )
 
     fig.update_layout(
         width=1100,
-        #height=600,
+        # height=600,
         height=2000,
-        #paper_bgcolor="LightSteelBlue"
+        # paper_bgcolor="LightSteelBlue"
     )
 
     # Render plot using st.plotly_chart
     st.plotly_chart(
-        fig, width=1100, 
-        #height=900
-        height=2000
+        fig,
+        width=1100,
+        # height=900
+        height=2000,
     )  # make sure to match it with the fig layout, but can also do like below
     # st.plotly_chart(fig, use_container_height=True, use_container_width=True)
-
-
 
 
 def st_sb_selectbox_symbol_only(dbconn, df):
@@ -529,6 +531,9 @@ def st_sb_selectbox_symbol_only(dbconn, df):
     returns:
       a df with price data generated by the sql_query results for the symbol chosen by user from the Symbol Dropdown
     """
+
+    print("---200---st_sb_selectbox_symbol_only------START-----")
+
     df_head_foot = pd.concat([df.head(1), df.tail(1)])
     logger.debug("Arguments : dbconn = {}, df_head_foot = {}", dbconn, df_head_foot)
 
@@ -565,8 +570,15 @@ def st_sb_selectbox_symbol_only(dbconn, df):
                 logger.debug(
                     "Now fetch and insert this missing recent data into price data table"
                 )
-                df_downloaded_missing_price_data = m_yfn.get_historical_data_symbol(df_sym_stats)
-                m_udb.insert_symbol_price_data_into_db(dbconn, sm_chosen_symbol, df_downloaded_missing_price_data, "tbl_price_data_1day")
+                df_downloaded_missing_price_data = m_yfn.get_historical_data_symbol(
+                    df_sym_stats
+                )
+                m_udb.insert_symbol_price_data_into_db(
+                    dbconn,
+                    sm_chosen_symbol,
+                    df_downloaded_missing_price_data,
+                    "tbl_price_data_1day",
+                )
         else:
             print("--here---999  IF DF_SYM_STATS EMPTY ----")
             # df_sym_stats empty
@@ -613,12 +625,12 @@ def st_sb_selectbox_symbol_only(dbconn, df):
         df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn)
         df_head_foot = pd.concat([df.head(1), df.tail(1)])
         logger.debug("Returning df = {}", df_head_foot)
-        print("--here---44444----")
-
+        print("---200---st_sb_selectbox_symbol_only------END    RETURNING-----")
         return df_ohlcv_symbol
-
-    # sm_chosen_symbol not yet chosen
-    print("---here 11---end of streamlit_sidebar_selectbox_symbol_only---")
+    else:
+      print("-----101--user has not yet chosen from the symbol group dropdown-------------")
+      print("---here 11---end of streamlit_sidebar_selectbox_symbol_only---")
+      print("---200---st_sb_selectbox_symbol_only------END    NOTHING RETURNED-----")
 
 
 def generate_table_plot(df):
@@ -627,16 +639,16 @@ def generate_table_plot(df):
 
 
 def st_selectbox_scans(dbconn):
-  """_summary_
+    """_summary_
 
-  Args:
-      dbconn (_type_): db connection handle
+    Args:
+        dbconn (_type_): db connection handle
 
-  Returns:
-      _type_: _description_
-  """  
+    Returns:
+        _type_: _description_
+    """
 
-  """
+    """
   this the top-left 1st selectbox on the sidebarinput
   user will select the group of symbols he wants to start on (eg US ETFs, UK ETFs, US S&P500 constituents etc)
   TODO - what about no output ???
@@ -645,51 +657,58 @@ def st_selectbox_scans(dbconn):
     a df with the output of the the sql_query results (symbols list) corresponding to what option we chose from the dropdown
   """
 
-  logger.debug("Arguments : {}", dbconn)
+    logger.debug("Arguments : {}", dbconn)
 
-  dct_options = {
-    "scan_name": ["stocks below SMA50", "stocks_above_SMA50"],
-    "scan_sqlquery": ["select * from viw_latest_price_data_by_symbol where close < sma_50", 
-                      "select * from viw_latest_price_data_by_symbol where close > sma_50"]
+    dct_options = {
+        "scan_name": ["stocks below SMA50", "stocks_above_SMA50"],
+        "scan_sqlquery": [
+            "select * from viw_latest_price_data_by_symbol where close < sma_50",
+            "select * from viw_latest_price_data_by_symbol where close > sma_50",
+        ],
     }
 
-  # load data into a DataFrame object:
-  df_select_options = pd.DataFrame(dct_options)
-  logger.debug("type={}. df_select_options={}", type(df_select_options), df_select_options)
+    # load data into a DataFrame object:
+    df_select_options = pd.DataFrame(dct_options)
+    logger.debug(
+        "type={}. df_select_options={}", type(df_select_options), df_select_options
+    )
 
-  # Take input from selectbox to select a specific scan
-  chosen_sb_option_scan = st.selectbox(
-      "Scans Dropdown",  # Drop-down named Scans Dropdown
-      df_select_options["scan_name"],
-      key="chosen_sb_option_scan",
-      index=None,
-  )
-  st.write("You selected from scans dropdown :", chosen_sb_option_scan)
-  logger.info("You selected from the Scans Dropdown - chosen_sb_option_scan={}",  chosen_sb_option_scan)
+    # Take input from selectbox to select a specific scan
+    chosen_sb_option_scan = st.selectbox(
+        "Scans Dropdown",  # Drop-down named Scans Dropdown
+        df_select_options["scan_name"],
+        key="chosen_sb_option_scan",
+        index=None,
+    )
+    st.write("You selected from scans dropdown :", chosen_sb_option_scan)
+    logger.info(
+        "You selected from the Scans Dropdown - chosen_sb_option_scan={}",
+        chosen_sb_option_scan,
+    )
 
-  # initial the return df
-  df_symbols = pd.DataFrame()
+    # initial the return df
+    df_symbols = pd.DataFrame()
 
-  # if user chooses from the Scans dropdown, then run the sql query and return values into a dataframe
-  if chosen_sb_option_scan:
-      chosen_sql_query_scan = df_select_options[df_select_options["scan_name"] == chosen_sb_option_scan]["scan_sqlquery"].iloc[0]
-      logger.info("st_selectbox_scans - CHOSEN SQL_QUERY = {}", chosen_sql_query_scan)
-      sql_query = text(chosen_sql_query_scan)
-      df_symbols = pd.read_sql_query(sql_query, dbconn)
+    # if user chooses from the Scans dropdown, then run the sql query and return values into a dataframe
+    if chosen_sb_option_scan:
+        chosen_sql_query_scan = df_select_options[
+            df_select_options["scan_name"] == chosen_sb_option_scan
+        ]["scan_sqlquery"].iloc[0]
+        logger.info("st_selectbox_scans - CHOSEN SQL_QUERY = {}", chosen_sql_query_scan)
+        sql_query = text(chosen_sql_query_scan)
+        df_symbols = pd.read_sql_query(sql_query, dbconn)
 
-      # Now display this dataframe data as a nice table on the frontend. (note - will break down when you have >1000 rows)
-      st.write('### ', chosen_sb_option_scan)
-      st.write(df_symbols)
-      # TODO: below stuff when we need user to choose some from among the rows
-      #selected_indices = st.multiselect('Select rows:', df_symbols.index)
-      #selected_rows = df_symbols.loc[selected_indices]
-      #st.write('### Selected Rows', selected_rows)
+        # Now display this dataframe data as a nice table on the frontend. (note - will break down when you have >1000 rows)
+        st.write("### ", chosen_sb_option_scan)
+        st.write(df_symbols)
+        # TODO: below stuff when we need user to choose some from among the rows
+        # selected_indices = st.multiselect('Select rows:', df_symbols.index)
+        # selected_rows = df_symbols.loc[selected_indices]
+        # st.write('### Selected Rows', selected_rows)
 
-      logger.debug("Returning df ={} ", df_symbols)
-  
-  return df_symbols
+        logger.debug("Returning df ={} ", df_symbols)
 
-
+    return df_symbols
 
 
 def main():
@@ -703,21 +722,19 @@ def main():
     wildcard_value_2 = "A%"
     # sql_query = text(
     #   """
-    #   SELECT symbol FROM tbl_instrument 
+    #   SELECT symbol FROM tbl_instrument
     #   WHERE exchange_code NOT LIKE :wildcard_1 AND symbol LIKE :wildcard_2
     #   ORDER BY symbol
     #   """
     # ).bindparams(wildcard_1=wildcard_value_1, wildcard_2=wildcard_value_2)
 
     sql_query = text(
-      """
+        """
       SELECT symbol FROM tbl_instrument 
       WHERE exchange_code LIKE :wildcard_1 AND symbol LIKE :wildcard_2
       ORDER BY symbol
       """
     ).bindparams(wildcard_1=wildcard_value_1, wildcard_2=wildcard_value_2)
-    
-
 
     # # sql_query = "select symbol, name from viw_instrument_uk_equities where symbol like 'V%' order by symbol"
     logger.debug(
@@ -734,16 +751,18 @@ def main():
     # using the above list of symbols, now await the user's selection on the next dropdown selectbox, which is to choose only one symbol from the list
     # when chosen, it will return a full price data df for that symbol
     if not df_symbols_list.empty:
-      print(f"---2000--type= {type(df_symbols_list)} ----")
-      df_symbol_price_data = pd.DataFrame()
-      df_symbol_price_data = st_sb_selectbox_symbol_only(db_conn, df_symbols_list)
-      print(f"---222--type= {type(df_symbol_price_data)} ----df = {df_symbol_price_data}----")
-      if df_symbol_price_data is not None:
-        # generate the main chart with all the indicators
-        # generate_chart_plot(df_symbol_price_data)
-        logger.debug("df_symbol_price_data = {}", df_symbol_price_data)
-        generate_chart_plot_2(df_symbol_price_data)
-        # generate_chart_plot_with_sub_plots(df_symbol_price_data)
+        print(f"---2000--type= {type(df_symbols_list)} ----")
+        df_symbol_price_data = pd.DataFrame()
+        df_symbol_price_data = st_sb_selectbox_symbol_only(db_conn, df_symbols_list)
+        print(
+            f"---222--type= {type(df_symbol_price_data)} ----df = {df_symbol_price_data}----"
+        )
+        if df_symbol_price_data is not None:
+            # generate the main chart with all the indicators
+            # generate_chart_plot(df_symbol_price_data)
+            logger.debug("df_symbol_price_data = {}", df_symbol_price_data)
+            generate_chart_plot_2(df_symbol_price_data)
+            # generate_chart_plot_with_sub_plots(df_symbol_price_data)
 
     print("---3000---")
 
@@ -755,9 +774,9 @@ def main():
 
 # main
 if __name__ == "__main__":
-    dashline = '-' * 80
+    dashline = "-" * 80
     for i in range(2):
-      print(dashline) 
+        print(dashline)
 
     logger.remove()  # First remove the default logger
 
@@ -790,4 +809,3 @@ if __name__ == "__main__":
     main()
 
 #  streamlit run streamlit_1.py --server.port 8000
-
