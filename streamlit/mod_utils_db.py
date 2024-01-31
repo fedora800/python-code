@@ -154,6 +154,7 @@ def insert_symbol_price_data_into_db(dbconn, symbol, df, table_name):
   logger.debug(
       "DB insert completed - {} into table {} = {}", symbol, table_name, df_head_foot
   )
+  logger.info("TODO: print how much time it took to insert and well as how many rows ....")
 
 
 def get_symbol_input_check_against_db_using_psycopg2(dbconn):
