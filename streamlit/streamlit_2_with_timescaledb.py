@@ -552,65 +552,59 @@ def st_sb_selectbox_symbol_only(dbconn, df):
             dbconn, sm_chosen_symbol
         )
         if not df_sym_stats.empty:
-            dt_latest_record_date = df_sym_stats["latest_rec_pd_time"].iloc[0].date()
-            diff_days = compute_date_difference(dt_latest_record_date)
-            # df_is not empty but there could be a few recent days/weeks missing, so check for that
-            if diff_days > 1:
-                print("--here---888  IF DIFF_DAYS ----")
-                logger.debug(
-                    "Number of days of missing data = {}. Now update the df with correct start and end dates for this missing data ",
-                    diff_days,
-                )
-                df_sym_stats.loc[0, "oldest_rec_pd_time"] = df_sym_stats.loc[
-                    0, "latest_rec_pd_time"
-                ] + timedelta(days=1)
-                df_sym_stats.loc[0, "latest_rec_pd_time"] = pd.to_datetime(
-                    datetime.now(), utc=True
-                )
-                logger.debug(
-                    "Now fetch and insert this missing recent data into price data table"
-                )
-                df_downloaded_missing_price_data = m_yfn.get_historical_data_symbol(
-                    df_sym_stats
-                )
-                m_udb.insert_symbol_price_data_into_db(
-                    dbconn,
-                    sm_chosen_symbol,
-                    df_downloaded_missing_price_data,
-                    "tbl_price_data_1day",
-                )
+          dt_latest_record_date = df_sym_stats["latest_rec_pd_time"].iloc[0].date()
+          dt_today = datetime.now().date()
+          diff_days = compute_date_difference(dt_latest_record_date, dt_today)
+          # df_is not empty but there could be a few recent days/weeks missing, so check for that
+          if diff_days > 1:
+              print("--here---888  IF DIFF_DAYS ----")
+              logger.debug(
+                  "Number of days of missing data = {}. Now update the df with correct start and end dates for this missing data ",
+                  diff_days,
+              )
+              logger.debug(
+                  "Now fetch and insert this missing recent data into price data table"
+              )
+              df_downloaded_missing_price_data = m_yfn.get_historical_data_symbol('YFINANCE', 
+                                                              sm_chosen_symbol, dt_latest_record_date + timedelta(days=1), dt_today)
+              m_udb.insert_symbol_price_data_into_db(
+                  dbconn,
+                  sm_chosen_symbol,
+                  df_downloaded_missing_price_data,
+                  "tbl_price_data_1day",
+              )
         else:
-            print("--here---999  IF DF_SYM_STATS EMPTY ----")
-            # df_sym_stats empty
-            logger.warning(
-                "Price data not available for symbol {} in database", sm_chosen_symbol
-            )
-            # get roughly 1 year of historical data plus go further back ang get another 200 days
-            # that is because we dont want the SMA_200 plot to just start in the middle of the chart
-            # so we are looking at around 565 days of data in total
-            start_date = datetime.now() - timedelta(days=365) - timedelta(days=200)
-            end_date = datetime.now() - timedelta(days=1)
-            df_default_timeframe = pd.DataFrame(
-                [[sm_chosen_symbol, start_date, end_date]],
-                columns=[
-                    "pd_symbol",
-                    "oldest_rec_pd_time",
-                    "latest_rec_pd_time",
-                ],
-            )
-            logger.info(
-                "Downloading historical price data with a default lookback period..."
-            )
-            df_downloaded_price_data = m_yfn.get_historical_data_symbol(
-                df_default_timeframe
-            )
-            # now  insert them into price data table
-            m_udb.insert_symbol_price_data_into_db(
-                dbconn,
-                sm_chosen_symbol,
-                df_downloaded_price_data,
-                "tbl_price_data_1day",
-            )
+          print("--here---999  IF DF_SYM_STATS EMPTY ----")
+          # df_sym_stats empty
+          logger.warning(
+              "Price data not available for symbol {} in database", sm_chosen_symbol
+          )
+          # get roughly 1 year of historical data plus go further back ang get another 200 days
+          # that is because we dont want the SMA_200 plot to just start in the middle of the chart
+          # so we are looking at around 565 days of data in total
+          start_date = datetime.now() - timedelta(days=365) - timedelta(days=200)
+          end_date = datetime.now() - timedelta(days=1)
+          df_default_timeframe = pd.DataFrame(
+              [[sm_chosen_symbol, start_date, end_date]],
+              columns=[
+                  "pd_symbol",
+                  "oldest_rec_pd_time",
+                  "latest_rec_pd_time",
+              ],
+          )
+          logger.info(
+              "Downloading historical price data with a default lookback period..."
+          )
+          df_downloaded_price_data = m_yfn.get_historical_data_symbol(
+              df_default_timeframe
+          )
+          # now  insert them into price data table
+          m_udb.insert_symbol_price_data_into_db(
+              dbconn,
+              sm_chosen_symbol,
+              df_downloaded_price_data,
+              "tbl_price_data_1day",
+          )
 
         # now that symbol has been chosen from the dropdown, prepare the sql query to be able to fetch requisite data for it from db
         # sql_query = ("select * from tbl_price_data_1day where pd_symbol= '%s'" % sm_chosen_symbol)

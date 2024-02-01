@@ -40,8 +40,8 @@ def read_csv_into_list(file_path, has_header=True):
     return lst_csv_data
 
 
-def get_historical_data_symbol(df):
 
+def get_historical_data_symbol(data_venue, symbol, start_date, end_date):
   """ Download price data from the data venue.
       Symbol and the timeframe will be passed by upstream function
 
@@ -52,16 +52,16 @@ def get_historical_data_symbol(df):
   dataframe containing latest price data (that is not in our tables) for that symbol 
 
   """
-  data_venue = "YFINANCE"
-  symbol = df.at[0,"pd_symbol"]
-  oldest_price_date = df.at[0,"oldest_rec_pd_time"]
-  latest_price_date = df.at[0,"latest_rec_pd_time"]
-  logger.info("Received arguments : symbol={} oldest_price_date={} latest_price_date={}", symbol, oldest_price_date, latest_price_date)
+  #data_venue = "YFINANCE"
+  # symbol = df.at[0,"pd_symbol"]
+  # oldest_price_date = df.at[0,"oldest_rec_pd_time"]
+  # latest_price_date = df.at[0,"latest_rec_pd_time"]
+  logger.info("Received arguments : symbol={} start_date={} end_date={}", symbol, start_date, end_date)
 
-  # Convert the date strings to datetime objects and zero out time component
-  start_date = oldest_price_date.replace(hour=0, minute=0, second=0, microsecond=0)
-  #latest_price_date = pd.to_datetime(latest_price_date)
-  end_date = latest_price_date.replace(hour=0, minute=0, second=0, microsecond=0)
+  # # Convert the date strings to datetime objects and zero out time component
+  # start_date = oldest_price_date.replace(hour=0, minute=0, second=0, microsecond=0)
+  # #latest_price_date = pd.to_datetime(latest_price_date)
+  # end_date = latest_price_date.replace(hour=0, minute=0, second=0, microsecond=0)
 
 #  # do not re-download data that already exists
 #  next_day = latest_price_date + timedelta(days=1)      # just start from the next day of the latest price date
@@ -86,7 +86,7 @@ def get_historical_data_symbol(df):
   return df_prices
 
 
-def get_historical_data_batch_of_symbols():
+def get_historical_data__into_csv_files_for_batch_of_symbols():
 
   '''
   # get historical market data
