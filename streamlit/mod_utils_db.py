@@ -6,22 +6,25 @@ import pandas as pd
 from sqlalchemy import text
 
 
-def connect_to_db_using_sqlalchemy(db_uri):
-    """
-    Connect to a database using SQLAlchemy and execute an SQL query.
+def create_database_engine_sqlalchemy(db_uri: str)-> Engine:
+  """
+  Create a SQLAlchemy Engine for connecting to a database.
 
-    Parameters:
-    - db_uri (str): PostgreSQL database URI.
+  Parameters:
+  - db_uri (str): Database URI of the format dialect+driver://username:password@host:port/database.
 
-    Returns:
-    --pd.DataFrame: Result of the SQL query as a DataFrame.
-    """
-    # Create a SQLAlchemy engine
-    engine = create_engine(
-        db_uri
-    )  # db_uri should be of format -  dialect+driver://username:password@host:port/database
+  Returns:
+  - Engine: SQLAlchemy Engine object providing a source of connectivity to a database.
 
-    return engine
+  Example:
+  >>> db_uri = "postgresql://user:password@localhost:5432/mydatabase"
+  >>> engine = create_database_engine(db_uri)
+  >>> # Use the engine for database operations
+  """
+  # Create a SQLAlchemy engine
+  engine = create_engine(db_uri)  # db_uri should be of format -  dialect+driver://username:password@host:port/database
+
+  return engine
 
 
 # connect to the database
@@ -189,5 +192,4 @@ def record_exists(dbconn, pd_symbol, pd_time):
 
     result = dbconn.execute(sql_query, symbol=pd_symbol, time=pd_time)
     return result.fetchone() is not None
-
 

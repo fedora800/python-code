@@ -507,7 +507,7 @@ def generate_chart_plot_2(df):
     fig.update_layout(
         width=1100,
         # height=600,
-        height=2000,
+        height=1500,
         # paper_bgcolor="LightSteelBlue"
     )
 
@@ -516,7 +516,7 @@ def generate_chart_plot_2(df):
         fig,
         width=1100,
         # height=900
-        height=2000,
+        height=1500,
     )  # make sure to match it with the fig layout, but can also do like below
     # st.plotly_chart(fig, use_container_height=True, use_container_width=True)
 
@@ -547,84 +547,108 @@ def st_sb_selectbox_symbol_only(dbconn, df):
     )
 
     if sm_chosen_symbol:
-        # check if there is any price data in the database for this symbol and fetch it into a df
-        df_sym_stats = m_udb.get_symbol_price_data_stats_from_database(
-            dbconn, sm_chosen_symbol
-        )
-        if not df_sym_stats.empty:
-          dt_latest_record_date = df_sym_stats["latest_rec_pd_time"].iloc[0].date()
-          dt_today = datetime.now().date()
-          diff_days = compute_date_difference(dt_latest_record_date, dt_today)
-          # df_is not empty but there could be a few recent days/weeks missing, so check for that
-          if diff_days > 1:
-              print("--here---888  IF DIFF_DAYS ----")
-              logger.debug(
-                  "Number of days of missing data = {}. Now update the df with correct start and end dates for this missing data ",
-                  diff_days,
-              )
-              logger.debug(
-                  "Now fetch and insert this missing recent data into price data table"
-              )
-              df_downloaded_missing_price_data = m_yfn.get_historical_data_symbol('YFINANCE', 
-                                                              sm_chosen_symbol, dt_latest_record_date + timedelta(days=1), dt_today)
-              m_udb.insert_symbol_price_data_into_db(
-                  dbconn,
-                  sm_chosen_symbol,
-                  df_downloaded_missing_price_data,
-                  "tbl_price_data_1day",
-              )
-        else:
-          print("--here---999  IF DF_SYM_STATS EMPTY ----")
-          # df_sym_stats empty
-          logger.warning(
-              "Price data not available for symbol {} in database", sm_chosen_symbol
-          )
-          # get roughly 1 year of historical data plus go further back ang get another 200 days
-          # that is because we dont want the SMA_200 plot to just start in the middle of the chart
-          # so we are looking at around 565 days of data in total
-          start_date = datetime.now() - timedelta(days=365) - timedelta(days=200)
-          end_date = datetime.now() - timedelta(days=1)
-          df_default_timeframe = pd.DataFrame(
-              [[sm_chosen_symbol, start_date, end_date]],
-              columns=[
-                  "pd_symbol",
-                  "oldest_rec_pd_time",
-                  "latest_rec_pd_time",
-              ],
-          )
-          logger.info(
-              "Downloading historical price data with a default lookback period..."
-          )
-          df_downloaded_price_data = m_yfn.get_historical_data_symbol(
-              df_default_timeframe
-          )
-          # now  insert them into price data table
-          m_udb.insert_symbol_price_data_into_db(
-              dbconn,
-              sm_chosen_symbol,
-              df_downloaded_price_data,
-              "tbl_price_data_1day",
-          )
+        df_ohlcv_symbol = m_yfn.sync_price_data_in_table_for_symbol("YFINANCE", sm_chosen_symbol)
 
-        # now that symbol has been chosen from the dropdown, prepare the sql query to be able to fetch requisite data for it from db
-        # sql_query = ("select * from tbl_price_data_1day where pd_symbol= '%s'" % sm_chosen_symbol)
-        sql_query = text(
-            """select * from tbl_price_data_1day where pd_symbol= :param"""
-        ).bindparams(param=sm_chosen_symbol)
-        logger.info(
-            "To get the price data for {} - evaluated sql_query = {}",
-            sm_chosen_symbol,
-            sql_query,
-        )
-        df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn)
-        df_head_foot = pd.concat([df.head(1), df.tail(1)])
-        logger.debug("Returning df = {}", df_head_foot)
+        # check if there is any price data in the database for this symbol and fetch it into a df
+
         print("---200---st_sb_selectbox_symbol_only------END    RETURNING-----")
-        return df_ohlcv_symbol
     else:
       print("-----101--user has not yet chosen from the symbol group dropdown-------------")
       print("---here 11---end of streamlit_sidebar_selectbox_symbol_only---")
       print("---200---st_sb_selectbox_symbol_only------END    NOTHING RETURNED-----")
+
+
+def sb_inputbox_symbol(data_venue: str, dbconn: ???, symbol: str) -> pd.DataFrame:
+  """
+  User inputs a symbol in sidebar select box and this will download default amount of price data from the data source
+  and insert into the price data table.
+
+  Parameters:
+  - data_venue (str): The string representing the data venue.
+  - symbol (str): The string representing the symbol.
+  
+  Returns:
+  Any: pandas dataframe
+
+  Example:
+  >>> sb_inputbox_symbol("YFINANCE", "AAPL")
+  """
+
+  # TODO: first check if symbol exists on the data source and throw error if not
+----
+
+  # now check if there is any data
+  df_sym_stats = m_udb.get_symbol_price_data_stats_from_database(dbconn, symbol)
+  if not df_sym_stats.empty:
+    dt_latest_record_date = df_sym_stats["latest_rec_pd_time"].iloc[0].date()
+    dt_today = datetime.now().date()
+    diff_days = compute_date_difference(dt_latest_record_date, dt_today)
+    # df_is not empty but there could be a few recent days/weeks missing, so check for that
+    if diff_days > 1:
+        print("--here---888  IF DIFF_DAYS ----")
+        logger.debug(
+            "Number of days of missing data = {}. Now update the df with correct start and end dates for this missing data ",
+            diff_days,
+        )
+        logger.debug(
+            "Now fetch and insert this missing recent data into price data table"
+        )
+        df_downloaded_missing_price_data = m_yfn.get_historical_data_symbol('YFINANCE', 
+                                                        sm_chosen_symbol, dt_latest_record_date + timedelta(days=1), dt_today)
+        m_udb.insert_symbol_price_data_into_db(
+            dbconn,
+            sm_chosen_symbol,
+            df_downloaded_missing_price_data,
+            "tbl_price_data_1day",
+        )
+  else:
+    print("--here---999  IF DF_SYM_STATS EMPTY ----")
+    # df_sym_stats empty
+    logger.warning(
+        "Price data not available for symbol {} in database", sm_chosen_symbol
+    )
+    # get roughly 1 year of historical data plus go further back ang get another 200 days
+    # that is because we dont want the SMA_200 plot to just start in the middle of the chart
+    # so we are looking at around 565 days of data in total
+    dt_start_date = datetime.now() - timedelta(days=365) - timedelta(days=200)
+    dt_end_date = datetime.now() - timedelta(days=1)
+    logger.info(
+        "Downloading historical price data with a default lookback period..."
+    )
+    df_downloaded_price_data = m_yfn.get_historical_data_symbol("YFINANCE", sm_chosen_symbol, dt_start_date, dt_end_date)
+
+    # now  insert them into price data table
+    m_udb.insert_symbol_price_data_into_db(
+        dbconn,
+        sm_chosen_symbol,
+        df_downloaded_price_data,
+        "tbl_price_data_1day",
+    )
+
+  # now that symbol has been chosen from the dropdown, prepare the sql query to be able to fetch requisite data for it from db
+  # sql_query = ("select * from tbl_price_data_1day where pd_symbol= '%s'" % sm_chosen_symbol)
+  sql_query = text(
+      """select * from tbl_price_data_1day where pd_symbol= :param"""
+  ).bindparams(param=sm_chosen_symbol)
+  logger.info(
+      "To get the price data for {} - evaluated sql_query = {}",
+      sm_chosen_symbol,
+      sql_query,
+  )
+  df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn)
+  df_head_foot = pd.concat([df.head(1), df.tail(1)])
+  logger.debug("Returning df = {}", df_head_foot)
+  print("---200---st_sb_selectbox_symbol_only------END    RETURNING-----")
+  return df_ohlcv_symbol
+else:
+print("-----101--user has not yet chosen from the symbol group dropdown-------------")
+print("---here 11---end of streamlit_sidebar_selectbox_symbol_only---")
+print("---200---st_sb_selectbox_symbol_only------END    NOTHING RETURNED-----")
+
+  
+
+------
+
 
 
 def generate_table_plot(df):
@@ -711,7 +735,7 @@ def main():
     my_db_uri = f"postgresql://{DB_INFO['USERNAME']}:{DB_INFO['PASSWORD']}@{DB_INFO['HOSTNAME']}:{DB_INFO['PORT']}/{DB_INFO['DATABASE']}"
 
     logger.debug(my_db_uri)
-    db_conn = m_udb.connect_to_db_using_sqlalchemy(my_db_uri)
+    db_conn = m_udb.create_database_engine_sqlalchemy(my_db_uri)
     wildcard_value_1 = "LSE%"
     wildcard_value_2 = "A%"
     # sql_query = text(
@@ -740,6 +764,8 @@ def main():
     df_symbols = pd.read_sql_query(sql_query, db_conn)
     logger.debug(df_symbols.head(5))
 
+
+    # --- SIDEBAR -- SELECTBOX -- FOR SYMBOL_GROUP DROPDOWN ---
     # accept the user's selection on the symbols_group dropdown and returns list of symbols from that symbols group only
     df_symbols_list = st_sb_selectbox_symbol_group(db_conn)
     # using the above list of symbols, now await the user's selection on the next dropdown selectbox, which is to choose only one symbol from the list
@@ -747,6 +773,7 @@ def main():
     if not df_symbols_list.empty:
         print(f"---2000--type= {type(df_symbols_list)} ----")
         df_symbol_price_data = pd.DataFrame()
+        # --- SIDEBAR -- SELECTBOX -- FOR SYMBOL DROPDOWN ---
         df_symbol_price_data = st_sb_selectbox_symbol_only(db_conn, df_symbols_list)
         print(
             f"---222--type= {type(df_symbol_price_data)} ----df = {df_symbol_price_data}----"
@@ -760,9 +787,14 @@ def main():
 
     print("---3000---")
 
+    # --- SIDEBAR -- TEXT INPUT BOX -- SYMBOL FOR DATA DOWNLOAD ---
+    sb_symbol = st.sidebar.text_input("Symbol for Data Download", value=None, max_chars=5)
+    st.write('You selected:', sb_symbol)
+    logger.info("You input in the Symbol textbox - sb_symbol={}", sb_symbol)
+
+    print("---4000---")
     df_scans = st_selectbox_scans(db_conn)
     print("----df_scans result = ", df_scans)
-    print("---4000---")
     print("--- end of main() ---")
 
 

@@ -88,7 +88,7 @@ chosen_sb_option = st.sidebar.selectbox(           # Drop-down named Widget-02 w
 )
 st.write('You selected:', chosen_sb_option)
 # Radio button Sidebar
- chose_rd_option = st.radio(
+chose_rd_option = st.radio(
         "Choose a shipping method",
         ("Standard (5-15 days)", "Express (2-5 days)")
     )

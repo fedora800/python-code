@@ -8,6 +8,7 @@ import pandas as pd
 import csv
 from requests.exceptions import HTTPError
 from datetime import datetime
+import mod_utils_db as m_udb
 
 
 
@@ -41,22 +42,28 @@ def read_csv_into_list(file_path, has_header=True):
 
 
 
-def get_historical_data_symbol(data_venue, symbol, start_date, end_date):
-  """ Download price data from the data venue.
-      Symbol and the timeframe will be passed by upstream function
+def get_historical_data_symbol(data_venue: str, symbol: str, start_date: datetime, end_date: datetime) -> pd.DataFrame:
+  """
+  Retrieves historical data for a symbol from a data venue.
 
   Parameters:
-  a 1 row df containing the symbol name, start date and end date
+  - data_venue (str): The string representing the data venue.
+  - symbol (str): The string representing the symbol.
+  - start_date (datetime): The start date for the historical data.
+  - end_date (datetime): The end date for the historical data.
 
   Returns:
-  dataframe containing latest price data (that is not in our tables) for that symbol 
+  Any: pandas dataframe
 
+  Example:
+  >>> get_historical_data_symbol("YFINANCE", "AAPL", datetime(2022, 1, 1), datetime(2022, 12, 31))
   """
+
   #data_venue = "YFINANCE"
   # symbol = df.at[0,"pd_symbol"]
   # oldest_price_date = df.at[0,"oldest_rec_pd_time"]
   # latest_price_date = df.at[0,"latest_rec_pd_time"]
-  logger.info("Received arguments : symbol={} start_date={} end_date={}", symbol, start_date, end_date)
+  logger.info("Received arguments : data_venue={} symbol={} start_date={} end_date={}", data_venue, symbol, start_date, end_date)
 
   # # Convert the date strings to datetime objects and zero out time component
   # start_date = oldest_price_date.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -257,3 +264,84 @@ def get_stock_info(symbol):
 #                print(f"{key}: {value}")
 
 
+
+def sync_price_data_in_table_for_symbol(data_venue: str, symbol: str) -> pd.DataFrame:
+  """
+  TODO : Retrieves historical data for a symbol from a data venue.
+
+  Parameters:
+  - data_venue (str): The string representing the data venue.
+  - symbol (str): The string representing the symbol.
+  
+  Returns:
+  Any: pandas dataframe
+
+  Example:
+  >>> get_historical_data_symbol("YFINANCE", "AAPL", datetime(2022, 1, 1), datetime(2022, 12, 31))
+  """
+
+  # check if there is any price data in the database for this symbol and fetch it into a df
+  df_sym_stats = m_udb.get_symbol_price_data_stats_from_database(
+      dbconn, sm_chosen_symbol
+  )
+  if not df_sym_stats.empty:
+    dt_latest_record_date = df_sym_stats["latest_rec_pd_time"].iloc[0].date()
+    dt_today = datetime.now().date()
+    diff_days = compute_date_difference(dt_latest_record_date, dt_today)
+    # df_is not empty but there could be a few recent days/weeks missing, so check for that
+    if diff_days > 1:
+        print("--here---888  IF DIFF_DAYS ----")
+        logger.debug(
+            "Number of days of missing data = {}. Now update the df with correct start and end dates for this missing data ",
+            diff_days,
+        )
+        logger.debug(
+            "Now fetch and insert this missing recent data into price data table"
+        )
+        df_downloaded_missing_price_data = m_yfn.get_historical_data_symbol('YFINANCE', 
+                                                        sm_chosen_symbol, dt_latest_record_date + timedelta(days=1), dt_today)
+        m_udb.insert_symbol_price_data_into_db(
+            dbconn,
+            sm_chosen_symbol,
+            df_downloaded_missing_price_data,
+            "tbl_price_data_1day",
+        )
+  else:
+    print("--here---999  IF DF_SYM_STATS EMPTY ----")
+    # df_sym_stats empty
+    logger.warning(
+        "Price data not available for symbol {} in database", sm_chosen_symbol
+    )
+    # get roughly 1 year of historical data plus go further back ang get another 200 days
+    # that is because we dont want the SMA_200 plot to just start in the middle of the chart
+    # so we are looking at around 565 days of data in total
+    dt_start_date = datetime.now() - timedelta(days=365) - timedelta(days=200)
+    dt_end_date = datetime.now() - timedelta(days=1)
+    logger.info(
+        "Downloading historical price data with a default lookback period..."
+    )
+    df_downloaded_price_data = m_yfn.get_historical_data_symbol("YFINANCE", sm_chosen_symbol, dt_start_date, dt_end_date)
+
+    # now  insert them into price data table
+    m_udb.insert_symbol_price_data_into_db(
+        dbconn,
+        sm_chosen_symbol,
+        df_downloaded_price_data,
+        "tbl_price_data_1day",
+    )
+
+  # now that symbol has been chosen from the dropdown, prepare the sql query to be able to fetch requisite data for it from db
+  # sql_query = ("select * from tbl_price_data_1day where pd_symbol= '%s'" % sm_chosen_symbol)
+  sql_query = text(
+      """select * from tbl_price_data_1day where pd_symbol= :param"""
+  ).bindparams(param=sm_chosen_symbol)
+  logger.info(
+      "To get the price data for {} - evaluated sql_query = {}",
+      sm_chosen_symbol,
+      sql_query,
+  )
+  df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn)
+  df_head_foot = pd.concat([df.head(1), df.tail(1)])
+  logger.debug("Returning df = {}", df_head_foot)
+  print("---200---st_sb_selectbox_symbol_only------END    RETURNING-----")
+  return df_ohlcv_symbol
