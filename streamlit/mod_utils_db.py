@@ -3,7 +3,7 @@ import psycopg2 as psy
 from loguru import logger
 from config import DB_INFO, DEBUG_MODE
 import pandas as pd
-from sqlalchemy import text
+from sqlalchemy import text, Engine
 
 
 def create_database_engine_sqlalchemy(db_uri: str)-> Engine:

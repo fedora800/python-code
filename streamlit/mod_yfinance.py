@@ -7,8 +7,11 @@ import yfinance as yf
 import pandas as pd
 import csv
 from requests.exceptions import HTTPError
-from datetime import datetime
+from datetime import datetime, timedelta
 import mod_utils_db as m_udb
+from mod_utils_date import compute_date_difference
+from sqlalchemy import text
+
 
 
 
@@ -265,24 +268,28 @@ def get_stock_info(symbol):
 
 
 
-def sync_price_data_in_table_for_symbol(data_venue: str, symbol: str) -> pd.DataFrame:
+def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) -> pd.DataFrame:
   """
   TODO : Retrieves historical data for a symbol from a data venue.
+  Then it will check our price data table and see if we have any data and if we have and not recent, it will download the missing data and insert into table.
+  If there is no price data in our table, it will downloada  default amount of price data from the data source and insert into the price data table.
 
+  
   Parameters:
   - data_venue (str): The string representing the data venue.
+  - dbconn : handle to db
   - symbol (str): The string representing the symbol.
   
   Returns:
   Any: pandas dataframe
 
   Example:
-  >>> get_historical_data_symbol("YFINANCE", "AAPL", datetime(2022, 1, 1), datetime(2022, 12, 31))
+  >>> sync_price_data_in_table_for_symbol("YFINANCE", dbconn, "AAPL")
   """
 
   # check if there is any price data in the database for this symbol and fetch it into a df
   df_sym_stats = m_udb.get_symbol_price_data_stats_from_database(
-      dbconn, sm_chosen_symbol
+      dbconn, symbol
   )
   if not df_sym_stats.empty:
     dt_latest_record_date = df_sym_stats["latest_rec_pd_time"].iloc[0].date()
@@ -298,11 +305,12 @@ def sync_price_data_in_table_for_symbol(data_venue: str, symbol: str) -> pd.Data
         logger.debug(
             "Now fetch and insert this missing recent data into price data table"
         )
-        df_downloaded_missing_price_data = m_yfn.get_historical_data_symbol('YFINANCE', 
-                                                        sm_chosen_symbol, dt_latest_record_date + timedelta(days=1), dt_today)
+        dt_start_date = dt_latest_record_date.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
+        dt_end_date = dt_today.replace(hour=0, minute=0, second=0, microsecond=0)
+        df_downloaded_missing_price_data = get_historical_data_symbol('YFINANCE', symbol, dt_start_date, dt_end_date)
         m_udb.insert_symbol_price_data_into_db(
             dbconn,
-            sm_chosen_symbol,
+            symbol,
             df_downloaded_missing_price_data,
             "tbl_price_data_1day",
         )
@@ -310,38 +318,38 @@ def sync_price_data_in_table_for_symbol(data_venue: str, symbol: str) -> pd.Data
     print("--here---999  IF DF_SYM_STATS EMPTY ----")
     # df_sym_stats empty
     logger.warning(
-        "Price data not available for symbol {} in database", sm_chosen_symbol
+        "Price data not available for symbol {} in database", symbol
     )
     # get roughly 1 year of historical data plus go further back ang get another 200 days
     # that is because we dont want the SMA_200 plot to just start in the middle of the chart
     # so we are looking at around 565 days of data in total
     dt_start_date = datetime.now() - timedelta(days=365) - timedelta(days=200)
     dt_end_date = datetime.now() - timedelta(days=1)
-    logger.info(
-        "Downloading historical price data with a default lookback period..."
-    )
-    df_downloaded_price_data = m_yfn.get_historical_data_symbol("YFINANCE", sm_chosen_symbol, dt_start_date, dt_end_date)
+    dt_start_date = dt_start_date.replace(hour=0, minute=0, second=0, microsecond=0)
+    dt_end_date = dt_end_date.replace(hour=0, minute=0, second=0, microsecond=0)
+    logger.info("Downloading historical price data with a default lookback period...")
+    df_downloaded_price_data = get_historical_data_symbol("YFINANCE", symbol, dt_start_date, dt_end_date)
 
     # now  insert them into price data table
     m_udb.insert_symbol_price_data_into_db(
         dbconn,
-        sm_chosen_symbol,
+        symbol,
         df_downloaded_price_data,
         "tbl_price_data_1day",
     )
 
   # now that symbol has been chosen from the dropdown, prepare the sql query to be able to fetch requisite data for it from db
-  # sql_query = ("select * from tbl_price_data_1day where pd_symbol= '%s'" % sm_chosen_symbol)
+  # sql_query = ("select * from tbl_price_data_1day where pd_symbol= '%s'" % symbol)
   sql_query = text(
       """select * from tbl_price_data_1day where pd_symbol= :param"""
-  ).bindparams(param=sm_chosen_symbol)
+  ).bindparams(param=symbol)
   logger.info(
       "To get the price data for {} - evaluated sql_query = {}",
-      sm_chosen_symbol,
+      symbol,
       sql_query,
   )
   df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn)
-  df_head_foot = pd.concat([df.head(1), df.tail(1)])
+  df_head_foot = pd.concat([df_ohlcv_symbol.head(1), df_ohlcv_symbol.tail(1)])
   logger.debug("Returning df = {}", df_head_foot)
   print("---200---st_sb_selectbox_symbol_only------END    RETURNING-----")
   return df_ohlcv_symbol

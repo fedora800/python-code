@@ -97,8 +97,8 @@ def fn_02_subplots_with_pandas(df, sym):
 
 
 # --------------------------------------------------------------------------------
-def fn_03_relative_strength_chart(df_bch, bch_sym, df_sym, sym):
-
+def fn_03_relative_strength_chart(bch_sym, df_bch, sym, df_sym):
+  
   NUM_SUBPLOTS=5
   NUM_COLUMNS=1
 
@@ -129,6 +129,8 @@ def fn_03_relative_strength_chart(df_bch, bch_sym, df_sym, sym):
   # used my Trading Reference gdoc and TradingView RS pinecode from someone and ultimately ChatGPT for getting this right
   df_merged['Relative_Strength'] = (df_merged['Close_SYMB'] / df_merged['Close_SYMB'].shift(length) /
                                     (df_merged['Close_ETF'] / df_merged['Close_ETF'].shift(length)) - 1)
+  print("--- UPDATED MERGED DFs ---")
+  print(df_merged.tail(3))
 
   # Prepare the fig and axs plot objects with subplot information
   #fig, axs = plt.subplots(NUM_SUBPLOTS, NUM_COLUMNS, figsize=(10, 8), sharex=True)
@@ -198,6 +200,7 @@ def fn_03_relative_strength_chart(df_bch, bch_sym, df_sym, sym):
 
   # Display the plot
   plt.legend()
+  #plt.savefig('output_plot.png')  # Save the figure to a file
   plt.show()
 
 
@@ -211,11 +214,11 @@ def main():
   
   df_benchmark_symbol = pd.read_csv(benchmark_symbol_file)
   df_benchmark_symbol['Date'] = pd.to_datetime(df_benchmark_symbol['Date'])     # convert Date to a datetime object
-  print(df_benchmark_symbol.tail(3))
+  print(f"BENCHMARK = {benchmark_symbol} and df = {df_benchmark_symbol.tail(3)}")
   
   df_symbol = pd.read_csv(symbol_file)
   df_symbol['Date'] = pd.to_datetime(df_symbol['Date'])     # convert Date to a datetime object
-  print(df_symbol.tail(3))
+  print(f"SYMBOL = {symbol} and df = {df_symbol.tail(3)}")
 
   #fn_01_simple_chart(df_symbol)
   #fn_02_subplots_with_pandas(df_symbol, symbol)
