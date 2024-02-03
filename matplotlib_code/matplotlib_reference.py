@@ -125,9 +125,9 @@ def fn_03_relative_strength_chart(bch_sym, df_bch, sym, df_sym):
   # Parameters
   length = 50
   
-  # Calculate Relative Strength
+  # Calculate Comparative Relative Strength (CRS)
   # used my Trading Reference gdoc and TradingView RS pinecode from someone and ultimately ChatGPT for getting this right
-  df_merged['Relative_Strength'] = (df_merged['Close_SYMB'] / df_merged['Close_SYMB'].shift(length) /
+  df_merged['CRS'] = (df_merged['Close_SYMB'] / df_merged['Close_SYMB'].shift(length) /
                                     (df_merged['Close_ETF'] / df_merged['Close_ETF'].shift(length)) - 1)
   print("--- UPDATED MERGED DFs ---")
   print(df_merged.tail(3))
@@ -150,18 +150,18 @@ def fn_03_relative_strength_chart(bch_sym, df_bch, sym, df_sym):
 
 
   '''
-  # Plot Relative Strength
-  ax2.plot(df_merged['Relative_Strength'], label='Relative Strength', color='#1155CC')
+  # Plot Comparative Relative Strength (CRS)
+  ax2.plot(df_merged['Relative_Strength'], label='Comparative Relative Strength (CRS)', color='#1155CC')
   ax2.set_xlabel('Date')
-  ax2.set_ylabel('Relative Strength', color='red')
+  ax2.set_ylabel('Comparative Relative Strength (CRS)', color='red')
   ax2.tick_params('y', colors='red')
-  ax2.set_title('xxxxxxxx Relative Strength')
+  ax2.set_title('xxxxxxxx Comparative Relative Strength (CRS)')
   ax2.axhline(0, color='black', linestyle='dotted')       # draw a horizontal line
   '''
 
-  # Plot 3 - Relative Strength Indicator
-  axs[2].plot(df_merged['Date'], df_merged['Relative_Strength'], label='Relative Strength', color='purple')
-  axs[2].set_ylabel('3-Relative Strength (RS)', color='purple')
+  # Plot 3 - Comparative Relative Strength (CRS) Indicator
+  axs[2].plot(df_merged['Date'], df_merged['Relative_Strength'], label='Comparative Relative Strength (CRS)', color='purple')
+  axs[2].set_ylabel('3-Comparative Relative Strength (CRS)', color='purple')
   axs[2].tick_params('y', colors='purple') 
   axs[2].axhline(0, color='black', linestyle='dotted')       # draw a horizontal line
   # Calculate and plot Moving Average if show_MA is True

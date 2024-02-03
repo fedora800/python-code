@@ -38,8 +38,9 @@ where
 --sma_200 is null
 --rsi_14 is not null
 --where sma_200 is null
-pd_symbol like 'A%'
-AND pd_symbol in (select symbol from tbl_instrument where exchange_code='LSE')
+--pd_symbol like 'A%'
+pd_symbol in ('SPY', 'MCO')
+--AND pd_symbol in (select symbol from tbl_instrument where exchange_code='LSE')
 group by pd_symbol
 order by pd_symbol;
 

@@ -33,7 +33,7 @@ def get_arguments_info():
 
 
 
-def your_function_name(parameter1, parameter2, optional_parameter3=None):
+def your_function_name(data_venue: str, symbol: str, start_date: datetime, end_date: datetime, , optional_parameter3=None) -> pd.DataFrame:
     """
     Brief description of your function.
 
@@ -49,8 +49,14 @@ def your_function_name(parameter1, parameter2, optional_parameter3=None):
     Raises:
     SpecificException: Description of when this exception is raised.
     AnotherException: Description of another possible exception.
+
+    Example:
+    >>> get_historical_data_symbol("YFINANCE", "AAPL", datetime(2022, 1, 1), datetime(2022, 12, 31))
     """
-    # Your function code here
+    print(f"Received arguments : dbconn={dbconn} symbol={symbol} df={df_head_foot} tbl_name={table_name}")
+    logger.debug("Received arguments : dbconn={} symbol={} df={} tbl_name={}", dbconn, symbol, df_head_foot, table_name)
+   
+   # Your function code here
 
 #    Brief description: A concise one-line summary of what the function does.
 #    Parameters: List each parameter with its type and a brief description. Specify whether a parameter is optional and provide its default value if applicable.
@@ -132,6 +138,42 @@ def explain_about_module_and_package():
 
   In this structure, my_package is a package containing common_functions.py and other_module.py. main_script.py and another_script.py are scripts
   that can import modules from the package.
+
+  to import a module in a subfolder, do below (where  technical_analysis is a folders and mod_technical_indicators.py is the file)
+  from technical_analysis import mod_technical_indicators as m_ti
+
+  ----------------------------------------------------------------------------------------------------
+  RELATIVE PACKAGE IMPORT - 
+  In Python, relative imports only work within a package. To use relative imports, you need to organize your project as a package by 
+  including an __init__.py file in each directory that you want to be part of the package.
+
+  Here's a brief explanation:
+  1
+    Create a Package Structure:
+    Suppose you have the following directory structure:
+    plaintext
+
+  2
+my_project/
+├── main_module/
+│   ├── __init__.py
+│   └── streamlit_2_with_timescaledb.py
+└── technical_analysis/
+    ├── __init__.py
+    └── mod_technical_indicators.py
+
+Add __init__.py Files:
+Make sure each directory contains an __init__.py file (can be empty). This file signals to Python that the directory should be treated as a package.
+
+3
+Use Relative Imports:
+Now, in streamlit_2_with_timescaledb.py, you can use a relative import like this:
+python
+    from main_module.technical_analysis import mod_technical_indicators as m_ti
+    This assumes that your main_module is the top-level package.
+Remember that if you're running the script directly (streamlit_2_with_timescaledb.py), you may encounter issues with relative imports. In such cases, it's often better to run your code as part of a package or use absolute imports.
+----------------------------------------------------------------------------------------------------
+
   '''
 
 def common_and_utilities_files():

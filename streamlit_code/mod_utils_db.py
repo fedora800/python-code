@@ -1,12 +1,12 @@
-from sqlalchemy import create_engine
+import sqlalchemy as sa
 import psycopg2 as psy
 from loguru import logger
 from config import DB_INFO, DEBUG_MODE
 import pandas as pd
-from sqlalchemy import text, Engine
+from sqlalchemy import text
 
 
-def create_database_engine_sqlalchemy(db_uri: str)-> Engine:
+def create_database_engine_sqlalchemy(db_uri: str)-> sa.Engine:
   """
   Create a SQLAlchemy Engine for connecting to a database.
 
@@ -22,7 +22,7 @@ def create_database_engine_sqlalchemy(db_uri: str)-> Engine:
   >>> # Use the engine for database operations
   """
   # Create a SQLAlchemy engine
-  engine = create_engine(db_uri)  # db_uri should be of format -  dialect+driver://username:password@host:port/database
+  engine = sa.create_engine(db_uri)  # db_uri should be of format -  dialect+driver://username:password@host:port/database
 
   return engine
 
@@ -93,7 +93,7 @@ def get_symbol_price_data_stats_from_database(dbconn, symbol):
     AnotherException: Description of another possible exception.
     """
 
-    sql_query = text(
+    sql_query = sa.text(
         "SELECT * FROM viw_price_data_stats_by_symbol WHERE pd_symbol = :prm_symbol"
     ).bindparams(prm_symbol=symbol)
     logger.info(
@@ -192,4 +192,28 @@ def record_exists(dbconn, pd_symbol, pd_time):
 
     result = dbconn.execute(sql_query, symbol=pd_symbol, time=pd_time)
     return result.fetchone() is not None
+
+
+def get_table_data_for_symbol(dbconn, symbol):
+  """
+  Fetches data from tbl_price_data_1day for this symbol into a dataframe
+  Assumptions:
+    Symbol is a valid symbol on the data venue.
+    Symbol record exists in tbl_instrumeent.
+    Up to date price data exists in tbl_price_data_1day
+
+  Returns:
+    dataframe
+  """
+
+  logger.debug("Received arguments : dbconn={} symbol={}", dbconn, symbol)
+
+  sql_query = text("""select * from tbl_price_data_1day where pd_symbol= :param""").bindparams(param=symbol)
+  logger.info("To get the price data for {} - evaluated sql_query = {}", symbol, sql_query)
+  df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn)
+  df_head_foot = pd.concat([df_ohlcv_symbol.head(1), df_ohlcv_symbol.tail(1)])
+  logger.debug("Returning df = {}", df_head_foot)
+  return df_ohlcv_symbol
+
+
 

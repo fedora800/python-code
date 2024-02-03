@@ -9,10 +9,8 @@ import csv
 from requests.exceptions import HTTPError
 from datetime import datetime, timedelta
 import mod_utils_db as m_udb
-from mod_utils_date import compute_date_difference
+import mod_utils_date as m_udt
 from sqlalchemy import text
-
-
 
 
 def read_csv_into_list(file_path, has_header=True):
@@ -294,7 +292,7 @@ def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) ->
   if not df_sym_stats.empty:
     dt_latest_record_date = df_sym_stats["latest_rec_pd_time"].iloc[0].date()
     dt_today = datetime.now().date()
-    diff_days = compute_date_difference(dt_latest_record_date, dt_today)
+    diff_days = m_udt.compute_date_difference(dt_latest_record_date, dt_today)
     # df_is not empty but there could be a few recent days/weeks missing, so check for that
     if diff_days > 1:
         print("--here---888  IF DIFF_DAYS ----")
@@ -305,8 +303,10 @@ def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) ->
         logger.debug(
             "Now fetch and insert this missing recent data into price data table"
         )
-        dt_start_date = dt_latest_record_date.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
-        dt_end_date = dt_today.replace(hour=0, minute=0, second=0, microsecond=0)
+
+        dt_start_date = m_udt.get_date_with_zero_time(dt_latest_record_date)
+        dt_start_date += timedelta(days=1)
+        dt_end_date = m_udt.get_date_with_zero_time(dt_today)
         df_downloaded_missing_price_data = get_historical_data_symbol('YFINANCE', symbol, dt_start_date, dt_end_date)
         m_udb.insert_symbol_price_data_into_db(
             dbconn,
@@ -339,17 +339,6 @@ def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) ->
     )
 
   # now that symbol has been chosen from the dropdown, prepare the sql query to be able to fetch requisite data for it from db
-  # sql_query = ("select * from tbl_price_data_1day where pd_symbol= '%s'" % symbol)
-  sql_query = text(
-      """select * from tbl_price_data_1day where pd_symbol= :param"""
-  ).bindparams(param=symbol)
-  logger.info(
-      "To get the price data for {} - evaluated sql_query = {}",
-      symbol,
-      sql_query,
-  )
-  df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn)
-  df_head_foot = pd.concat([df_ohlcv_symbol.head(1), df_ohlcv_symbol.tail(1)])
-  logger.debug("Returning df = {}", df_head_foot)
+  df_ohlcv_symbol = m_udb.get_table_data_for_symbol(dbconn, symbol)
   print("---200---st_sb_selectbox_symbol_only------END    RETURNING-----")
   return df_ohlcv_symbol

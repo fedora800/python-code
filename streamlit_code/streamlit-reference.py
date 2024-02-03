@@ -106,6 +106,47 @@ st.dataframe(df, 100, 200)
 st.dataframe(df.style.highlight_max(axis=0))
 
 # --------------------------------------------------------------------------------
+# PROGESS BAR
+# https://docs.streamlit.io/library/api-reference/status/st.progress
+progress_text = "Operation in progress. Please wait."
+my_bar = st.progress(0, text=progress_text)
+
+for percent_complete in range(100):
+    time.sleep(0.01)
+    my_bar.progress(percent_complete + 1, text=progress_text)
+time.sleep(1)
+my_bar.empty()
+
+st.button("Rerun")
+
+
+# --------------------------------------------------------------------------------
+# COLORS AND ITALICS ETC USING MARKDOWNS
+st.markdown("*Streamlit* is **really** ***cool***.")
+st.markdown('''
+    :red[Streamlit] :orange[can] :green[write] :blue[text] :violet[in]
+    :gray[pretty] :rainbow[colors].''')
+st.markdown("Here's a bouquet &mdash;\
+            :tulip::cherry_blossom::rose::hibiscus::sunflower::blossom:")
+
+st.markdown("You selected option: :red[{}]".format(str_option))
+
+
+multi = '''If you end a line with two spaces,
+a soft return is used for the next line.
+
+Two (or more) newline characters in a row will result in a hard return.
+'''
+st.markdown(multi)
+
+
+
+# --------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------
+
+
+
 # https://docs.streamlit.io/library/api-reference/widgets
 
 # Text Input Box

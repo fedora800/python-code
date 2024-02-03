@@ -1,3 +1,4 @@
+from datetime import datetime, time
 from dateutil.relativedelta import relativedelta
 from loguru import logger
 
@@ -18,4 +19,14 @@ def compute_date_difference(dt_older_date, dt_newer_date):
     logger.info("Argument date = {}, today's date = {}, returning difference in days = {}", dt_older_date, dt_newer_date, difference_in_days)
     # Return the difference in days
     return difference_in_days
+
+
+def get_date_with_zero_time(dt_datetime):
+  """
+  Clear out the time component of any time and just return the datetime object with only the date.
+  Time component will be there but will be 00:00:00
+  """
+
+  dt_date = datetime.combine(dt_datetime, time())
+  return dt_date
 

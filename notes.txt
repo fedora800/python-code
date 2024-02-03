@@ -10,9 +10,9 @@ Relative Performance = Symbol - Benchmark
 Another code link - https://www.tradingview.com/script/8tovLkXm-Anchored-Relative-Strength/ 
 
 Another code link - we can see it if we add this indicator on TradingView - 
-Relative Strength by modhelius
+Comparative Relative Strength (CRS) by modhelius
 //@version=4
-study("Relative Strength", shorttitle="RS", resolution="")
+study("Comparative Relative Strength (CRS)", shorttitle="RS", resolution="")
 comparativeTickerId = input("SPX", type=input.symbol, title="Comparative Symbol")
 lenght = input(50, type=input.integer, minval=1, title="Period")
 showMA = input(defval=false, type=input.bool, title="Show Moving Average")

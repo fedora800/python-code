@@ -126,7 +126,7 @@ BEGIN
         LIMIT 14
     ) subquery;
 
-    -- Calculate Relative Strength (RS) and RSI
+    -- Calculate Comparative Relative Strength (CRS) and RSI
     rs := CASE WHEN avg_loss = 0 THEN
                 CASE WHEN avg_gain = 0 THEN 0 ELSE 100 END
              ELSE
