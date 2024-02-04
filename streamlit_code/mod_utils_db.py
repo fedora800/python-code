@@ -78,32 +78,28 @@ def connect_to_db_using_psycopg2():
 
 
 def get_symbol_price_data_stats_from_database(dbconn, symbol):
-    """
-    Looks up in the database for details about how much price data information we have on this particular symbol
+  """
+  Looks up in the database for details about how much price data information we have on this particular symbol
 
-    Parameters:
-    - parameter1 (db connection object): db connection object
-    - parameter2 (string): symbol
+  Parameters:
+  - parameter1 (db connection object): db connection object
+  - parameter2 (string): symbol
 
-    Returns:
-    type: df [pd_symbol, oldest_rec_pd_time, latest_rec_pd_time, num_records]
+  Returns:
+  type: df [pd_symbol, oldest_rec_pd_time, latest_rec_pd_time, num_records]
 
-    Raises:
-    SpecificException: Description of when this exception is raised.
-    AnotherException: Description of another possible exception.
-    """
+  Raises:
+  SpecificException: Description of when this exception is raised.
+  AnotherException: Description of another possible exception.
+  """
+  logger.debug("Received arguments : dbconn={} symbol={}", dbconn, symbol)
 
-    sql_query = sa.text(
-        "SELECT * FROM viw_price_data_stats_by_symbol WHERE pd_symbol = :prm_symbol"
-    ).bindparams(prm_symbol=symbol)
-    logger.info(
-        "Now fetching price data table stats from database for symbol {}", symbol
-    )
-    logger.debug("symbol chosen = {} | sql_query = {}", symbol, sql_query)
-    df_result = pd.read_sql_query(sql_query, dbconn)
-    logger.debug("Returning results df = {}", df_result)
+  sql_query = sa.text("SELECT * FROM viw_price_data_stats_by_symbol WHERE pd_symbol = :prm_symbol").bindparams(prm_symbol=symbol)
+  logger.info("Now fetching price data table stats from database for symbol {} using query {}", symbol, sql_query)
+  df_result = pd.read_sql_query(sql_query, dbconn)
+  logger.debug("Returning results df = {}", df_result)
 
-    return df_result
+  return df_result
 
 
 def insert_symbol_price_data_into_db(dbconn, symbol, df, table_name):

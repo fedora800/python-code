@@ -49,7 +49,7 @@ def st_sb_selectbox_symbol_group(dbconn):
         "symbol_groups_sqlquery": [
             """select symbol, name from viw_instrument_us_sp500_constituents where symbol like '%CO%';""",
             """select symbol, name from viw_instrument_us_etfs where symbol like 'JP%';""",
-            """select symbol, name from viw_instrument_uk_equities where exchange_code='LSE' and symbol like 'A%';""",
+            """select symbol, name from viw_price_data_uk_most_traded;""",
         ],
     }
 
@@ -272,7 +272,7 @@ def generate_chart_plot_2(dbconn, symbol, df):
         mode="lines",
         name="13-EMA",
         textfont=dct_textfont,
-        line=dict(color="blue", width=2),
+        line=dict(color="black", width=2),
     )
     trace_sma_50 = gobj.Scatter(
         x=df["pd_time"],
@@ -757,9 +757,7 @@ def main():
   print("---3000---")
 
   # --- SIDEBAR -- TEXT INPUT BOX -- SYMBOL FOR DATA DOWNLOAD ---
-  sb_symbol = st.sidebar.text_input(
-      "Symbol for Data Download", value=None, max_chars=5
-  )
+  sb_symbol = st.sidebar.text_input("Symbol for Data Download", value=None, max_chars=7)
   st.markdown("You selected symbol via text_input box : :red[{}]".format(sb_symbol))
   logger.info("You selected symbol via text_input box ={}", sb_symbol)
   if sb_symbol:

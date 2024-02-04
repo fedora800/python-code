@@ -346,4 +346,6 @@ WHERE tbl_price_data_1day_sma.pd_symbol = sma_values.pd_symbol
 
 
 
+
+
 --------------------------------------------------------------------------------

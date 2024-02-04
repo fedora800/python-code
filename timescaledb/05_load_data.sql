@@ -71,4 +71,14 @@
 \copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '~/git-projects/python-code/timescaledb/data/uk_etfs/VUKE.L.csv' DELIMITER ',' CSV HEADER;
 \copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '~/git-projects/python-code/timescaledb/data/uk_etfs/VUSA.L.csv' DELIMITER ',' CSV HEADER;
 
+PREFIX="\copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '"
+SUFFIX="' DELIMITER ',' CSV HEADER;"
+
+# \copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '/tmp/5ESG.L.csv' DELIMITER ',' CSV HEADER;
+
+for FNAME in *.L.csv
+do
+  echo ${PREFIX}/tmp/${FNAME}${SUFFIX}
+done
+
 

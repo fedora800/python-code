@@ -10,36 +10,39 @@ from requests.exceptions import HTTPError
 from datetime import datetime, timedelta
 import mod_utils_db as m_udb
 import mod_utils_date as m_udt
-from sqlalchemy import text
+#from sqlalchemy import text
 
 
 def read_csv_into_list(file_path, has_header=True):
-    """
-    Read a CSV file and store its contents in a list.
+  """
+  Read a CSV file and store its contents in a list.
 
-    Parameters:
-    - file_path (str): The path to the CSV file.
-    - has_header (bool, optional): Specify if the CSV file has a header row. Defaults to True.
+  Parameters:
+  - file_path (str): The path to the CSV file.
+  - has_header (bool, optional): Specify if the CSV file has a header row. Defaults to True.
 
-    Returns:
-    list: A list containing rows from the CSV file.
-    """
+  Returns:
+  list: A list containing rows from the CSV file.
+  """
 
-    lst_csv_data = []
+  lst_symbols = []
 
-    with open(file_path, 'r') as csvfile:
-        csvreader = csv.reader(csvfile)
+  with open(file_path, 'r') as csvfile:
+    csvreader = csv.reader(csvfile)
 
-        # Skip the header row if present
-        if has_header:
-            next(csvreader)
+    # Skip the header row if present
+    if has_header:
+      next(csvreader)
 
-        # Iterate over rows and append them to the list
-        for row in csvreader:
-           # lst_csv_data.append(row)
-           lst_csv_data.extend(row)  # single-column file so we just extend the value into the list
+    # Iterate over rows and append them to the list
+    for row in csvreader:
+      if row:  # Check if the row is not empty
+          col_1 = row[0]
+          lst_symbols.append(col_1)
+      # lst_csv_data.append(row)
+      #lst_symbols.extend(row)  # single-column file so we just extend the value into the list
 
-    return lst_csv_data
+  return lst_symbols
 
 
 
@@ -94,7 +97,7 @@ def get_historical_data_symbol(data_venue: str, symbol: str, start_date: datetim
   return df_prices
 
 
-def get_historical_data__into_csv_files_for_batch_of_symbols():
+def get_historical_data_into_csv_files_for_batch_of_symbols():
 
   '''
   # get historical market data
@@ -114,18 +117,20 @@ def get_historical_data__into_csv_files_for_batch_of_symbols():
 
   # this will be the full S&P 500 index constituents list
   #csv_file_path = 'sp500_constituents.csv'  # Replace with the actual path to your CSV file
-  #lst_symbols = read_csv_into_list(csv_file_path, has_header=False)
+  csv_file_path = "/tmp/file1.csv"
+  lst_symbols = read_csv_into_list(csv_file_path, has_header=False)
+
   # 25 largest S&P 500 index constituents by weighting
   # AAPL, MSFT, AMZN, NVDA, GOOGL, TSLA, GOOG, BRK-B, META, UNH, XOM, LLY, JPM, JNJ, V, PG, MA, AVGO, HD, CVX, MRK, ABBV, COST, PEP, ADBE
   #lst_symbols = ['AAPL', 'MSFT', 'AMZN', 'NVDA', 'GOOGL', 'TSLA', 'GOOG', 'BRK-B', 'META', 'UNH', 'XOM', 'LLY', 'JPM', 'JNJ', 'V', 'PG', 'MA', 'AVGO', 'HD', 'CVX', 'MRK', 'ABBV', 'COST', 'PEP', 'ADBE']
   #lst_symbols = ['META', 'TSLA', 'XOM']
   #lst_symbols = ['V3AB.L','V3AM.L','V3MB.L','V3MM.L','VAGP.L','VAGS.L','VALW.L','VAPX.L','VCPA.L','VDPG.L','VECP.L','VEGB.L','VEMT.L','VERG.L','VERX.L','VETY.L','VEUR.L','VEVE.L','VFEG.L','VFEM.L','VGER.L','VGOV.L','VGPA.L','VGVA.L','VHVG.L','VHYG.L','VHYL.L','VJPB.L','VJPN.L','VMID.L','VMIG.L','VNRG.L','VNRT.L','VPNG.L','VUAG.L','VUCP.L','VUKE.L','VUKG.L','VUSA.L','VUSC.L','VUTA.L','VUTY.L','VWRL.L','VWRP.L']
-  #lst_symbols = ['VMID.L','VUKE.L','VUSA.L']
-  lst_symbols = ['SPY']
+  lst_symbols = ['VMID.L','VUKE.L','VUSA.L']
+  #lst_symbols = ['SPY']
   print('symbols to download = ', lst_symbols)
 
-  start_date = datetime.datetime(2023, 1, 1)
-  end_date = datetime.datetime(2024, 1, 14)
+  start_date = datetime(2023, 1, 1)
+  end_date = datetime.now().date() - timedelta(days=1)
   for sym in lst_symbols:
     print('\ndownloading for ', sym)
 
@@ -137,8 +142,8 @@ def get_historical_data__into_csv_files_for_batch_of_symbols():
     df_prices.drop(columns=['Adj Close'], inplace=True)
     #print("modified df so as to be able to insert into postgres table : \n", df_prices.head(1))
     #output_file = "timescaledb/data/sp500symbols/" + sym + ".csv"
-    output_file = "timescaledb/data/" + sym + ".csv"
-    #output_file = "/tmp/" + sym + ".csv"
+    #output_file = "timescaledb/data/" + sym + ".csv"
+    output_file = "/tmp/" + sym + ".csv"
     df_prices.to_csv(output_file)
     print("created data file - ", output_file)
     
@@ -284,6 +289,7 @@ def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) ->
   Example:
   >>> sync_price_data_in_table_for_symbol("YFINANCE", dbconn, "AAPL")
   """
+  logger.debug("Received arguments : data_venue={} dbconn={} symbol={}", data_venue, dbconn, symbol)
 
   # check if there is any price data in the database for this symbol and fetch it into a df
   df_sym_stats = m_udb.get_symbol_price_data_stats_from_database(
@@ -292,28 +298,30 @@ def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) ->
   if not df_sym_stats.empty:
     dt_latest_record_date = df_sym_stats["latest_rec_pd_time"].iloc[0].date()
     dt_today = datetime.now().date()
-    diff_days = m_udt.compute_date_difference(dt_latest_record_date, dt_today)
+    diff_days = m_udt.compute_date_difference(dt_latest_record_date, dt_today, "WORKING")
     # df_is not empty but there could be a few recent days/weeks missing, so check for that
     if diff_days > 1:
-        print("--here---888  IF DIFF_DAYS ----")
-        logger.debug(
-            "Number of days of missing data = {}. Now update the df with correct start and end dates for this missing data ",
-            diff_days,
-        )
-        logger.debug(
-            "Now fetch and insert this missing recent data into price data table"
-        )
+      print("--here---888  IF DIFF_DAYS ----")
+      logger.debug(
+          "Number of days of missing data = {}. Now update the df with correct start and end dates for this missing data ",
+          diff_days,
+      )
+      logger.debug(
+          "Now fetch and insert this missing recent data into price data table"
+      )
 
-        dt_start_date = m_udt.get_date_with_zero_time(dt_latest_record_date)
-        dt_start_date += timedelta(days=1)
-        dt_end_date = m_udt.get_date_with_zero_time(dt_today)
-        df_downloaded_missing_price_data = get_historical_data_symbol('YFINANCE', symbol, dt_start_date, dt_end_date)
-        m_udb.insert_symbol_price_data_into_db(
-            dbconn,
-            symbol,
-            df_downloaded_missing_price_data,
-            "tbl_price_data_1day",
-        )
+      dt_start_date = m_udt.get_date_with_zero_time(dt_latest_record_date)
+      dt_start_date += timedelta(days=1)
+      dt_end_date = m_udt.get_date_with_zero_time(dt_today)
+      df_downloaded_missing_price_data = get_historical_data_symbol('YFINANCE', symbol, dt_start_date, dt_end_date)
+      m_udb.insert_symbol_price_data_into_db(
+          dbconn,
+          symbol,
+          df_downloaded_missing_price_data,
+          "tbl_price_data_1day",
+      )
+    else:
+      logger.debug("Negligible number of days of missing data = {}. Not downloading.", diff_days)
   else:
     print("--here---999  IF DF_SYM_STATS EMPTY ----")
     # df_sym_stats empty
