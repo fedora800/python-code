@@ -284,11 +284,13 @@ def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) ->
   - symbol (str): The string representing the symbol.
   
   Returns:
-  Any: pandas dataframe
+  - 2 pandas dataframes. [1st - df containing OHLC prices for the symbol] and [2nd - 1 row df containing some db stats info on the symbol] 
 
   Example:
-  >>> sync_price_data_in_table_for_symbol("YFINANCE", dbconn, "AAPL")
+  >> sync_price_data_in_table_for_symbol("YFINANCE", dbconn, "AAPL")
   """
+  
+  logger.debug("---- sync_price_data_in_table_for_symbol ---- STARTED ---")
   logger.debug("Received arguments : data_venue={} dbconn={} symbol={}", data_venue, dbconn, symbol)
 
   # check if there is any price data in the database for this symbol and fetch it into a df
@@ -346,7 +348,7 @@ def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) ->
         "tbl_price_data_1day",
     )
 
-  # now that symbol has been chosen from the dropdown, prepare the sql query to be able to fetch requisite data for it from db
+  # now that symbol has been chosen from the dropdown, fetch requisite data for this symbol from db
   df_ohlcv_symbol = m_udb.get_table_data_for_symbol(dbconn, symbol)
-  print("---200---st_sb_selectbox_symbol_only------END    RETURNING-----")
-  return df_ohlcv_symbol
+  logger.debug("---- sync_price_data_in_table_for_symbol ---- RETURNING ---")
+  return df_ohlcv_symbol, df_sym_stats

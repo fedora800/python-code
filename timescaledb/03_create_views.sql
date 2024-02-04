@@ -36,6 +36,8 @@ CREATE OR REPLACE VIEW viw_latest_price_data_by_symbol AS WITH recent_data AS (
 SELECT *
 FROM recent_data
 WHERE latest_row_num_by_symbol = 1;
+
+
 -- V02 - viw_instrument_uk_equities
 -- use this view when we want to get all the instruments which are UK EQUITIES
 \ echo "Creating VIEW viw_instrument_uk_equities";
@@ -43,18 +45,35 @@ CREATE OR REPLACE VIEW viw_instrument_uk_equities AS
 SELECT *
 FROM tbl_instrument
 WHERE exchange_code = 'LSE'
-  and asset_type = 'ETF';
+  and asset_type = 'ETF'
+  ande deleted=false;
+
+
 -- V03 - viw_price_data_stats_by_symbol 
 -- use this view when we want to see oldest and latest records by time and count of records for each symbol
 \ echo "Creating VIEW viw_price_data_stats_by_symbol";
-CREATE OR REPLACE VIEW viw_price_data_stats_by_symbol AS
-SELECT pd_symbol,
-  MIN(pd_time) as oldest_rec_pd_time,
-  MAX(pd_time) as latest_rec_pd_time,
-  COUNT(*) as num_records
-FROM tbl_price_data_1day
-GROUP BY pd_symbol
-ORDER By pd_symbol;
+CREATE OR REPLACE VIEW viw_price_data_stats_by_symbol AS 
+WITH tmp_pricedata AS (
+  SELECT pd_symbol,
+    MIN(pd_time) as oldest_rec_pd_time,
+    MAX(pd_time) as latest_rec_pd_time,
+    COUNT(*) as num_records
+  FROM tbl_price_data_1day
+  GROUP BY pd_symbol
+  ORDER By pd_symbol
+)
+SELECT t_I.symbol,
+  t_I.name,
+  t_I.exchange_code,
+  t_I.asset_type,
+  t_P.*
+FROM tbl_instrument t_I,
+  tmp_pricedata t_P
+WHERE t_I.symbol = t_P.pd_symbol
+  and t_I.deleted=false
+ORDER BY t_I.symbol
+
+
 -- V04 - viw_instrument_us_etfs
 -- use this view when we want to get all the instruments which are US ETFs
 \ echo "Creating VIEW viw_instrument_us_etfs";
@@ -63,7 +82,10 @@ SELECT *
 FROM tbl_instrument
 WHERE exchange_code = 'UNKNOWN'
   and asset_type = 'ETF'
-  and data_source = 'THINKORSWIM';
+  and data_source = 'THINKORSWIM'
+  and deleted=false;
+
+
 -- V05 - viw_instrument_us_sp500_constituents
 -- use this view when we want to get all the instruments which are in the S&P500 index
 \ echo "Creating VIEW viw_instrument_us_sp500_constituents";
@@ -71,8 +93,11 @@ CREATE OR REPLACE VIEW viw_instrument_us_sp500_constituents AS
 SELECT *
 FROM tbl_instrument
 WHERE asset_type = 'STOCK'
-  and note_1 = 'SP500';
--- V07 - viw_instrument_price_data_records_count
+  and note_1 = 'SP500'
+  and deleted=false;
+
+
+-- V06 - viw_instrument_price_data_records_count
 -- use this view when we want to see how much data we have in the price_data_1day table for each symbol
 \ echo "Creating VIEW viw_instrument_price_data_records_count";
 CREATE OR REPLACE VIEW viw_instrument_price_data_records_count AS
@@ -84,6 +109,8 @@ SELECT i.symbol,
   COUNT(p.pd_time) AS price_data_rec_count
 FROM tbl_instrument i
   LEFT JOIN tbl_price_data_1day p ON i.symbol = p.pd_symbol
+WHERE
+  i.deleted=false
 GROUP BY i.symbol,
   i.exchange_code,
   i.asset_type,
@@ -94,6 +121,7 @@ order by i.symbol,
   i.asset_type,
   i.note_1,
   i.data_source;
+
 
 
 -- V07 - viw_price_data_uk_most_traded

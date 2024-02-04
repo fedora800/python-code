@@ -4,6 +4,7 @@
 
 -- TY01 - typ_asset_type
 -- TY02 - typ_data_source
+-- TY03 - typ_country_code
 
 -- T01 - tbl_exchange
 -- T02 - tbl_instrument
@@ -31,6 +32,15 @@ CREATE TYPE typ_data_source AS ENUM (
   'TEMPORARY'
 );
 
+
+-- TY03 - typ_country_code
+\echo "Creating TYPE typ_country_code"
+CREATE TYPE typ_country_code AS ENUM (
+  'IN',
+  'UK',
+  'US'
+);
+
 --------------------------------------------------------------------------------
 
 -- T01 - tbl_exchange
@@ -49,12 +59,14 @@ CREATE TABLE IF NOT EXISTS tbl_instrument (
   name TEXT NOT NULL,
   exchange_code TEXT REFERENCES tbl_exchange(exchange_code),
   asset_type typ_asset_type,
+  country_code typ_country_code,
   dtime_created  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   dtime_updated  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   sector TEXT,
   industry TEXT,
   sub_industry TEXT,
   data_source typ_data_source,
+  deleted BOOLEAN DEFAULT false,
   note_1 TEXT
 );
 

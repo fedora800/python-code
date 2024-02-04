@@ -48,7 +48,7 @@ def st_sb_selectbox_symbol_group(dbconn):
         "symbol_groups": ["US S&P500 constituents", "US ETFs", "UK ETFs"],
         "symbol_groups_sqlquery": [
             """select symbol, name from viw_instrument_us_sp500_constituents where symbol like '%CO%';""",
-            """select symbol, name from viw_instrument_us_etfs where symbol like 'JP%';""",
+            """select symbol, name from viw_instrument_us_etfs where symbol like '%AC%';""",
             """select symbol, name from viw_price_data_uk_most_traded;""",
         ],
     }
@@ -91,133 +91,7 @@ def st_sb_selectbox_symbol_group(dbconn):
     return df_symbols
 
 
-def generate_chart_plot(df):
-    # this works
-    #  fig = gobj.Figure(data=[gobj.Candlestick(x=df['pd_time'],
-    #                                       open=df['open'],
-    #                                       high=df['high'],
-    #                                       low=df['low'],
-    #                                       close=df['close']
-    #                                      ),
-    #                        gobj.Scatter(x=df['pd_time'], y=df['sma_50'], line=dict(color='red', width=2))  # plots the moving average on top as a scatter plot
-    #                       ]
-    #                 )
-
-    # Create a gobj.Candlestick object, assign these fields and then assign it to a variable named chart_data
-    chart_data = gobj.Candlestick(
-        x=df["pd_time"],
-        open=df["open"],
-        high=df["high"],
-        low=df["low"],
-        close=df["close"],
-    )
-
-    #  layout = go.Layout(
-    #      autosize=False,
-    #      width=1000,
-    #      height=1000,
-    #      xaxis=go.layout.XAxis(linecolor="black", linewidth=1, mirror=True),
-    #      yaxis=go.layout.YAxis(linecolor="black", linewidth=1, mirror=True),
-    #      margin=go.layout.Margin(l=50, r=50, b=100, t=100, pad=4),
-    #  )
-    #
-    #  fig = go.Figure(data=data, layout=layout)
-
-    # Now create a gobj.Figure called fig to display the data. Create this object passing in chart_data and assigning it to a variable named fig:
-    fig = gobj.Figure(data=[chart_data])
-
-    # To plot the moving average on top of this chart/figure, create a gobj.Scatter object, setting x with the same df time and y with the movavg df.
-    # we can also specify other settings like mode, colour, width etc
-    # name value is what we will see as the the label/legend on the side of the chart, the sma line can have its own properties defined by a dict below
-    # marker=dict(size=25, color=color_4, symbol=marker_list_2, line=dict(width=0.5))
-    dct_textfont = dict(color="black", size=18, family="Times New Roman")
-    trace_ema_13 = gobj.Scatter(
-        x=df["pd_time"],
-        y=df["ema_13"],
-        mode="lines",
-        name="13-EMA",
-        textfont=dct_textfont,
-        line=dict(color="purple", width=2),
-    )
-    trace_sma_50 = gobj.Scatter(
-        x=df["pd_time"],
-        y=df["sma_50"],
-        mode="lines",
-        name="50-SMA",
-        textfont=dct_textfont,
-        line=dict(color="blue", width=2),
-    )
-    trace_sma_200 = gobj.Scatter(
-        x=df["pd_time"],
-        y=df["sma_200"],
-        mode="lines",
-        name="200-SMA",
-        textfont=dct_textfont,
-        line=dict(color="red", width=2),
-    )
-
-    # To add the new scatter plot, call fig.add_trace and pass in the various trace objects
-    fig.add_trace(trace_ema_13)
-    fig.add_trace(trace_sma_50)
-    fig.add_trace(trace_sma_200)
-
-    # Do not show OHLC's rangeslider sub plot
-    fig.update_layout(xaxis_rangeslider_visible=False)
-
-    dct_y_axis = dict(
-        title_text="Y-axis Title for the Symbol Chart",  # this text will appear 180 turned on the left of the y axis
-        titlefont=dict(size=30),  # font size for title_text
-        #  tickvals=[100, 200, 300, 400],                     # these will be fixed horizontal lines on the chart at the defined values
-        #  ticktext=["pricelevel 100", "pricelevel 200", "pricelevel 300 (getting expensive)", "pricelevel 400"],   # for the tickvals, these texts will appear on the left
-        #  tickmode="array",
-    )
-    # dct_margin = dict(l=20, r=20, t=20, b=20)
-    fig.update_layout(
-        width=1100,
-        height=600,
-        yaxis=dct_y_axis,
-        #    margin=dct_margin,
-        #    paper_bgcolor="LightSteelBlue"
-    )
-    # fig.update_layout(width=1100, height=900)            # default size of chart is small, increase it
-    # fig.show()
-
-    # Render plot using plotly_chart
-    st.plotly_chart(
-        fig, width=1100, height=600
-    )  # make sure to increase this appropriately with the other objects
-
-
-# plot the candlesticks
-
-
-#  ----
-#                 # Add the moving average
-#                 gobj.Scatter(x=stock_data['moving3'].index,
-#                            y=stock_data['moving3']),
-#                 gobj.Scatter(x=stock_data['moving8'].index,
-#                            y=stock_data['moving8'])
-#                 ])
-#
-# # Mask a default range slider
-# fig.update_layout(xaxis_rangeslider_visible=False)
-#
-#
-# # Set layout size
-# fig.update_layout(
-#     autosize=False,
-#     width=600,
-#     height=500,
-#     legend=dict(
-#         x=0.82,  # Adjust the legend's x position
-#         y=0.98,  # Adjust the legend's y position
-#         font=dict(size=12)  # Customize font size
-#     )
-# )
-#  ---
-
-
-def generate_chart_plot_2(dbconn, symbol, df):
+def generate_plotly_chart(dbconn, symbol, df):
     """
     https://stackoverflow.com/questions/64689342/plotly-how-to-add-volume-to-a-candlestick-chart
     https://plotly.com/python/subplots/
@@ -272,7 +146,7 @@ def generate_chart_plot_2(dbconn, symbol, df):
         mode="lines",
         name="13-EMA",
         textfont=dct_textfont,
-        line=dict(color="black", width=2),
+        line=dict(color="blue", width=2),
     )
     trace_sma_50 = gobj.Scatter(
         x=df["pd_time"],
@@ -405,7 +279,7 @@ def generate_chart_plot_2(dbconn, symbol, df):
         # textfont=dct_textfont,
         # marker=dict(color="green", width=2),
         marker={
-            "color": "rgba(0,255,0,0.5)",
+            "color": "rgba(50,120,70,0.5)",
         },
     )
 
@@ -562,41 +436,46 @@ def generate_chart_plot_2(dbconn, symbol, df):
 
 
 def st_sb_selectbox_symbol_only(dbconn, df):
-    """
-    this the top-left 2nd selectbox on the sidebarinput
-    it shows a list of symbols from which user will select one symbol
-    this symbol list changes dynamically based off the group chosen on the previous dropdown
-    TODO - what about no output ???
+  """
+  this the top-left 2nd selectbox on the sidebarinput
+  it shows a list of symbols from which user will select one symbol
+  this symbol list changes dynamically based off the group chosen on the previous dropdown
+  TODO - what about no output ???
 
-    returns:
-      symbol
-      a df with price data generated by the sql_query results for the symbol chosen by user from the Symbol Dropdown
-    """
+  returns:
+    symbol
+    a df with price data generated by the sql_query results for the symbol chosen by user from the Symbol Dropdown
+  """
 
-    print("---200---st_sb_selectbox_symbol_only------START-----")
+  df_head_foot = pd.concat([df.head(1), df.tail(1)])
+  logger.debug("----- ENTERED st_sb_selectbox_symbol_only -----")
+  logger.debug("Arguments : dbconn = {}, df_head_foot = {}", dbconn, df_head_foot)
 
-    df_head_foot = pd.concat([df.head(1), df.tail(1)])
-    logger.debug("Arguments : dbconn = {}, df_head_foot = {}", dbconn, df_head_foot)
+  # Selectbox (dropdown) Sidebar
+  sm_chosen_symbol = st.sidebar.selectbox(  # Drop-down named Symbol Dropdown with 3 selectable options
+      "Symbol Dropdown", df, key="sm_chosen_symbol", index=None
+  )
+  st.markdown("You selected from Symbol dropdown: :red[{}]".format(sm_chosen_symbol))
+  logger.info("You selected from the Symbol Dropdown - sm_chosen_symbol={}", sm_chosen_symbol)
 
-    # Selectbox (dropdown) Sidebar
-    sm_chosen_symbol = st.sidebar.selectbox(  # Drop-down named Symbol Dropdown with 3 selectable options
-        "Symbol Dropdown", df, key="sm_chosen_symbol", index=None
-    )
-    st.markdown("You selected from Symbol dropdown: :red[{}]".format(sm_chosen_symbol))
-    logger.info("You selected from the Symbol Dropdown - sm_chosen_symbol={}", sm_chosen_symbol)
-
-    if sm_chosen_symbol:
-        df_ohlcv_symbol = m_yfn.sync_price_data_in_table_for_symbol(
-            "YFINANCE", dbconn, sm_chosen_symbol
-        )
-        print("---200---st_sb_selectbox_symbol_only------END    RETURNING-----")
-        return sm_chosen_symbol, df_ohlcv_symbol
-    else:
-        print(
-            "-----200--user has not yet chosen from the symbol group dropdown-------------"
-        )
-        return None, None
-        print("---200---st_sb_selectbox_symbol_only------END    NOTHING RETURNED-----")
+  if sm_chosen_symbol:
+      df_ohlcv_symbol, df_sym_stats = m_yfn.sync_price_data_in_table_for_symbol(
+          "YFINANCE", dbconn, sm_chosen_symbol
+      )
+      logger.debug("df_ohlcv_symbol = {}, df_sym_stats = {}", df_ohlcv_symbol, df_sym_stats)
+      if not df_sym_stats.empty:
+        ps_sym_stats = df_sym_stats.iloc[0]  # Extract the first row as a Series
+        st_sym_stats = '  /  '.join(map(str, ps_sym_stats))  # Convert each value to string and join them with given delimiter
+        logger.debug("Arguments : dbconn = {}, df_head_foot = {}", dbconn, df_head_foot)
+        st.markdown("Symbol Stats from DB : **:blue[{}]**".format(st_sym_stats))
+      print("---200---st_sb_selectbox_symbol_only------END    RETURNING-----")
+      return sm_chosen_symbol, df_ohlcv_symbol
+  else:
+      print(
+          "-----200--user has not yet chosen from the symbol group dropdown-------------"
+      )
+      return None, None
+      print("---200---st_sb_selectbox_symbol_only------END    NOTHING RETURNED-----")
 
 
 def sb_inputbox_symbol(data_venue: str, dbconn, symbol: str) -> str:
@@ -616,10 +495,9 @@ def sb_inputbox_symbol(data_venue: str, dbconn, symbol: str) -> str:
     """
 
     # TODO: first check if symbol exists on the data source and throw error if not
-    logger.warning(
-        "TODO: Need to code the function where it checks if the symbol is valid for that data venue ..."
-    )
-    m_yfn.sync_price_data_in_table_for_symbol(data_venue, dbconn, symbol)
+    logger.warning("TODO: Need to code the function where it checks if the symbol is valid for that data venue ...")
+    df_ohlcv_symbol, df_sym_stats = m_yfn.sync_price_data_in_table_for_symbol(data_venue, dbconn, symbol)
+    generate_plotly_chart(dbconn, symbol, df_ohlcv_symbol)
 
 
 
@@ -751,7 +629,7 @@ def main():
           # generate the main chart with all the indicators
           # generate_chart_plot(df_symbol_price_data)
           logger.debug("df_symbol_price_data = {}", df_symbol_price_data)
-          generate_chart_plot_2(db_conn, symbol, df_symbol_price_data)
+          generate_plotly_chart(db_conn, symbol, df_symbol_price_data)
           # generate_chart_plot_with_sub_plots(df_symbol_price_data)
 
   print("---3000---")
@@ -762,8 +640,8 @@ def main():
   logger.info("You selected symbol via text_input box ={}", sb_symbol)
   if sb_symbol:
     st_response = sb_inputbox_symbol("YFINANCE", db_conn, sb_symbol)
-    st.write("return string = {}", st_response)
-    logger.info("return string = {}", st_response)
+    st.write("sb_inputbox_symbol return string = {}", st_response)
+    logger.info("sb_inputbox_symbol return string = {}", st_response)
 
   print("---4000---")
   df_scans = st_selectbox_scans(db_conn)
