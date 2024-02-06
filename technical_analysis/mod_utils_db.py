@@ -77,6 +77,19 @@ def connect_to_db_using_psycopg2():
     return connection
 
 
+def run_conn_sql_query(dbconn, sql_query):
+    """
+    input is the db connection and the sql_query. it will run against the database and return output in a pandas df.
+    TODO - what about no output ???
+    """
+    print("Input sql_query = ", sql_query)
+
+    df_output = pd.read_sql_query(sql_query, dbconn)
+    print("Output df = ", df_output)
+    
+    return df_output
+
+
 def get_symbol_price_data_stats_from_database(dbconn, symbol):
   """
   Looks up in the database for details about how much price data information we have on this particular symbol

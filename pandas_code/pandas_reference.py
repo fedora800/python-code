@@ -56,6 +56,11 @@ def fn_02_B_delete_columns(df, axis=AXIS_COLUMNS):
   df_tmp3 = df[['Present_Price','Kms_Driven','Fuel_Type','Seller_Type','Transmission','Owner']]
   print('--after--'); print(df_tmp3.tail())
 
+  print('Renaming specific columns ...')
+  #df.rename(columns={'Date': 'hello', 'Symbol': 'world', 'Close': 'london'}, inplace=True)
+  df_tmp4 = df.rename(columns={'Car_Name': 'NameOfCar', 'Fuel_Type': 'TypeOfFuel', 'Year': 'YearMade'})
+  print('--after--'); print(df_tmp4.tail())
+
 #    Car_Name  Year  Selling_Price  Present_Price  Kms_Driven Fuel_Type Seller_Type Transmission  Owner
 #0       ritz  2014           3.35           5.59       27000    Petrol      Dealer       Manual      0
 

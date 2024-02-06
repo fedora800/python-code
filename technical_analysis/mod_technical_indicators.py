@@ -1,40 +1,77 @@
 from loguru import logger
 import pandas as pd
+import talib as ta
 
-def fn_01_relative_strength_indicator(xxx):
+def check_data(df: pd.DataFrame, exp_recs: int):
+  """_summary_
 
-  '''
-  # Create RSI
-  rsi = RSI(data.close, timeperiod=14)
+  Args:
+      df (pd.DataFrame): contains the data_
+      exp_recs (int): a number mentioning minimum number of records we expect in the df
 
-  # Create MACD
-  macd, macdsignal, macdhist = MACD(
-      data.close, 
-      fastperiod=12, 
-      slowperiod=26, 
-      signalperiod=9
-  )
+  Returns:
+      int: number of records in the dataframe
+  """
 
-  macd = pd.DataFrame(
-      {
-          "MACD": macd,
-          "MACD Signal": macdsignal,
-          "MACD History": macdhist,
-      }
-  )
-  https://pyquantnews.com/technical-df_macd-python-3-indicators/
-  https://tradewithpython.com/generating-buy-sell-signals-using-python
-  https://www.exfinsis.com/tutorials/python-programming-language/macd-stock-technical-indicator-with-python/
+  #logger.debug("Received arguments : df={} and exp_recs={}", df, exp_recs) 
+
+  num_records = df.shape[0]
+  num_columns = df.shape[1]
+  logger.debug("Received arguments : num_records={} and num_columns={}", num_records, num_columns) 
+  logger.trace("df info={}", df.info()) 
+
+  return num_records
 
 
-  # Plotting MACD
-  plt.subplot(2, 1, 2)
-  plt.plot(data['MACD'], label='MACD Line', color='blue')
-  plt.plot(data['MACD_Signal'], label='Signal Line', color='red')
-  plt.bar(data.index, data['MACD_Diff'], label='Histogram', color='grey', alpha=0.5)
-  plt.legend()
-  '''
-  logger.debug("Received arguments : dbconn={} symbol={} df={} tbl_name={}", xxx, xxx)
+
+def fn_01_relative_strength_indicator(df: pd.DataFrame):
+
+  PERIOD = 14
+
+  logger.debug("Received arguments : df={}", df) 
+  num_recs = check_data(df, 300)
+
+  if num_recs < 200:
+    logger.error("num_records={} less than expected records={}", num_recs, 200) 
+    #TODO: exit maybe ?
+
+  df["rsi_14"] = ta.RSI(df["close"], timeperiod=PERIOD)
+  logger.debug("--dfhead={}----dftail={}----", df.head(1), df.tail(1))
+  
+
+
+  # '''
+  # # Create RSI
+  # rsi = RSI(data.close, timeperiod=14)
+
+  # # Create MACD
+  # macd, macdsignal, macdhist = MACD(
+  #     data.close, 
+  #     fastperiod=12, 
+  #     slowperiod=26, 
+  #     signalperiod=9
+  # )
+
+  # macd = pd.DataFrame(
+  #     {
+  #         "MACD": macd,
+  #         "MACD Signal": macdsignal,
+  #         "MACD History": macdhist,
+  #     }
+  # )
+  # https://pyquantnews.com/technical-df_macd-python-3-indicators/
+  # https://tradewithpython.com/generating-buy-sell-signals-using-python
+  # https://www.exfinsis.com/tutorials/python-programming-language/macd-stock-technical-indicator-with-python/
+
+
+  # # Plotting MACD
+  # plt.subplot(2, 1, 2)
+  # plt.plot(data['MACD'], label='MACD Line', color='blue')
+  # plt.plot(data['MACD_Signal'], label='Signal Line', color='red')
+  # plt.bar(data.index, data['MACD_Diff'], label='Histogram', color='grey', alpha=0.5)
+  # plt.legend()
+  # '''
+  # logger.debug("Received arguments : df={}", df) 
 
 
 def fn_02_comparative_relative_strength_CRS_indicator(benchmark_symbol: str, df_benchmark_symbol: pd.DataFrame, symbol: str, df_symbol: pd.DataFrame) -> pd.DataFrame:
