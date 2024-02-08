@@ -75,7 +75,6 @@ def fn_02_C_apply_scalar_on_all_items_of_a_column(df):
 # --------------------------------------------------------------------------------
 def fn_03_find_in_dataframe(df):
 
-  '''
   #find first N columns
   subset = candidates.iloc[:,0:N]
 
@@ -94,7 +93,9 @@ def fn_03_find_in_dataframe(df):
   # get columns whose name starts with a specific string
   #subset = candidates.loc[:,candidates.columns.str.startswith('addr')]
 
-  ''' 
+  #find last row of df
+  ps_last_row = df_return.iloc[-1]   # returns a series
+
 
 # --------------------------------------------------------------------------------
 def fn_XXXXXX_change_index(df):
@@ -131,6 +132,18 @@ def fn_05_lambda_functions(df):
 
 
 # --------------------------------------------------------------------------------
+def fn_06_pandas_series(df_cars):
+
+  ps_lastrow = df_return.iloc[-1]   # returns a series
+  print(ps_lastrow["Car_Name"]  # by index label
+  print(ps_lastrow.iloc[0]  # by position
+
+  ps_subset = ps_lastrow[1:3]  # gets elements from position 1 to 3
+  ps_filtered = ps_lastrow[ps_lastrow > 15]   # it will compare each element for this condition and only those elements that satisfy will be picked
+
+
+
+# --------------------------------------------------------------------------------
 def main():
 
   df_cars = fn_01_A_load_csv_file(dataset_file_1)
@@ -140,6 +153,7 @@ def main():
   #fn_XXXXXX_change_index(df_cars)
   #fn_04_date_related(df_cars)
   #fn_05_lambda_functions(df_cars)
+  fn_06_pandas_series(df_cars)
 
 
 # --------------------------------------------------------------------------------

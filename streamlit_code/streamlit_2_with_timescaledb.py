@@ -112,6 +112,7 @@ def generate_plotly_chart(dbconn, symbol, df):
             "RSI",
             "MACD",
             "ADX",
+            "CRS",
         ),
         row_width=[
             0.1,
