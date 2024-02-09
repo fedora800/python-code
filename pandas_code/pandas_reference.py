@@ -14,7 +14,7 @@ def fn_00_get_dataframe_info(df):
   print('**IMP**')
   print('Index of 1st column = 0')
   print('like shape, no cols, no rows, etc etc, column names')
-  print(df.tail())
+  print(df)
   print(df.describe())  # gives stats like count, mean, std dev etc for each column
   print(df.info())   # num_rows, num_cols, datatypes of each column, memory usage
 
@@ -25,6 +25,7 @@ def fn_01_load_data_section():
 
 
 def  fn_01_A_load_csv_file(csv_fname):
+  # check data_set_file_1 
   df = pd.read_csv(csv_fname)
   return df
   
@@ -35,7 +36,8 @@ def fn_02_manipulate_rows_and_columns(df):
   print('--before--'); print(df.tail())
   #fn_02_A_delete_rows(df)
   #fn_02_B_delete_columns(df)
-  fn_02_C_apply_scalar_on_all_items_of_a_column(df)
+  fn_02_C_add_columns(df)
+  #fn_02_C_apply_scalar_on_all_items_of_a_column(df)
 
 def fn_02_A_delete_rows(df):
   print('')
@@ -64,6 +66,24 @@ def fn_02_B_delete_columns(df, axis=AXIS_COLUMNS):
 #    Car_Name  Year  Selling_Price  Present_Price  Kms_Driven Fuel_Type Seller_Type Transmission  Owner
 #0       ritz  2014           3.35           5.59       27000    Petrol      Dealer       Manual      0
 
+
+def fn_02_C_add_columns(df, axis=AXIS_COLUMNS):
+  print('--before--'); print(df.tail())
+
+  print('Adding 1 new column with a hardcoded static value ...')
+  df_tmp1 = df
+  df_tmp1["Country"] = "India"
+  print('--after--'); print(df_tmp1.tail())
+
+  print('Adding 1 new column with column values from another dataframe ...')
+  print('*IMP* - the dfs should have matching indices')
+  df_tmp2 = df
+  df_tmp2["Price_Difference"] = df["Selling_Price"] - df["Present_Price"]
+  print('--after--'); print(df_tmp2.tail())
+
+
+
+
 def fn_02_C_apply_scalar_on_all_items_of_a_column(df):
   # below with multiply each value in the column by 10
   # -- method 1 -- lambda function --
@@ -74,27 +94,32 @@ def fn_02_C_apply_scalar_on_all_items_of_a_column(df):
 
 # --------------------------------------------------------------------------------
 def fn_03_find_in_dataframe(df):
-
+  print("----- fn_03_find_in_dataframe -----")
   #find first N columns
-  subset = candidates.iloc[:,0:N]
+  N = 5
+  subset = df.iloc[:,0:N]
 
   # find numeric columns only 
-  subset =  candidates.select_dtypes(include = 'number')
+  subset =  df.select_dtypes(include = 'number')
 
   # find all excluding numeric columns 
-  subset =  candidates.select_dtypes(exclude = 'number')
+  subset =  df.select_dtypes(exclude = 'number')
 
   # pass a list of columns and keep only those columns which name matches a value in the list:
-  subset = candidates.loc[:,candidates.columns.isin(['area', 'salary'])]
+  subset = df.loc[:,df.columns.isin(['area', 'salary'])]
 
   # look for a specific string in a column name and retain those columns only
-  subset = candidates.loc[:,candidates.columns.str.find('addre') > -1]
+  subset = df.loc[:,df.columns.str.find('addre') > -1]
 
   # get columns whose name starts with a specific string
   #subset = candidates.loc[:,candidates.columns.str.startswith('addr')]
 
-  #find last row of df
-  ps_last_row = df_return.iloc[-1]   # returns a series
+  #find last row of df as a SERIES
+  ps_last_row = df.iloc[-1]   # returns a series
+
+  # find the first and last row of df and return them as a dataframe
+  df_head_foot = pd.concat([df.head(1), df.tail(1)])
+  print("df with only header and footer rows = ", df_head_foot)
 
 
 # --------------------------------------------------------------------------------
@@ -135,8 +160,8 @@ def fn_05_lambda_functions(df):
 def fn_06_pandas_series(df_cars):
 
   ps_lastrow = df_return.iloc[-1]   # returns a series
-  print(ps_lastrow["Car_Name"]  # by index label
-  print(ps_lastrow.iloc[0]  # by position
+  print(ps_lastrow["Car_Name"])  # by index label
+  print(ps_lastrow.iloc[0])  # by position
 
   ps_subset = ps_lastrow[1:3]  # gets elements from position 1 to 3
   ps_filtered = ps_lastrow[ps_lastrow > 15]   # it will compare each element for this condition and only those elements that satisfy will be picked
@@ -148,12 +173,12 @@ def main():
 
   df_cars = fn_01_A_load_csv_file(dataset_file_1)
   fn_00_get_dataframe_info(df_cars)
-  fn_02_manipulate_rows_and_columns(df_cars)
-  #fn_03_find_in_dataframe(df_cars)
+  #fn_02_manipulate_rows_and_columns(df_cars)
+  fn_03_find_in_dataframe(df_cars)
   #fn_XXXXXX_change_index(df_cars)
   #fn_04_date_related(df_cars)
   #fn_05_lambda_functions(df_cars)
-  fn_06_pandas_series(df_cars)
+  #fn_06_pandas_series(df_cars)
 
 
 # --------------------------------------------------------------------------------

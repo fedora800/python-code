@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS tbl_price_data_1day (
    rsi_14         NUMERIC(10,2) NULL,
    macd_sig_hist  TEXT NULL,
    dm_dp_adx      TEXT NULL,
-   crs            NUMERIC(10,2) NULL,
+   crs_50         NUMERIC(3,3) NULL,
 --  vendor_id INTEGER REFERENCES data_vendors(vendor_id),
 --   PRIMARY KEY (pd_ins_id, vendor_id, dtime)
 --   PRIMARY KEY (pd_ins_id, pd_time)
