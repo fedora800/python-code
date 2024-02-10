@@ -3,6 +3,7 @@ import pandas as pd
 import mod_technical_indicators as m_ti
 #from pkg_common import mod_utils_db as m_udb
 import mod_utils_db as m_udb
+import mod_yfinance as m_yfn
 from sqlalchemy import update, select, Table, MetaData, text
 
 
@@ -93,50 +94,80 @@ elif fetch_from == "table":
 # print(f"==out== lr_symbol={lr_symbol} lr_pd_time={lr_pd_time} lr_close={lr_close} lr_dm_dp_adx={lr_dm_dp_adx}===")
 # -----------------------------------------------------
 
-df_return = m_ti.fn_compute_all_required_indicators(benchmark_symbol, df_benchmark_symbol, symbol, df_symbol)
+lst_tmp_symbols = [
+  "AGBP.L",
+  "EMGU.L",
+  "EMIM.L"
+#
+#  "EXCS.L",
+#  "IASH.L",
+#  "IBTG.L",
+#  "IBTL.L",
+#  "IDTG.L",
+#  "IGLT.L",
+#  "IGTM.L",
+#  "IIND.L",
+#  "INRG.L",
+#  "ISF.L",
+#  "ITPG.L",
+#  "IUKP.L",
+#  "IUSA.L",
+#  "MIDD.L",
+#  "VUSA.L",
+#  "WQDS.L"
+]
 
-ps_last_row = df_return.iloc[-1]
-print("Inserting these values :", ps_last_row)
+for loop_symbol in lst_tmp_symbols:
+  print(f"--- X444--- Computing indicators for {loop_symbol} ----------")
+#  df_return = m_ti.fn_compute_all_required_indicators(benchmark_symbol, df_benchmark_symbol, symbol, df_symbol)
+#  m_yfn.sync_price_data_in_table_for_symbol("YFINANCE", engine, loop_symbol)
 
-# Assuming metadata is the metadata object used to create the table in the separate process
-metadata = MetaData()
+  sql_query = text("""select * from tbl_price_data_1day where pd_symbol= :param""").bindparams(param=loop_symbol)
+  df_loop_symbol = m_udb.run_conn_sql_query(engine, sql_query)
+  df_return = m_ti.fn_compute_all_required_indicators(benchmark_symbol, df_benchmark_symbol, loop_symbol, df_loop_symbol)
 
-# Reflect the existing table from the database
-tbl_price_data_1day = Table('tbl_price_data_1day', metadata, autoload_with=engine)
-
-print("---200--- running UPDATE statement ----")
-
-# Create an update statement
-update_statement = (
-    update(tbl_price_data_1day)
-    .values(
-        rsi_14=ps_last_row["rsi_14"],
-        macd_sig_hist=ps_last_row["macd_sig_hist"],
-        dm_dp_adx=ps_last_row["dm_dp_adx"],
-        crs_50=ps_last_row["crs_50"]
-    )
-    .where(
-        (tbl_price_data_1day.c.pd_symbol == ps_last_row["pd_symbol"]) &
-        (tbl_price_data_1day.c.pd_time == ps_last_row["pd_time"]) &
-        (tbl_price_data_1day.c.close == ps_last_row["close"])
-    )
-)
-print("--------------update query=",str(update_statement))
-
-try:
-    with engine.connect() as connection:
-        result = connection.execute(update_statement)
-        num_rows_updated = result.rowcount
-        connection.commit()  # commit the changes
-
-    if num_rows_updated > 0:
-        print(f"Number of rows updated: {num_rows_updated}")
-    else:
-        print("No rows updated.")
-
-except Exception as e:
-    print(f"Error during update: {e}")
-
+  ps_last_row = df_return.iloc[-1]
+  print("Inserting these values :", ps_last_row)
+  
+  # Assuming metadata is the metadata object used to create the table in the separate process
+  metadata = MetaData()
+  
+  # Reflect the existing table from the database
+  tbl_price_data_1day = Table('tbl_price_data_1day', metadata, autoload_with=engine)
+  
+  print("---200--- running UPDATE statement ----")
+  
+  # Create an update statement
+  update_statement = (
+      update(tbl_price_data_1day)
+      .values(
+          rsi_14=ps_last_row["rsi_14"],
+          macd_sig_hist=ps_last_row["macd_sig_hist"],
+          dm_dp_adx=ps_last_row["dm_dp_adx"],
+          crs_50=ps_last_row["crs_50"]
+      )
+      .where(
+          (tbl_price_data_1day.c.pd_symbol == ps_last_row["pd_symbol"]) &
+          (tbl_price_data_1day.c.pd_time == ps_last_row["pd_time"]) &
+          (tbl_price_data_1day.c.close == ps_last_row["close"])
+      )
+  )
+  print("--------------update query=",str(update_statement))
+  
+  try:
+      with engine.connect() as connection:
+          result = connection.execute(update_statement)
+          num_rows_updated = result.rowcount
+          connection.commit()  # commit the changes
+  
+      if num_rows_updated > 0:
+          print(f"Number of rows updated: {num_rows_updated}")
+      else:
+          print("No rows updated.")
+  
+  except Exception as e:
+      print(f"Error during update: {e}")
+  
 
 
 print("---100--- now run a SELECT to verify if the cUPDATE statement has been applied on the table ----")

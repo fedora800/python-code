@@ -57,6 +57,43 @@ delete from tbl_price_data_1day where pd_symbol in (select symbol from tbl_instr
 
 #truncate table tbl_price_data_1day;
 
+select * from tbl_price_data_1day 
+where 
+pd_symbol IN ('VUSA.L', 'IUKP.L') 
+and pd_time > '2024-02-06' 
+order by pd_time desc;
+
+
+select * from viw_latest_price_data_by_symbol 
+where pd_symbol in ( 
+ 'AGBP.L',
+  'EMGU.L',
+  'EMIM.L'
+)
+-- and pd_time > '2024-02-06' order by pd_time desc;
+
+
+--- NEED TO CREATE VIEW BELOW I THINK FOR THE SCAN ---
+
+select * from viw_latest_price_data_by_symbol 
+where 
+pd_time > CURRENT_DATE - INTERVAL '3 days'
+and close > sma_50
+and pd_symbol in (select pd_symbol from viw_latest_price_data_by_symbol)
+order by pd_time desc;
+
+
+CREATE OR REPLACE VIEW viw_tmp_001 AS 
+  select * from viw_latest_price_data_by_symbol 
+  where 
+  pd_time > CURRENT_DATE - INTERVAL '3 days'
+  and close > sma_50
+  and pd_symbol in (select pd_symbol from viw_latest_price_data_by_symbol)
+  order by pd_time desc;
+
+
+
+
 --------------------------------------------------------------------------------
 
 \copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM' ~/git-projects/python-code/timescaledb/tbl_price_data_1day_data.csv' DELIMITER ',' CSV HEADER;

@@ -239,6 +239,14 @@ def fn_07_pandas_df_referencing(df):
   print(df_tmp2)
   print('--after   original df = '); print(df.tail())
 
+  # for loop
+  print('Going through the entire df in a loop and using the columns ...')
+  for index, row in df.iterrows():
+    print(f"Car Name: {row['Car_Name']}, Selling Price: {row['Selling_Price']}")
+
+
+  
+
 # --------------------------------------------------------------------------------
 def main():
 

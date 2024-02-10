@@ -31,7 +31,7 @@ def run_conn_sql_query(dbconn, sql_query):
     return df_output
 
 
-def st_sb_selectbox_symbol_group(dbconn):
+def fn_st_sb_selectbox_symbol_group(dbconn):
     """
     this the top-left 1st selectbox on the sidebarinput
     user will select the group of symbols he wants to start on (eg US ETFs, UK ETFs, US S&P500 constituents etc)
@@ -41,7 +41,7 @@ def st_sb_selectbox_symbol_group(dbconn):
       a df with the output of the the sql_query results (symbols list) corresponding to what option we chose from the dropdown
     """
 
-    print("---100---st_sb_selectbox_symbol_group------START-----")
+    print("---100---fn_st_sb_selectbox_symbol_group------START-----")
     logger.debug("Arguments : {}", dbconn)
 
     dct_options = {
@@ -87,7 +87,15 @@ def st_sb_selectbox_symbol_group(dbconn):
 
     df_head_foot = pd.concat([df_symbols.head(1), df_symbols.tail(1)])
     logger.debug("Returning Symbol List as df_head_foot = {} ", df_head_foot)
-    print("---100---st_sb_selectbox_symbol_group------END     RETURNING-----")
+
+    print("---100---fn_st_sb_selectbox_symbol_group------FETCHING DATA FOR ALL SYMBOLS IN THIS GROUP -----")
+    # *** IT DOES THIS AGAIN AND AGAIN *****
+    # for index, row in df_symbols.iterrows():
+    #   logger.trace("Syncing data for {} - {}", row["symbol"], row["name"])
+    #   m_yfn.sync_price_data_in_table_for_symbol("YFINANCE", dbconn, row["symbol"])
+    #   st.markdown("Syncing data for :blue[{}]".format(row["symbol"]))
+
+    print("---100---fn_st_sb_selectbox_symbol_group------END     RETURNING-----")
     return df_symbols
 
 
@@ -351,15 +359,15 @@ def generate_plotly_chart(dbconn, symbol, df):
     benchmark_symbol = "SPY"
     df_benchmark_symbol = m_udb.get_table_data_for_symbol(dbconn, benchmark_symbol)
 
-    df_CRS = m_ti.fn_02_comparative_relative_strength_CRS_indicator(benchmark_symbol, df_benchmark_symbol, symbol, df)
+    #df_CRS = m_ti.fn_02_comparative_relative_strength_CRS_indicator(benchmark_symbol, df_benchmark_symbol, symbol, df)
 
     # TODO:  update the "CRS" column back in the table
-    logger.trace("--dfhead={}----dftail={}----", df_CRS.head(1), df_CRS.tail(1))
+    #logger.trace("--dfhead={}----dftail={}----", df_CRS.head(1), df_CRS.tail(1))
 
     # Prepare subplot with a gobj.Scatter object trace for CRS
     trace_subplot_row_6 = gobj.Scatter(
         x=df["pd_time"],
-        y=df_CRS["CRS"],
+        y=df["crs_50"],
         mode="lines",
         name="CRS",
         textfont=dct_textfont,
@@ -436,7 +444,7 @@ def generate_plotly_chart(dbconn, symbol, df):
 
 
 
-def st_sb_selectbox_symbol_only(dbconn, df):
+def fn_st_sb_selectbox_symbol_only(dbconn, df):
   """
   this the top-left 2nd selectbox on the sidebarinput
   it shows a list of symbols from which user will select one symbol
@@ -449,7 +457,7 @@ def st_sb_selectbox_symbol_only(dbconn, df):
   """
 
   df_head_foot = pd.concat([df.head(1), df.tail(1)])
-  logger.debug("----- ENTERED st_sb_selectbox_symbol_only -----")
+  logger.debug("----- ENTERED fn_st_sb_selectbox_symbol_only -----")
   logger.debug("Arguments : dbconn = {}, df_head_foot = {}", dbconn, df_head_foot)
 
   # Selectbox (dropdown) Sidebar
@@ -460,6 +468,8 @@ def st_sb_selectbox_symbol_only(dbconn, df):
   logger.info("You selected from the Symbol Dropdown - sm_chosen_symbol={}", sm_chosen_symbol)
 
   if sm_chosen_symbol:
+      # TODO: for efficiency, i should be remove this sync bit from here and put it 1 level up, when we select the symbol group
+      # at that level, we can sync all the symbols for that symbol group in 1 shot, so then when we do lookup here, that data is all in sync
       df_ohlcv_symbol, df_sym_stats = m_yfn.sync_price_data_in_table_for_symbol(
           "YFINANCE", dbconn, sm_chosen_symbol
       )
@@ -469,14 +479,14 @@ def st_sb_selectbox_symbol_only(dbconn, df):
         st_sym_stats = '  /  '.join(map(str, ps_sym_stats))  # Convert each value to string and join them with given delimiter
         logger.debug("Arguments : dbconn = {}, df_head_foot = {}", dbconn, df_head_foot)
         st.markdown("Symbol Stats from DB : **:blue[{}]**".format(st_sym_stats))
-      print("---200---st_sb_selectbox_symbol_only------END    RETURNING-----")
+      print("---200---fn_st_sb_selectbox_symbol_only------END    RETURNING-----")
       return sm_chosen_symbol, df_ohlcv_symbol
   else:
       print(
           "-----200--user has not yet chosen from the symbol group dropdown-------------"
       )
       return None, None
-      print("---200---st_sb_selectbox_symbol_only------END    NOTHING RETURNED-----")
+      print("---200---fn_st_sb_selectbox_symbol_only------END    NOTHING RETURNED-----")
 
 
 def sb_inputbox_symbol(data_venue: str, dbconn, symbol: str) -> str:
@@ -536,7 +546,8 @@ def fn_st_selectbox_scans(dbconn):
         "scan_sqlquery": [
             "select * from viw_latest_price_data_by_symbol where close < sma_50",
             "select * from viw_latest_price_data_by_symbol where close > sma_50",
-            "select * from viw_price_data_uk_most_traded where close > sma_50"
+#            "select * from viw_price_data_uk_most_traded"
+            "select * from viw_tmp_001"
         ],
     }
 
@@ -619,14 +630,14 @@ def main():
 
   # --- SIDEBAR -- SELECTBOX -- FOR SYMBOL_GROUP DROPDOWN ---
   # accept the user's selection on the symbols_group dropdown and returns list of symbols from that symbols group only
-  df_symbols_list = st_sb_selectbox_symbol_group(db_conn)
+  df_symbols_list = fn_st_sb_selectbox_symbol_group(db_conn)
   # using the above list of symbols, now await the user's selection on the next dropdown selectbox, which is to choose only one symbol from the list
   # when chosen, it will return a full price data df for that symbol
   if not df_symbols_list.empty:
       print(f"---2000--type= {type(df_symbols_list)} ----")
       df_symbol_price_data = pd.DataFrame()
       # --- SIDEBAR -- SELECTBOX -- FOR SYMBOL DROPDOWN ---
-      symbol, df_symbol_price_data = st_sb_selectbox_symbol_only(db_conn, df_symbols_list)
+      symbol, df_symbol_price_data = fn_st_sb_selectbox_symbol_only(db_conn, df_symbols_list)
       print(
           f"---222--type= {type(df_symbol_price_data)} ----df = {df_symbol_price_data}----"
       )

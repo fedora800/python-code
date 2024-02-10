@@ -1,7 +1,8 @@
 from loguru import logger
 import pandas as pd
 import talib as ta
-import streamlit_code.mod_others as m_oth
+#import streamlit_code.mod_others as m_oth
+import mod_others as m_oth
 
 def check_data(df: pd.DataFrame, exp_recs: int):
     """_summary_
@@ -443,7 +444,7 @@ def fn_compute_all_required_indicators(
       on="pd_time",
       suffixes=("_SYMB", "_ETF"),
   )
-  #df_merged["close"] = df_sym["close"]
+  df_merged["close"] = df_sym["close"]
   
   df_merged[COL_NAME_CRS] = (df_merged["close_SYMB"] / df_merged["close_SYMB"].shift(CRS_LENGTH) / 
                       (df_merged["close_ETF"] / df_merged["close_ETF"].shift(CRS_LENGTH)) - 1
@@ -454,8 +455,15 @@ def fn_compute_all_required_indicators(
   mask = ~df_merged[COL_NAME_CRS].isna()
   df_merged.loc[mask, COL_NAME_CRS] = df_merged.loc[mask, COL_NAME_CRS].round(3)
 
+  print("-- Z 11 -- df_merged = ")
+  m_oth.fn_df_get_first_last(df_merged)
+  print("-- Z 22 -- df_sym = ")
+  m_oth.fn_df_get_first_last(df_sym)
+
   # finally, now update the original df's column with the computed values of CRS
   df_sym[COL_NAME_CRS] = df_merged[COL_NAME_CRS]
+  print("-- Z 33 -- updated df_sym = ")
+  m_oth.fn_df_get_first_last(df_sym)
   logger.debug("Now computed all the indicator values and at the end of the function, resulting df_sym=\n{}", m_oth.fn_df_get_first_last(df_sym))
 
   return df_sym
