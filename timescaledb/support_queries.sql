@@ -44,7 +44,8 @@ pd_symbol in ('SPY', 'MCO')
 group by pd_symbol
 order by pd_symbol;
 
-select * from tbl_price_data_1day where pd_symbol='META';
+select * from tbl_price_data_1day where pd_symbol='META'
+order by pd_time DESC;
 
 delete from tbl_price_data_1day 
 where 

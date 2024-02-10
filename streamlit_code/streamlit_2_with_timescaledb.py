@@ -507,7 +507,7 @@ def generate_table_plot(df):
     # st.dataframe(df, 100, 200)
 
 
-def st_selectbox_scans(dbconn):
+def fn_st_selectbox_scans(dbconn):
     """_summary_
 
     Args:
@@ -529,10 +529,14 @@ def st_selectbox_scans(dbconn):
     logger.debug("Arguments : {}", dbconn)
 
     dct_options = {
-        "scan_name": ["stocks below SMA50", "stocks_above_SMA50"],
+        "scan_name": ["stocks below SMA50", 
+                      "stocks_above_SMA50",
+                      "UK_most_traded_stocks_above_SMA50"
+        ],
         "scan_sqlquery": [
             "select * from viw_latest_price_data_by_symbol where close < sma_50",
             "select * from viw_latest_price_data_by_symbol where close > sma_50",
+            "select * from viw_price_data_uk_most_traded where close > sma_50"
         ],
     }
 
@@ -645,7 +649,7 @@ def main():
     logger.info("sb_inputbox_symbol return string = {}", st_response)
 
   print("---4000---")
-  df_scans = st_selectbox_scans(db_conn)
+  df_scans = fn_st_selectbox_scans(db_conn)
   print("----df_scans result = ", df_scans)
   print("--- end of main() ---")
 

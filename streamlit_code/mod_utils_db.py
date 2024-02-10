@@ -1,10 +1,11 @@
 import sqlalchemy as sa
 import psycopg2 as psy
 from loguru import logger
+#from technical_analysis.config import DB_INFO, DEBUG_MODE
 from config import DB_INFO, DEBUG_MODE
 import pandas as pd
 from sqlalchemy import text
-
+import mod_others as m_oth
 
 def create_database_engine_sqlalchemy(db_uri: str)-> sa.Engine:
   """
@@ -85,8 +86,8 @@ def run_conn_sql_query(dbconn, sql_query):
     print("Input sql_query = ", sql_query)
 
     df_output = pd.read_sql_query(sql_query, dbconn)
-    print("Output df = ", df_output)
-    
+    m_oth.fn_df_get_first_last(df_output)
+ 
     return df_output
 
 

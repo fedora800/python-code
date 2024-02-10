@@ -1,20 +1,20 @@
 import pandas as pd
+#import technical_analysis.mod_technical_indicators as m_ti
 import mod_technical_indicators as m_ti
 #from pkg_common import mod_utils_db as m_udb
 import mod_utils_db as m_udb
-import mod_others as m_oth
 from sqlalchemy import update, select, Table, MetaData, text
 
 
 #benchmark_symbol_file = "/tmp/SPY.csv"
 #benchmark_symbol_file = "c:\\mytmp\\downloads\\SPY.csv"
 benchmark_symbol = "SPY"
-symbol="VRSN"
+symbol="TSLA"
 #symbol_file = "/tmp/MSFT.csv"
 #symbol="AAPL"
 #symbol_file = "c:\\mytmp\\downloads\\AAPL.csv"
-#my_db_uri = "postgresql://postgres:Inesh#2012@localhost:5432/dbs_invest"
-my_db_uri = "postgresql://postgres:postgres@localhost:5432/dbs_invest"
+my_db_uri = "postgresql://postgres:Inesh#2012@localhost:5432/dbs_invest"
+#my_db_uri = "postgresql://postgres:postgres@localhost:5432/dbs_invest"
 fetch_from="table"
 
 
@@ -93,7 +93,10 @@ elif fetch_from == "table":
 # print(f"==out== lr_symbol={lr_symbol} lr_pd_time={lr_pd_time} lr_close={lr_close} lr_dm_dp_adx={lr_dm_dp_adx}===")
 # -----------------------------------------------------
 
-m_ti.fn_compute_all_required_indicators(benchmark_symbol, df_benchmark_symbol, symbol, df_symbol)
+df_return = m_ti.fn_compute_all_required_indicators(benchmark_symbol, df_benchmark_symbol, symbol, df_symbol)
+
+ps_last_row = df_return.iloc[-1]
+print("Inserting these values :", ps_last_row)
 
 # Assuming metadata is the metadata object used to create the table in the separate process
 metadata = MetaData()
@@ -107,18 +110,18 @@ print("---200--- running UPDATE statement ----")
 update_statement = (
     update(tbl_price_data_1day)
     .values(
-        rsi_14=lr_rsi_14,
-        macd_sig_hist=lr_macd_sig_hist,
-        crs=lr_crs,
-        dm_dp_adx=lr_dm_dp_adx
+        rsi_14=ps_last_row["rsi_14"],
+        macd_sig_hist=ps_last_row["macd_sig_hist"],
+        dm_dp_adx=ps_last_row["dm_dp_adx"],
+        crs_50=ps_last_row["crs_50"]
     )
     .where(
-        (tbl_price_data_1day.c.pd_symbol == lr_symbol) &
-        (tbl_price_data_1day.c.pd_time == lr_pd_time) &
-        (tbl_price_data_1day.c.close == lr_close)
+        (tbl_price_data_1day.c.pd_symbol == ps_last_row["pd_symbol"]) &
+        (tbl_price_data_1day.c.pd_time == ps_last_row["pd_time"]) &
+        (tbl_price_data_1day.c.close == ps_last_row["close"])
     )
 )
-print("--update query=",str(update_statement))
+print("--------------update query=",str(update_statement))
 
 try:
     with engine.connect() as connection:
@@ -136,12 +139,12 @@ except Exception as e:
 
 
 
-print("---100--- first run a SELECT to verify if the criteria in the UPDATE statement will have any matches ----")
+print("---100--- now run a SELECT to verify if the cUPDATE statement has been applied on the table ----")
 # Assuming tbl_price_data_1day is your SQLAlchemy Table object
 select_statement = select(tbl_price_data_1day).where(
-    (tbl_price_data_1day.c.pd_symbol == lr_symbol) &
-    (tbl_price_data_1day.c.pd_time == lr_pd_time) &
-    (tbl_price_data_1day.c.close == lr_close)
+    (tbl_price_data_1day.c.pd_symbol == ps_last_row["pd_symbol"]) &
+    (tbl_price_data_1day.c.pd_time == ps_last_row["pd_time"]) &
+    (tbl_price_data_1day.c.close == ps_last_row["close"])
 )
 
 with engine.connect() as connection:

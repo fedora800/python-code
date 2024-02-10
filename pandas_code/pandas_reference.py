@@ -121,6 +121,54 @@ def fn_03_find_in_dataframe(df):
   df_head_foot = pd.concat([df.head(1), df.tail(1)])
   print("df with only header and footer rows = ", df_head_foot)
 
+  # find missing (NaN - Not a Number) values in a df
+  fn_03_A_find_missing_NAN(df)
+
+# --------------------------------------------------------------------------------
+def fn_03_A_find_missing_NAN(df):
+  """
+  The df.isna() method in pandas is used to check for missing or NaN (Not a Number) values in a DataFrame. 
+  It returns a DataFrame of the same shape as the input DataFrame (df), where each element is a boolean value 
+  indicating whether the corresponding element in the original DataFrame is missing or not.
+  """
+
+  # Create a DataFrame with some missing values
+  data = {'A': [1, 2, None, 4], 'B': [5, None, 7, 8]}
+  df = pd.DataFrame(data)
+  print(df)
+  # Output:
+  #      A    B
+  # 0  1.0  5.0
+  # 1  2.0  NaN
+  # 2  NaN  7.0
+  # 3  4.0  8.0
+
+  # Check for missing values
+  df_missing_values = df.isna()
+  # In the resulting missing_values DataFrame, True indicates a missing value, while False indicates a non-missing (or present) value.
+  # This can be useful for various data cleaning and preprocessing tasks where you need to identify and handle missing values appropriately.
+
+  print(df_missing_values)
+  # Output:
+  #        A      B
+  # 0  False  False
+  # 1  False   True
+  # 2   True  False
+  # 3  False  False
+
+  # Create a boolean mask for the rows you want to update
+  mask = df["B"].isna()
+  # Set values in column B to 999 where they were NaN before, using the mask
+  df.loc[mask, "B"] = 999
+
+  print(df)
+  # Output:
+  #     A      B
+  #0  1.0    5.0
+  #1  2.0  999.0
+  #2  NaN    7.0
+  #3  4.0    8.0
+
 
 # --------------------------------------------------------------------------------
 def fn_XXXXXX_change_index(df):
@@ -167,6 +215,29 @@ def fn_06_pandas_series(df_cars):
   ps_filtered = ps_lastrow[ps_lastrow > 15]   # it will compare each element for this condition and only those elements that satisfy will be picked
 
 
+# --------------------------------------------------------------------------------
+def fn_07_pandas_df_referencing(df):
+  # THIS IS VERY IMPORTANT TO UNDERSTAND 
+  # by default, when we assign a df to another, it will create a REFERENCE to the original DataFrame,
+  # NOT a new copy. Therefore, changes made to one DataFrame WILL affect the other.
+  
+  print("----- fn_07_pandas_df_referencing -----")
+  print('--before--'); print(df.tail())
+
+  # changes the original df
+  print('Changing the original df when changing another df assigned to it ...')
+  # this will change the original df
+  df_tmp1 = df
+  df_tmp1["newcol_1"] = "AAA"
+  print(df_tmp1)
+  print('--after   original df = '); print(df.tail())
+
+  # create independent copy of the df
+  print('Creating an independent seperate copy of the original df ...')
+  df_tmp2 = df.copy()
+  df_tmp2["newcol_2"] = "BBB"
+  print(df_tmp2)
+  print('--after   original df = '); print(df.tail())
 
 # --------------------------------------------------------------------------------
 def main():
@@ -174,11 +245,12 @@ def main():
   df_cars = fn_01_A_load_csv_file(dataset_file_1)
   fn_00_get_dataframe_info(df_cars)
   #fn_02_manipulate_rows_and_columns(df_cars)
-  fn_03_find_in_dataframe(df_cars)
+  #fn_03_find_in_dataframe(df_cars)
   #fn_XXXXXX_change_index(df_cars)
   #fn_04_date_related(df_cars)
   #fn_05_lambda_functions(df_cars)
   #fn_06_pandas_series(df_cars)
+  fn_07_pandas_df_referencing(df_cars)
 
 
 # --------------------------------------------------------------------------------

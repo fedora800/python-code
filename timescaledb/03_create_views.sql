@@ -44,9 +44,10 @@ WHERE latest_row_num_by_symbol = 1;
 CREATE OR REPLACE VIEW viw_instrument_uk_equities AS
 SELECT *
 FROM tbl_instrument
-WHERE exchange_code = 'LSE'
+WHERE 
+  country_code = 'UK'
   and asset_type = 'ETF'
-  ande deleted=false;
+  and deleted=false;
 
 
 -- V03 - viw_price_data_stats_by_symbol 
@@ -125,9 +126,10 @@ order by i.symbol,
 
 
 -- V07 - viw_price_data_uk_most_traded
--- use this view to get a list of symbols from UK ETFs which have most volume and so are the most active
+-- use this view to get a list of 50 symbols from UK ETFs which have most volume over last 30 days and so are the most active
 \ echo "Creating VIEW viw_price_data_uk_most_traded";
-CREATE OR REPLACE VIEW viw_price_data_uk_most_traded AS WITH tmp_latest_5_days_data AS (
+CREATE OR REPLACE VIEW viw_price_data_uk_most_traded AS 
+WITH tmp_latest_30_days_data AS (
     SELECT v_UK.symbol,
       t_PD.pd_time,
       t_PD.close,
@@ -141,18 +143,19 @@ CREATE OR REPLACE VIEW viw_price_data_uk_most_traded AS WITH tmp_latest_5_days_d
       ) AS row_num
     FROM tbl_price_data_1day t_PD
       JOIN viw_instrument_uk_equities v_UK on t_PD.pd_symbol = v_UK.symbol
-    WHERE pd_time > now() - INTERVAL '10 days'
+    WHERE pd_time > now() - INTERVAL '30 days'
   )
 SELECT symbol,
   name,
   exchange_code,
   asset_type,
-  AVG(volume) AS avg_volume_over_last_5
-FROM tmp_latest_5_days_data
+  AVG(volume) AS avg_volume_over_last_30_days
+FROM tmp_latest_30_days_data
 WHERE row_num <= 5
 GROUP BY symbol,
   name,
   exchange_code,
   asset_type
-HAVING AVG(volume) > 100000
-ORDER BY symbol;
+HAVING AVG(volume) > 50000
+ORDER BY AVG(volume) DESC
+LIMIT 50;
