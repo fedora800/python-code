@@ -96,14 +96,58 @@ chose_rd_option = st.radio(
 # ....remaining to do .....
 
 # --------------------------------------------------------------------------------
-# Load a pandas dataframe into a static streamlit table
+# ----- Load a pandas dataframe into a *STATIC* streamlit table
 st.table(df)
 
-# Load a pandas dataframe into an interactive streamlit table
+# ----- Load a pandas dataframe into an *INTERACTIVE* streamlit table
 st.dataframe(df, 100, 200)
 
 # highlighting maximum values in each column
 st.dataframe(df.style.highlight_max(axis=0))
+
+
+# ----- EDITABLE DATAFRAME streamlit table
+# we can even add new row or delete a row
+st.data_editor(df, 100, 200)
+# refer to https://docs.streamlit.io/library/advanced-features/dataframes#access-edited-data
+# to understand how to trap what was updated etc
+# got below code from - https://github.com/streamlit/streamlit/issues/455#issuecomment-1575700420
+import streamlit as st
+import numpy as np
+import pandas as pd
+
+df = pd.DataFrame(
+    {
+        "Animal": ["Lion", "Elephant", "Giraffe", "Monkey", "Zebra"],
+        "Class": ["Mammal", "Mammal", "Mammal", "Mammal", "Mammal"],
+        "Habitat": ["Savanna", "Forest", "Savanna", "Forest", "Savanna"],
+        "Lifespan (years)": [15, 60, 25, 20, 25],
+        "Average weight (kg)": [190, 5000, 800, 10, 350],
+    }
+)
+
+
+def dataframe_with_selections(df):
+    df_with_selections = df.copy()
+    df_with_selections.insert(0, "Select", False)
+    edited_df = st.data_editor(
+        df_with_selections,
+        hide_index=True,
+        column_config={"Select": st.column_config.CheckboxColumn(required=True)},
+        disabled=df.columns,
+    )
+    selected_indices = list(np.where(edited_df.Select)[0])
+    selected_rows = df[edited_df.Select]
+    return {"selected_rows_indices": selected_indices, "selected_rows": selected_rows}
+
+
+selection = dataframe_with_selections(df)
+st.write("Your selection:")
+st.write(selection)
+
+# from the official streamlit documentation - https://docs.streamlit.io/knowledge-base/using-streamlit/how-to-get-row-selections
+
+
 
 # --------------------------------------------------------------------------------
 # PROGESS BAR

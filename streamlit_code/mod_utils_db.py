@@ -204,7 +204,7 @@ def record_exists(dbconn, pd_symbol, pd_time):
     return result.fetchone() is not None
 
 
-def get_table_data_for_symbol(dbconn, symbol):
+def fn_get_table_data_for_symbol(dbconn, symbol):
   """
   Fetches data from tbl_price_data_1day for this symbol into a dataframe
   Assumptions:

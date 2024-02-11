@@ -350,6 +350,6 @@ def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) ->
     )
 
   # now that symbol has been chosen from the dropdown, fetch requisite data for this symbol from db
-  df_ohlcv_symbol = m_udb.get_table_data_for_symbol(dbconn, symbol)
+  df_ohlcv_symbol = m_udb.fn_get_table_data_for_symbol(dbconn, symbol)
   logger.debug("---- sync_price_data_in_table_for_symbol ---- RETURNING ---")
   return df_ohlcv_symbol, df_sym_stats

@@ -3,6 +3,7 @@ import os
 from loguru import logger
 import streamlit as st
 import pandas as pd
+import numpy as np
 import talib as ta
 from config import DB_INFO, DEBUG_MODE
 
@@ -357,7 +358,7 @@ def generate_plotly_chart(dbconn, symbol, df):
 
     # --- subplot 6 on row 1 and column 1 (CRS) ---
     benchmark_symbol = "SPY"
-    df_benchmark_symbol = m_udb.get_table_data_for_symbol(dbconn, benchmark_symbol)
+    df_benchmark_symbol = m_udb.fn_get_table_data_for_symbol(dbconn, benchmark_symbol)
 
     #df_CRS = m_ti.fn_02_comparative_relative_strength_CRS_indicator(benchmark_symbol, df_benchmark_symbol, symbol, df)
 
@@ -536,6 +537,7 @@ def fn_st_selectbox_scans(dbconn):
     a df with the output of the the sql_query results (symbols list) corresponding to what option we chose from the dropdown
   """
 
+    logger.debug("------------------ fn_st_selectbox_scans ------- START ---------------")
     logger.debug("Arguments : {}", dbconn)
 
     dct_options = {
@@ -581,14 +583,39 @@ def fn_st_selectbox_scans(dbconn):
 
         # Now display this dataframe data as a nice table on the frontend. (note - will break down when you have >1000 rows)
         st.write("### ", chosen_sb_option_scan)
-        st.write(df_symbols)
+        #st.write(df_symbols)
         # TODO: below stuff when we need user to choose some from among the rows
         # selected_indices = st.multiselect('Select rows:', df_symbols.index)
         # selected_rows = df_symbols.loc[selected_indices]
         # st.write('### Selected Rows', selected_rows)
 
+        # using st.data_editor() for more interactivity instead of above
+        df_st_table = df_symbols.copy()
+        df_st_table.insert(0, "Select", False)    # add a column which is check-mark-able so can select multiple rows
+        # get row-selections from user into a df
+        df_st_table_edited = st.data_editor(df_st_table,
+                                            column_config={"Select": st.column_config.CheckboxColumn(required=True)},
+                                            disabled=df_symbols.columns,
+        )
+        # get the selected rows only into a df
+        #TODO: need to make user select only 1 row so that it will display the chart for that symbol
+        df_selected_rows = df_st_table_edited[df_st_table_edited.Select]
+        st.write("Your selection:")
+        st.write(df_selected_rows)
+
+        if not df_selected_rows.empty:
+          #lst_selected_indices = list(np.where(df_st_table_edited.Select)[0])
+          #df_selected_rows = df_symbols[df_st_table_edited.Select]
+          #logger.debug("selected_rows_indices: {}                 selected_rows: {}", lst_selected_indices, df_selected_rows)
+          selected_symbol = df_selected_rows["pd_symbol"].iloc[0]
+          logger.debug("selected_symbol = {}", selected_symbol)
+
+          df_ohlcv_symbol = m_udb.fn_get_table_data_for_symbol(dbconn, selected_symbol)
+          generate_plotly_chart(dbconn, selected_symbol, df_ohlcv_symbol)
+
         logger.debug("Returning df ={} ", df_symbols)
 
+    logger.debug("------------------ fn_st_selectbox_scans ------- END ---------------------")
     return df_symbols
 
 
@@ -661,7 +688,6 @@ def main():
 
   print("---4000---")
   df_scans = fn_st_selectbox_scans(db_conn)
-  print("----df_scans result = ", df_scans)
   print("--- end of main() ---")
 
 

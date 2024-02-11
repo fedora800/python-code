@@ -82,15 +82,13 @@ and close > sma_50
 and pd_symbol in (select pd_symbol from viw_latest_price_data_by_symbol)
 order by pd_time desc;
 
-
 CREATE OR REPLACE VIEW viw_tmp_001 AS 
-  select * from viw_latest_price_data_by_symbol 
+  select pd_symbol, name, pd_time, close, ema_13, sma_50, volume from viw_latest_price_data_by_symbol 
   where 
   pd_time > CURRENT_DATE - INTERVAL '3 days'
   and close > sma_50
   and pd_symbol in (select pd_symbol from viw_latest_price_data_by_symbol)
   order by pd_time desc;
-
 
 
 

@@ -18,6 +18,11 @@ def fn_00_get_dataframe_info(df):
   print(df.describe())  # gives stats like count, mean, std dev etc for each column
   print(df.info())   # num_rows, num_cols, datatypes of each column, memory usage
 
+  if df.empty:
+    print("df is EMPTY")
+  else
+    print("df is NOT empty")
+
 # --------------------------------------------------------------------------------
 def fn_01_load_data_section():
 
