@@ -4,20 +4,21 @@ $ PGPASSWORD=postgres psql -U postgres -h localhost -d dbs_invest
 
 
 --------------------------------------------------------------------------------
-
+---- INSTRUMENT RELATED ----
 select * from tbl_instrument;
 select count(*) from tbl_instrument;
 
 select * from tbl_instrument 
 where 
-symbol like '%RS%' and note_1='SP500';
+--symbol like '%RS%' and note_1='SP500';
+symbol in ('CSPX.L', 'EQQQ.L', 'IITU.L', 'ISF.L', 'SWDA.L', 'VHVG.L', 'VUAG.L', 'VUSA.L', 'VWRL.L', 'VWRP.L') and country_code='UK'
 
 select exchange_code, count(*) from tbl_instrument
 group by exchange_code;
 
-select exchange_code, asset_type, note_1, data_source, count(*) 
+select country_code, exchange_code, asset_type, note_1, data_source, deleted, count(*) 
 from tbl_instrument
-group by exchange_code, asset_type, note_1, data_source;
+group by country_code, exchange_code, asset_type, note_1, data_source, deleted;
 
 delete from tbl_instrument 
 where 
@@ -31,6 +32,7 @@ order by symbol
 
 
 --------------------------------------------------------------------------------
+---- PRICE DATA RELATED ----
 
 select pd_symbol, min(pd_time), max(pd_time), count(*)
 from tbl_price_data_1day

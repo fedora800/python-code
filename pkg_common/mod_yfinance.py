@@ -1,6 +1,7 @@
 
 # https://pypi.org/project/yfinance/
 # https://analyzingalpha.com/yfinance-python
+import sys
 
 from loguru import logger
 import yfinance as yf
@@ -8,9 +9,12 @@ import pandas as pd
 import csv
 from requests.exceptions import HTTPError
 from datetime import datetime, timedelta
+
+sys.path.append("H:\\git-projects\\python-code")
 #import technical_analysis.mod_utils_db as m_udb
 import mod_utils_db as m_udb
 import pkg_common.mod_utils_date as m_udt
+import mod_others as m_oth
 #from sqlalchemy import text
 
 
@@ -47,7 +51,7 @@ def read_csv_into_list(file_path, has_header=True):
 
 
 
-def get_historical_data_symbol(data_venue: str, symbol: str, start_date: datetime, end_date: datetime) -> pd.DataFrame:
+def fn_get_historical_data_symbol(data_venue: str, symbol: str, start_date: datetime, end_date: datetime, write_to_file: bool) -> pd.DataFrame:
   """
   Retrieves historical data for a symbol from a data venue.
 
@@ -83,22 +87,27 @@ def get_historical_data_symbol(data_venue: str, symbol: str, start_date: datetim
 
   logger.info("Downloading from {} for symbol={} start_date={} end_date={}", data_venue, symbol, start_date, end_date)
   #logger.info("Downloading from {} for symbol={} start_date={} end_date={}", data_venue, symbol, oldest_price_date, latest_price_date)
-  df_prices = yf.download(symbol, start=start_date, end=end_date)
+  df_prices = yf.download(symbol, start=start_date, end=end_date, rounding=True)
   '''
       Date        Open        High        Low         Close       Adj Close    Volume
       2023-02-15  176.210007  178.820007  175.000000  177.419998  176.321732   815900
       2023-02-16  175.000000  177.279999  174.720001  176.220001  175.129166   679300
       2023-02-17  176.419998  177.330002  175.000000  177.130005  176.033524  1829500
   '''
-  #print(df_prices)
-  df_head_foot = pd.concat([df_prices.head(1), df_prices.tail(1)])
-  logger.debug("Downloaded - head/foot rows = {}", df_head_foot)
+  print(df_prices)
+  if write_to_file:
+    FILE_EXTN =".csv"
+    csv_file_path = symbol + FILE_EXTN
+    m_oth.fn_modify_dataframe_per_our_requirements(sym, df_prices)
+#    df.to_csv(csv_file_path, index=False)
+    print(f'DataFrame has been written to {csv_file_path}')
+  logger.debug("Downloaded - head/foot rows = "); m_oth.fn_df_get_first_last(df_prices, 3)
   logger.info("TODO: print how much time it took to download and well as how many rows ....")
 
   return df_prices
 
 
-def get_historical_data_into_csv_files_for_batch_of_symbols():
+def fn_get_historical_data_symbol_list():
 
   '''
   # get historical market data
@@ -138,10 +147,7 @@ def get_historical_data_into_csv_files_for_batch_of_symbols():
     # get historical market data and write to csv file
     df_prices = yf.download(sym, start=start_date, end=end_date)
     print(df_prices.head(3), df_prices.tail(3))
-    df_prices.insert(0, "Symbol", sym) # add Symbol as 2nd column after date
-    #df_prices['Symbol'] = sym   # but this will add as the last column of df
-    df_prices.drop(columns=['Adj Close'], inplace=True)
-    #print("modified df so as to be able to insert into postgres table : \n", df_prices.head(1))
+    m_oth.fn_modify_dataframe_per_our_requirements(sym, df_prices)
     #output_file = "timescaledb/data/sp500symbols/" + sym + ".csv"
     #output_file = "timescaledb/data/" + sym + ".csv"
     output_file = "/tmp/" + sym + ".csv"
@@ -309,7 +315,7 @@ def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) ->
       dt_start_date = m_udt.get_date_with_zero_time(dt_latest_record_date)
       dt_start_date += timedelta(days=1)
       dt_end_date = m_udt.get_date_with_zero_time(dt_today)
-      df_downloaded_missing_price_data = get_historical_data_symbol('YFINANCE', symbol, dt_start_date, dt_end_date)
+      df_downloaded_missing_price_data = fn_get_historical_data_symbol('YFINANCE', symbol, dt_start_date, dt_end_date)
       m_udb.insert_symbol_price_data_into_db(
           dbconn,
           symbol,
@@ -331,7 +337,7 @@ def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) ->
     dt_start_date = dt_start_date.replace(hour=0, minute=0, second=0, microsecond=0)
     dt_end_date = dt_end_date.replace(hour=0, minute=0, second=0, microsecond=0)
     logger.info("Downloading historical price data with a default lookback period...")
-    df_downloaded_price_data = get_historical_data_symbol("YFINANCE", symbol, dt_start_date, dt_end_date)
+    df_downloaded_price_data = fn_get_historical_data_symbol("YFINANCE", symbol, dt_start_date, dt_end_date)
 
     # now  insert them into price data table
     m_udb.insert_symbol_price_data_into_db(
@@ -345,3 +351,4 @@ def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) ->
   df_ohlcv_symbol = m_udb.fn_get_table_data_for_symbol(dbconn, symbol)
   logger.debug("---- sync_price_data_in_table_for_symbol ---- COMPLETED ---")
   return df_ohlcv_symbol, df_sym_stats
+

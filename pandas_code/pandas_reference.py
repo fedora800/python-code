@@ -35,9 +35,10 @@ def fn_00_get_dataframe_info(df):
 
 
 # --------------------------------------------------------------------------------
-def fn_01_load_data_section():
+def fn_01_data_section():
 
   fn_01_A_load_csv_file()
+  fn_01_B_save_as_csv_file()
 
 
 def  fn_01_A_load_csv_file(csv_fname):
@@ -45,6 +46,19 @@ def  fn_01_A_load_csv_file(csv_fname):
   df = pd.read_csv(csv_fname)
   return df
   
+def fn_01_B_save_as_csf_file(df):
+
+  csv_file_path = 'path/to/your/file.csv'
+  
+  # Write the DataFrame to the CSV file
+  #To save the index (like Date is the index for yfinance price data df), we need to explicitly mention like below
+  # This will include the "Date" column as the first column in the CSV file
+  # df.to_csv(csv_file_path, index=True)
+  # else to exclude the index altogether (which is the DEFAULT)
+  df.to_csv('your_file.csv', index=False)
+
+  print(f'DataFrame written to file - {csv_file_path}')
+
 
 # --------------------------------------------------------------------------------
 def fn_02_manipulate_rows_and_columns(df):
@@ -107,6 +121,42 @@ def fn_02_C_apply_scalar_on_all_items_of_a_column(df):
   # -- method 2 -- operation directly on the dataframe --
   df['Present_Price'] = df['Present_Price']*10
   print('--after--'); print(df.tail())
+
+
+# --------------------------------------------------------------------------------
+def fn_02_D_change_index(df):
+  print('--before--'); print(df.tail(2))
+
+  '''
+  In case data shows like this - 
+              Symbol,Open,High,Low,Close,Volume
+  Date
+  2023-01-03   MSFT,243.0800018310547,245.75,237.39999389648438,239.5800018310547,25740000
+  2023-01-04   MSFT,232.27999877929688,232.8699951171875,225.9600067138672,229.10000610351562,50623400
+  2023-01-05   MSFT,227.1999969482422,227.5500030517578,221.75999450683594,222.30999755859375,39585600
+
+    where Date is a part of the dataframe INDEX
+    we need to convert it to a column of it's own standing if we need to better handling charting Date on the X axis
+  '''
+
+  #If you want to reset the index and make the "Date" column a part of the DataFrame itself, you can use the reset_index method and specify drop=False. 
+  # After this operation, your DataFrame should have the "Date" column as a regular column rather than an index.
+  #df.reset_index(drop=False, inplace=True)
+
+  #If you want to remove the "Date" column from the index and keep it as an index, you can use:
+  # This will remove the "Date" column from the index and keep only the default integer index.
+  #df.reset_index(drop=True, inplace=True)
+
+  df.reset_index(inplace=True)
+  print('--after--'); print(df.tail(2))
+
+  '''
+  df becomes like this - 
+    Date,Symbol,Open,High,Low,Close,Volume
+  0  2023-01-03,MSFT,243.0800018310547,245.75,237.39999389648438,239.5800018310547,25740000
+  1  2023-01-04,MSFT,232.27999877929688,232.8699951171875,225.9600067138672,229.10000610351562,50623400
+  2  2023-01-05,MSFT,227.1999969482422,227.5500030517578,221.75999450683594,222.30999755859375,39585600
+  '''  
 
 # --------------------------------------------------------------------------------
 def fn_03_find_in_dataframe(df):
@@ -186,27 +236,7 @@ def fn_03_A_find_missing_NAN(df):
   #3  4.0    8.0
 
 
-# --------------------------------------------------------------------------------
-def fn_XXXXXX_change_index(df):
-  print('--before--'); print(df.tail())
 
-'''
-In case data shows like this - 
-             Symbol,Open,High,Low,Close,Volume
-Date
-2023-01-03   MSFT,243.0800018310547,245.75,237.39999389648438,239.5800018310547,25740000
-2023-01-04   MSFT,232.27999877929688,232.8699951171875,225.9600067138672,229.10000610351562,50623400
-2023-01-05   MSFT,227.1999969482422,227.5500030517578,221.75999450683594,222.30999755859375,39585600
-
-   here Date is a part of the dataframe INDEX
-   we need to convert it to a column of it's own standing if we need to better handling charting Date on the X axis
-   df.reset_index(inplace=True)
-   print(df)
-  Date,Symbol,Open,High,Low,Close,Volume
-0  2023-01-03,MSFT,243.0800018310547,245.75,237.39999389648438,239.5800018310547,25740000
-1  2023-01-04,MSFT,232.27999877929688,232.8699951171875,225.9600067138672,229.10000610351562,50623400
-2  2023-01-05,MSFT,227.1999969482422,227.5500030517578,221.75999450683594,222.30999755859375,39585600
-'''
 
 
 # --------------------------------------------------------------------------------
@@ -270,11 +300,12 @@ def main():
   fn_00_get_dataframe_info(df_cars)
   #fn_02_manipulate_rows_and_columns(df_cars)
   #fn_03_find_in_dataframe(df_cars)
-  #fn_XXXXXX_change_index(df_cars)
   #fn_04_date_related(df_cars)
   #fn_05_lambda_functions(df_cars)
   #fn_06_pandas_series(df_cars)
   fn_07_pandas_df_referencing(df_cars)
+
+
 
 
 # --------------------------------------------------------------------------------

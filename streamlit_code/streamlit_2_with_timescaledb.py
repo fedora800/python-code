@@ -1,4 +1,3 @@
-import sys
 import os
 from loguru import logger
 import streamlit as st
@@ -6,6 +5,7 @@ import pandas as pd
 import numpy as np
 import talib as ta
 import mod_others as m_oth
+from technical_analysis import mod_technical_indicators as m_ti
 from config import DB_INFO, DEBUG_MODE
 
 
@@ -702,44 +702,23 @@ def main():
 
 # main
 if __name__ == "__main__":
-    dashline = "-" * 80
-    for i in range(2):
-        print(dashline)
 
-    print("Python path:", sys.path)
-    # Add the project directory to the Python path
-    project_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-    sys.path.insert(0, project_directory)
-    from technical_analysis import mod_technical_indicators as m_ti
+  fn_set_logger(True)
+  
+  # Page Configuration
+  st.set_page_config(
+      page_title=APP_NAME,
+      layout="wide",
+      initial_sidebar_state="expanded",
+  )
 
-    logger.remove()  # First remove the default logger
+  # Add some markdown
+  st.sidebar.markdown("Made with love using [Streamlit](https://streamlit.io/).")
+  st.sidebar.markdown("# :chart_with_upwards_trend:")
 
-    if DEBUG_MODE:
-        LOGGING_LEVEL = "TRACE"
-        # LOGGING_LEVEL = 'DEBUG'     # this is the loguru default
-    else:
-        LOGGING_LEVEL = "INFO"  # our default logging level
+  # Add app title
+  st.sidebar.title(APP_NAME)
 
-    logger.add(sys.stderr, level=LOGGING_LEVEL)  # sets the logging level
-    logger.info("Logging level set to {} ", LOGGING_LEVEL)
-
-    APP_NAME = "Stock App!"
-    logger.info("Running", APP_NAME)
-
-    # Page Configuration
-    st.set_page_config(
-        page_title=APP_NAME,
-        layout="wide",
-        initial_sidebar_state="expanded",
-    )
-
-    # Add some markdown
-    st.sidebar.markdown("Made with love using [Streamlit](https://streamlit.io/).")
-    st.sidebar.markdown("# :chart_with_upwards_trend:")
-
-    # Add app title
-    st.sidebar.title(APP_NAME)
-
-    main()
+  main()
 
 #  streamlit run streamlit_1.py --server.port 8000

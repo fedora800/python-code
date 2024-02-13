@@ -1,10 +1,13 @@
+import sys
 import sqlalchemy as sa
 import psycopg2 as psy
-from loguru import logger
-#from technical_analysis.config import DB_INFO, DEBUG_MODE
-from config import DB_INFO, DEBUG_MODE
 import pandas as pd
 from sqlalchemy import text
+from loguru import logger
+
+sys.path.append("H:\\git-projects\\python-code")
+#from technical_analysis.config import DB_INFO, DEBUG_MODE
+from streamlit_code.config import DB_INFO, DEBUG_MODE
 import mod_others as m_oth
 
 def create_database_engine_sqlalchemy(db_uri: str)-> sa.Engine:
@@ -139,11 +142,6 @@ def insert_symbol_price_data_into_db(dbconn, symbol, df, table_name):
       table_name,
   )
   # prepare the df for inserting into the table
-  df.reset_index(
-      inplace=True
-  )  # reset the Date index and make it into a column by itself. will be the 1st column
-  df.insert(0, "Symbol", symbol)  # add Symbol as 2nd column after date
-  df.drop(columns=["Adj Close"], inplace=True)
   column_mapping = {
       "Symbol": "pd_symbol",
       "Date": "pd_time",

@@ -1,3 +1,12 @@
+"""
+ Imports should be grouped in the following order:
+
+Standard library imports.
+Related third party imports.
+Local application/library specific imports.
+You should put a blank line between each group of imports.
+"""
+
 import sys
 import inspect
 #import logging
@@ -33,7 +42,7 @@ def get_arguments_info():
 
 
 
-def your_function_name(data_venue: str, symbol: str, start_date: datetime, end_date: datetime, , optional_parameter3=None) -> pd.DataFrame:
+def your_function_name(data_venue: str, symbol: str, start_date: datetime, end_date: datetime, optional_parameter3=None) -> pd.DataFrame:
     """
     Brief description of your function.
 
@@ -311,6 +320,16 @@ In most cases, using from psycopg2 import Error is more convenient because it al
 Choose the form that suits your coding style and requirements.
    '''
 
+
+def different_data_types():
+   
+   print(" ---------------------- LISTS ---------------")
+   lst_tmp = []   # intiate a list with null values
+   lst_symbols = ['CSPX.L', 'EQQQ.L', 'IITU.L', 'ISF.L', 'SWDA.L', 'VHVG.L', 'VUAG.L', 'VUSA.L', 'VWRL.L', 'VWRP.L']
+   for symbol in lst_symbols:
+    print(symbol)
+
+
 def how_to_use_logger_module():
   '''
   Using the Python logging module in a professional way involves setting up a structured logging system that allows you to control log levels, 
@@ -494,7 +513,8 @@ def main():
   #explain_about_module_and_package():
   #connect_to_DB_using_SQLAlchemy_and_get_results()
   #how_to_use_logger_module()
-    how_to_use_loguru_module_for_logging()
+  different_data_types()
+  how_to_use_loguru_module_for_logging()
 
 # --- main ---
 if __name__ == '__main__':
