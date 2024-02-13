@@ -20,8 +20,9 @@ def compute_date_difference(dt_older_date, dt_newer_date, type_of_days="CALENDAR
   
   # Compute the difference in calendar days
   delta = relativedelta(dt_newer_date, dt_older_date)
-  difference_in_days_cal = delta.days
+  difference_in_days_cal = (dt_newer_date - dt_older_date).days
   logger.debug("Difference in calendar days between {} and {} = {}", dt_older_date, dt_newer_date, difference_in_days_cal)
+
 
   # Calculate the difference in working days
   if type_of_days == "WORKING":

@@ -70,6 +70,7 @@ def generate_chart_plot(df):
         high=df["high"],
         low=df["low"],
         close=df["close"],
+        decreasing_line_color= 'pink',
     )
 
     #  layout = go.Layout(
@@ -175,3 +176,27 @@ def generate_chart_plot(df):
 #     )
 # )
 #  ---
+
+
+    # Remove the default horizontal lines at RSI levels 30, 40, 60, and 70
+    fig.update_yaxes(
+        rangemode="tozero",  # This ensures that the y-axis starts from 0
+        range=[0, 100],  # Customize the y-axis range if needed
+        #range=[df["low"].min(), df["high"].max()]    # for the low/high prices to scale the full y-axis instead of squished
+        row=3,
+        col=1,  # Specify the subplot
+        # showgrid=False,  # Hide grid lines
+        # zeroline=False,  # Hide the zero line
+        # showline=False,  # Hide the axis line
+        ticks="",  # Hide tick marks
+    )
+
+    #     # Update the layout for X-axis so that weekends and holidays (shows gaps on chart) are omitted from plotting
+    #     fig.update_xaxes(
+    #         rangebreaks = [
+    #             # NOTE: Below values are bound (not single values), ie. hide x to y
+    #             dict(bounds=["sat", "mon"]),                 # hide weekends, eg. hide sat to before mon
+    #             dict(bounds=[16, 9.5], pattern="hour"),      # hide hours outside of 9.30am-4pm
+    #             # dict(values=["2023-12-25", "2024-01-01"])  # hide holidays (Christmas and New Year's, etc)
+    #         ]
+    #     )

@@ -304,15 +304,8 @@ def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) ->
     diff_days = m_udt.compute_date_difference(dt_latest_record_date, dt_today, "WORKING")
     # df_is not empty but there could be a few recent days/weeks missing, so check for that
     if diff_days > 1:
-      print("--here---888  IF DIFF_DAYS ----")
-      logger.debug(
-          "Number of days of missing data = {}. Now update the df with correct start and end dates for this missing data ",
-          diff_days,
-      )
-      logger.debug(
-          "Now fetch and insert this missing recent data into price data table"
-      )
-
+      logger.trace("df_sym_stats is not empty, but missing some days of recent data")
+      logger.debug("Number of days of missing data = {}. So now fetch and insert this missing recent data into price data table ", diff_days)
       dt_start_date = m_udt.get_date_with_zero_time(dt_latest_record_date)
       dt_start_date += timedelta(days=1)
       dt_end_date = m_udt.get_date_with_zero_time(dt_today)
@@ -324,10 +317,9 @@ def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) ->
           "tbl_price_data_1day",
       )
     else:
-      logger.debug("Negligible number of days of missing data = {}. Not downloading.", diff_days)
+      logger.debug("df_sym_stats is not empty but negligible number of days of missing data = {}. Not downloading.", diff_days)
   else:
-    print("--here---999  IF DF_SYM_STATS EMPTY ----")
-    # df_sym_stats empty
+    logger.trace("df_sym_stats is empty for symbol = {}", symbol)
     logger.warning(
         "Price data not available for symbol {} in database", symbol
     )
@@ -351,5 +343,5 @@ def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) ->
 
   # now that symbol has been chosen from the dropdown, fetch requisite data for this symbol from db
   df_ohlcv_symbol = m_udb.fn_get_table_data_for_symbol(dbconn, symbol)
-  logger.debug("---- sync_price_data_in_table_for_symbol ---- RETURNING ---")
+  logger.debug("---- sync_price_data_in_table_for_symbol ---- COMPLETED ---")
   return df_ohlcv_symbol, df_sym_stats

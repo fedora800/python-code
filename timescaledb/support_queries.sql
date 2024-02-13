@@ -55,6 +55,10 @@ AND pd_time > NOW() - INTERVAL '30 days';   --newer
 
 delete from tbl_price_data_1day where pd_symbol in (select symbol from tbl_instrument where asset_type='STOCK' and symbol like '%RS%' and note_1='SP500');
 
+delete from tbl_price_data_1day 
+where pd_symbol ='WQDS.L'
+and pd_time = '2023-11-16' 
+
 #truncate table tbl_price_data_1day;
 
 select * from tbl_price_data_1day 
@@ -83,11 +87,20 @@ and pd_symbol in (select pd_symbol from viw_latest_price_data_by_symbol)
 order by pd_time desc;
 
 CREATE OR REPLACE VIEW viw_tmp_001 AS 
-  select pd_symbol, name, pd_time, close, ema_13, sma_50, volume from viw_latest_price_data_by_symbol 
-  where 
-  pd_time > CURRENT_DATE - INTERVAL '3 days'
-  and close > sma_50
-  and pd_symbol in (select pd_symbol from viw_latest_price_data_by_symbol)
+  select pd_symbol,
+    name,
+    pd_time,
+    close,
+    ema_13,
+    sma_50,
+    volume
+  from viw_latest_price_data_by_symbol
+  where pd_time > CURRENT_DATE - INTERVAL '4 days'
+    and close > sma_50
+    and pd_symbol in (
+      select pd_symbol
+      from viw_latest_price_data_by_symbol
+    )
   order by pd_time desc;
 
 

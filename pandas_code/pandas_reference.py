@@ -23,6 +23,17 @@ def fn_00_get_dataframe_info(df):
   else
     print("df is NOT empty")
 
+  # To print ALL the rows of the df, instead of the default
+  # Save the original setting
+  original_max_rows = pd.get_option('display.max_rows')
+  # Set option to display all rows
+  pd.set_option('display.max_rows', None)
+  # Your DataFrame
+  print(df)
+  # Reset the option to its original value
+  pd.reset_option('display.max_rows')
+
+
 # --------------------------------------------------------------------------------
 def fn_01_load_data_section():
 

@@ -334,9 +334,11 @@ def fn_compute_all_required_indicators(
 
   Returns:
     pd.DataFrame: the data frame with the computed indicators.
-    IMPORTANT: it's df_sym itself that will be appended with all the indicator columns
+    IMPORTANT: it's the ORIGINAL df_sym dataframe itself that will be MODIFIED/appended with all the indicator columns
 
   """
+
+  logger.debug("---------- fn_compute_all_required_indicators ---- STARTED ----------")
 
   NUM_RECORDS_EXPECTED = 300
   IF_DELIMITER = ";"  # intra-field delimeter for the macd column
@@ -356,8 +358,8 @@ def fn_compute_all_required_indicators(
   # print("-----A22 ----")
   # print(df_sym)
 
-  logger.debug("Received arguments : bch_sym={} df_bch_sym=\n{}", bch_sym, m_oth.fn_df_get_first_last(df_bch_sym))
-  logger.debug("Received arguments :           sym={}           df_sym=\n{}", sym, m_oth.fn_df_get_first_last(df_sym))
+  logger.debug("Received arguments : bch_sym={} df_bch_sym=\n{}", bch_sym, m_oth.fn_df_get_first_last(df_bch_sym,3))
+  logger.debug("Received arguments :           sym={}           df_sym=\n{}", sym, m_oth.fn_df_get_first_last(df_sym,3))
 
   num_recs = check_data(df_sym, NUM_RECORDS_EXPECTED)
   if num_recs < 200:
@@ -381,9 +383,11 @@ def fn_compute_all_required_indicators(
   print("--- EMA_13 ---")
 
   # ------ 5. RSI_14 ------
+  logger.debug("---Indicator 5 : RSI ---")
   df_sym["rsi_14"] = ta.RSI(df_sym["close"], timeperiod=RSI_PERIOD)
 
   # ------ 6. MACD ------
+  logger.debug("---Indicator 6 : MACD ---")
   df_tmp = pd.DataFrame()
   na_macd, na_macd_signal, na_macd_hist = ta.MACD(
       df_sym["close"].to_numpy(),
@@ -424,7 +428,7 @@ def fn_compute_all_required_indicators(
       + IF_DELIMITER + df_tmp["dmi_plus"].astype(str)
       + IF_DELIMITER + df_tmp["adx"].astype(str)
   )
-  logger.debug("df_sym post computation =\n{}", m_oth.fn_df_get_first_last(df_sym))
+  logger.debug("df_sym post computation =\n{}", m_oth.fn_df_get_first_last(df_sym,3))
 
   # ------ 8. CRS_50 ------
   logger.debug("---Indicator 8 : CRS_50---")
@@ -438,34 +442,36 @@ def fn_compute_all_required_indicators(
   df_tmp_bch_sym = df_tmp_bch_sym[["pd_time", "close", "dly_pct_change"]]
   df_tmp_sym = df_tmp_sym[["pd_symbol", "pd_time", "close", "dly_pct_change"]]
 
+  # merge the 2 tmp dfs to get df_merged 
   df_merged = pd.merge(
       df_tmp_sym[["pd_symbol", "pd_time", "close", "dly_pct_change"]],
       df_tmp_bch_sym[["pd_time", "close", "dly_pct_change"]],
       on="pd_time",
       suffixes=("_SYMB", "_ETF"),
   )
-  df_merged["close"] = df_sym["close"]
-  
+
+  # compute the CRS value for each row and put them in a new column
   df_merged[COL_NAME_CRS] = (df_merged["close_SYMB"] / df_merged["close_SYMB"].shift(CRS_LENGTH) / 
                       (df_merged["close_ETF"] / df_merged["close_ETF"].shift(CRS_LENGTH)) - 1
   )
 
-  print("xxxxxxxxxxxxxxxxxxxxxx")
-  print(df_merged)
+  # find out which of the rows have null or not null values
   mask = ~df_merged[COL_NAME_CRS].isna()
+  logger.trace("mask={}", mask)
+  # apply rounding only on those that have non-null values
   df_merged.loc[mask, COL_NAME_CRS] = df_merged.loc[mask, COL_NAME_CRS].round(3)
+  logger.debug(m_oth.fn_df_get_first_last(df_merged, 3))
 
-  print("-- Z 11 -- df_merged = ")
-  m_oth.fn_df_get_first_last(df_merged)
   print("-- Z 22 -- df_sym = ")
-  m_oth.fn_df_get_first_last(df_sym)
+  m_oth.fn_df_get_first_last(df_sym,3)
 
   # finally, now update the original df's column with the computed values of CRS
   df_sym[COL_NAME_CRS] = df_merged[COL_NAME_CRS]
   print("-- Z 33 -- updated df_sym = ")
-  m_oth.fn_df_get_first_last(df_sym)
-  logger.debug("Now computed all the indicator values and at the end of the function, resulting df_sym=\n{}", m_oth.fn_df_get_first_last(df_sym))
+  m_oth.fn_df_get_first_last(df_sym,3)
+  logger.debug("Now computed all the indicator values and at the end of the function, resulting df_sym="); logger.debug(m_oth.fn_df_get_first_last(df_sym,3))
 
+  logger.debug("---------- fn_compute_all_required_indicators ---- COMPLETED ----------")
   return df_sym
 
 
@@ -477,16 +483,19 @@ def main():
     symbol = "MSFT"
 
     df_benchmark_symbol = pd.read_csv(benchmark_symbol_file)
-    df_benchmark_symbol["Date"] = pd.to_datetime(
-        df_benchmark_symbol["Date"]
-    )  # convert Date to a datetime object
+    df_benchmark_symbol["Date"] = pd.to_datetime(df_benchmark_symbol["Date"])  # convert Date to a datetime object
+    df_benchmark_symbol.rename(columns={'Date': 'pd_time', 'Symbol': 'pd_symbol', 'Close': 'close', 'High': 'high', 'Low': 'low', 'Open':'open'}, inplace=True)
+
     print(f"BENCHMARK = {benchmark_symbol} and df = {df_benchmark_symbol.tail(3)}")
 
     df_symbol = pd.read_csv(symbol_file)
-    df_symbol["Date"] = pd.to_datetime(
-        df_symbol["Date"]
-    )  # convert Date to a datetime object
+    df_symbol["Date"] = pd.to_datetime(df_symbol["Date"])  # convert Date to a datetime object
+    df_symbol.rename(columns={'Date': 'pd_time', 'Symbol': 'pd_symbol', 'Close': 'close', 'High': 'high', 'Low': 'low', 'Open':'open'}, inplace=True)
     print(f"SYMBOL = {symbol} and df = {df_symbol.tail(3)}")
 
     # fn_relative_strength_chart(benchmark_symbol, df_benchmark_symbol, symbol, df_symbol)
-    # fn_comparative_relative_strength_CRS_indicator(benchmark_symbol: str, df_benchmark_symbol: pd.DataFrame, symbol: str, df_symbol: pd.DataFrame) -> pd.DataFrame:
+    #fn_comparative_relative_strength_CRS_indicator(benchmark_symbol: str, df_benchmark_symbol: pd.DataFrame, symbol: str, df_symbol: pd.DataFrame) -> pd.DataFrame:
+    fn_compute_all_required_indicators(benchmark_symbol, df_benchmark_symbol, symbol, df_symbol)
+
+
+main()

@@ -222,7 +222,7 @@ def fn_get_table_data_for_symbol(dbconn, symbol):
   logger.info("To get the price data for {} - evaluated sql_query = {}", symbol, sql_query)
   df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn)
   df_head_foot = pd.concat([df_ohlcv_symbol.head(1), df_ohlcv_symbol.tail(1)])
-  logger.debug("Returning df = {}", df_head_foot)
+  logger.debug("Returning df = \n{}", df_head_foot)
   return df_ohlcv_symbol
 
 
