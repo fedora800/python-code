@@ -1,21 +1,38 @@
 import sys
+import platform
 from datetime import datetime, timedelta
+from typing import Optional
+import time
 
 import sqlalchemy as sa
+
 import psycopg2 as psy
 import pandas as pd
 from sqlalchemy import text
 from loguru import logger
 
-#sys.path.append("H:\\git-projects\\python-code")
-#sys.path.append("~/git-projects/python-code")
-#sys.path.append("~/git-projects/python-code/streamlit_code")
-sys.path.append("/home/cloud_user/git-projects/python-code/streamlit_code")
+import mod_yfinance as m_yfn
+
+
+
+if platform.system() == "Windows":
+  logger.debug("mod_utils_db.py - Running on Windows")
+  sys.path.append("H:\\git-projects\\python-code")
+  sys.path.append("H:\\git-projects\\python-code\\streamlit_code")
+elif platform.system() == "Linux":
+  logger.debug("mod_utils_db.py - Running on Linux")
+  sys.path.append("~/git-projects/python-code")
+  sys.path.append("~/git-projects/python-code/streamlit_code")
+  sys.path.append("/home/cloud_user/git-projects/python-code/streamlit_code")
+else:
+  print("Operating system not recognized")
+
+
 #from technical_analysis.config import DB_INFO, DEBUG_MODE
-#from streamlit_code.config import DB_INFO, DEBUG_MODE
+from streamlit_code.config import DB_INFO, DEBUG_MODE
 #from config import DB_INFO, DEBUG_MODE
-print(sys.path)
-import config
+logger.debug(sys.path)
+#import config
 import mod_others as m_oth
 
 def fn_create_database_engine_sqlalchemy(db_uri: str)-> sa.Engine:
@@ -144,16 +161,25 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
   19  VWRL.L 2024-02-13  97.13  97.36  96.00  96.33   56403
   20  VWRL.L 2024-02-14  96.58  97.27  96.36  97.00   22437
   """
+
   logger.debug( "Received arguments : dbconn={} symbol={} tbl_name={} df=", dbconn, symbol, table_name)
   logger.debug(m_oth.fn_df_get_first_last(df, 2))
 
-  if to_insert_indicator_values:
+  if symbol != "SPY" and to_insert_indicator_values:
+    # first sync the benchmark symbol price data
+    # TODO: but that needs to be done before this as otherwise it will cause a recursive loop
+    print("---------------------1010--------------")
+
     # to compute the indicator values, we need a minimum of 50 records of historical data 
     # which is older than the oldest record in the df
     dt_date_of_oldest_df_record = df.iloc[0]["date"]
     dt_50days_prior_date  = dt_date_of_oldest_df_record - timedelta(days=50)
     logger.debug("dt_date_of_oldest_df_record = {}, dt_50days_prior_date = {}", dt_date_of_oldest_df_record, dt_50days_prior_date)
- 
+    
+    # TODO: here we just get all the data and then cut out, maybe we need to get only the 50 days reqd
+    df_prev = fn_get_table_data_for_symbol(dbconn, symbol, dt_50days_prior_date, dt_date_of_oldest_df_record)
+    
+
 
   # prepare the df for inserting into the table
   column_mapping = {
@@ -172,14 +198,19 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
   }
   if column_mapping:
       df = df.rename(columns=column_mapping)
-  df_head_foot = pd.concat([df.head(1), df.tail(1)])
+  
+  tm_before_insert = time.time()
   # Insert the DataFrame into the specified table
   # index=False to avoid saving the DataFrame index as a separate column in the table
   df.to_sql(name=table_name, con=dbconn, if_exists="append", index=False)
-  logger.debug("DB insert completed - {} into table {} = {}", symbol, table_name, df_head_foot
-  )
-  logger.info("TODO: print how much time it took to insert and well as how many rows ....")
-
+  tm_after_insert = time.time()
+  tm_taken_for_insertion_secs = tm_after_insert - tm_before_insert 
+  tm_taken_for_insertion_secs  = "{:.3f}".format(tm_taken_for_insertion_secs)
+  logger.info("DB insert completed in {} seconds - {} rows inserted into table {} for symbol {}", tm_taken_for_insertion_secs, df.shape[0], table_name, symbol)
+  logger.trace("Exiting function fn_insert_symbol_price_data_into_db() ...")
+  m_oth.fn_df_get_first_last(df, 2)
+  return df
+  
 
 def get_symbol_input_check_against_db_using_psycopg2(dbconn):
     """
@@ -215,26 +246,59 @@ def record_exists(dbconn, pd_symbol, pd_time):
     return result.fetchone() is not None
 
 
-def fn_get_table_data_for_symbol(dbconn, symbol):
-  """
-  Fetches data from tbl_price_data_1day for this symbol into a dataframe
-  Assumptions:
-    Symbol is a valid symbol on the data venue.
-    Symbol record exists in tbl_instrumeent.
-    Up to date price data exists in tbl_price_data_1day
 
-  Returns:
-    dataframe
-  """
+def fn_get_table_data_for_symbol(dbconn, symbol: str, start_date: Optional[datetime] = None, end_date: Optional[datetime] = None):
+    """
+    Fetches data from tbl_price_data_1day for this symbol into a dataframe
+    Assumptions:
+      Symbol is a valid symbol on the data venue.
+      Symbol record exists in tbl_instrumeent.
+      Up to date price data exists in tbl_price_data_1day
 
-  logger.debug("Received arguments : dbconn={} symbol={}", dbconn, symbol)
+    Returns:
+      dataframe
+    """
 
-  sql_query = text("""select * from tbl_price_data_1day where pd_symbol= :param""").bindparams(param=symbol)
-  logger.info("To get the price data for {} - evaluated sql_query = {}", symbol, sql_query)
-  df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn)
-  df_head_foot = pd.concat([df_ohlcv_symbol.head(1), df_ohlcv_symbol.tail(1)])
-  logger.debug("Returning df = \n{}", df_head_foot)
-  return df_ohlcv_symbol
+    logger.debug("Received arguments : dbconn={} symbol={} start_date={} end_date={}", dbconn, symbol, start_date, end_date)
+
+    # # Base SQL query
+    # sql_query = text("""SELECT * FROM tbl_price_data_1day WHERE pd_symbol = :symbol""").bindparams(symbol=symbol)
+    # conditions = []
+
+    # # Add conditions for start_date and end_date if provided
+    # if start_date:
+    #   conditions.append(text("pd_time >= :start_date").bindparams(start_date=start_date))
+    # if end_date:
+    #   conditions.append(text("pd_time <= :end_date").bindparams(end_date=end_date))
+
+    # if conditions:
+    #   sql_query = sa.and_(sql_query, *conditions)
+
+    conditions = []
+
+    if start_date:
+        conditions.append(text("pd_time >= :start_date"))
+    if end_date:
+        conditions.append(text("pd_time <= :end_date"))
+
+    conditions.append(text("pd_symbol = :param"))
+
+    where_clause = " AND ".join([str(condition) for condition in conditions])
+
+    sql_query = text(f"SELECT * FROM tbl_price_data_1day WHERE {where_clause}")
+    
+    print("----sql_query=", sql_query)
+    params = {"start_date": start_date, "end_date": end_date, "param": symbol}
 
 
+    logger.info("To get the price data for {} - evaluated sql_query = {}", symbol, sql_query)
 
+    # Execute the query and fetch data
+    df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn, params=params)
+
+    logger.debug("Returning df = \n{}", df_ohlcv_symbol.head(2))
+
+    return df_ohlcv_symbol
+
+    
+    

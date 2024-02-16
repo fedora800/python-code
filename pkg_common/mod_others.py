@@ -13,13 +13,13 @@ def fn_df_get_first_last(df: pd.DataFrame, num_rows: int):
 def fn_modify_dataframe_per_our_requirements(sym: str, df: pd.DataFrame):
 
   logger.debug("modifying df as per our requirements ...")
-  logger.debug("before = "); fn_df_get_first_last(df, 1)
+  logger.trace("before = "); fn_df_get_first_last(df, 1)
   df.reset_index(inplace=True)  # reset the Date index and make it into a column by itself. will be the 1st column
   df.insert(0, "Symbol", sym) # add Symbol as 1st column after date
   #df_prices['Symbol'] = sym   # but this will add as the last column of df
   df.drop(columns=['Adj Close'], inplace=True)
   df.columns = df.columns.str.lower()  # convert header/column names to lowercase
-  logger.debug("after = "); fn_df_get_first_last(df, 1)
+  logger.trace("after = "); fn_df_get_first_last(df, 1)
 
 
 def fn_set_logger(debug_mode: bool):

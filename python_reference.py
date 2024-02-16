@@ -73,6 +73,19 @@ def your_function_name(data_venue: str, symbol: str, start_date: datetime, end_d
 #    Raises: List any exceptions that the function might raise, along with a description of the circumstances under which they occur. Omit if there are no exceptions.
 
 
+from datetime import datetime, Optional
+
+def fn_get_table_data_for_symbol(dbconn, symbol: str, start_date: Optional[datetime] = None, end_date: Optional[datetime] = None):
+    # Your function code here
+    pass
+In this modification:
+
+I imported the datetime class from the datetime module.
+I imported the Optional type from the typing module, and I used it to specify that the start_date and end_date parameters are optional and can be either datetime objects or None.
+If the optional parameters are not provided when calling the function, they default to None.
+You can then use the start_date and end_date parameters within your function as needed. If they are not provided, you can handle the case where they are None accordingly.
+
+
 
 def read_csv_into_list(file_path, has_header=True):
     """
@@ -507,6 +520,15 @@ def how_to_use_loguru_module_for_logging():
   '''
 
 def main():
+
+import platform
+
+if platform.system() == "Windows":
+    print("Running on Windows")
+elif platform.system() == "Linux":
+    print("Running on Linux")
+else:
+    print("Operating system not recognized")
 
   #get_arguments_info()
   #todo_get_how_to_document()

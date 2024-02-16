@@ -17,6 +17,9 @@ def fn_00_get_dataframe_info(df):
   print(df)
   print(df.describe())  # gives stats like count, mean, std dev etc for each column
   print(df.info())   # num_rows, num_cols, datatypes of each column, memory usage
+  print("Total number of rows = ", df.shape[0])
+  print("Total number of columns = ", df.shape[1])
+  
 
   if df.empty:
     print("df is EMPTY")

@@ -2,7 +2,9 @@
 # https://pypi.org/project/yfinance/
 # https://analyzingalpha.com/yfinance-python
 import sys
+import platform
 import time
+
 
 from loguru import logger
 import yfinance as yf
@@ -11,9 +13,20 @@ import csv
 from requests.exceptions import HTTPError
 from datetime import datetime, timedelta
 
-#sys.path.append("H:\\git-projects\\python-code")
-sys.path.append("~/git-projects/python-code")
-print(sys.path)
+
+if platform.system() == "Windows":
+  logger.debug("mod_yfinance.py - Running on Windows")
+  sys.path.append("H:\\git-projects\\python-code")
+  sys.path.append("H:\\git-projects\\python-code\\streamlit_code")
+elif platform.system() == "Linux":
+  logger.debug("mod_yfinance.py - Running on Linux")
+  sys.path.append("~/git-projects/python-code")
+  sys.path.append("~/git-projects/python-code/streamlit_code")
+  sys.path.append("/home/cloud_user/git-projects/python-code/streamlit_code")
+else:
+  print("Operating system not recognized")
+
+logger.debug(sys.path)
 import mod_utils_db as m_udb
 import mod_utils_date as m_udt
 import mod_others as m_oth
@@ -268,10 +281,9 @@ def get_stock_info(symbol):
 
 def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) -> pd.DataFrame:
   """
-  TODO : Retrieves historical data for a symbol from a data venue.
-  Then it will check our price data table and see if we have any data and if we have and not recent, it will download the missing data and insert into table.
-  If there is no price data in our table, it will download a default amount of price data from the data source and insert into the price data table.
-
+  Synchronize the price data for a symbol in a table in the database.
+  If the table does not exist, create it.
+  If the table already exists, update it with the latest price data. 
   
   Parameters:
   - data_venue (str): The string representing the data venue.
@@ -279,7 +291,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
   - symbol (str): The string representing the symbol.
   
   Returns:
-  - 2 pandas dataframes. [1st - df containing OHLC prices for the symbol] and [2nd - 1 row df containing some db stats info on the symbol] 
+  - pandas dataframe containing data that was inserted into the table
 
   Example:
   >> fn_sync_price_data_in_table_for_symbol("YFINANCE", dbconn, "AAPL")
@@ -287,11 +299,10 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
   
   logger.debug("---- sync_price_data_in_table_for_symbol ---- STARTED ---")
   logger.debug("Received arguments : data_venue={} dbconn={} symbol={}", data_venue, dbconn, symbol)
+  df_returned = pd.DataFrame()
 
   # check if there is any price data in the database for this symbol and fetch it into a df
-  df_sym_stats = m_udb.get_symbol_price_data_stats_from_database(
-      dbconn, symbol
-  )
+  df_sym_stats = m_udb.fn_get_symbol_price_data_stats_from_database(dbconn, symbol)
   if not df_sym_stats.empty:
     dt_latest_record_date = df_sym_stats["latest_rec_pd_time"].iloc[0].date()
     dt_today = datetime.now().date()
@@ -304,14 +315,13 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
       dt_start_date += timedelta(days=1)
       dt_end_date = m_udt.get_date_with_zero_time(dt_today)
       df_downloaded_missing_price_data = fn_get_historical_data_symbol('YFINANCE', symbol, dt_start_date, dt_end_date, False)
-      m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_downloaded_missing_price_data, "tbl_price_data_1day", True)
+      logger.debug("Now inserting the missing data into the table")
+      df_returned = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_downloaded_missing_price_data, "tbl_price_data_1day", True)
     else:
       logger.debug("df_sym_stats is not empty but negligible number of days of missing data = {}. Not downloading.", diff_days)
   else:
     logger.trace("df_sym_stats is empty for symbol = {}", symbol)
-    logger.warning(
-        "Price data not available for symbol {} in database", symbol
-    )
+    logger.warning("Price data not available for symbol {} in database", symbol)
     # get roughly 1 year of historical data plus go further back ang get another 200 days
     # that is because we dont want the SMA_200 plot to just start in the middle of the chart
     # so we are looking at around 565 days of data in total
@@ -323,10 +333,10 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
     df_downloaded_price_data = fn_get_historical_data_symbol("YFINANCE", symbol, dt_start_date, dt_end_date, False)
 
     # now  insert them into price data table
-    m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_downloaded_price_data, "tbl_price_data_1day", True)
+    #m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_downloaded_price_data, "tbl_price_data_1day", True)
+    df_returned = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_downloaded_price_data, "tbl_price_data_1day", False)
 
-  # now that symbol has been chosen from the dropdown, fetch requisite data for this symbol from db
-  df_ohlcv_symbol = m_udb.fn_get_table_data_for_symbol(dbconn, symbol)
+  m_oth.fn_df_get_first_last(df_returned, 2)
   logger.debug("---- sync_price_data_in_table_for_symbol ---- COMPLETED ---")
-  return df_ohlcv_symbol, df_sym_stats
+  return df_returned
 
