@@ -2,6 +2,7 @@
 # https://pypi.org/project/yfinance/
 # https://analyzingalpha.com/yfinance-python
 import sys
+import time
 
 from loguru import logger
 import yfinance as yf
@@ -10,10 +11,11 @@ import csv
 from requests.exceptions import HTTPError
 from datetime import datetime, timedelta
 
-sys.path.append("H:\\git-projects\\python-code")
-#import technical_analysis.mod_utils_db as m_udb
+#sys.path.append("H:\\git-projects\\python-code")
+sys.path.append("~/git-projects/python-code")
+print(sys.path)
 import mod_utils_db as m_udb
-import pkg_common.mod_utils_date as m_udt
+import mod_utils_date as m_udt
 import mod_others as m_oth
 #from sqlalchemy import text
 
@@ -57,7 +59,7 @@ def fn_get_historical_data_symbol(data_venue: str, symbol: str, start_date: date
 
   Parameters:
   - data_venue (str): The string representing the data venue.
-  - symbol (str): The string representing the symbol.
+  - symbol (str): The symbol for whom we want to download data
   - start_date (datetime): The start date for the historical data.
   - end_date (datetime): The end date for the historical data.
 
@@ -72,7 +74,7 @@ def fn_get_historical_data_symbol(data_venue: str, symbol: str, start_date: date
   # symbol = df.at[0,"pd_symbol"]
   # oldest_price_date = df.at[0,"oldest_rec_pd_time"]
   # latest_price_date = df.at[0,"latest_rec_pd_time"]
-  logger.info("Received arguments : data_venue={} symbol={} start_date={} end_date={}", data_venue, symbol, start_date, end_date)
+  logger.debug("Received arguments : data_venue={} symbol={} start_date={} end_date={} write_to_file={}", data_venue, symbol, start_date, end_date, write_to_file)
 
   # # Convert the date strings to datetime objects and zero out time component
   # start_date = oldest_price_date.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -87,75 +89,45 @@ def fn_get_historical_data_symbol(data_venue: str, symbol: str, start_date: date
 
   logger.info("Downloading from {} for symbol={} start_date={} end_date={}", data_venue, symbol, start_date, end_date)
   #logger.info("Downloading from {} for symbol={} start_date={} end_date={}", data_venue, symbol, oldest_price_date, latest_price_date)
-  df_prices = yf.download(symbol, start=start_date, end=end_date, rounding=True)
-  '''
-      Date        Open        High        Low         Close       Adj Close    Volume
-      2023-02-15  176.210007  178.820007  175.000000  177.419998  176.321732   815900
-      2023-02-16  175.000000  177.279999  174.720001  176.220001  175.129166   679300
-      2023-02-17  176.419998  177.330002  175.000000  177.130005  176.033524  1829500
-  '''
-  print(df_prices)
-  if write_to_file:
-    FILE_EXTN =".csv"
-    csv_file_path = symbol + FILE_EXTN
-    m_oth.fn_modify_dataframe_per_our_requirements(sym, df_prices)
-#    df.to_csv(csv_file_path, index=False)
-    print(f'DataFrame has been written to {csv_file_path}')
-  logger.debug("Downloaded - head/foot rows = "); m_oth.fn_df_get_first_last(df_prices, 3)
-  logger.info("TODO: print how much time it took to download and well as how many rows ....")
+  tm_before_download = time.time()
 
-  return df_prices
+  try:
+    df_prices = yf.download(symbol, start=start_date, end=end_date, rounding=True)
 
-
-def fn_get_historical_data_symbol_list():
-
-  '''
-  # get historical market data
-  df_hist = msft.history(period="1mo")
-  print("---- hist = ", df_hist)
+    '''
+        Date        Open        High        Low         Close       Adj Close    Volume
+        2023-02-15  176.210007  178.820007  175.000000  177.419998  176.321732   815900
+        2023-02-16  175.000000  177.279999  174.720001  176.220001  175.129166   679300
+        2023-02-17  176.419998  177.330002  175.000000  177.130005  176.033524  1829500
+    '''
+    tm_after_download = time.time()
+    tm_taken_for_download_secs = tm_after_download - tm_before_download 
+    tm_taken_for_download_secs  = "{:.3f}".format(tm_taken_for_download_secs)
+    logger.info("Time taken for download (secs) = {}", tm_taken_for_download_secs)
+    logger.debug("Downloaded - head/foot rows = "); m_oth.fn_df_get_first_last(df_prices, 1)
+    m_oth.fn_modify_dataframe_per_our_requirements(symbol, df_prices)
   
-  # show meta information about the history (requires history() to be called first)
-  print("---- history metadata = ", msft.history_metadata)
+    if write_to_file:
+      FILE_EXTN =".csv"
+      csv_file_path = symbol + FILE_EXTN
+      df_prices.to_csv(csv_file_path, index=False)
+      logger.info("DataFrame has been written to {} ...", csv_file_path)
+
+    return df_prices
   
-  # show actions (dividends, splits, capital gains)
-  msft.actions
-  msft.dividends
-  msft.splits
-  msft.capital_gains  # only for mutual funds & etfs
-  '''
-  
+  except Exception as e:
+    logger.error("An error occurred: {}", e)
 
-  # this will be the full S&P 500 index constituents list
-  #csv_file_path = 'sp500_constituents.csv'  # Replace with the actual path to your CSV file
-  csv_file_path = "/tmp/file1.csv"
-  lst_symbols = read_csv_into_list(csv_file_path, has_header=False)
 
-  # 25 largest S&P 500 index constituents by weighting
-  # AAPL, MSFT, AMZN, NVDA, GOOGL, TSLA, GOOG, BRK-B, META, UNH, XOM, LLY, JPM, JNJ, V, PG, MA, AVGO, HD, CVX, MRK, ABBV, COST, PEP, ADBE
-  #lst_symbols = ['AAPL', 'MSFT', 'AMZN', 'NVDA', 'GOOGL', 'TSLA', 'GOOG', 'BRK-B', 'META', 'UNH', 'XOM', 'LLY', 'JPM', 'JNJ', 'V', 'PG', 'MA', 'AVGO', 'HD', 'CVX', 'MRK', 'ABBV', 'COST', 'PEP', 'ADBE']
-  #lst_symbols = ['META', 'TSLA', 'XOM']
-  #lst_symbols = ['V3AB.L','V3AM.L','V3MB.L','V3MM.L','VAGP.L','VAGS.L','VALW.L','VAPX.L','VCPA.L','VDPG.L','VECP.L','VEGB.L','VEMT.L','VERG.L','VERX.L','VETY.L','VEUR.L','VEVE.L','VFEG.L','VFEM.L','VGER.L','VGOV.L','VGPA.L','VGVA.L','VHVG.L','VHYG.L','VHYL.L','VJPB.L','VJPN.L','VMID.L','VMIG.L','VNRG.L','VNRT.L','VPNG.L','VUAG.L','VUCP.L','VUKE.L','VUKG.L','VUSA.L','VUSC.L','VUTA.L','VUTY.L','VWRL.L','VWRP.L']
-  lst_symbols = ['VMID.L','VUKE.L','VUSA.L']
-  #lst_symbols = ['SPY']
-  print('symbols to download = ', lst_symbols)
+def fn_get_historical_data_list_of_symbols(data_venue: str, lst_symbols: list, start_date: datetime, end_date: datetime, write_to_file: bool) -> pd.DataFrame:
 
-  start_date = datetime(2023, 1, 1)
-  end_date = datetime.now().date() - timedelta(days=1)
-  for sym in lst_symbols:
-    print('\ndownloading for ', sym)
+  logger.debug("Received arguments : data_venue={} write_to_file={} start_date={} end_date={} lst_symbols={}", data_venue, write_to_file, start_date, end_date, lst_symbols)
 
-    # get historical market data and write to csv file
-    df_prices = yf.download(sym, start=start_date, end=end_date)
-    print(df_prices.head(3), df_prices.tail(3))
-    m_oth.fn_modify_dataframe_per_our_requirements(sym, df_prices)
-    #output_file = "timescaledb/data/sp500symbols/" + sym + ".csv"
-    #output_file = "timescaledb/data/" + sym + ".csv"
-    output_file = "/tmp/" + sym + ".csv"
-    df_prices.to_csv(output_file)
-    print("created data file - ", output_file)
-    
-  
-  print('--done downloading---')
+  for symbol in lst_symbols:
+    logger.debug("symbol={}", symbol)
+    fn_get_historical_data_symbol(data_venue, symbol, start_date, end_date, write_to_file)
+
+
 
 def get_historical_data_multiple_symbols():
 
@@ -180,6 +152,22 @@ Date,,,,,,,,,,
 
 
 def get_other_data():
+
+
+  '''
+  # get historical market data
+  df_hist = msft.history(period="1mo")
+  print("---- hist = ", df_hist)
+  
+  # show meta information about the history (requires history() to be called first)
+  print("---- history metadata = ", msft.history_metadata)
+  
+  # show actions (dividends, splits, capital gains)
+  msft.actions
+  msft.dividends
+  msft.splits
+  msft.capital_gains  # only for mutual funds & etfs
+  '''
   
   msft = yf.Ticker("MSFT")
   
@@ -278,11 +266,11 @@ def get_stock_info(symbol):
 
 
 
-def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) -> pd.DataFrame:
+def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) -> pd.DataFrame:
   """
   TODO : Retrieves historical data for a symbol from a data venue.
   Then it will check our price data table and see if we have any data and if we have and not recent, it will download the missing data and insert into table.
-  If there is no price data in our table, it will downloada  default amount of price data from the data source and insert into the price data table.
+  If there is no price data in our table, it will download a default amount of price data from the data source and insert into the price data table.
 
   
   Parameters:
@@ -294,7 +282,7 @@ def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) ->
   - 2 pandas dataframes. [1st - df containing OHLC prices for the symbol] and [2nd - 1 row df containing some db stats info on the symbol] 
 
   Example:
-  >> sync_price_data_in_table_for_symbol("YFINANCE", dbconn, "AAPL")
+  >> fn_sync_price_data_in_table_for_symbol("YFINANCE", dbconn, "AAPL")
   """
   
   logger.debug("---- sync_price_data_in_table_for_symbol ---- STARTED ---")
@@ -315,13 +303,8 @@ def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) ->
       dt_start_date = m_udt.get_date_with_zero_time(dt_latest_record_date)
       dt_start_date += timedelta(days=1)
       dt_end_date = m_udt.get_date_with_zero_time(dt_today)
-      df_downloaded_missing_price_data = fn_get_historical_data_symbol('YFINANCE', symbol, dt_start_date, dt_end_date)
-      m_udb.insert_symbol_price_data_into_db(
-          dbconn,
-          symbol,
-          df_downloaded_missing_price_data,
-          "tbl_price_data_1day",
-      )
+      df_downloaded_missing_price_data = fn_get_historical_data_symbol('YFINANCE', symbol, dt_start_date, dt_end_date, False)
+      m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_downloaded_missing_price_data, "tbl_price_data_1day", True)
     else:
       logger.debug("df_sym_stats is not empty but negligible number of days of missing data = {}. Not downloading.", diff_days)
   else:
@@ -337,15 +320,10 @@ def sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) ->
     dt_start_date = dt_start_date.replace(hour=0, minute=0, second=0, microsecond=0)
     dt_end_date = dt_end_date.replace(hour=0, minute=0, second=0, microsecond=0)
     logger.info("Downloading historical price data with a default lookback period...")
-    df_downloaded_price_data = fn_get_historical_data_symbol("YFINANCE", symbol, dt_start_date, dt_end_date)
+    df_downloaded_price_data = fn_get_historical_data_symbol("YFINANCE", symbol, dt_start_date, dt_end_date, False)
 
     # now  insert them into price data table
-    m_udb.insert_symbol_price_data_into_db(
-        dbconn,
-        symbol,
-        df_downloaded_price_data,
-        "tbl_price_data_1day",
-    )
+    m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_downloaded_price_data, "tbl_price_data_1day", True)
 
   # now that symbol has been chosen from the dropdown, fetch requisite data for this symbol from db
   df_ohlcv_symbol = m_udb.fn_get_table_data_for_symbol(dbconn, symbol)

@@ -1,16 +1,24 @@
 import sys
+from datetime import datetime, timedelta
+
 import sqlalchemy as sa
 import psycopg2 as psy
 import pandas as pd
 from sqlalchemy import text
 from loguru import logger
 
-sys.path.append("H:\\git-projects\\python-code")
+#sys.path.append("H:\\git-projects\\python-code")
+#sys.path.append("~/git-projects/python-code")
+#sys.path.append("~/git-projects/python-code/streamlit_code")
+sys.path.append("/home/cloud_user/git-projects/python-code/streamlit_code")
 #from technical_analysis.config import DB_INFO, DEBUG_MODE
-from streamlit_code.config import DB_INFO, DEBUG_MODE
+#from streamlit_code.config import DB_INFO, DEBUG_MODE
+#from config import DB_INFO, DEBUG_MODE
+print(sys.path)
+import config
 import mod_others as m_oth
 
-def create_database_engine_sqlalchemy(db_uri: str)-> sa.Engine:
+def fn_create_database_engine_sqlalchemy(db_uri: str)-> sa.Engine:
   """
   Create a SQLAlchemy Engine for connecting to a database.
 
@@ -94,7 +102,7 @@ def run_conn_sql_query(dbconn, sql_query):
     return df_output
 
 
-def get_symbol_price_data_stats_from_database(dbconn, symbol):
+def fn_get_symbol_price_data_stats_from_database(dbconn, symbol):
   """
   Looks up in the database for details about how much price data information we have on this particular symbol
 
@@ -114,12 +122,12 @@ def get_symbol_price_data_stats_from_database(dbconn, symbol):
   sql_query = sa.text("SELECT * FROM viw_price_data_stats_by_symbol WHERE pd_symbol = :prm_symbol").bindparams(prm_symbol=symbol)
   logger.info("Now fetching price data table stats from database for symbol {} using query {}", symbol, sql_query)
   df_result = pd.read_sql_query(sql_query, dbconn)
-  logger.debug("Returning results df = {}", df_result)
+  logger.debug("Returning results df = \n{}", df_result)
 
   return df_result
 
 
-def insert_symbol_price_data_into_db(dbconn, symbol, df, table_name):
+def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_insert_indicator_values: bool):
   """Using the df provided, insert OHLC data into the table for this particular symbol
 
   Args:
@@ -127,29 +135,35 @@ def insert_symbol_price_data_into_db(dbconn, symbol, df, table_name):
       symbol (string): symbol for which we need the data inserted
       df (dataframe): dataframe containing olhc data for the symbol
       table_name (string): name of the table into which we need this data inserted
-  """
+      to_insert_indicator_values (boolean): this will tell the function if the advanced indicator values also need to be computed AND inserted into the respective columns
 
+  df format:
+      symbol       date   open   high    low  close  volume
+  0   VWRL.L 2024-01-17  92.39  92.48  92.00  92.19   30614
+  1   VWRL.L 2024-01-18  92.07  92.71  92.04  92.58   23364
+  19  VWRL.L 2024-02-13  97.13  97.36  96.00  96.33   56403
+  20  VWRL.L 2024-02-14  96.58  97.27  96.36  97.00   22437
   """
-  70                          Open        High        Low         Close       Adj Close    Volume
-  71   Date       2023-02-15  176.210007  178.820007  175.000000  177.419998  176.321732   815900
-  """
-  df_head_foot = pd.concat([df.head(1), df.tail(1)])
-  logger.debug(
-      "Received arguments : dbconn={} symbol={} df={} tbl_name={}",
-      dbconn,
-      symbol,
-      df_head_foot,
-      table_name,
-  )
+  logger.debug( "Received arguments : dbconn={} symbol={} tbl_name={} df=", dbconn, symbol, table_name)
+  logger.debug(m_oth.fn_df_get_first_last(df, 2))
+
+  if to_insert_indicator_values:
+    # to compute the indicator values, we need a minimum of 50 records of historical data 
+    # which is older than the oldest record in the df
+    dt_date_of_oldest_df_record = df.iloc[0]["date"]
+    dt_50days_prior_date  = dt_date_of_oldest_df_record - timedelta(days=50)
+    logger.debug("dt_date_of_oldest_df_record = {}, dt_50days_prior_date = {}", dt_date_of_oldest_df_record, dt_50days_prior_date)
+ 
+
   # prepare the df for inserting into the table
   column_mapping = {
-      "Symbol": "pd_symbol",
-      "Date": "pd_time",
-      "Open": "open",
-      "High": "high",
-      "Low": "low",
+      "symbol": "pd_symbol",
+      "date": "pd_time",
+      "open": "open",
+      "high": "high",
+      "low": "low",
       "Close": "close",
-      "Volume": "volume",
+      "volume": "volume",
       "ema_5": None,
       "ema_13": None,
       "sma_50": None,
@@ -162,8 +176,7 @@ def insert_symbol_price_data_into_db(dbconn, symbol, df, table_name):
   # Insert the DataFrame into the specified table
   # index=False to avoid saving the DataFrame index as a separate column in the table
   df.to_sql(name=table_name, con=dbconn, if_exists="append", index=False)
-  logger.debug(
-      "DB insert completed - {} into table {} = {}", symbol, table_name, df_head_foot
+  logger.debug("DB insert completed - {} into table {} = {}", symbol, table_name, df_head_foot
   )
   logger.info("TODO: print how much time it took to insert and well as how many rows ....")
 

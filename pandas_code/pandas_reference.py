@@ -124,7 +124,10 @@ def fn_02_C_apply_scalar_on_all_items_of_a_column(df):
 
 
 # --------------------------------------------------------------------------------
-def fn_02_D_change_index(df):
+def fn_02_D_change_others(df):
+
+
+  print("---------- to change index -----------")
   print('--before--'); print(df.tail(2))
 
   '''
@@ -158,6 +161,15 @@ def fn_02_D_change_index(df):
   2  2023-01-05,MSFT,227.1999969482422,227.5500030517578,221.75999450683594,222.30999755859375,39585600
   '''  
 
+
+  print("---------- to convert all headers fields to lowercase -----------")
+  df.columns = df.columns.str.lower()
+
+
+
+
+
+
 # --------------------------------------------------------------------------------
 def fn_03_find_in_dataframe(df):
   print("----- fn_03_find_in_dataframe -----")
@@ -186,6 +198,10 @@ def fn_03_find_in_dataframe(df):
   # find the first and last row of df and return them as a dataframe
   df_head_foot = pd.concat([df.head(1), df.tail(1)])
   print("df with only header and footer rows = ", df_head_foot)
+
+  # find a value of a particular cell (ie row and column)
+  # for symbol column from the 1st row of df
+  str_symbol = df.iloc[0]["symbol"]
 
   # find missing (NaN - Not a Number) values in a df
   fn_03_A_find_missing_NAN(df)
