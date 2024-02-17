@@ -66,7 +66,7 @@ def read_csv_into_list(file_path, has_header=True):
 
 
 
-def fn_get_historical_data_symbol(data_venue: str, symbol: str, start_date: datetime, end_date: datetime, write_to_file: bool) -> pd.DataFrame:
+def fn_download_historical_data_for_symbol(data_venue: str, symbol: str, start_date: datetime, end_date: datetime, write_to_file: bool) -> pd.DataFrame:
   """
   Retrieves historical data for a symbol from a data venue.
 
@@ -87,6 +87,7 @@ def fn_get_historical_data_symbol(data_venue: str, symbol: str, start_date: date
   # symbol = df.at[0,"pd_symbol"]
   # oldest_price_date = df.at[0,"oldest_rec_pd_time"]
   # latest_price_date = df.at[0,"latest_rec_pd_time"]
+  logger.debug("---------- fn_download_historical_data_for_symbol ---- STARTED ----------")
   logger.debug("Received arguments : data_venue={} symbol={} start_date={} end_date={} write_to_file={}", data_venue, symbol, start_date, end_date, write_to_file)
 
   # # Convert the date strings to datetime objects and zero out time component
@@ -118,14 +119,14 @@ def fn_get_historical_data_symbol(data_venue: str, symbol: str, start_date: date
     tm_taken_for_download_secs  = "{:.3f}".format(tm_taken_for_download_secs)
     logger.info("Time taken for download (secs) = {}", tm_taken_for_download_secs)
     logger.debug("Downloaded - head/foot rows = "); m_oth.fn_df_get_first_last(df_prices, 1)
-    m_oth.fn_modify_dataframe_per_our_requirements(symbol, df_prices)
-  
+
     if write_to_file:
       FILE_EXTN =".csv"
       csv_file_path = symbol + FILE_EXTN
       df_prices.to_csv(csv_file_path, index=False)
       logger.info("DataFrame has been written to {} ...", csv_file_path)
 
+    logger.debug("---------- fn_download_historical_data_for_symbol ---- COMPLETED ----------")
     return df_prices
   
   except Exception as e:
@@ -138,7 +139,7 @@ def fn_get_historical_data_list_of_symbols(data_venue: str, lst_symbols: list, s
 
   for symbol in lst_symbols:
     logger.debug("symbol={}", symbol)
-    fn_get_historical_data_symbol(data_venue, symbol, start_date, end_date, write_to_file)
+    fn_download_historical_data_for_symbol(data_venue, symbol, start_date, end_date, write_to_file)
 
 
 
@@ -309,17 +310,20 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
     diff_days = m_udt.compute_date_difference(dt_latest_record_date, dt_today, "WORKING")
     # df_is not empty but there could be a few recent days/weeks missing, so check for that
     if diff_days > 1:
+      print("------SYNC 111 --- DF NOT EMPTY -----")
       logger.trace("df_sym_stats is not empty, but missing some days of recent data")
       logger.debug("Number of days of missing data = {}. So now fetch and insert this missing recent data into price data table ", diff_days)
       dt_start_date = m_udt.get_date_with_zero_time(dt_latest_record_date)
       dt_start_date += timedelta(days=1)
       dt_end_date = m_udt.get_date_with_zero_time(dt_today)
-      df_downloaded_missing_price_data = fn_get_historical_data_symbol('YFINANCE', symbol, dt_start_date, dt_end_date, False)
+      df_downloaded_missing_price_data = fn_download_historical_data_for_symbol('YFINANCE', symbol, dt_start_date, dt_end_date, False)
+      df_downloaded_missing_price_data = m_oth.fn_modify_dataframe_per_our_requirements(symbol, df_downloaded_missing_price_data)
       logger.debug("Now inserting the missing data into the table")
       df_returned = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_downloaded_missing_price_data, "tbl_price_data_1day", True)
     else:
       logger.debug("df_sym_stats is not empty but negligible number of days of missing data = {}. Not downloading.", diff_days)
   else:
+    print("------SYNC 222 --- DF IS EMPTY -----")    
     logger.trace("df_sym_stats is empty for symbol = {}", symbol)
     logger.warning("Price data not available for symbol {} in database", symbol)
     # get roughly 1 year of historical data plus go further back ang get another 200 days
@@ -330,11 +334,14 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
     dt_start_date = dt_start_date.replace(hour=0, minute=0, second=0, microsecond=0)
     dt_end_date = dt_end_date.replace(hour=0, minute=0, second=0, microsecond=0)
     logger.info("Downloading historical price data with a default lookback period...")
-    df_downloaded_price_data = fn_get_historical_data_symbol("YFINANCE", symbol, dt_start_date, dt_end_date, False)
+    df_sym_downloaded_price_data = fn_download_historical_data_for_symbol("YFINANCE", symbol, dt_start_date, dt_end_date, False)
+    print("------SYNC 222 ----- BEFORE -----", df_sym_downloaded_price_data)
+    m_oth.fn_modify_dataframe_per_our_requirements(symbol, df_sym_downloaded_price_data)
+    print("------SYNC 222 ----- AFTER -----", df_sym_downloaded_price_data)
 
     # now  insert them into price data table
-    #m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_downloaded_price_data, "tbl_price_data_1day", True)
-    df_returned = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_downloaded_price_data, "tbl_price_data_1day", False)
+    #m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_sym_downloaded_price_data, "tbl_price_data_1day", True)
+    df_returned = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_sym_downloaded_price_data, "tbl_price_data_1day", False)
 
   m_oth.fn_df_get_first_last(df_returned, 2)
   logger.debug("---- sync_price_data_in_table_for_symbol ---- COMPLETED ---")

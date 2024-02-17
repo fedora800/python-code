@@ -1,5 +1,7 @@
 import sys
+from datetime import timezone
 import pandas as pd
+import numpy as np
 from loguru import logger
 
 
@@ -12,15 +14,28 @@ def fn_df_get_first_last(df: pd.DataFrame, num_rows: int):
 
 def fn_modify_dataframe_per_our_requirements(sym: str, df: pd.DataFrame):
 
-  logger.debug("modifying df as per our requirements ...")
-  logger.trace("before = "); fn_df_get_first_last(df, 1)
+  print("----- MOD DF ------------START--------------")
+
+  logger.info("modifying df as per our requirements ...")
+  logger.debug("before = ")
+  print(df.info())
+  logger.debug(fn_df_get_first_last(df, 2))
+
+  # we are trying to make this df exactly same in format as the data we have from tbl_price_data_1day when put into a df
   df.reset_index(inplace=True)  # reset the Date index and make it into a column by itself. will be the 1st column
-  df.insert(0, "Symbol", sym) # add Symbol as 1st column after date
-  #df_prices['Symbol'] = sym   # but this will add as the last column of df
   df.drop(columns=['Adj Close'], inplace=True)
   df.columns = df.columns.str.lower()  # convert header/column names to lowercase
-  logger.trace("after = "); fn_df_get_first_last(df, 1)
-
+  df = df.rename(columns={'date': 'pd_time'})
+  df['pd_time'] = pd.to_datetime(df['pd_time'], format='%Y-%m-%d', utc=True)
+  df['pd_time'] = df['pd_time'].dt.normalize()    # Normalize the time part to midnight
+  df.insert(0, "pd_symbol", sym) # add Symbol as 1st column after date
+  new_columns = ['ema_5', 'ema_13', 'sma_50', 'sma_200', 'rsi_14', 'macd_sig_hist', 'dm_dp_adx', 'crs_50']      #  define the names of the new columns
+  df = df.assign(**{col: "None" for col in new_columns})   #  add the new columns with value "None" for each column across all rows
+  logger.debug("after =")
+  logger.debug(fn_df_get_first_last(df, 2))
+  print(df.info())
+  print("----- MOD DF ------------END--------------")
+  return df
 
 def fn_set_logger(debug_mode: bool):
   """

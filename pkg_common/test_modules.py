@@ -24,8 +24,8 @@ def main():
   #lst_symbols = ['CSPX.L', 'EQQQ.L', 'IITU.L', 'ISF.L', 'SWDA.L', 'VHVG.L', 'VUAG.L', 'VUSA.L', 'VWRL.L', 'VWRP.L']
   #m_yfn.fn_get_historical_data_list_of_symbols(data_venue, lst_symbols, start_date, end_date, True)
 
-  #my_db_uri = "postgresql://postgres:Inesh#2012@localhost:5432/dbs_invest"
-  my_db_uri = "postgresql://postgres:postgres@localhost:5432/dbs_invest"
+  my_db_uri = "postgresql://postgres:Inesh#2012@localhost:5432/dbs_invest"
+  #my_db_uri = "postgresql://postgres:postgres@localhost:5432/dbs_invest"
   engine = m_udb.fn_create_database_engine_sqlalchemy(my_db_uri)
   df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", engine, "SPY")
   print("----11111--for SPY----", df_ohlcv_symbol)

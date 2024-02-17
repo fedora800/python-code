@@ -1,8 +1,21 @@
+import sys
+import platform
+
 from loguru import logger
 import pandas as pd
 import talib as ta
-#import streamlit_code.mod_others as m_oth
-import mod_others as m_oth
+
+if platform.system() == "Windows":
+  logger.debug("mod_technical_indicators.py - Running on Windows")
+  sys.path.append("H:\\git-projects\\python-code")
+  sys.path.append("H:\\git-projects\\python-code\\streamlit_code")
+elif platform.system() == "Linux":
+  logger.debug("mod_technical_indicators.py - Running on Linux")
+  sys.path.append("/home/cloud_user/git-projects/python-code")
+else:
+  print("Operating system not recognized")
+
+from pkg_common import mod_others as m_oth
 
 def check_data(df: pd.DataFrame, exp_recs: int):
     """_summary_
@@ -18,11 +31,7 @@ def check_data(df: pd.DataFrame, exp_recs: int):
     # logger.debug("Received arguments : df={} and exp_recs={}", df, exp_recs)
     num_records = df.shape[0]
     num_columns = df.shape[1]
-    logger.debug(
-        "Received arguments : num_records={} and num_columns={}",
-        num_records,
-        num_columns,
-    )
+    logger.debug("Received arguments : num_records={} and num_columns={}", num_records, num_columns)
     logger.trace("df info={}", df.info())
 
     return num_records
@@ -175,19 +184,20 @@ def fn_macd_indicator(df: pd.DataFrame, column_name: str):
 
 
 def fn_relative_strength_indicator(df: pd.DataFrame):
-    PERIOD = 14
+  PERIOD = 14
 
-    logger.debug("Received arguments : df={}", df)
-    num_recs = check_data(df, 300)
+  logger.debug("Received arguments : df={}", df)
+  num_recs = check_data(df, 300)
 
-    if num_recs < 200:
-        logger.error("num_records={} less than expected records={}", num_recs, 200)
-        # TODO: exit maybe ?
+  if num_recs < 200:
+      logger.error("num_records={} less than expected records={}", num_recs, 200)
+      # TODO: exit maybe ?
 
-    df["rsi_14"] = ta.RSI(df["close"], timeperiod=PERIOD)
-    logger.debug("--dfhead={}----dftail={}----", df.head(1), df.tail(1))
+  df["rsi_14"] = ta.RSI(df["close"], timeperiod=PERIOD)
+  df["rsi_14"] = df["rsi_14"].round(3)
+  logger.debug(m_oth.fn_df_get_first_last(df, 2))
 
-    return df
+  return df
 
     # '''
     # # Create RSI
@@ -498,4 +508,4 @@ def main():
     fn_compute_all_required_indicators(benchmark_symbol, df_benchmark_symbol, symbol, df_symbol)
 
 
-main()
+#main()
