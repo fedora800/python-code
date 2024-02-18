@@ -317,11 +317,10 @@ def fn_comparative_relative_strength_CRS_indicator(bch_sym: str, df_bch_sym: pd.
   # set the lookback calculation period
   LENGTH = 50
 
-  logger.debug(
-      "Received arguments : bch_sym={} sym={}", bch_sym, sym
-  )
-  logger.debug("Received arguments : df_bch_sym={}", df_bch_sym)
-  logger.debug("Received arguments : df_sym={}", df_sym)
+  logger.debug("Received arguments : df_bch_sym=")
+  m_oth.fn_df_get_first_last_rows(df_bch_sym, 3)
+  logger.debug("Received arguments : df_sym=")
+  m_oth.fn_df_get_first_last_rows(df_sym, 3)
 
   # benchmark might have holidays on some days while symbol can have on another day, meaning all records will not match on pd_time
   # we need to handle this by currently only taking the common rows on pd_time
@@ -332,15 +331,24 @@ def fn_comparative_relative_strength_CRS_indicator(bch_sym: str, df_bch_sym: pd.
   df_bch_sym_filtered = df_bch_sym[df_bch_sym["pd_time"].isin(common_pd_time)]
   # Filter df_bch_sym to keep only rows with pd_time in common_pd_time
   df_sym_filtered = df_sym[df_sym["pd_time"].isin(common_pd_time)]
-  print("----- df_bch_sym_filtered ----")
-  m_oth.fn_df_get_first_last_rows(df_bch_sym_filtered, 3)
-  print("----- df_sym_filtered ----")
-  m_oth.fn_df_get_first_last_rows(df_sym_filtered, 3)
 
+  original_max_rows = pd.get_option('display.max_rows')
+  # Set option to display all rows
+  pd.set_option('display.max_rows', None)
+  print("----- df_bch_sym_filtered ----")
+  #m_oth.fn_df_get_first_last_rows(df_bch_sym_filtered, 3)
+  print(df_bch_sym_filtered)
+  print("----- df_sym_filtered ----")
+  #m_oth.fn_df_get_first_last_rows(df_sym_filtered, 3)
+  print(df_sym_filtered)
+  # Reset the option to its original value
+  pd.reset_option('display.max_rows')
 
   print("--- CRS_50 AAA --------Computing daily percentage change on both Sym and Benchmark ...")
-  df_bch_sym_filtered["dly_pct_change"] = df_bch_sym_filtered["close"].pct_change()
-  df_sym_filtered["dly_pct_change"] = df_sym_filtered["close"].pct_change()
+  # Using .loc[:, "dly_pct_change"] ensures that the modifications are made on the original DataFrame and should eliminate the warning.
+  df_bch_sym_filtered.loc[:, "dly_pct_change"] = df_bch_sym_filtered["close"].pct_change()
+  df_sym_filtered.loc[:, "dly_pct_change"] = df_sym_filtered["close"].pct_change()
+
   # remove all unnecessary columns
   df_bch_sym_filtered = df_bch_sym_filtered[["pd_time", "close", "dly_pct_change"]]
   df_sym_filtered = df_sym_filtered[["pd_symbol", "pd_time", "close", "dly_pct_change"]]
@@ -388,7 +396,12 @@ def fn_comparative_relative_strength_CRS_indicator(bch_sym: str, df_bch_sym: pd.
   df_merged.loc[mask, column_name] = df_merged.loc[mask, column_name].round(3)
 
   print("--- UPDATED MERGED DFs ---")
-  print(df_merged.tail(3))
+  pd.set_option('display.max_rows', None)
+  print(df_merged)
+  pd.reset_option('display.max_rows')
+
+
+  df_sym[column_name] = df_merged[column_name]
 
   """
   # Plot - Comparative Relative Strength (CRS) Indicator
@@ -400,7 +413,9 @@ def fn_comparative_relative_strength_CRS_indicator(bch_sym: str, df_bch_sym: pd.
   #     plt.plot(df_merged['MA'], label=f'MA ({length_MA})', color='gray')
   """
 
-  return df_merged
+  logger.trace("-------df_sym.info={}------", df_sym.info())
+  logger.debug(m_oth.fn_df_get_first_last_rows(df_sym, 5))
+  return df_sym
 
 
 
@@ -441,10 +456,6 @@ def fn_compute_all_required_indicators(
   NUM_RECORDS_EXPECTED = 300
   IF_DELIMITER = ";"  # intra-field delimeter for the macd column
   RSI_PERIOD = 14
-  MACD_FAST = 12
-  MACD_SLOW = 26
-  MACD_SIGNAL = 9
-  ADX_PERIOD = 14
   CRS_LENGTH = 50
   # these are the names of the new columns that will be added to the dataframe with the computed indicators.
   COL_NAME_MACD = "macd_sig_hist"
@@ -488,44 +499,45 @@ def fn_compute_all_required_indicators(
 
   # ------ 6. MACD ------
   logger.debug("---Indicator 6 : MACD ---")
-  df_tmp = pd.DataFrame()
-  na_macd, na_macd_signal, na_macd_hist = ta.MACD(
-      df_sym["close"].to_numpy(),
-      fastperiod=MACD_FAST,
-      slowperiod=MACD_SLOW,
-      signalperiod=MACD_SIGNAL,
-  )
+  logger.debug("Input dataframe : df_sym={}", df_sym)
+
+  MACD_FAST = 12
+  MACD_SLOW = 26
+  MACD_SIGNAL = 9
+  df_tmp = pd.DataFrame(index=df_sym.index)
+  na_macd, na_macd_signal, na_macd_hist = ta.MACD(df_sym["close"].to_numpy(), fastperiod=MACD_FAST, slowperiod=MACD_SLOW, signalperiod=MACD_SIGNAL)
   df_tmp["macd"] = na_macd
   df_tmp["signal"] = na_macd_signal
   df_tmp["histogram"] = na_macd_hist
-
-  df_tmp.iloc[-1, df_tmp.columns.get_loc("macd")] = df_tmp.iloc[-1]["macd"].round(2)
-  df_tmp.iloc[-1, df_tmp.columns.get_loc("signal")] = df_tmp.iloc[-1]["signal"].round(2)
-  df_tmp.iloc[-1, df_tmp.columns.get_loc("histogram")] = df_tmp.iloc[-1]["histogram"].round(2)
+  columns_to_round = ["macd", "signal", "histogram"]
+  df_tmp[columns_to_round] = df_tmp[columns_to_round].round(2)
 
   df_sym[COL_NAME_MACD] = (df_tmp["macd"].astype(str) + IF_DELIMITER + df_tmp["signal"].astype(str) + IF_DELIMITER + df_tmp["histogram"].astype(str))
-  logger.debug(m_oth.fn_df_get_first_last_rows(df_sym, 2))
+  logger.debug("Output dataframe : df_sym={}", df_sym)
+
 
   # ------ 7. ADX ------
   logger.debug("---Indicator 7 : ADX ---")
+  logger.debug("Input dataframe : df_sym={}", df_sym)
 
-  df_tmp = pd.DataFrame()
+  ADX_PERIOD = 14
+  df_tmp = pd.DataFrame(index=df_sym.index)
   na_ADX = ta.ADX(df_sym["high"], df_sym["low"], df_sym["close"], ADX_PERIOD)
   na_DMI_MINUS = ta.MINUS_DI(df_sym["high"], df_sym["low"], df_sym["close"], ADX_PERIOD)
   na_DMI_PLUS = ta.PLUS_DI(df_sym["high"], df_sym["low"], df_sym["close"], ADX_PERIOD)
   df_tmp["dmi_minus"] = na_DMI_MINUS
   df_tmp["dmi_plus"] = na_DMI_PLUS
   df_tmp["adx"] = na_ADX
-
-  df_tmp.iloc[-1, df_tmp.columns.get_loc("dmi_minus")] = df_tmp.iloc[-1]["dmi_minus"].round(2)
-  df_tmp.iloc[-1, df_tmp.columns.get_loc("dmi_plus")] = df_tmp.iloc[-1]["dmi_plus"].round(2)
-  df_tmp.iloc[-1, df_tmp.columns.get_loc("adx")] = df_tmp.iloc[-1]["adx"].round(2)
+  columns_to_round = ["dmi_minus", "dmi_plus", "adx"]
+  df_tmp[columns_to_round] = df_tmp[columns_to_round].round(2)
 
   df_sym[COL_NAME_ADX] = (df_tmp["dmi_minus"].astype(str)
       + IF_DELIMITER + df_tmp["dmi_plus"].astype(str)
       + IF_DELIMITER + df_tmp["adx"].astype(str)
   )
-  logger.debug("df_sym post computation =\n{}", m_oth.fn_df_get_first_last_rows(df_sym,3))
+  logger.debug("Output dataframe : df_sym={}", df_sym)
+
+
 
   # ------ 8. CRS_50 ------
   logger.debug("---Indicator 8 : CRS_50---")

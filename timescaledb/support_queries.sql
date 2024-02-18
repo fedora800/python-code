@@ -46,12 +46,15 @@ pd_symbol in ('SPY', 'MCO')
 group by pd_symbol
 order by pd_symbol;
 
-select * from tbl_price_data_1day where pd_symbol='META'
-order by pd_time DESC;
+--select * from tbl_price_data_1day 
+select pd_symbol, pd_time, close, rsi_14, macd_sig_hist, dm_dp_adx, crs_50
+where pd_symbol='VWRL.L'
+order by pd_time DESC
+limit 20;
 
 delete from tbl_price_data_1day 
 where 
-pd_symbol='META'
+pd_symbol='VWRL.L'
 --AND pd_time < NOW() - INTERVAL '30 days';  --older
 AND pd_time > NOW() - INTERVAL '30 days';   --newer
 

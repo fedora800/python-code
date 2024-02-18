@@ -392,6 +392,13 @@ python
     The ignore_index=True parameter resets the index.
 
 Choose the method that best fits your use case based on whether you want to concatenate, merge, or append the DataFrames.  
+
+
+    df_combined = pd.concat([df_prev_50periods, df])
+    # Reset the index, it will have a new index starting from 0
+    df_combined = df_combined.reset_index(drop=True)
+
+
   '''
 
 # --------------------------------------------------------------------------------

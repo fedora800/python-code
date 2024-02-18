@@ -178,8 +178,8 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
     dt_df_first_date = df.iloc[0]["pd_time"]
     dt_df_last_date = df.iloc[-1]["pd_time"]
     dt_50periods_prior_to_first_date  = dt_df_first_date - timedelta(days=NUM_OLDER_RECS)
-    logger.debug("For the df passed as argument: dt_df_first_date = {}, dt_df_last_date = {}, dt_50periods_prior_to_first_date = {}", 
-                  dt_df_first_date, dt_df_last_date, dt_50periods_prior_to_first_date)
+    logger.debug("For the df passed as argument for {} : dt_df_first_date = {}, dt_df_last_date = {}, dt_50periods_prior_to_first_date = {}", 
+                  symbol, dt_df_first_date, dt_df_last_date, dt_50periods_prior_to_first_date)
     
     # first get the previous 50 days data from the table that is required so that we can calculate indicators on current data
     df_prev_50periods = fn_get_table_data_for_symbol(dbconn, symbol, dt_50periods_prior_to_first_date, dt_df_first_date)
@@ -190,15 +190,18 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
     df_prev_50periods["source"] = "older-data"
     df["source"] = "newer-data"
     df_combined = pd.concat([df_prev_50periods, df])
+    # Reset the index, it will have a new index starting from 0
+    df_combined = df_combined.reset_index(drop=True)
     logger.debug("----COMBINED-----")
-    logger.debug(m_oth.fn_df_get_first_last_rows(df_combined, 3))
+    logger.debug(m_oth.fn_df_get_first_last_rows(df_combined, 5))
 
     logger.log("NOTICE", "Computing all the required indicators on df_combined for {} ...", symbol)
     #df_combined = m_tin.fn_relative_strength_indicator(df_combined)
     #df_combined = m_tin.fn_macd_indicator(df_combined, "macd_sig_hist")
     #df_combined = m_tin.fn_adx_indicator(df_combined, "dm_dp_adx")
-    df_combined = m_tin.fn_comparative_relative_strength_CRS_indicator(bch_symbol, df_bch_sym, symbol, df_combined, "crs_50")
-    #df_combined = m_tin.fn_compute_all_required_indicators(bch_symbol, df_bch_sym, symbol, df_combined)
+    #df_combined = m_tin.fn_comparative_relative_strength_CRS_indicator(bch_symbol, df_bch_sym, symbol, df_combined, "crs_50")
+    df_combined = m_tin.fn_compute_all_required_indicators(bch_symbol, df_bch_sym, symbol, df_combined)
+    print("---7000--------------", df_combined)
 
     # extract back from the combined df only the rows that were in df
     df = df_combined[df_combined["source"] == "newer-data"]
