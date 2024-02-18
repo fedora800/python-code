@@ -193,9 +193,11 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
     logger.debug("----COMBINED-----")
     logger.debug(m_oth.fn_df_get_first_last_rows(df_combined, 3))
 
-    logger.log("NOTICE", "Computing all the required indicators on df_combined ...")
+    logger.log("NOTICE", "Computing all the required indicators on df_combined for {} ...", symbol)
     #df_combined = m_tin.fn_relative_strength_indicator(df_combined)
-    df_combined = m_tin.fn_macd_indicator(df_combined, "macd_sig_hist")
+    #df_combined = m_tin.fn_macd_indicator(df_combined, "macd_sig_hist")
+    #df_combined = m_tin.fn_adx_indicator(df_combined, "dm_dp_adx")
+    df_combined = m_tin.fn_comparative_relative_strength_CRS_indicator(bch_symbol, df_bch_sym, symbol, df_combined, "crs_50")
     #df_combined = m_tin.fn_compute_all_required_indicators(bch_symbol, df_bch_sym, symbol, df_combined)
 
     # extract back from the combined df only the rows that were in df

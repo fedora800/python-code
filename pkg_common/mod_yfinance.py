@@ -298,7 +298,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
   >> fn_sync_price_data_in_table_for_symbol("YFINANCE", dbconn, "AAPL")
   """
   
-  logger.debug("---- sync_price_data_in_table_for_symbol ---- STARTED ---")
+  logger.debug("---- sync_price_data_in_table_for_symbol {} ---- STARTED ---", symbol)
   logger.debug("Received arguments : data_venue={} dbconn={} symbol={}", data_venue, dbconn, symbol)
   df_returned = pd.DataFrame()
 
@@ -344,6 +344,6 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
     df_returned = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_sym_downloaded_price_data, "tbl_price_data_1day", False)
 
   m_oth.fn_df_get_first_last_rows(df_returned, 2)
-  logger.debug("---- sync_price_data_in_table_for_symbol ---- COMPLETED ---")
+  logger.debug("---- sync_price_data_in_table_for_symbol {} ---- COMPLETED ---", symbol)
   return df_returned
 

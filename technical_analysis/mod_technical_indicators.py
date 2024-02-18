@@ -52,28 +52,25 @@ def fn_adx_indicator(df: pd.DataFrame, column_name: str):
 
     TIME_PERIOD = 14
     IF_DELIMITER = ";"  # intra-field delimeter for the macd column
-    df_tmp = pd.DataFrame()
 
     logger.debug("Received arguments : df={}", df)
     fn_check_data(df, 300)
+
+    # create a temporary df with same index as the df passed, so that we can later merge/update df with values matching the same index of df_tmp
+    df_tmp = pd.DataFrame(index=df.index)
 
     na_ADX = ta.ADX(df["high"], df["low"], df["close"], TIME_PERIOD)
     na_DMI_MINUS = ta.MINUS_DI(df["high"], df["low"], df["close"], TIME_PERIOD)
     na_DMI_PLUS = ta.PLUS_DI(df["high"], df["low"], df["close"], TIME_PERIOD)
 
-    # store in a temporary df
+    # store the computed ADX values into individual columns of the temporary df
     df_tmp["dmi_minus"] = na_DMI_MINUS
     df_tmp["dmi_plus"] = na_DMI_PLUS
     df_tmp["adx"] = na_ADX
 
-    # round the values to 2 decimal places in the last row only due to starting rows having null values
-    df_tmp.iloc[-1, df_tmp.columns.get_loc("dmi_minus")] = df_tmp.iloc[-1][
-        "dmi_minus"
-    ].round(2)
-    df_tmp.iloc[-1, df_tmp.columns.get_loc("dmi_plus")] = df_tmp.iloc[-1][
-        "dmi_plus"
-    ].round(2)
-    df_tmp.iloc[-1, df_tmp.columns.get_loc("adx")] = df_tmp.iloc[-1]["adx"].round(2)
+    # round the values to 2 decimal places of only specific columns
+    columns_to_round = ["dmi_minus", "dmi_plus", "adx"]
+    df_tmp[columns_to_round] = df_tmp[columns_to_round].round(2)
 
     df[column_name] = (
         df_tmp["dmi_minus"].astype(str)
@@ -200,8 +197,7 @@ def fn_macd_indicator(df: pd.DataFrame, column_name: str):
   MACD_SLOW = 26
   MACD_SIGNAL = 9
   IF_DELIMITER = ";"  # intra-field delimeter for the macd column
-  df_tmp = pd.DataFrame()
-
+  
   logger.debug("Received arguments : df={}", df)
   num_recs = fn_check_data(df, 300)
 
@@ -209,35 +205,32 @@ def fn_macd_indicator(df: pd.DataFrame, column_name: str):
       logger.error("num_records={} less than expected records={}", num_recs, 200)
       # TODO: exit maybe ?
 
-  na_macd, na_macd_signal, na_macd_hist = ta.MACD(df["close"].to_numpy(),
-      fastperiod=MACD_FAST, slowperiod=MACD_SLOW, signalperiod=MACD_SIGNAL,
-  )
+  # create a temporary df with same index as the df passed, so that we can later merge/update df with values matching the same index of df_tmp
+  df_tmp = pd.DataFrame(index=df.index)
 
-  # # store in a temporary df
-  # df_tmp["macd"] = na_macd
-  # df_tmp["signal"] = na_macd_signal
-  # df_tmp["histogram"] = na_macd_hist
+  na_macd, na_macd_signal, na_macd_hist = ta.MACD(df["close"].to_numpy(), fastperiod=MACD_FAST, slowperiod=MACD_SLOW, signalperiod=MACD_SIGNAL)
 
-  # Create a temporary DataFrame to store intermediate results
-  df_tmp = pd.DataFrame({"macd": na_macd, "signal": na_macd_signal, "histogram": na_macd_hist})
+  # store the computed macd values into individual columns of the temporary df
+  df_tmp["macd"] = na_macd
+  df_tmp["signal"] = na_macd_signal
+  df_tmp["histogram"] = na_macd_hist
 
-  # round the values to 2 decimal places in the last row only due to starting rows having null values
+  # round the values to 2 decimal places of only specific columns
+  columns_to_round = ["macd", "signal", "histogram"]
+  df_tmp[columns_to_round] = df_tmp[columns_to_round].round(2)
   # df_tmp["macd"] = df_tmp["macd"].round(2)
   # df_tmp["signal"] = df_tmp["signal"].round(2)
   # df_tmp["histogram"] = df_tmp["histogram"].round(2)
-  df_tmp = df_tmp.round(2)
 
-  print("---- Debugging Information ----")
-  print("df_tmp shape:", df_tmp.shape)
-  print("df_tmp data types:", df_tmp.dtypes)
-  print("df_tmp head:\n", df_tmp.head())
+  logger.debug("---- Debugging Information ----")
+  logger.debug("df_tmp shape: {}", df_tmp.shape)
+  logger.debug("df_tmp data types: \n{}", df_tmp.dtypes)
+  logger.debug("df_tmp head: \n{}", df_tmp.head())
 
-  print("df shape:", df.shape)
-  print("df data types:", df.dtypes)
-  print("df head:\n", df.head())
-
-  print("---- End of Debugging Information ----")
-
+  logger.debug("df shape: {}", df.shape)
+  logger.debug("df data types: \n{}", df.dtypes)
+  logger.debug("df head: \n{}", df.head())
+  logger.debug("---- End of Debugging Information ----")
 
 
   df[column_name] = (
@@ -303,79 +296,101 @@ def fn_relative_strength_indicator(df: pd.DataFrame):
     # logger.debug("Received arguments : df={}", df)
 
 
-def fn_comparative_relative_strength_CRS_indicator(
-    bch_sym: str,
-    df_bch_sym: pd.DataFrame,
-    sym: str,
-    df_sym: pd.DataFrame,
-    column_name: str,
+def fn_comparative_relative_strength_CRS_indicator(bch_sym: str, df_bch_sym: pd.DataFrame, sym: str, df_sym: pd.DataFrame, column_name: str,
 ) -> pd.DataFrame:
-    # set the lookback calculation period
-    LENGTH = 50
+  """_summary_
 
-    logger.debug(
-        "Received arguments : bch_sym={} sym={}", bch_sym, sym
-    )
-    logger.debug("Received arguments : df_bch_sym={}", df_bch_sym)
-    logger.debug("Received arguments : df_sym={}", df_sym)
+  Args:
+      bch_sym (str): _description_
+      df_bch_sym (pd.DataFrame): _description_
+      sym (str): _description_
+      df_sym (pd.DataFrame): _description_
+      column_name (str): _description_
 
-    print("Computing daily percentage change on both Sym and Benchmark ...")
-    df_bch_sym["dly_pct_change"] = df_bch_sym["close"].pct_change()
-    df_sym["dly_pct_change"] = df_sym["close"].pct_change()
-    # remove all unnecessary columns
-    df_bch_sym = df_bch_sym[["pd_time", "close", "dly_pct_change"]]
-    df_sym = df_sym[["pd_symbol", "pd_time", "close", "dly_pct_change"]]
-    m_oth.fn_df_get_first_last_rows(df_bch_sym)
-    m_oth.fn_df_get_first_last_rows(df_sym)
-    # df_sym = df_sym[['pd_time','close','dly_pct_change']]
+  Returns:
+      pd.DataFrame: _description_
 
-    print("--- MERGED DFs ---")
-    # uses pandas merge function to merge these two DataFrames on the common column 'pd_time'.
-    # In the merged DataFrame, df_sym columns will have suffix '_SYMB' df_bch_sym columns will have suffix '_ETF'.
-    df_merged = pd.merge(
-        df_sym[["pd_symbol", "pd_time", "close", "dly_pct_change"]],
-        df_bch_sym[["pd_time", "close", "dly_pct_change"]],
-        on="pd_time",
-        suffixes=("_SYMB", "_ETF"),
-    )
-
-    print("---XXX ---")
-    print(df_merged.tail(3))
-    df_merged["close"] = df_sym[
-        "close"
-    ]  # add the close column back to the merged df
-    print(df_merged.tail(3))
-    print("---YYY ---")
-
-    # Calculate Comparative Relative Strength (CRS)
-    # used my Trading Reference gdoc and TradingView RS pinecode from someone and ultimately ChatGPT for getting this right
-    logger.debug(
-        "Calculating the Comparative Relative Strength (CRS) on {} against {}",
-        sym,
-        bch_sym,
-    )
-    df_merged[column_name] = (
-        df_merged["close_SYMB"]
-        / df_merged["close_SYMB"].shift(LENGTH)
-        / (df_merged["close_ETF"] / df_merged["close_ETF"].shift(LENGTH))
-        - 1
-    )
-
-    # Create a boolean mask for the rows that we want update (ie where df_merged[column] is not empty/NaN)
-    # ~ operator is a bitwise NOT, and it will invert the boolean values in the mask
-    mask = ~df_merged[column_name].isna()
-    
-    # round the values to 3 decimal places in the last row only due to starting rows having null values
-    # df_merged.iloc[-1, df_merged.columns.get_loc(column_name)] = df_merged.iloc[-1][
-    #     column_name
-    # ].round(3)
-    # Update the values in the requiredcolumn for the rows that satisfy the condition
-    df_merged.loc[mask, column_name] = df_merged.loc[mask, column_name].round(3)
-
-    print("--- UPDATED MERGED DFs ---")
-    print(df_merged.tail(3))
-
+  Example:
+  >> fn_macd_indicator(df, "crs_50")
     """
+  
+  # set the lookback calculation period
+  LENGTH = 50
+
+  logger.debug(
+      "Received arguments : bch_sym={} sym={}", bch_sym, sym
+  )
+  logger.debug("Received arguments : df_bch_sym={}", df_bch_sym)
+  logger.debug("Received arguments : df_sym={}", df_sym)
+
+  # benchmark might have holidays on some days while symbol can have on another day, meaning all records will not match on pd_time
+  # we need to handle this by currently only taking the common rows on pd_time
+  # Get the set of common pd_time values
+  common_pd_time = set(df_bch_sym["pd_time"]).intersection(df_sym["pd_time"])
+  print("---common_pd_time=", common_pd_time)
+  # Filter df_bch_sym to keep only rows with pd_time in common_pd_time
+  df_bch_sym_filtered = df_bch_sym[df_bch_sym["pd_time"].isin(common_pd_time)]
+  # Filter df_bch_sym to keep only rows with pd_time in common_pd_time
+  df_sym_filtered = df_sym[df_sym["pd_time"].isin(common_pd_time)]
+  print("----- df_bch_sym_filtered ----")
+  m_oth.fn_df_get_first_last_rows(df_bch_sym_filtered, 3)
+  print("----- df_sym_filtered ----")
+  m_oth.fn_df_get_first_last_rows(df_sym_filtered, 3)
+
+
+  print("--- CRS_50 AAA --------Computing daily percentage change on both Sym and Benchmark ...")
+  df_bch_sym_filtered["dly_pct_change"] = df_bch_sym_filtered["close"].pct_change()
+  df_sym_filtered["dly_pct_change"] = df_sym_filtered["close"].pct_change()
+  # remove all unnecessary columns
+  df_bch_sym_filtered = df_bch_sym_filtered[["pd_time", "close", "dly_pct_change"]]
+  df_sym_filtered = df_sym_filtered[["pd_symbol", "pd_time", "close", "dly_pct_change"]]
+  print("----- df_bch_sym_filtered ----")
+  m_oth.fn_df_get_first_last_rows(df_bch_sym_filtered, 3)
+  print("----- df_sym_filtered ----")
+  m_oth.fn_df_get_first_last_rows(df_sym_filtered, 3)
+  # df_sym = df_sym[['pd_time','close','dly_pct_change']]
+
+  print("--- Merging the 2 dfs using pandas merge function ---")
+  # uses pandas merge function to merge these two DataFrames on the common column 'pd_time'.
+  # In the merged DataFrame, df_sym columns will have suffix '_SYMB' df_bch_sym columns will have suffix '_ETF'.
+  df_merged = pd.merge(
+      df_sym_filtered[["pd_symbol", "pd_time", "close", "dly_pct_change"]],
+      df_bch_sym_filtered[["pd_time", "close", "dly_pct_change"]],
+      on="pd_time",
+      suffixes=("_SYMB", "_ETF")
+  )
+
+  print("--- MERGED DF ---")
+  m_oth.fn_df_get_first_last_rows(df_merged, 3)
+  df_merged["close"] = df_sym["close"]      # add the close column back to the merged df
+  print("---YYY ---")
+  print(df_merged.tail(3))
+  
+  # Calculate Comparative Relative Strength (CRS)
+  # used my Trading Reference gdoc and TradingView RS pinecode from someone and ultimately ChatGPT for getting this right
+  logger.debug("Calculating the Comparative Relative Strength (CRS) on {} against {}", sym, bch_sym)
+  df_merged[column_name] = (
+      df_merged["close_SYMB"]
+      / df_merged["close_SYMB"].shift(LENGTH)
+      / (df_merged["close_ETF"] / df_merged["close_ETF"].shift(LENGTH))
+      - 1
+  )
+
+  # Create a boolean mask for the rows that we want update (ie where df_merged[column] is not empty/NaN)
+  # ~ operator is a bitwise NOT, and it will invert the boolean values in the mask
+  mask = ~df_merged[column_name].isna()
+  
+  # round the values to 3 decimal places in the last row only due to starting rows having null values
+  # df_merged.iloc[-1, df_merged.columns.get_loc(column_name)] = df_merged.iloc[-1][
+  #     column_name
+  # ].round(3)
+  # Update the values in the requiredcolumn for the rows that satisfy the condition
+  df_merged.loc[mask, column_name] = df_merged.loc[mask, column_name].round(3)
+
+  print("--- UPDATED MERGED DFs ---")
+  print(df_merged.tail(3))
+
+  """
   # Plot - Comparative Relative Strength (CRS) Indicator
   axs[2].plot(df_merged['pd_time'], df_merged['Relative_Strength'], label='Comparative Relative Strength (CRS)', color='purple')
   axs[2].axhline(0, color='black', linestyle='dotted')       # draw a horizontal line
@@ -385,7 +400,9 @@ def fn_comparative_relative_strength_CRS_indicator(
   #     plt.plot(df_merged['MA'], label=f'MA ({length_MA})', color='gray')
   """
 
-    return df_merged
+  return df_merged
+
+
 
 
 def fn_compute_all_required_indicators(
@@ -579,3 +596,4 @@ def main():
 
 
 #main()
+
