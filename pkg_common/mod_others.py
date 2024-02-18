@@ -78,9 +78,15 @@ def fn_set_logger(debug_mode: bool):
   logger.warning("Is DEBUG level enabled? {}", is_debug_enabled)
 
   # set our customized logging level named NOTICE
-  logger.level("NOTICE", no=15, color="<light-magenta>", icon="@")
-  notice_level = logger.level("NOTICE")
-  logger.log("NOTICE", "New logging level set with values {}", notice_level)
+  #logger.level("NOTICE", no=15, color="<light-magenta>", icon="@")
+  #notice_level = logger.level("NOTICE")
+  #logger.log("NOTICE", "New logging level set with values {}", notice_level)
+
+  # set our customized logging level named KEYACTION
+  logger.level("KEYACTION", no=16, color="<light-magenta>", icon="@")
+  keyaction_level = logger.level("KEYACTION")
+  logger.log("KEYACTION", "New logging level set with values {}", keyaction_level)
+
 
 '''
   # to show what setting we have for that particular logger level

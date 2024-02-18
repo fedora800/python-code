@@ -1,22 +1,37 @@
 import os
+import sys
+import platform
+
 from loguru import logger
 import streamlit as st
 import pandas as pd
 import numpy as np
+from sqlalchemy import text
 import talib as ta
-import mod_others as m_oth
-from technical_analysis import mod_technical_indicators as m_ti
 from config import DB_INFO, DEBUG_MODE
-
 
 # UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
 import plotly.graph_objects as gobj
 from plotly.subplots import make_subplots
 
+if platform.system() == "Windows":
+  logger.debug("streamlit_2_with_timescaledb.py - Running on Windows")
+  sys.path.append("H:\\git-projects\\python-code")
+  sys.path.append("H:\\git-projects\\python-code\\streamlit_code")
+elif platform.system() == "Linux":
+  logger.debug("streamlit_2_with_timescaledb.py - Running on Linux")
+  sys.path.append("/home/cloud_user/git-projects/python-code")
+  sys.path.append("/home/cloud_user/git-projects/python-code/pkg_common")
+else:
+  print("Operating system not recognized")
+logger.debug(sys.path)
+
+
 # from mod_utils_db import connect_to_db_using_sqlalchemy
+import mod_others as m_oth
 import mod_utils_db as m_udb
 import mod_yfinance as m_yfn
-from sqlalchemy import text
+from technical_analysis import mod_technical_indicators as m_ti
 
 
 def run_conn_sql_query(dbconn, sql_query):
@@ -635,7 +650,7 @@ def main():
   my_db_uri = f"postgresql://{DB_INFO['USERNAME']}:{DB_INFO['PASSWORD']}@{DB_INFO['HOSTNAME']}:{DB_INFO['PORT']}/{DB_INFO['DATABASE']}"
 
   logger.debug(my_db_uri)
-  db_conn = m_udb.create_database_engine_sqlalchemy(my_db_uri)
+  db_conn = m_udb.fn_create_database_engine_sqlalchemy(my_db_uri)
   wildcard_value_1 = "LSE%"
   wildcard_value_2 = "A%"
   # sql_query = text(
@@ -703,8 +718,10 @@ def main():
 # main
 if __name__ == "__main__":
 
-  fn_set_logger(True)
+  m_oth.fn_set_logger(True)
   
+  APP_NAME = "Stock Analysis App!"
+
   # Page Configuration
   st.set_page_config(
       page_title=APP_NAME,
