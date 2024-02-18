@@ -75,7 +75,7 @@ def fn_02_manipulate_rows_and_columns(df):
   #fn_02_C_apply_scalar_on_all_items_of_a_column(df)
 
 
-def fn_02_A_delete_rows(df):
+def fn_02_A_rows_delete(df):
   print('--before--'); print(df.tail())
 
   print('Deleting rows based on 1 column criteria - method 1')
@@ -84,7 +84,18 @@ def fn_02_A_delete_rows(df):
   print('Deleting rows based on 1 column criteria - method 2')
   df_tmp2 = df.query('Kms_Driven < 20000')
 
-def fn_02_B_delete_columns(df, axis=AXIS_COLUMNS):
+
+
+def fn_02_B_rows_change(df):
+  print('--before--'); print(df.tail())
+
+    # Round only specific columns
+    columns_to_round = ["macd", "signal", "histogram"]
+    df_tmp[columns_to_round] = df_tmp[columns_to_round].round(2)
+
+
+
+def fn_02_C_delete_columns(df, axis=AXIS_COLUMNS):
   print('--before--'); print(df.tail())
 
   print('Dropping 3 columns by using their COLUMN NAMES ...')
@@ -417,6 +428,25 @@ print(stocks.pct_change(axis=1),"\n")
 
 '''
 
+-----
+
+import pandas as pd
+
+# Assuming df_A and df_B are your DataFrames with 'xdate' and 'xprice' columns
+
+# Get the set of common xdate values
+common_xdates = set(df_A['xdate']).intersection(df_B['xdate'])
+
+# Filter df_A to keep only rows with xdate in common_xdates
+df_A_filtered = df_A[df_A['xdate'].isin(common_xdates)]
+
+# Filter df_B to keep only rows with xdate in common_xdates
+df_B_filtered = df_B[df_B['xdate'].isin(common_xdates)]
+
+# Now, df_A_filtered and df_B_filtered contain only the rows with xdate values present in both DataFrames
+
+
+-----
 
 
 
