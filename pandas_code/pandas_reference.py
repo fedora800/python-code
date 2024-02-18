@@ -222,7 +222,9 @@ def fn_03_find_in_dataframe(df):
 
   # find a value of a particular cell (ie row and column)
   # for symbol column from the 1st row of df
-  str_symbol = df.iloc[0]["symbol"]
+  str_first_symbol = df.iloc[0]["symbol"]
+  # for symbol column from the last row of df
+  str_last_symbol = df.iloc[-1]["symbol"]
 
   # find missing (NaN - Not a Number) values in a df
   fn_03_A_find_missing_NAN(df)

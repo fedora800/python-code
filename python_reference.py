@@ -453,12 +453,46 @@ def how_to_use_loguru_module_for_logging():
   '''
   quite straightforward to use
   gives nice colourized and well formatted logging output
-  https://betterstack.com/community/guides/logging/loguru/
+  https://betterstack.com/community/guides/logging/loguru/        (has mention of how to do filtering)
   https://medium.com/analytics-vidhya/a-quick-guide-to-using-loguru-4042dc5437a5
   https://loguru.readthedocs.io/en/stable/api/logger.html
 
+  +----------------------+------------------------+------------------------+
+  | Level name           | Severity value         | Logger method          |
+  +======================+========================+========================+
+  | ``TRACE``            | 5                      | |logger.trace|         |
+  +----------------------+------------------------+------------------------+
+  | ``DEBUG``            | 10                     | |logger.debug|         |
+  +----------------------+------------------------+------------------------+
+  | ``INFO``             | 20                     | |logger.info|          |
+  +----------------------+------------------------+------------------------+
+  | ``SUCCESS``          | 25                     | |logger.success|       |
+  +----------------------+------------------------+------------------------+
+  | ``WARNING``          | 30                     | |logger.warning|       |
+  +----------------------+------------------------+------------------------+
+  | ``ERROR``            | 40                     | |logger.error|         |
+  +----------------------+------------------------+------------------------+
+  | ``CRITICAL``         | 50                     | |logger.critical|      |
+  +----------------------+------------------------+------------------------+  
+
+  some files to check :
+  _defaults.py
+  _colorizer.py
+  
+   31 LOGURU_FORMAT = env(
+ 32     "LOGURU_FORMAT",
+ 33     str,
+ 34     "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
+ 35     "<level>{level: <8}</level> | "
+ 36     "<cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>",
+ 37 )
+
   '''
   from loguru import logger
+
+  # Logging levels are defined by their ``name`` to which a severity ``no``, an ansi ``color`` tag 
+  # and an ``icon`` are associated and possibly modified at run-time. 
+
 
   logger.trace("Executing program")
   # default level is debug, so above won't print
@@ -471,16 +505,31 @@ def how_to_use_loguru_module_for_logging():
   var1 = 'hello 123'
   logger.info("Printing a variable value using logger : {}", var1)
 
+  # to show what setting we have for that particular logger level
+  level = logger.level("ERROR")   # returns A |namedtuple| containing information about the level.
+  print(level)    # => Level(name='ERROR', no=40, color='<red><bold>', icon='❌')
+
+
+  # To |log| to a custom level, you should necessarily use its name
+  # the severity number is not linked back to levels name (this implies that several levels can share the same severity).
+  # To add a new level, its ``name`` and its ``no`` are required.
+  # A ``color`` and an ``icon`` can also be specified or will be empty by default.
   logger.level("CUSTOM", no=45, color="<red>", icon="🚨")  # add/set a new custom level for logger
   logger.level("CUSTOM")   # => (name='CUSTOM', no=33, color="<red>", icon="🚨")      # gets the settings for this level
-  logger.log("CUSTOM", "logging hello world in my CUSTOM logger style")
+  logger.log("CUSTOM", "logging hello world in my CUSTOM logger style")   # => 33 @ logging hello world in my CUSTOM logger style
 
   logger.add(sys.stderr, format = "<red>[{level}]</red> Message : <green>{message}</green> @ {time}", colorize=True)    # to change the format
   logger.success("Successfully changed format")
 
-  logger.remove(0) # remove the default handler configuration
+  logger.remove()  # All configured handlers are removed
+  #logger.remove(0) # remove the default handler configuration, else the old one will work along with the new one
   #logger.add(sys.stdout, level="INFO")
   logger.add(sys.stdout, level="INFO", serialize=True)  # adds a new handler and only records logs with INFO severity or greater and prints in JSON format
+
+  # set our customized logging level named NOTICE
+  logger.level("NOTICE", no=15, color="<light-magenta>", icon="@")
+  notice_level = logger.level("NOTICE")
+  logger.log("NOTICE", "New logging level set with values {}", notice_level)
 
   logger.trace("Executing program")
   # default level is debug, so above won't print
@@ -491,6 +540,24 @@ def how_to_use_loguru_module_for_logging():
   logger.error("Failed to connect to the database.")
   logger.critical("Unexpected system error occurred. Shutting down.")
   logger.info("Printing a variable value using logger : {}", var1)
+
+  # go to the end of this url to see how we can elevate logging from command line arguments
+  https://github.com/Delgan/loguru/issues/402
+
+  is_debug_enabled = logger.is_enabled("DEBUG")   # If need to check if DEBUG level is enabled
+  logger.warning("Is DEBUG level enabled? {}", is_debug_enabled)
+
+  # to add context information to log messages for better troubleshooting.
+  # from here on, every log message will automatically include user information.
+  logger.bind(user="admin")   
+
+  logger.add(sys.stderr, level="INFO")  # sets the logging level
+  current_logging_level = logger.level   # get the current logging level
+  logger.info("Logging level set to {} ", current_logging_level)
+  # compares the current logger level "name" with "DEBUG"
+  # The result will be True if it matches and False otherwise.
+  is_debug_enabled = logger.level == "DEBUG"
+  logger.warning("Is DEBUG level enabled? {}", is_debug_enabled)
 
 
   '''

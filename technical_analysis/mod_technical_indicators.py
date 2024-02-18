@@ -17,24 +17,23 @@ else:
 
 from pkg_common import mod_others as m_oth
 
-def check_data(df: pd.DataFrame, exp_recs: int):
-    """_summary_
+def fn_check_data(df: pd.DataFrame, exp_recs: int):
+  """_summary_
 
-    Args:
-        df (pd.DataFrame): contains the data_
-        exp_recs (int): a number mentioning minimum number of records we expect in the df
+  Args:
+      df (pd.DataFrame): contains the data_
+      exp_recs (int): a number mentioning minimum number of records we expect in the df
 
-    Returns:
-        int: number of records in the dataframe
-    """
+  Returns:
+      int: number of records in the dataframe
+  """
 
-    # logger.debug("Received arguments : df={} and exp_recs={}", df, exp_recs)
-    num_records = df.shape[0]
-    num_columns = df.shape[1]
-    logger.debug("Received arguments : num_records={} and num_columns={}", num_records, num_columns)
-    logger.trace("df info={}", df.info())
-
-    return num_records
+  # logger.debug("Received arguments : df={} and exp_recs={}", df, exp_recs)
+  num_records = df.shape[0]
+  num_columns = df.shape[1]
+  logger.debug("Received arguments : num_records={} and num_columns={}", num_records, num_columns)
+  #logger.trace("df info={}", df.info())
+  return num_records
 
 
 def fn_adx_indicator(df: pd.DataFrame, column_name: str):
@@ -56,7 +55,7 @@ def fn_adx_indicator(df: pd.DataFrame, column_name: str):
     df_tmp = pd.DataFrame()
 
     logger.debug("Received arguments : df={}", df)
-    check_data(df, 300)
+    fn_check_data(df, 300)
 
     na_ADX = ta.ADX(df["high"], df["low"], df["close"], TIME_PERIOD)
     na_DMI_MINUS = ta.MINUS_DI(df["high"], df["low"], df["close"], TIME_PERIOD)
@@ -89,7 +88,7 @@ def fn_adx_indicator(df: pd.DataFrame, column_name: str):
     return df
 
 
-def fn_macd_indicator(df: pd.DataFrame, column_name: str):
+def fn_macd_indicator_last_row_only(df: pd.DataFrame, column_name: str):        # might have to remove later ?
     """
     Computes the MACD indicator using the data provided in the arguments
     NOTE: This will change the symbol original df by appending an extra column to the df for the MACD values
@@ -110,7 +109,7 @@ def fn_macd_indicator(df: pd.DataFrame, column_name: str):
     df_tmp = pd.DataFrame()
 
     logger.debug("Received arguments : df={}", df)
-    num_recs = check_data(df, 300)
+    num_recs = fn_check_data(df, 300)
 
     if num_recs < 200:
         logger.error("num_records={} less than expected records={}", num_recs, 200)
@@ -130,12 +129,8 @@ def fn_macd_indicator(df: pd.DataFrame, column_name: str):
 
     # round the values to 2 decimal places in the last row only due to starting rows having null values
     df_tmp.iloc[-1, df_tmp.columns.get_loc("macd")] = df_tmp.iloc[-1]["macd"].round(2)
-    df_tmp.iloc[-1, df_tmp.columns.get_loc("signal")] = df_tmp.iloc[-1]["signal"].round(
-        2
-    )
-    df_tmp.iloc[-1, df_tmp.columns.get_loc("histogram")] = df_tmp.iloc[-1][
-        "histogram"
-    ].round(2)
+    df_tmp.iloc[-1, df_tmp.columns.get_loc("signal")] = df_tmp.iloc[-1]["signal"].round(2)
+    df_tmp.iloc[-1, df_tmp.columns.get_loc("histogram")] = df_tmp.iloc[-1]["histogram"].round(2)
 
     df[column_name] = (
         df_tmp["macd"].astype(str)
@@ -145,9 +140,8 @@ def fn_macd_indicator(df: pd.DataFrame, column_name: str):
         + df_tmp["histogram"].astype(str)
     )
 
-    logger.trace("-------df.info={}---df={}---", df.info(), df)
-    logger.debug("--dfhead=\n{}----dftail=\n{}----", df.head(1), df.tail(1))
-
+    logger.trace("-------df.info={}------", df.info())
+    logger.debug(m_oth.fn_df_get_first_last_rows(df, 3))
     return df
 
     # '''
@@ -183,11 +177,88 @@ def fn_macd_indicator(df: pd.DataFrame, column_name: str):
     # logger.debug("Received arguments : df={}", df)
 
 
+
+def fn_macd_indicator(df: pd.DataFrame, column_name: str):
+  """
+  Computes the MACD indicator using the data provided in the arguments
+  NOTE: This will change the symbol original df by appending an extra column to the df for the MACD values
+  NOTE: All 3 values (macd,signal,histogram) will be delimited and put together into this 1 column
+  Args:
+    df (pd.DataFrame): df containing prices for the required symbol
+    column_name (str) : name of the new column that will be appended to the df with MACD values
+  Returns:
+      pd.DataFrame: df of the symbol with an extra column containing MACD values
+
+  Example:
+  >> fn_macd_indicator(df, "macd-sig-hist")
+  """
+
+  # NOTE: i think i should be using pandas-ta, very simple - https://www.alpharithms.com/calculate-macd-python-272222/
+
+
+  MACD_FAST = 12
+  MACD_SLOW = 26
+  MACD_SIGNAL = 9
+  IF_DELIMITER = ";"  # intra-field delimeter for the macd column
+  df_tmp = pd.DataFrame()
+
+  logger.debug("Received arguments : df={}", df)
+  num_recs = fn_check_data(df, 300)
+
+  if num_recs < 200:
+      logger.error("num_records={} less than expected records={}", num_recs, 200)
+      # TODO: exit maybe ?
+
+  na_macd, na_macd_signal, na_macd_hist = ta.MACD(df["close"].to_numpy(),
+      fastperiod=MACD_FAST, slowperiod=MACD_SLOW, signalperiod=MACD_SIGNAL,
+  )
+
+  # # store in a temporary df
+  # df_tmp["macd"] = na_macd
+  # df_tmp["signal"] = na_macd_signal
+  # df_tmp["histogram"] = na_macd_hist
+
+  # Create a temporary DataFrame to store intermediate results
+  df_tmp = pd.DataFrame({"macd": na_macd, "signal": na_macd_signal, "histogram": na_macd_hist})
+
+  # round the values to 2 decimal places in the last row only due to starting rows having null values
+  # df_tmp["macd"] = df_tmp["macd"].round(2)
+  # df_tmp["signal"] = df_tmp["signal"].round(2)
+  # df_tmp["histogram"] = df_tmp["histogram"].round(2)
+  df_tmp = df_tmp.round(2)
+
+  print("---- Debugging Information ----")
+  print("df_tmp shape:", df_tmp.shape)
+  print("df_tmp data types:", df_tmp.dtypes)
+  print("df_tmp head:\n", df_tmp.head())
+
+  print("df shape:", df.shape)
+  print("df data types:", df.dtypes)
+  print("df head:\n", df.head())
+
+  print("---- End of Debugging Information ----")
+
+
+
+  df[column_name] = (
+      df_tmp["macd"].astype(str)
+      + IF_DELIMITER
+      + df_tmp["signal"].astype(str)
+      + IF_DELIMITER
+      + df_tmp["histogram"].astype(str)
+  )
+
+  logger.trace("-------df.info={}------", df.info())
+  logger.debug(m_oth.fn_df_get_first_last_rows(df, 3))
+  return df
+
+
+
 def fn_relative_strength_indicator(df: pd.DataFrame):
   PERIOD = 14
 
   logger.debug("Received arguments : df={}", df)
-  num_recs = check_data(df, 300)
+  num_recs = fn_check_data(df, 300)
 
   if num_recs < 200:
       logger.error("num_records={} less than expected records={}", num_recs, 200)
@@ -195,7 +266,7 @@ def fn_relative_strength_indicator(df: pd.DataFrame):
 
   df["rsi_14"] = ta.RSI(df["close"], timeperiod=PERIOD)
   df["rsi_14"] = df["rsi_14"].round(3)
-  logger.debug(m_oth.fn_df_get_first_last(df, 2))
+  logger.debug(m_oth.fn_df_get_first_last_rows(df, 2))
 
   return df
 
@@ -254,8 +325,8 @@ def fn_comparative_relative_strength_CRS_indicator(
     # remove all unnecessary columns
     df_bch_sym = df_bch_sym[["pd_time", "close", "dly_pct_change"]]
     df_sym = df_sym[["pd_symbol", "pd_time", "close", "dly_pct_change"]]
-    m_oth.fn_df_get_first_last(df_bch_sym)
-    m_oth.fn_df_get_first_last(df_sym)
+    m_oth.fn_df_get_first_last_rows(df_bch_sym)
+    m_oth.fn_df_get_first_last_rows(df_sym)
     # df_sym = df_sym[['pd_time','close','dly_pct_change']]
 
     print("--- MERGED DFs ---")
@@ -368,10 +439,10 @@ def fn_compute_all_required_indicators(
   # print("-----A22 ----")
   # print(df_sym)
 
-  logger.debug("Received arguments : bch_sym={} df_bch_sym=\n{}", bch_sym, m_oth.fn_df_get_first_last(df_bch_sym,3))
-  logger.debug("Received arguments :           sym={}           df_sym=\n{}", sym, m_oth.fn_df_get_first_last(df_sym,3))
+  logger.debug("Received arguments : bch_sym={} df_bch_sym=\n{}", bch_sym, m_oth.fn_df_get_first_last_rows(df_bch_sym,3))
+  logger.debug("Received arguments :           sym={}           df_sym=\n{}", sym, m_oth.fn_df_get_first_last_rows(df_sym,3))
 
-  num_recs = check_data(df_sym, NUM_RECORDS_EXPECTED)
+  num_recs = fn_check_data(df_sym, NUM_RECORDS_EXPECTED)
   if num_recs < 200:
       logger.error(
           "num_records={} less than expected records={}",
@@ -395,6 +466,8 @@ def fn_compute_all_required_indicators(
   # ------ 5. RSI_14 ------
   logger.debug("---Indicator 5 : RSI ---")
   df_sym["rsi_14"] = ta.RSI(df_sym["close"], timeperiod=RSI_PERIOD)
+  df_sym["rsi_14"] = df_sym["rsi_14"].round(2)
+  logger.debug(m_oth.fn_df_get_first_last_rows(df_sym, 2))
 
   # ------ 6. MACD ------
   logger.debug("---Indicator 6 : MACD ---")
@@ -413,11 +486,8 @@ def fn_compute_all_required_indicators(
   df_tmp.iloc[-1, df_tmp.columns.get_loc("signal")] = df_tmp.iloc[-1]["signal"].round(2)
   df_tmp.iloc[-1, df_tmp.columns.get_loc("histogram")] = df_tmp.iloc[-1]["histogram"].round(2)
 
-  df_sym[COL_NAME_MACD] = (
-      df_tmp["macd"].astype(str)
-      + IF_DELIMITER + df_tmp["signal"].astype(str)
-      + IF_DELIMITER + df_tmp["histogram"].astype(str)
-  )
+  df_sym[COL_NAME_MACD] = (df_tmp["macd"].astype(str) + IF_DELIMITER + df_tmp["signal"].astype(str) + IF_DELIMITER + df_tmp["histogram"].astype(str))
+  logger.debug(m_oth.fn_df_get_first_last_rows(df_sym, 2))
 
   # ------ 7. ADX ------
   logger.debug("---Indicator 7 : ADX ---")
@@ -438,7 +508,7 @@ def fn_compute_all_required_indicators(
       + IF_DELIMITER + df_tmp["dmi_plus"].astype(str)
       + IF_DELIMITER + df_tmp["adx"].astype(str)
   )
-  logger.debug("df_sym post computation =\n{}", m_oth.fn_df_get_first_last(df_sym,3))
+  logger.debug("df_sym post computation =\n{}", m_oth.fn_df_get_first_last_rows(df_sym,3))
 
   # ------ 8. CRS_50 ------
   logger.debug("---Indicator 8 : CRS_50---")
@@ -470,16 +540,16 @@ def fn_compute_all_required_indicators(
   logger.trace("mask={}", mask)
   # apply rounding only on those that have non-null values
   df_merged.loc[mask, COL_NAME_CRS] = df_merged.loc[mask, COL_NAME_CRS].round(3)
-  logger.debug(m_oth.fn_df_get_first_last(df_merged, 3))
+  logger.debug(m_oth.fn_df_get_first_last_rows(df_merged, 3))
 
   print("-- Z 22 -- df_sym = ")
-  m_oth.fn_df_get_first_last(df_sym,3)
+  m_oth.fn_df_get_first_last_rows(df_sym,3)
 
   # finally, now update the original df's column with the computed values of CRS
   df_sym[COL_NAME_CRS] = df_merged[COL_NAME_CRS]
   print("-- Z 33 -- updated df_sym = ")
-  m_oth.fn_df_get_first_last(df_sym,3)
-  logger.debug("Now computed all the indicator values and at the end of the function, resulting df_sym="); logger.debug(m_oth.fn_df_get_first_last(df_sym,3))
+  m_oth.fn_df_get_first_last_rows(df_sym,3)
+  logger.debug("Now computed all the indicator values and at the end of the function, resulting df_sym="); logger.debug(m_oth.fn_df_get_first_last_rows(df_sym,3))
 
   logger.debug("---------- fn_compute_all_required_indicators ---- COMPLETED ----------")
   return df_sym

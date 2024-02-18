@@ -1,8 +1,10 @@
 import mod_yfinance as m_yfn
 import mod_utils_db as m_udb
+import mod_others as m_oth
 
 
 def main():
+  m_oth.fn_set_logger(True)
   # data_venue = "YFINANCE"
   # symbol="AAPL"
   # FILE_EXTN ='.csv'

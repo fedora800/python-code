@@ -1,6 +1,7 @@
 import sys
 import platform
 from datetime import datetime, timedelta
+import time
 from typing import Optional
 
 import sqlalchemy as sa
@@ -11,6 +12,7 @@ from sqlalchemy import text
 from loguru import logger
 
 import mod_others as m_oth
+import mod_yfinance as m_yfn
 
 if platform.system() == "Windows":
   logger.debug("mod_utils_db.py - Running on Windows")
@@ -112,7 +114,7 @@ def run_conn_sql_query(dbconn, sql_query):
     print("Input sql_query = ", sql_query)
 
     df_output = pd.read_sql_query(sql_query, dbconn)
-    m_oth.fn_df_get_first_last(df_output)
+    m_oth.fn_df_get_first_last_rows(df_output)
  
     return df_output
 
@@ -162,66 +164,61 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
 
   logger.debug("------------------ INSERT-PRICE-DATA ------- START -----")
   logger.debug( "Received arguments : dbconn={} symbol={} tbl_name={} df=", dbconn, symbol, table_name)
-  logger.debug(m_oth.fn_df_get_first_last(df, 3))
+  logger.debug(m_oth.fn_df_get_first_last_rows(df, 3))
+  bch_symbol = "SPY"
+  m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE",  dbconn, bch_symbol)
 
-  if symbol != "SPY" and to_insert_indicator_values:
+  if symbol != bch_symbol and to_insert_indicator_values:
     # first sync the benchmark symbol price data
     # TODO: but that needs to be done before this as otherwise it will cause a recursive loop
 
     # to compute the indicator values, we need a minimum of 50 records of historical data from the table
     # which is older than the oldest record in the current df that is going to be inserted
     NUM_OLDER_RECS = 75   # approx 50 trading days
-    dt_date_of_oldest_df_record = df.iloc[0]["pd_time"]
-    dt_50periods_prior_date  = dt_date_of_oldest_df_record - timedelta(days=NUM_OLDER_RECS)
-    logger.debug("dt_date_of_oldest_df_record = {}, dt_50periods_prior_date = {}", dt_date_of_oldest_df_record, dt_50periods_prior_date)
+    dt_df_first_date = df.iloc[0]["pd_time"]
+    dt_df_last_date = df.iloc[-1]["pd_time"]
+    dt_50periods_prior_to_first_date  = dt_df_first_date - timedelta(days=NUM_OLDER_RECS)
+    logger.debug("For the df passed as argument: dt_df_first_date = {}, dt_df_last_date = {}, dt_50periods_prior_to_first_date = {}", 
+                  dt_df_first_date, dt_df_last_date, dt_50periods_prior_to_first_date)
     
     # first get the previous 50 days data from the table that is required so that we can calculate indicators on current data
-    df_prev_50periods = fn_get_table_data_for_symbol(dbconn, symbol, dt_50periods_prior_date, dt_date_of_oldest_df_record)
-    # normalize this price data df also to the required format, so that it will be in sync with the df passed to this function
+    df_prev_50periods = fn_get_table_data_for_symbol(dbconn, symbol, dt_50periods_prior_to_first_date, dt_df_first_date)
+
+    # we also need to get the exact same amount of data for the benchmark symbol so that we can compute the indicators (mainly the CRS)
+    df_bch_sym = fn_get_table_data_for_symbol(dbconn, bch_symbol, dt_50periods_prior_to_first_date, dt_df_last_date)
 
     df_prev_50periods["source"] = "older-data"
     df["source"] = "newer-data"
     df_combined = pd.concat([df_prev_50periods, df])
     logger.debug("----COMBINED-----")
-    logger.debug(m_oth.fn_df_get_first_last(df_combined, 3))
-    df_combined = m_tin.fn_relative_strength_indicator(df_combined)
+    logger.debug(m_oth.fn_df_get_first_last_rows(df_combined, 3))
+
+    logger.log("NOTICE", "Computing all the required indicators on df_combined ...")
+    #df_combined = m_tin.fn_relative_strength_indicator(df_combined)
+    df_combined = m_tin.fn_macd_indicator(df_combined, "macd_sig_hist")
+    #df_combined = m_tin.fn_compute_all_required_indicators(bch_symbol, df_bch_sym, symbol, df_combined)
+
     # extract back from the combined df only the rows that were in df
     df = df_combined[df_combined["source"] == "newer-data"]
     df = df.drop(columns=["source"])
-    logger.debug("----COMPUTED AND REVERTED BACK-----")
-    logger.debug(m_oth.fn_df_get_first_last(df, 3))
+    logger.debug("----COMPUTED INDICATORS AND df NOW UPDATED WITH THE VALUES -----")
+    logger.debug(m_oth.fn_df_get_first_last_rows(df, 3))
 
-  logger.debug("------------------ INSERT-PRICE-DATA ------- END -----")
-
-
-  # prepare the df for inserting into the table
-  column_mapping = {
-      "symbol": "pd_symbol",
-      "date": "pd_time",
-      "open": "open",
-      "high": "high",
-      "low": "low",
-      "Close": "close",
-      "volume": "volume",
-      "ema_5": None,
-      "ema_13": None,
-      "sma_50": None,
-      "sma_200": None,
-      "rsi_14": None,
-  }
-  if column_mapping:
-      df = df.rename(columns=column_mapping)
-  
+  logger.log("NOTICE", "Now inserting the new data for {} (dates = {}) into {} using SQLAlchemy function df.to_sql() ...", symbol, m_oth.fn_df_get_first_last_dates, table_name)
+  logger.debug(df)
   tm_before_insert = time.time()
   # Insert the DataFrame into the specified table
   # index=False to avoid saving the DataFrame index as a separate column in the table
   df.to_sql(name=table_name, con=dbconn, if_exists="append", index=False)
   tm_after_insert = time.time()
+  logger.debug("---- AFTER INSERT df.to_sql() ----------")
   tm_taken_for_insertion_secs = tm_after_insert - tm_before_insert 
   tm_taken_for_insertion_secs  = "{:.3f}".format(tm_taken_for_insertion_secs)
   logger.info("DB insert completed in {} seconds - {} rows inserted into table {} for symbol {}", tm_taken_for_insertion_secs, df.shape[0], table_name, symbol)
   logger.trace("Exiting function fn_insert_symbol_price_data_into_db() ...")
-  m_oth.fn_df_get_first_last(df, 2)
+  m_oth.fn_df_get_first_last_rows(df, 2)
+  logger.debug("------------------ INSERT-PRICE-DATA ------- END -----")
+
   return df
   
 
@@ -291,7 +288,7 @@ def fn_get_table_data_for_symbol(dbconn, symbol: str, start_date: Optional[datet
     df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn, params=dct_params)
 
     logger.debug("End of function -    Returning df =")
-    logger.debug(m_oth.fn_df_get_first_last(df_ohlcv_symbol,3))
+    logger.debug(m_oth.fn_df_get_first_last_rows(df_ohlcv_symbol,3))
 
     return df_ohlcv_symbol
 
