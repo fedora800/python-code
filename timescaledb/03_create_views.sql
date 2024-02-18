@@ -13,7 +13,7 @@
  */
 -- V01 - viw_latest_price_data_by_symbol 
 -- use this view when we want to get only the latest record by pd_time for each symbol
-\ echo "Creating VIEW viw_latest_price_data_by_symbol";
+\echo "Creating VIEW viw_latest_price_data_by_symbol";
 CREATE OR REPLACE VIEW viw_latest_price_data_by_symbol AS 
 WITH recent_price_data AS (
   SELECT pd_symbol,
@@ -46,7 +46,7 @@ AND latest_row_num_by_symbol = 1;
 
 -- V02 - viw_instrument_uk_equities
 -- use this view when we want to get all the instruments which are UK EQUITIES
-\ echo "Creating VIEW viw_instrument_uk_equities";
+\echo "Creating VIEW viw_instrument_uk_equities";
 CREATE OR REPLACE VIEW viw_instrument_uk_equities AS
 SELECT *
 FROM tbl_instrument
@@ -58,7 +58,7 @@ WHERE
 
 -- V03 - viw_price_data_stats_by_symbol 
 -- use this view when we want to see oldest and latest records by time and count of records for each symbol
-\ echo "Creating VIEW viw_price_data_stats_by_symbol";
+\echo "Creating VIEW viw_price_data_stats_by_symbol";
 CREATE OR REPLACE VIEW viw_price_data_stats_by_symbol AS 
 WITH tmp_pricedata AS (
   SELECT pd_symbol,
@@ -78,12 +78,12 @@ FROM tbl_instrument t_I,
   tmp_pricedata t_P
 WHERE t_I.symbol = t_P.pd_symbol
   and t_I.deleted=false
-ORDER BY t_I.symbol
+ORDER BY t_I.symbol;
 
 
 -- V04 - viw_instrument_us_etfs
 -- use this view when we want to get all the instruments which are US ETFs
-\ echo "Creating VIEW viw_instrument_us_etfs";
+\echo "Creating VIEW viw_instrument_us_etfs";
 CREATE OR REPLACE VIEW viw_instrument_us_etfs AS
 SELECT *
 FROM tbl_instrument
@@ -95,7 +95,7 @@ WHERE exchange_code = 'UNKNOWN'
 
 -- V05 - viw_instrument_us_sp500_constituents
 -- use this view when we want to get all the instruments which are in the S&P500 index
-\ echo "Creating VIEW viw_instrument_us_sp500_constituents";
+\echo "Creating VIEW viw_instrument_us_sp500_constituents";
 CREATE OR REPLACE VIEW viw_instrument_us_sp500_constituents AS
 SELECT *
 FROM tbl_instrument
@@ -106,7 +106,7 @@ WHERE asset_type = 'STOCK'
 
 -- V06 - viw_instrument_price_data_records_count
 -- use this view when we want to see how much data we have in the price_data_1day table for each symbol
-\ echo "Creating VIEW viw_instrument_price_data_records_count";
+\echo "Creating VIEW viw_instrument_price_data_records_count";
 CREATE OR REPLACE VIEW viw_instrument_price_data_records_count AS
 SELECT i.symbol,
   i.exchange_code,
@@ -133,7 +133,7 @@ order by i.symbol,
 
 -- V07 - viw_price_data_uk_most_traded
 -- use this view to get a list of 50 symbols from UK ETFs which have most volume over last 30 days and so are the most active
-\ echo "Creating VIEW viw_price_data_uk_most_traded";
+\echo "Creating VIEW viw_price_data_uk_most_traded";
 CREATE OR REPLACE VIEW viw_price_data_uk_most_traded AS 
 WITH tmp_latest_30_days_data AS (
     SELECT v_UK.symbol,

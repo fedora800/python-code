@@ -33,7 +33,7 @@
 -- L02C - tbl_instrument - UK ETFs
 -- this is a list i massaged from Trading212 website JSON data
 \echo "Loading into table tbl_instrument"
-\copy tbl_instrument (symbol, name, exchange_code, asset_type, data_source) FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_instrument_UK_etfs_trading212.csv' DELIMITER ',' CSV HEADER
+\copy tbl_instrument (symbol, name, exchange_code, asset_type, data_source) FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_instrument_UK_etfs_trading212.csv' DELIMITER ',' CSV HEADER;
 
 -- L03A - tbl_price_data_1day - USA
 \echo "Loading into table tbl_price_data_1day -- 2 year price data for around 25 S&P500 symbols - USA "
@@ -66,10 +66,12 @@
 
 -- L03B - TBL_PRICE_DATA_1DAY - UK
 \echo "Loading into table tbl_price_data_1day -- 2 year price data for 4 ETFS - UK "
-\copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume, country_code) FROM '~/git-projects/python-code/timescaledb/data/uk_etfs/VHYG.L.csv' DELIMITER ',' CSV HEADER WITH (FORMAT CSV, NULL '', country_code 'UK');
-\copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume, country_code) FROM '~/git-projects/python-code/timescaledb/data/uk_etfs/VMID.L.csv' DELIMITER ',' CSV HEADER WITH (FORMAT CSV, NULL '', country_code 'UK');
-\copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume, country_code) FROM '~/git-projects/python-code/timescaledb/data/uk_etfs/VUKE.L.csv' DELIMITER ',' CSV HEADER WITH (FORMAT CSV, NULL '', country_code 'UK');
-\copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume, country_code) FROM '~/git-projects/python-code/timescaledb/data/uk_etfs/VUSA.L.csv' DELIMITER ',' CSV HEADER WITH (FORMAT CSV, NULL '', country_code 'UK');
+\copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '~/git-projects/python-code/timescaledb/data/uk_etfs/VHYG.L.csv' DELIMITER ',' CSV HEADER;
+\copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '~/git-projects/python-code/timescaledb/data/uk_etfs/VMID.L.csv' DELIMITER ',' CSV HEADER;
+\copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '~/git-projects/python-code/timescaledb/data/uk_etfs/VUKE.L.csv' DELIMITER ',' CSV HEADER;
+\copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '~/git-projects/python-code/timescaledb/data/uk_etfs/VUSA.L.csv' DELIMITER ',' CSV HEADER;
+
+--\copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '~/git-projects/python-code/timescaledb/data/uk_etfs/VUSA.L.csv' DELIMITER ',' CSV HEADER WITH (FORMAT CSV, NULL '', country_code 'UK');
 
 PREFIX="\copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '"
 SUFFIX="' DELIMITER ',' CSV HEADER;"
