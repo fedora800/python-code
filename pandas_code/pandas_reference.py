@@ -1,4 +1,6 @@
 import pandas as pd
+import numpy as np
+
 dataset_file_1="car_data.csv"           # https://www.kaggle.com/datasets/nehalbirla/vehicle-dataset-from-cardekho
 '''
     Car_Name  Year  Selling_Price  Present_Price  Kms_Driven Fuel_Type Seller_Type Transmission  Owner
@@ -72,8 +74,15 @@ def fn_02_manipulate_rows_and_columns(df):
   fn_02_C_add_columns(df)
   #fn_02_C_apply_scalar_on_all_items_of_a_column(df)
 
+
 def fn_02_A_delete_rows(df):
-  print('')
+  print('--before--'); print(df.tail())
+
+  print('Deleting rows based on 1 column criteria - method 1')
+  # rows where the condition is False will be excluded, effectively deleting them from the DataFrame
+  df_tmp1 = df[df['Kms_Driven'] < 20000]
+  print('Deleting rows based on 1 column criteria - method 2')
+  df_tmp2 = df.query('Kms_Driven < 20000')
 
 def fn_02_B_delete_columns(df, axis=AXIS_COLUMNS):
   print('--before--'); print(df.tail())
@@ -91,8 +100,7 @@ def fn_02_B_delete_columns(df, axis=AXIS_COLUMNS):
   df_tmp3 = df[['Present_Price','Kms_Driven','Fuel_Type','Seller_Type','Transmission','Owner']]
   print('--after--'); print(df_tmp3.tail())
 
-  print('Renaming specific columns ...')
-  #df.rename(columns={'Date': 'hello', 'Symbol': 'world', 'Close': 'london'}, inplace=True)
+  print('Renaming specific column names...')
   df_tmp4 = df.rename(columns={'Car_Name': 'NameOfCar', 'Fuel_Type': 'TypeOfFuel', 'Year': 'YearMade'})
   print('--after--'); print(df_tmp4.tail())
 
@@ -103,7 +111,7 @@ def fn_02_B_delete_columns(df, axis=AXIS_COLUMNS):
 def fn_02_C_add_columns(df, axis=AXIS_COLUMNS):
   print('--before--'); print(df.tail())
 
-  print('Adding 1 new column with a hardcoded static value ...')
+  print('Adding 1 new column with a hardcoded static value (at the end)...')
   df_tmp1 = df
   df_tmp1["Country"] = "India"
   print('--after--'); print(df_tmp1.tail())
@@ -113,6 +121,16 @@ def fn_02_C_add_columns(df, axis=AXIS_COLUMNS):
   df_tmp2 = df
   df_tmp2["Price_Difference"] = df["Selling_Price"] - df["Present_Price"]
   print('--after--'); print(df_tmp2.tail())
+
+  print("Adding multiple columns at the end of existing df with NaN values")
+  # Define the names of the new columns
+  new_columns = ['ema_5', 'ema_13', 'sma_50', 'sma_200', 'rsi_14', 'macd_sig_hist', 'dm_dp_adx', 'crs_50']
+  # Use df.assign() to add the new columns with NaN values
+  df_tmp3 = df.assign(**{col: np.nan for col in new_columns})
+  # -- OR --
+  # Add new columns with explicit NaN values for all rows
+  df_tmp3[new_columns] = np.nan
+  print('--after--'); print(df_tmp3.tail())
 
 
 
@@ -310,7 +328,58 @@ def fn_07_pandas_df_referencing(df):
     print(f"Car Name: {row['Car_Name']}, Selling Price: {row['Selling_Price']}")
 
 
-  
+# --------------------------------------------------------------------------------
+
+def fn_08_using_multiple_dataframes(df1, df2):
+  '''
+In pandas, you can combine two DataFrames in several ways depending on your requirements. Here are some common methods:
+
+    Concatenation (Stacking):
+    You can concatenate two DataFrames along rows (axis=0) or columns (axis=1) using the concat function:
+
+    python
+
+import pandas as pd
+
+df1 = pd.DataFrame({'A': [1, 2], 'B': [3, 4]})
+df2 = pd.DataFrame({'A': [5, 6], 'B': [7, 8]})
+
+# Concatenate along rows (axis=0)
+result = pd.concat([df1, df2])
+
+# Concatenate along columns (axis=1)
+result = pd.concat([df1, df2], axis=1)
+
+Merging:
+If you have common columns in both DataFrames and you want to merge them based on these columns, you can use the merge function:
+
+python
+
+import pandas as pd
+
+df1 = pd.DataFrame({'key': ['A', 'B'], 'value': [1, 2]})
+df2 = pd.DataFrame({'key': ['A', 'B'], 'value': [3, 4]})
+
+result = pd.merge(df1, df2, on='key')
+
+This is similar to SQL-style joins.
+
+Appending:
+If you want to append one DataFrame to another, you can use the append method:
+
+python
+
+    import pandas as pd
+
+    df1 = pd.DataFrame({'A': [1, 2], 'B': [3, 4]})
+    df2 = pd.DataFrame({'A': [5, 6], 'B': [7, 8]})
+
+    result = df1.append(df2, ignore_index=True)
+
+    The ignore_index=True parameter resets the index.
+
+Choose the method that best fits your use case based on whether you want to concatenate, merge, or append the DataFrames.  
+  '''
 
 # --------------------------------------------------------------------------------
 def main():
@@ -323,7 +392,7 @@ def main():
   #fn_05_lambda_functions(df_cars)
   #fn_06_pandas_series(df_cars)
   fn_07_pandas_df_referencing(df_cars)
-
+  fn_08_using_multiple_dataframes(df_cars, df_xxxx_todo)
 
 
 

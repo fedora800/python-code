@@ -519,6 +519,49 @@ def how_to_use_loguru_module_for_logging():
 
   '''
 
+def custom_decorator()
+   '''
+In Python, a custom decorator is a function that takes another function as input, adds some functionality to it, and returns the modified function. Decorators are a powerful feature in Python that allows you to extend or modify the behavior of functions or methods.
+
+Here's a basic example of a custom decorator:
+
+python
+
+def my_decorator(func):
+    def wrapper():
+        print("Something is happening before the function is called.")
+        func()
+        print("Something is happening after the function is called.")
+    return wrapper
+
+@my_decorator
+def say_hello():
+    print("Hello!")
+
+# Calling the decorated function
+say_hello()
+
+In this example:
+
+    my_decorator is a custom decorator function that takes another function func as input.
+    wrapper is a nested function inside my_decorator that adds some functionality before and after calling the original function.
+    The @my_decorator syntax is a shorthand for applying the decorator to the function that follows it (say_hello in this case).
+
+When you call say_hello(), it is actually equivalent to calling the decorated version of say_hello:
+
+python
+
+my_decorator(say_hello)()
+
+This results in the additional functionality defined in the wrapper being executed before and after the original say_hello function.
+
+Custom decorators are commonly used for tasks such as logging, access control, and performance monitoring. They provide a clean and reusable way to extend the behavior of functions in a modular fashion.   
+   
+   
+   '''
+
+
+
 def main():
 
 import platform
@@ -537,6 +580,7 @@ else:
   #how_to_use_logger_module()
   different_data_types()
   how_to_use_loguru_module_for_logging()
+  #custom_decorator()
 
 # --- main ---
 if __name__ == '__main__':
@@ -545,3 +589,15 @@ if __name__ == '__main__':
 
 
 
+from datetime import datetime, timezone
+
+# Assuming you have a datetime object like this
+original_datetime = datetime(2024, 1, 19)
+
+# Set the time (assuming midnight)
+datetime_with_time = original_datetime.replace(hour=0, minute=0, second=0, microsecond=0)
+
+# Set the timezone (UTC in this example)
+datetime_with_timezone = datetime_with_time.replace(tzinfo=timezone.utc)
+
+print(datetime_with_timezone)
