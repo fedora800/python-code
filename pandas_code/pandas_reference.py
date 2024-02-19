@@ -144,6 +144,13 @@ def fn_02_C_add_columns(df, axis=AXIS_COLUMNS):
   print('--after--'); print(df_tmp3.tail())
 
 
+297   # Create a new dataframe from original df with only the required columns
+298   df_macd = pd.DataFrame({'pd_time': df['pd_time'], 'macd_sig_hist': df['macd_sig_hist']})
+299   # split the delimited macd values into 3 individual columns based off the delimiter
+300   df_macd[['macd', 'sig', 'hist']] = df_macd['macd_sig_hist'].str.split(';', expand=True)
+301   print("-----New DataFrame-----")
+302   print(df_macd)
+
 
 
 def fn_02_C_apply_scalar_on_all_items_of_a_column(df):

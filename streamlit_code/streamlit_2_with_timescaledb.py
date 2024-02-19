@@ -125,7 +125,8 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
   """
 
   logger.debug("----------------- fn_generate_plotly_chart ------- START --------------------")
-  logger.debug("Arguments : dbconn={}, symbol={} df=\n{}", dbconn, symbol, df)
+  logger.debug("Arguments : dbconn={}, symbol={} df=", dbconn, symbol)
+  m_oth.fn_df_get_first_last_rows(df,5)
 
   # Create subplots with specific settings
   #
@@ -156,6 +157,7 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
   dct_textfont = dict(color="black", size=18, family="Times New Roman")
 
   # --- subplot 1 on row 1 and column 1  (OHLC candlestick chart with 3 indicators) ---
+  logger.debug("Preparing subplot 1 -- candlesticks with 3 moving indicators ---")
   # Prepare subplot with a gobj.Candlestick object
   trace_subplot_row_1 = gobj.Candlestick(
     x=df["pd_time"],
@@ -221,6 +223,7 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
 
   # --- subplot 2 on row 2 and column 1 (Volume) ---
   # Prepare subplot with a gobj.Bar object trace for volume without legend
+  logger.debug("Preparing subplot 2 -- volume ---")
   trace_subplot_row_2 = gobj.Bar(x=df["pd_time"], y=df["volume"], showlegend=False)
   fig.add_trace(trace_subplot_row_2, row=2, col=1)
 
@@ -233,6 +236,7 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
   # --- subplot 3 on row 1 and column 1 (RSI) ---
   # Calculate RSI(14)
   # TODO:  update the "rsi_14" column back in the table
+  logger.debug("Preparing subplot 3 -- RSI ---")
   df["rsi_14"] = ta.RSI(df["close"], timeperiod=14)
   logger.trace("--dfhead={}----dftail={}----", df.head(1), df.tail(1))
 
@@ -288,24 +292,17 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
       col=1,
   )
 
-  # --- subplot 4 on row 4 and column 1 (MACD) --- TODO --
-  df_macd = pd.DataFrame()
-  MACD_FAST = 12
-  MACD_SLOW = 26
-  MACD_SIGNAL = 9
-  na_macd, na_macd_signal, na_macd_hist = ta.MACD(
-      df["close"].to_numpy(),
-      fastperiod=MACD_FAST,
-      slowperiod=MACD_SLOW,
-      signalperiod=MACD_SIGNAL,
-  )
-  df_macd["macd"] = na_macd
-  df_macd["signal"] = na_macd_signal
-  df_macd["histogram"] = na_macd_hist
-  logger.trace("-------df_macd.info={}---df_macd={}---", df_macd.info(), df_macd)
+  # --- subplot 4 on row 4 and column 1 (MACD) --- 
+  logger.debug("Preparing subplot 4 -- MACD ---")
+  # Create a new dataframe from original df with only the required columns
+  df_macd = pd.DataFrame({'pd_time': df['pd_time'], 'macd_sig_hist': df['macd_sig_hist']})
+  # split the delimited macd values into 3 individual columns based off the delimiter
+  df_macd[['macd', 'sig', 'hist']] = df_macd['macd_sig_hist'].str.split(';', expand=True)
+  print("-----New DataFrame-----")
+  print(df_macd)
 
   trace_macd_macd = gobj.Scatter(
-      x=df["pd_time"],
+      x=df_macd["pd_time"],
       y=df_macd["macd"],
       mode="lines",
       name="MACD",
@@ -313,16 +310,16 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
       line=dict(color="blue", width=2),
   )
   trace_macd_signal = gobj.Scatter(
-      x=df["pd_time"],
-      y=df_macd["signal"],
+      x=df_macd["pd_time"],
+      y=df_macd["sig"],
       mode="lines",
       name="MACD Signal",
       textfont=dct_textfont,
       line=dict(color="red", width=2),
   )
   trace_macd_histogram = gobj.Bar(
-      x=df["pd_time"],
-      y=df_macd["histogram"],
+      x=df_macd["pd_time"],
+      y=df_macd["hist"],
       name="MACD Histogram",
       # textfont=dct_textfont,
       # marker=dict(color="green", width=2),
@@ -337,19 +334,16 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
   fig.add_trace(trace_macd_histogram, row=4, col=1)
 
   # --- subplot 5 on row 1 and column 1 (ADX) ---
-  df_adx = pd.DataFrame()
-  TIME_PERIOD = 14
-  na_ADX = ta.ADX(df["high"], df["low"], df["close"], TIME_PERIOD)
-  na_DMI_MINUS = ta.MINUS_DI(df["high"], df["low"], df["close"], TIME_PERIOD)
-  na_DMI_PLUS = ta.PLUS_DI(df["high"], df["low"], df["close"], TIME_PERIOD)
-
-  df_adx["adx"] = na_ADX
-  df_adx["dmi_minus"] = na_DMI_MINUS
-  df_adx["dmi_plus"] = na_DMI_PLUS
-  print(f"-------{df_adx.info()}---df_adx = {df_adx}---")
+  logger.debug("Preparing subplot 5 -- ADX ---")
+  # Create a new dataframe from original df with only the required columns
+  df_adx = pd.DataFrame({'pd_time': df['pd_time'], 'dm_dp_adx': df['dm_dp_adx']})
+  # split the delimited macd values into 3 individual columns based off the delimiter
+  df_adx[['dm', 'dp', 'adx']] = df_adx['dm_dp_adx'].str.split(';', expand=True)
+  print("-----New DataFrame-----")
+  print(df_adx)
 
   trace_adx_adx = gobj.Scatter(
-      x=df["pd_time"],
+      x=df_adx["pd_time"],
       y=df_adx["adx"],
       mode="lines",
       name="MACD",
@@ -357,16 +351,16 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
       line=dict(color="blue", width=2),
   )
   trace_adx_minus = gobj.Scatter(
-      x=df["pd_time"],
-      y=df_adx["dmi_minus"],
+      x=df_adx["pd_time"],
+      y=df_adx["dm"],
       mode="lines",
       name="DMI MINUS",
       textfont=dct_textfont,
       line=dict(color="red", width=1),
   )
   trace_adx_plus = gobj.Scatter(
-      x=df["pd_time"],
-      y=df_adx["dmi_plus"],
+      x=df_adx["pd_time"],
+      y=df_adx["dp"],
       mode="lines",
       name="DMI PLUS",
       textfont=dct_textfont,
@@ -395,13 +389,7 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
 
 
   # --- subplot 6 on row 1 and column 1 (CRS) ---
-  benchmark_symbol = "SPY"
-  df_benchmark_symbol = m_udb.fn_get_table_data_for_symbol(dbconn, benchmark_symbol)
-
-  #df_CRS = m_ti.fn_02_comparative_relative_strength_CRS_indicator(benchmark_symbol, df_benchmark_symbol, symbol, df)
-
-  # TODO:  update the "CRS" column back in the table
-  #logger.trace("--dfhead={}----dftail={}----", df_CRS.head(1), df_CRS.tail(1))
+  logger.debug("Preparing subplot 6 -- CRS ---")
 
   # Prepare subplot with a gobj.Scatter object trace for CRS
   trace_subplot_row_6 = gobj.Scatter(
@@ -497,13 +485,13 @@ def fn_st_sb_selectbox_symbol_only(dbconn, df):
   if sm_chosen_symbol:
       # TODO: for efficiency, i should be remove this sync bit from here and put it 1 level up, when we select the symbol group
       # at that level, we can sync all the symbols for that symbol group in 1 shot, so then when we do lookup here, that data is all in sync
-      df_ohlcv_symbol, df_sym_stats = m_yfn.sync_price_data_in_table_for_symbol("YFINANCE", dbconn, sm_chosen_symbol)
-      logger.debug("df_ohlcv_symbol = {}, df_sym_stats = {}", df_ohlcv_symbol, df_sym_stats)
-      if not df_sym_stats.empty:
-        ps_sym_stats = df_sym_stats.iloc[0]  # Extract the first row as a Series
-        st_sym_stats = '  /  '.join(map(str, ps_sym_stats))  # Convert each value to string and join them with given delimiter
-        logger.debug("Arguments : dbconn = {}, df_head_foot = {}", dbconn, df_head_foot)
-        st.markdown("Symbol Stats from DB : **:blue[{}]**".format(st_sym_stats))
+      df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", dbconn, sm_chosen_symbol)
+      logger.debug("df_ohlcv_symbol = {}", df_ohlcv_symbol)
+#       if not df_sym_stats.empty:
+#         ps_sym_stats = df_sym_stats.iloc[0]  # Extract the first row as a Series
+#         st_sym_stats = '  /  '.join(map(str, ps_sym_stats))  # Convert each value to string and join them with given delimiter
+#         logger.debug("Arguments : dbconn = {}, df_head_foot = {}", dbconn, df_head_foot)
+#         st.markdown("Symbol Stats from DB : **:blue[{}]**".format(st_sym_stats))
       print("---200---fn_st_sb_selectbox_symbol_only------END    RETURNING-----")
       return sm_chosen_symbol, df_ohlcv_symbol
   else:
@@ -645,6 +633,7 @@ def fn_st_selectbox_scans(dbconn):
 
 def main():
   
+  print("--- start of main() ---")
   # db_conn = connect_to_db_using_psycopg2()
   # my_db_uri = "postgresql://postgres:postgres#123@localhost:5432/dbs_invest"
   my_db_uri = f"postgresql://{DB_INFO['USERNAME']}:{DB_INFO['PASSWORD']}@{DB_INFO['HOSTNAME']}:{DB_INFO['PORT']}/{DB_INFO['DATABASE']}"
@@ -689,9 +678,7 @@ def main():
       df_symbol_price_data = pd.DataFrame()
       # --- SIDEBAR -- SELECTBOX -- FOR SYMBOL DROPDOWN ---
       symbol, df_symbol_price_data = fn_st_sb_selectbox_symbol_only(db_conn, df_symbols_list)
-      print(
-          f"---222--type= {type(df_symbol_price_data)} ----df = {df_symbol_price_data}----"
-      )
+      print(f"---222--type= {type(df_symbol_price_data)} ----df = {df_symbol_price_data}----")
       if df_symbol_price_data is not None:
           # generate the main chart with all the indicators
           # generate_chart_plot(df_symbol_price_data)
@@ -718,6 +705,7 @@ def main():
 # main
 if __name__ == "__main__":
 
+  print("--- 0 --- start of program ---")
   m_oth.fn_set_logger(True)
   
   APP_NAME = "Stock Analysis App!"
@@ -738,4 +726,5 @@ if __name__ == "__main__":
 
   main()
 
+  print("--- 0 --- end of program ---")
 #  streamlit run streamlit_1.py --server.port 8000

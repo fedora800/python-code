@@ -195,7 +195,7 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
     logger.debug("----COMBINED-----")
     logger.debug(m_oth.fn_df_get_first_last_rows(df_combined, 5))
 
-    logger.log("NOTICE", "Computing all the required indicators on df_combined for {} ...", symbol)
+    logger.log("MYNOTICE", "Computing all the required indicators on df_combined for {} ...", symbol)
     #df_combined = m_tin.fn_relative_strength_indicator(df_combined)
     #df_combined = m_tin.fn_macd_indicator(df_combined, "macd_sig_hist")
     #df_combined = m_tin.fn_adx_indicator(df_combined, "dm_dp_adx")
@@ -209,7 +209,7 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
     logger.debug("----COMPUTED INDICATORS AND df NOW UPDATED WITH THE VALUES -----")
     logger.debug(m_oth.fn_df_get_first_last_rows(df, 3))
 
-  logger.log("NOTICE", "Now inserting the new data for {} (dates = {}) into {} using SQLAlchemy function df.to_sql() ...", symbol, m_oth.fn_df_get_first_last_dates, table_name)
+  logger.log("MYNOTICE", "Now inserting the new data for {} (dates = {}) into {} using SQLAlchemy function df.to_sql() ...", symbol, m_oth.fn_df_get_first_last_dates, table_name)
   logger.debug(df)
   tm_before_insert = time.time()
   # Insert the DataFrame into the specified table

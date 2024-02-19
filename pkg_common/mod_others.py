@@ -5,8 +5,10 @@ import numpy as np
 from loguru import logger
 
 
-def fn_df_get_first_last_rows(df: pd.DataFrame, num_rows: int):
-  # take the first n and last n rows of df and return them as a dataframe
+def fn_df_get_first_last_rows(df: pd.DataFrame, num_rows: int, column_opt: str):
+
+  
+    # take the first n and last n rows of df and print with logger
 
   df_first_last = pd.concat([df.head(num_rows), df.tail(num_rows)])
   logger.debug("df with only first and last [{}] rows = \n{}", num_rows, df_first_last)
@@ -46,12 +48,12 @@ def fn_modify_dataframe_per_our_requirements(sym: str, df: pd.DataFrame):
   return df
 
 
-def fn_set_logger(debug_mode: bool):
+def fn_set_logger(enable_debug_mode: bool):
   """
   Remove the default logger and set the logging level.
 
   Args:
-    debug_mode (bool): Whether to set the logging level to DEBUG or not.
+    enable_debug_mode (bool): Whether to set the logging level to DEBUG or not.
     if false, it will take our default of INFO.
 
   Returns:
@@ -59,40 +61,36 @@ def fn_set_logger(debug_mode: bool):
 
   """
 
-  logger.remove()  # All configured handlers are removed
-
-  if debug_mode:
+  if enable_debug_mode:
     #LOGGING_LEVEL = "TRACE"
     LOGGING_LEVEL = 'DEBUG'     # this is the loguru default
   else:
     LOGGING_LEVEL = "INFO"  # our default logging level
 
+  logger.remove()  # All configured handlers are removed
+  
+  LOGGING_LEVEL = 'DEBUG'  # this is the loguru default
+  #LOGGING_LEVEL = "INFO"  # our default logging level
+  
   logger.add(sys.stderr, level=LOGGING_LEVEL)  # sets the logging level
+  
+  curr_level = logger.level(LOGGING_LEVEL)     # get the current logging level
+  logger.info("Logging level set to {} ", curr_level)  # Level(name='DEBUG', no=10, color='<blue><bold>', icon='🐞')
+  logger.debug("Setting for loguru logger level {} : level.name={} level.no={}  level.color={} level.icon={}", LOGGING_LEVEL, curr_level.name, curr_level.no, curr_level.color, curr_level.icon)
+  
+  # Check if the "MYNOTICE" level already exists
+  try:
+    str_level_name="MYNOTICE"
+    my_level = logger.level(str_level_name)
+    print("MYNOTICE level already exists - ", my_level)
+    logger.debug("My existing logger level {} : level.name={} level.no={}  level.color={} level.icon={}", str_level_name, my_level.name, my_level.no, my_level.color, my_level.icon)
+  except ValueError:  # Level not found
+    # set customized logging level
+    MYNOTICE=21
+    #logger.level("MYNOTICE", no=MYNOTICE, color="<LIGHT-YELLOW>", icon="@")
+    logger.level("MYNOTICE", no=MYNOTICE, color="<black><LIGHT-YELLOW>", icon="@")
+    this_level = logger.level("MYNOTICE")
+    logger.log("MYNOTICE", "New logging level set with values {}", this_level)
+    logger.debug("Setting for loguru logger level MYNOTICE : level.name={} level.no={}  level.color={} level.icon={}", this_level.name, this_level.no, this_level.color, this_level.icon)
 
-  current_logging_level = logger.level   # get the current logging level
-  logger.info("Logging level set to {} ", current_logging_level)
 
-  # compares the current logger level "name" with "DEBUG"
-  # The result will be True if it matches and False otherwise.
-  is_debug_enabled = logger.level == "DEBUG"
-  logger.warning("Is DEBUG level enabled? {}", is_debug_enabled)
-
-  # set our customized logging level named NOTICE
-  #logger.level("NOTICE", no=15, color="<light-magenta>", icon="@")
-  #notice_level = logger.level("NOTICE")
-  #logger.log("NOTICE", "New logging level set with values {}", notice_level)
-
-  # set our customized logging level named KEYACTION
-  logger.level("KEYACTION", no=16, color="<light-magenta>", icon="@")
-  keyaction_level = logger.level("KEYACTION")
-  logger.log("KEYACTION", "New logging level set with values {}", keyaction_level)
-
-
-'''
-  # to show what setting we have for that particular logger level
-  level = logger.level("ERROR")   # returns A |namedtuple| containing information about the level.
-  print(level)    # => Level(name='ERROR', no=40, color='<red><bold>', icon='❌')
-
-  2024-02-18 09:08:03.983 | INFO     | mod_others:fn_set_logger:64 - Logging level set to <bound method Logger.level of <loguru.logger handlers=[(id=1, level=20, sink=<stderr>)]>> 
-2024-02-18 09:08:03.984 | WARNING  | mod_others:fn_set_logger:69 - Is DEBUG level enabled? False
-'''

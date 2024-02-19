@@ -48,6 +48,7 @@ order by pd_symbol;
 
 --select * from tbl_price_data_1day 
 select pd_symbol, pd_time, close, rsi_14, macd_sig_hist, dm_dp_adx, crs_50
+from tbl_price_data_1day
 where pd_symbol='VWRL.L'
 order by pd_time DESC
 limit 20;

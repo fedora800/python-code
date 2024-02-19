@@ -300,17 +300,19 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
   
   logger.debug("---- sync_price_data_in_table_for_symbol {} ---- STARTED ---", symbol)
   logger.debug("Received arguments : data_venue={} dbconn={} symbol={}", data_venue, dbconn, symbol)
-  df_returned = pd.DataFrame()
+  df_return = pd.DataFrame()
 
   # check if there is any price data in the database for this symbol and fetch it into a df
   df_sym_stats = m_udb.fn_get_symbol_price_data_stats_from_database(dbconn, symbol)
   if not df_sym_stats.empty:
+    logger.debug("--IF 1-- df_sym_stats is not empty")
+    dt_oldest_record_time = df_sym_stats["oldest_rec_pd_time"].iloc[0].date()
     dt_latest_record_date = df_sym_stats["latest_rec_pd_time"].iloc[0].date()
     dt_today = datetime.now().date()
     diff_days = m_udt.compute_date_difference(dt_latest_record_date, dt_today, "WORKING")
     # df_is not empty but there could be a few recent days/weeks missing, so check for that
     if diff_days > 1:
-      print("------SYNC 111 --- DF NOT EMPTY -----")
+      logger.debug("--IF 2-- diff_days > 1")
       logger.trace("df_sym_stats is not empty, but missing some days of recent data")
       logger.debug("Number of days of missing data = {}. So now fetch and insert this missing recent data into price data table ", diff_days)
       dt_start_date = m_udt.get_date_with_zero_time(dt_latest_record_date)
@@ -319,11 +321,14 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
       df_downloaded_missing_price_data = fn_download_historical_data_for_symbol('YFINANCE', symbol, dt_start_date, dt_end_date, False)
       df_downloaded_missing_price_data = m_oth.fn_modify_dataframe_per_our_requirements(symbol, df_downloaded_missing_price_data)
       logger.debug("Now inserting the missing data into the table")
-      df_returned = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_downloaded_missing_price_data, "tbl_price_data_1day", True)
+      df_return = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_downloaded_missing_price_data, "tbl_price_data_1day", True)
     else:
+      logger.debug("--ELSE 2-- diff_days < 1")
       logger.debug("df_sym_stats is not empty but negligible number of days of missing data = {}. Not downloading.", diff_days)
+      df_return = m_udb.fn_get_table_data_for_symbol(dbconn, symbol, dt_oldest_record_time, dt_latest_record_date)
+      print("----here 01----", df_return)
   else:
-    print("------SYNC 222 --- DF IS EMPTY -----")    
+    logger.debug("--ELSE 1-- df_sym_stats is empty")
     logger.trace("df_sym_stats is empty for symbol = {}", symbol)
     logger.warning("Price data not available for symbol {} in database", symbol)
     # get roughly 1 year of historical data plus go further back ang get another 200 days
@@ -341,9 +346,9 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
 
     # now  insert them into price data table
     #m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_sym_downloaded_price_data, "tbl_price_data_1day", True)
-    df_returned = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_sym_downloaded_price_data, "tbl_price_data_1day", False)
+    df_return = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_sym_downloaded_price_data, "tbl_price_data_1day", False)
 
-  m_oth.fn_df_get_first_last_rows(df_returned, 2)
+  m_oth.fn_df_get_first_last_rows(df_return, 5)
   logger.debug("---- sync_price_data_in_table_for_symbol {} ---- COMPLETED ---", symbol)
-  return df_returned
+  return df_return
 

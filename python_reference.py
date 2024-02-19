@@ -586,6 +586,58 @@ def how_to_use_loguru_module_for_logging():
 
   '''
 
+# ----------  this code works perfectly -------------------start-----
+
+from loguru import logger
+import sys
+
+logger.remove()  # All configured handlers are removed
+
+LOGGING_LEVEL = 'DEBUG'  # this is the loguru default
+#LOGGING_LEVEL = "INFO"  # our default logging level
+
+logger.add(sys.stderr, level=LOGGING_LEVEL)  # sets the logging level
+
+curr_level = logger.level(LOGGING_LEVEL)     # get the current logging level
+logger.info("Logging level set to {} ", curr_level)  # Level(name='DEBUG', no=10, color='<blue><bold>', icon='🐞')
+logger.debug("Setting for loguru logger level {} : level.name={} level.no={}  level.color={} level.icon={}", LOGGING_LEVEL, curr_level.name, curr_level.no, curr_level.color, curr_level.icon)
+
+# set our customized logging level named MYACTION with a new severity number
+MYACTION=11
+#logger.level("MYACTION", no=MYACTION, color="<reverse>", icon="@")         # creates this new logger level
+logger.level("MYACTION", no=MYACTION, color="<light-red><reverse>", icon="@")
+this_level = logger.level("MYACTION")
+logger.log("MYACTION", "New logging level set with values {}", this_level)
+logger.debug("Setting for loguru logger level MYACTION : level.name={} level.no={}  level.color={} level.icon={}", this_level.name, this_level.no, this_level.color, this_level.icon)
+
+
+# set another customized logging level
+# but first check if the "MYNOTICE" level already exists
+try:
+  str_level_name="MYNOTICE"
+  my_level = logger.level(str_level_name)
+  print("MYNOTICE level already exists - ", my_level)
+  logger.debug("My existing logger level {} : level.name={} level.no={}  level.color={} level.icon={}", str_level_name, my_level.name, my_level.no, my_level.color, my_level.icon)
+except ValueError:  # Level not found
+  # set customized logging level
+  MYNOTICE=21
+  #logger.level("MYNOTICE", no=MYNOTICE, color="<LIGHT-YELLOW>", icon="@")
+  logger.level("MYNOTICE", no=MYNOTICE, color="<black><LIGHT-YELLOW>", icon="@")
+  this_level = logger.level("MYNOTICE")
+  logger.log("MYNOTICE", "New logging level set with values {}", this_level)
+  logger.debug("Setting for loguru logger level MYNOTICE : level.name={} level.no={}  level.color={} level.icon={}", this_level.name, this_level.no, this_level.color, this_level.icon)
+
+
+# set another customized logging level
+MYNOTICE=21
+#logger.level("MYNOTICE", no=MYNOTICE, color="<LIGHT-YELLOW>", icon="@")
+logger.level("MYNOTICE", no=MYNOTICE, color="<black><LIGHT-YELLOW>", icon="@")
+this_level = logger.level("MYNOTICE")
+logger.log("MYNOTICE", "New logging level set with values {}", this_level)
+logger.debug("Setting for loguru logger level MYNOTICE : level.name={} level.no={}  level.color={} level.icon={}", this_level.name, this_level.no, this_level.color, this_level.icon)
+# ----------  this code works perfectly -------------------end-----
+
+
 def custom_decorator()
    '''
 In Python, a custom decorator is a function that takes another function as input, adds some functionality to it, and returns the modified function. Decorators are a powerful feature in Python that allows you to extend or modify the behavior of functions or methods.
