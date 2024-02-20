@@ -114,7 +114,7 @@ def run_conn_sql_query(dbconn, sql_query):
     print("Input sql_query = ", sql_query)
 
     df_output = pd.read_sql_query(sql_query, dbconn)
-    m_oth.fn_df_get_first_last_rows(df_output)
+    m_oth.fn_df_get_first_last_rows(df_output, 3, 'ALL_COLS')
  
     return df_output
 
@@ -162,9 +162,9 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
   20  VWRL.L 2024-02-14  96.58  97.27  96.36  97.00   22437
   """
 
-  logger.debug("------------------ INSERT-PRICE-DATA ------- START -----")
+  logger.debug("------------------ INSERT-PRICE-DATA ----  {}  --- START -----", symbol)
   logger.debug( "Received arguments : dbconn={} symbol={} tbl_name={} df=", dbconn, symbol, table_name)
-  logger.debug(m_oth.fn_df_get_first_last_rows(df, 3))
+  m_oth.fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
   bch_symbol = "SPY"
   m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE",  dbconn, bch_symbol)
 
@@ -193,7 +193,7 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
     # Reset the index, it will have a new index starting from 0
     df_combined = df_combined.reset_index(drop=True)
     logger.debug("----COMBINED-----")
-    logger.debug(m_oth.fn_df_get_first_last_rows(df_combined, 5))
+    m_oth.fn_df_get_first_last_rows(df_combined, 3, 'ALL_COLS')
 
     logger.log("MYNOTICE", "Computing all the required indicators on df_combined for {} ...", symbol)
     #df_combined = m_tin.fn_relative_strength_indicator(df_combined)
@@ -207,9 +207,11 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
     df = df_combined[df_combined["source"] == "newer-data"]
     df = df.drop(columns=["source"])
     logger.debug("----COMPUTED INDICATORS AND df NOW UPDATED WITH THE VALUES -----")
-    logger.debug(m_oth.fn_df_get_first_last_rows(df, 3))
+    m_oth.fn_df_get_first_last_rows(df,  3, 'ALL_COLS')
 
-  logger.log("MYNOTICE", "Now inserting the new data for {} (dates = {}) into {} using SQLAlchemy function df.to_sql() ...", symbol, m_oth.fn_df_get_first_last_dates, table_name)
+  logger.log("MYNOTICE", "Now inserting the new data for {} into {} using SQLAlchemy function df.to_sql() ...", symbol, table_name)
+  logger.log("MYNOTICE", "using first_and_last_date = {}", m_oth.fn_df_get_first_last_dates)
+  
   logger.debug(df)
   tm_before_insert = time.time()
   # Insert the DataFrame into the specified table
@@ -221,8 +223,8 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
   tm_taken_for_insertion_secs  = "{:.3f}".format(tm_taken_for_insertion_secs)
   logger.info("DB insert completed in {} seconds - {} rows inserted into table {} for symbol {}", tm_taken_for_insertion_secs, df.shape[0], table_name, symbol)
   logger.trace("Exiting function fn_insert_symbol_price_data_into_db() ...")
-  m_oth.fn_df_get_first_last_rows(df, 2)
-  logger.debug("------------------ INSERT-PRICE-DATA ------- END -----")
+  m_oth.fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
+  logger.debug("------------------ INSERT-PRICE-DATA ----  {}  --- END -----", symbol)
 
   return df
   
@@ -293,7 +295,7 @@ def fn_get_table_data_for_symbol(dbconn, symbol: str, start_date: Optional[datet
     df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn, params=dct_params)
 
     logger.debug("End of function -    Returning df =")
-    logger.debug(m_oth.fn_df_get_first_last_rows(df_ohlcv_symbol,3))
+    m_oth.fn_df_get_first_last_rows(df_ohlcv_symbol,3,'IND_COLS')
 
     return df_ohlcv_symbol
 

@@ -6,11 +6,30 @@ from loguru import logger
 
 
 def fn_df_get_first_last_rows(df: pd.DataFrame, num_rows: int, column_opt: str):
+  """ print with logger module the first n and last n rows of df and we can choose which columns to print 
 
-  
-    # take the first n and last n rows of df and print with logger
+  Args:
+      df (pd.DataFrame): _description_
+      num_rows (int): _description_
+      column_opt (str): for which columns need to be displayed
+          valid options are : ALL_COLS, IND_COLS
+  """
+ 
+  lst_column_names = []
+  if column_opt == 'ALL_COLS':
+    # print all columns
+    lst_column_names = df.columns.tolist()
+  elif column_opt == 'IND_COLS':
+    # print only the main indicators
+#    lst_column_names = [ "pd_symbol", "pd_time", "close", "volume", "ema_5", "ema_13", "sma_50", "sma_200", "rsi_14", "macd_sig_hist", "dm_dp_adx", "crs_50" ]
+    lst_column_names = [ "pd_symbol", "pd_time", "close", "volume", "rsi_14", "macd_sig_hist", "dm_dp_adx", "crs_50" ]
+  else:
+    logger.error("Wrong parameter value passed : column_opt = {}", column_opt)
 
-  df_first_last = pd.concat([df.head(num_rows), df.tail(num_rows)])
+  # Get only the selected columns into a df
+  df_print = df[lst_column_names]
+
+  df_first_last = pd.concat([df_print.head(num_rows), df_print.tail(num_rows)])
   logger.debug("df with only first and last [{}] rows = \n{}", num_rows, df_first_last)
 
 
@@ -28,8 +47,8 @@ def fn_modify_dataframe_per_our_requirements(sym: str, df: pd.DataFrame):
 
   logger.info("modifying df as per our requirements ...")
   logger.debug("before = ")
-  logger.trace(df.info())
-  logger.debug(fn_df_get_first_last_rows(df, 2))
+#  logger.trace(df.info())
+#  fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
 
   # we are trying to make this df exactly same in format as the data we have from tbl_price_data_1day when put into a df
   df.reset_index(inplace=True)  # reset the Date index and make it into a column by itself. will be the 1st column
@@ -42,7 +61,7 @@ def fn_modify_dataframe_per_our_requirements(sym: str, df: pd.DataFrame):
   new_columns = ['ema_5', 'ema_13', 'sma_50', 'sma_200', 'rsi_14', 'macd_sig_hist', 'dm_dp_adx', 'crs_50']      #  define the names of the new columns
   df = df.assign(**{col: np.NaN for col in new_columns})   #  add the new columns with value NaN for each column across all rows
   logger.debug("after =")
-  logger.debug(fn_df_get_first_last_rows(df, 2))
+  fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
   print(df.info())
   print("----- MOD DF ------------END--------------")
   return df

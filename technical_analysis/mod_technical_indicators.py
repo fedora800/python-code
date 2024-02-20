@@ -138,7 +138,7 @@ def fn_macd_indicator_last_row_only(df: pd.DataFrame, column_name: str):        
     )
 
     logger.trace("-------df.info={}------", df.info())
-    logger.debug(m_oth.fn_df_get_first_last_rows(df, 3))
+    m_oth.fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
     return df
 
     # '''
@@ -242,7 +242,7 @@ def fn_macd_indicator(df: pd.DataFrame, column_name: str):
   )
 
   logger.trace("-------df.info={}------", df.info())
-  logger.debug(m_oth.fn_df_get_first_last_rows(df, 3))
+  m_oth.fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
   return df
 
 
@@ -259,7 +259,7 @@ def fn_relative_strength_indicator(df: pd.DataFrame):
 
   df["rsi_14"] = ta.RSI(df["close"], timeperiod=PERIOD)
   df["rsi_14"] = df["rsi_14"].round(3)
-  logger.debug(m_oth.fn_df_get_first_last_rows(df, 2))
+  m_oth.fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
 
   return df
 
@@ -318,9 +318,9 @@ def fn_comparative_relative_strength_CRS_indicator(bch_sym: str, df_bch_sym: pd.
   LENGTH = 50
 
   logger.debug("Received arguments : df_bch_sym=")
-  m_oth.fn_df_get_first_last_rows(df_bch_sym, 3)
+  m_oth.fn_df_get_first_last_rows(df_bch_sym, 3, 'ALL_COLS')
   logger.debug("Received arguments : df_sym=")
-  m_oth.fn_df_get_first_last_rows(df_sym, 3)
+  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
 
   # benchmark might have holidays on some days while symbol can have on another day, meaning all records will not match on pd_time
   # we need to handle this by currently only taking the common rows on pd_time
@@ -353,9 +353,9 @@ def fn_comparative_relative_strength_CRS_indicator(bch_sym: str, df_bch_sym: pd.
   df_bch_sym_filtered = df_bch_sym_filtered[["pd_time", "close", "dly_pct_change"]]
   df_sym_filtered = df_sym_filtered[["pd_symbol", "pd_time", "close", "dly_pct_change"]]
   print("----- df_bch_sym_filtered ----")
-  m_oth.fn_df_get_first_last_rows(df_bch_sym_filtered, 3)
+  m_oth.fn_df_get_first_last_rows(df_bch_sym_filtered, 3, 'ALL_COLS')
   print("----- df_sym_filtered ----")
-  m_oth.fn_df_get_first_last_rows(df_sym_filtered, 3)
+  m_oth.fn_df_get_first_last_rows(df_sym_filtered, 3, 'ALL_COLS')
   # df_sym = df_sym[['pd_time','close','dly_pct_change']]
 
   print("--- Merging the 2 dfs using pandas merge function ---")
@@ -369,7 +369,7 @@ def fn_comparative_relative_strength_CRS_indicator(bch_sym: str, df_bch_sym: pd.
   )
 
   print("--- MERGED DF ---")
-  m_oth.fn_df_get_first_last_rows(df_merged, 3)
+  m_oth.fn_df_get_first_last_rows(df_merged, 3, 'ALL_COLS')
   df_merged["close"] = df_sym["close"]      # add the close column back to the merged df
   print("---YYY ---")
   print(df_merged.tail(3))
@@ -414,7 +414,7 @@ def fn_comparative_relative_strength_CRS_indicator(bch_sym: str, df_bch_sym: pd.
   """
 
   logger.trace("-------df_sym.info={}------", df_sym.info())
-  logger.debug(m_oth.fn_df_get_first_last_rows(df_sym, 5))
+  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
   return df_sym
 
 
@@ -467,9 +467,10 @@ def fn_compute_all_required_indicators(
   # print("-----A22 ----")
   # print(df_sym)
 
-  logger.debug("Received arguments : bch_sym={} df_bch_sym=\n{}", bch_sym, m_oth.fn_df_get_first_last_rows(df_bch_sym,3))
-  logger.debug("Received arguments :           sym={}           df_sym=\n{}", sym, m_oth.fn_df_get_first_last_rows(df_sym,3))
-
+  logger.debug("Received arguments : bch_sym={} df_bch_sym=", bch_sym)
+  m_oth.fn_df_get_first_last_rows(df_bch_sym, 3, 'ALL_COLS')
+  logger.debug("Received arguments :           sym={}           df_sym=", sym)
+  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
   num_recs = fn_check_data(df_sym, NUM_RECORDS_EXPECTED)
   if num_recs < 200:
       logger.error(
@@ -495,7 +496,7 @@ def fn_compute_all_required_indicators(
   logger.debug("---Indicator 5 : RSI ---")
   df_sym["rsi_14"] = ta.RSI(df_sym["close"], timeperiod=RSI_PERIOD)
   df_sym["rsi_14"] = df_sym["rsi_14"].round(2)
-  logger.debug(m_oth.fn_df_get_first_last_rows(df_sym, 2))
+  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
 
   # ------ 6. MACD ------
   logger.debug("---Indicator 6 : MACD ---")
@@ -569,16 +570,17 @@ def fn_compute_all_required_indicators(
   logger.trace("mask={}", mask)
   # apply rounding only on those that have non-null values
   df_merged.loc[mask, COL_NAME_CRS] = df_merged.loc[mask, COL_NAME_CRS].round(3)
-  logger.debug(m_oth.fn_df_get_first_last_rows(df_merged, 3))
+  m_oth.fn_df_get_first_last_rows(df_merged, 3, 'ALL_COLS')
 
   print("-- Z 22 -- df_sym = ")
-  m_oth.fn_df_get_first_last_rows(df_sym,3)
+  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
 
   # finally, now update the original df's column with the computed values of CRS
   df_sym[COL_NAME_CRS] = df_merged[COL_NAME_CRS]
   print("-- Z 33 -- updated df_sym = ")
-  m_oth.fn_df_get_first_last_rows(df_sym,3)
-  logger.debug("Now computed all the indicator values and at the end of the function, resulting df_sym="); logger.debug(m_oth.fn_df_get_first_last_rows(df_sym,3))
+  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
+  logger.debug("Now computed all the indicator values and at the end of the function, resulting df_sym=")
+  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
 
   logger.debug("---------- fn_compute_all_required_indicators ---- COMPLETED ----------")
   return df_sym

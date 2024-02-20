@@ -124,9 +124,10 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
   https://plotly.com/python/table-subplots/
   """
 
-  logger.debug("----------------- fn_generate_plotly_chart ------- START --------------------")
+  logger.info("----------------- fn_generate_plotly_chart ----  {} --- START -------------", symbol)
   logger.debug("Arguments : dbconn={}, symbol={} df=", dbconn, symbol)
-  m_oth.fn_df_get_first_last_rows(df,5)
+  m_oth.fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
+  print(df)
 
   # Create subplots with specific settings
   #
@@ -455,7 +456,7 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
   )  # make sure to match it with the fig layout, but can also do like below
   # st.plotly_chart(fig, use_container_height=True, use_container_width=True)
 
-  logger.debug("----------------- fn_generate_plotly_chart ------- END --------------------")
+  logger.debug("----------------- fn_generate_plotly_chart ----  {} --- END -------------", symbol)
 
 
 
@@ -520,7 +521,7 @@ def sb_inputbox_symbol(data_venue: str, dbconn, symbol: str) -> str:
 
     # TODO: first check if symbol exists on the data source and throw error if not
     logger.warning("TODO: Need to code the function where it checks if the symbol is valid for that data venue ...")
-    df_ohlcv_symbol, df_sym_stats = m_yfn.sync_price_data_in_table_for_symbol(data_venue, dbconn, symbol)
+    df_ohlcv_symbol, df_sym_stats = m_yfn.fn_sync_price_data_in_table_for_symbol(data_venue, dbconn, symbol)
     fn_generate_plotly_chart(dbconn, symbol, df_ohlcv_symbol)
 
 

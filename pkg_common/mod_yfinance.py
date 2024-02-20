@@ -118,7 +118,7 @@ def fn_download_historical_data_for_symbol(data_venue: str, symbol: str, start_d
     tm_taken_for_download_secs = tm_after_download - tm_before_download 
     tm_taken_for_download_secs  = "{:.3f}".format(tm_taken_for_download_secs)
     logger.info("Time taken for download (secs) = {}", tm_taken_for_download_secs)
-    logger.debug("Downloaded - head/foot rows = "); m_oth.fn_df_get_first_last_rows(df_prices, 1)
+    m_oth.fn_df_get_first_last_rows(df_prices, 3, 'ALL_COLS')
 
     if write_to_file:
       FILE_EXTN =".csv"
@@ -283,6 +283,7 @@ def get_stock_info(symbol):
 def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) -> pd.DataFrame:
   """
   Synchronize the price data for a symbol in a table in the database.
+  TODO: check if i need the sybmol to exist in tbl_instrument
   If the table does not exist, create it.
   If the table already exists, update it with the latest price data. 
   
@@ -302,7 +303,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
   logger.debug("Received arguments : data_venue={} dbconn={} symbol={}", data_venue, dbconn, symbol)
   df_return = pd.DataFrame()
 
-  # check if there is any price data in the database for this symbol and fetch it into a df
+  # check if there is any price data at all in the database for this symbol and fetch it into a df
   df_sym_stats = m_udb.fn_get_symbol_price_data_stats_from_database(dbconn, symbol)
   if not df_sym_stats.empty:
     logger.debug("--IF 1-- df_sym_stats is not empty")
@@ -318,6 +319,15 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
       dt_start_date = m_udt.get_date_with_zero_time(dt_latest_record_date)
       dt_start_date += timedelta(days=1)
       dt_end_date = m_udt.get_date_with_zero_time(dt_today)
+
+      # ----- temporary for spy ------------
+      if diff_days == 2 and symbol == 'SPY':
+        print("----temp---skipping download for SPY ...........")
+        return df_return
+      else:
+        print("---temp--continuing---")
+      # ----- temporary for spy ------------
+
       df_downloaded_missing_price_data = fn_download_historical_data_for_symbol('YFINANCE', symbol, dt_start_date, dt_end_date, False)
       df_downloaded_missing_price_data = m_oth.fn_modify_dataframe_per_our_requirements(symbol, df_downloaded_missing_price_data)
       logger.debug("Now inserting the missing data into the table")
@@ -328,7 +338,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
       df_return = m_udb.fn_get_table_data_for_symbol(dbconn, symbol, dt_oldest_record_time, dt_latest_record_date)
       print("----here 01----", df_return)
   else:
-    logger.debug("--ELSE 1-- df_sym_stats is empty")
+    logger.debug("--ELSE 1-- df_sym_stats is empty meaning there is no price data in the table")
     logger.trace("df_sym_stats is empty for symbol = {}", symbol)
     logger.warning("Price data not available for symbol {} in database", symbol)
     # get roughly 1 year of historical data plus go further back ang get another 200 days
@@ -348,7 +358,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
     #m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_sym_downloaded_price_data, "tbl_price_data_1day", True)
     df_return = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_sym_downloaded_price_data, "tbl_price_data_1day", False)
 
-  m_oth.fn_df_get_first_last_rows(df_return, 5)
+  m_oth.fn_df_get_first_last_rows(df_return, 3, 'ALL_COLS')
   logger.debug("---- sync_price_data_in_table_for_symbol {} ---- COMPLETED ---", symbol)
   return df_return
 

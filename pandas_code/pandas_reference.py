@@ -216,6 +216,9 @@ def fn_03_find_in_dataframe(df):
   N = 5
   subset = df.iloc[:,0:N]
 
+  # get all the column names from the df (as a list)
+  lst_column_names = df.columns.tolist()
+
   # find numeric columns only 
   subset =  df.select_dtypes(include = 'number')
 
@@ -227,6 +230,10 @@ def fn_03_find_in_dataframe(df):
 
   # look for a specific string in a column name and retain those columns only
   subset = df.loc[:,df.columns.str.find('addre') > -1]
+
+  # only print select columns from the df
+  selected_columns = ['pd_time', 'three_values']
+  print(df[selected_columns])
 
   # get columns whose name starts with a specific string
   #subset = candidates.loc[:,candidates.columns.str.startswith('addr')]
