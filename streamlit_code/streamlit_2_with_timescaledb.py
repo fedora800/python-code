@@ -1,4 +1,3 @@
-import os
 import sys
 import platform
 
@@ -15,16 +14,17 @@ import plotly.graph_objects as gobj
 from plotly.subplots import make_subplots
 
 if platform.system() == "Windows":
-  logger.debug("streamlit_2_with_timescaledb.py - Running on Windows")
+  #logger.debug("streamlit_2_with_timescaledb.py - Running on Windows")
   sys.path.append("H:\\git-projects\\python-code")
+  sys.path.append("H:\\git-projects\\python-code\\pkg_common")
   sys.path.append("H:\\git-projects\\python-code\\streamlit_code")
 elif platform.system() == "Linux":
-  logger.debug("streamlit_2_with_timescaledb.py - Running on Linux")
+  #logger.debug("streamlit_2_with_timescaledb.py - Running on Linux")
   sys.path.append("/home/cloud_user/git-projects/python-code")
   sys.path.append("/home/cloud_user/git-projects/python-code/pkg_common")
 else:
   print("Operating system not recognized")
-logger.debug(sys.path)
+#logger.debug(sys.path)
 
 
 # from mod_utils_db import connect_to_db_using_sqlalchemy
@@ -58,7 +58,7 @@ def fn_st_sb_selectbox_symbol_group(dbconn):
       a df with the output of the the sql_query results (symbols list) corresponding to what option we chose from the dropdown
     """
 
-    print("---100---fn_st_sb_selectbox_symbol_group------START-----")
+    logger.info("---fn_st_sb_selectbox_symbol_group------START-----")
     logger.debug("Arguments : {}", dbconn)
 
     dct_options = {
@@ -66,7 +66,8 @@ def fn_st_sb_selectbox_symbol_group(dbconn):
         "symbol_groups_sqlquery": [
             """select symbol, name from viw_instrument_us_sp500_constituents where symbol like '%CO%';""",
             """select symbol, name from viw_instrument_us_etfs where symbol like '%AC%';""",
-            """select symbol, name from viw_price_data_uk_most_traded;""",
+            #"""select symbol, name from viw_price_data_uk_most_traded;""",
+            """select symbol, name from viw_instrument_uk_equities where symbol like 'V%' and name like '%All%';""",
         ],
     }
 
@@ -84,7 +85,7 @@ def fn_st_sb_selectbox_symbol_group(dbconn):
         index=None,
     )
     st.markdown("You selected from symbol_groups dropdown: :red[{}]".format(sg_chosen_option))
-    logger.info("You selected from the Symbol Groups Dropdown - sg_chosen_option={}", sg_chosen_option)
+    logger.log("MYNOTICE", "You selected from the Symbol Groups Dropdown - sg_chosen_option={}", sg_chosen_option)
 
     # initial the return df
     df_symbols = pd.DataFrame()
@@ -105,14 +106,14 @@ def fn_st_sb_selectbox_symbol_group(dbconn):
     df_head_foot = pd.concat([df_symbols.head(1), df_symbols.tail(1)])
     logger.debug("Returning Symbol List as df_head_foot = {} ", df_head_foot)
 
-    print("---100---fn_st_sb_selectbox_symbol_group------FETCHING DATA FOR ALL SYMBOLS IN THIS GROUP -----")
+    logger.debug("---fn_st_sb_selectbox_symbol_group------FETCHING DATA FOR ALL SYMBOLS IN THIS GROUP -----")
     # *** IT DOES THIS AGAIN AND AGAIN *****
     # for index, row in df_symbols.iterrows():
     #   logger.trace("Syncing data for {} - {}", row["symbol"], row["name"])
     #   m_yfn.sync_price_data_in_table_for_symbol("YFINANCE", dbconn, row["symbol"])
     #   st.markdown("Syncing data for :blue[{}]".format(row["symbol"]))
 
-    print("---100---fn_st_sb_selectbox_symbol_group------END     RETURNING-----")
+    logger.info("---fn_st_sb_selectbox_symbol_group------END-----")
     return df_symbols
 
 
@@ -124,7 +125,7 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
   https://plotly.com/python/table-subplots/
   """
 
-  logger.info("----------------- fn_generate_plotly_chart ----  {} --- START -------------", symbol)
+  logger.log("MYNOTICE", "----------------- fn_generate_plotly_chart ----  {} --- START -------------", symbol)
   logger.debug("Arguments : dbconn={}, symbol={} df=", dbconn, symbol)
   m_oth.fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
   print(df)
@@ -481,7 +482,7 @@ def fn_st_sb_selectbox_symbol_only(dbconn, df):
       "Symbol Dropdown", df, key="sm_chosen_symbol", index=None
   )
   st.markdown("You selected from Symbol dropdown: :red[{}]".format(sm_chosen_symbol))
-  logger.info("You selected from the Symbol Dropdown - sm_chosen_symbol={}", sm_chosen_symbol)
+  logger.log("MYNOTICE", "You selected from the Symbol Dropdown - sm_chosen_symbol={}", sm_chosen_symbol)
 
   if sm_chosen_symbol:
       # TODO: for efficiency, i should be remove this sync bit from here and put it 1 level up, when we select the symbol group
@@ -634,7 +635,7 @@ def fn_st_selectbox_scans(dbconn):
 
 def main():
   
-  print("--- start of main() ---")
+  logger.debug("------------------ main() ------- START ---------------------")
   # db_conn = connect_to_db_using_psycopg2()
   # my_db_uri = "postgresql://postgres:postgres#123@localhost:5432/dbs_invest"
   my_db_uri = f"postgresql://{DB_INFO['USERNAME']}:{DB_INFO['PASSWORD']}@{DB_INFO['HOSTNAME']}:{DB_INFO['PORT']}/{DB_INFO['DATABASE']}"
@@ -700,13 +701,12 @@ def main():
 
   print("---4000---")
   df_scans = fn_st_selectbox_scans(db_conn)
-  print("--- end of main() ---")
+  logger.debug("------------------ main() ------- END ---------------------")
 
 
 # main
 if __name__ == "__main__":
 
-  print("--- 0 --- start of program ---")
   m_oth.fn_set_logger(True)
   
   APP_NAME = "Stock Analysis App!"
@@ -727,5 +727,4 @@ if __name__ == "__main__":
 
   main()
 
-  print("--- 0 --- end of program ---")
-#  streamlit run streamlit_1.py --server.port 8000
+#  streamlit run streamlit_2_with_timescaledb.py --server.port 8000

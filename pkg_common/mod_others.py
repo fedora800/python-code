@@ -1,8 +1,27 @@
 import sys
+import time
 
 import pandas as pd
 import numpy as np
 from loguru import logger
+
+
+def fn_sleep_for_seconds(seconds: int) -> None:
+  """_summary_
+
+  Args:
+      seconds (int): number of seconds for the program to sleep
+  """
+
+  try:
+    # Sleep for n seconds
+    logger.debug("Sleeping for {} seconds", seconds)
+    time.sleep(seconds)
+
+  except KeyboardInterrupt:
+    # Handle keyboard interrupt (Ctrl+C)
+    logger.debug("Sleep interrupted by user")
+
 
 
 def fn_df_get_first_last_rows(df: pd.DataFrame, num_rows: int, column_opt: str):
@@ -43,9 +62,8 @@ def fn_df_get_first_last_dates(df: pd.DataFrame) -> str:
 
 def fn_modify_dataframe_per_our_requirements(sym: str, df: pd.DataFrame):
 
-  print("----- MOD DF ------------START--------------")
-
   logger.info("modifying df as per our requirements ...")
+  logger.debug("------------------ fn_modify_dataframe_per_our_requirements ----  {}  --- START -----", sym)
   logger.debug("before = ")
 #  logger.trace(df.info())
 #  fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
@@ -63,7 +81,7 @@ def fn_modify_dataframe_per_our_requirements(sym: str, df: pd.DataFrame):
   logger.debug("after =")
   fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
   print(df.info())
-  print("----- MOD DF ------------END--------------")
+  logger.debug("------------------ fn_modify_dataframe_per_our_requirements ----  {}  --- END -----", sym)
   return df
 
 
@@ -87,10 +105,6 @@ def fn_set_logger(enable_debug_mode: bool):
     LOGGING_LEVEL = "INFO"  # our default logging level
 
   logger.remove()  # All configured handlers are removed
-  
-  LOGGING_LEVEL = 'DEBUG'  # this is the loguru default
-  #LOGGING_LEVEL = "INFO"  # our default logging level
-  
   logger.add(sys.stderr, level=LOGGING_LEVEL)  # sets the logging level
   
   curr_level = logger.level(LOGGING_LEVEL)     # get the current logging level
@@ -101,13 +115,14 @@ def fn_set_logger(enable_debug_mode: bool):
   try:
     str_level_name="MYNOTICE"
     my_level = logger.level(str_level_name)
-    print("MYNOTICE level already exists - ", my_level)
+    logger.debug("MYNOTICE level already exists - ", my_level)
     logger.debug("My existing logger level {} : level.name={} level.no={}  level.color={} level.icon={}", str_level_name, my_level.name, my_level.no, my_level.color, my_level.icon)
   except ValueError:  # Level not found
     # set customized logging level
     MYNOTICE=21
     #logger.level("MYNOTICE", no=MYNOTICE, color="<LIGHT-YELLOW>", icon="@")
-    logger.level("MYNOTICE", no=MYNOTICE, color="<black><LIGHT-YELLOW>", icon="@")
+    #logger.level("MYNOTICE", no=MYNOTICE, color="<black><LIGHT-YELLOW>", icon="@")
+    logger.level("MYNOTICE", no=MYNOTICE, color="<magenta>", icon="@")
     this_level = logger.level("MYNOTICE")
     logger.log("MYNOTICE", "New logging level set with values {}", this_level)
     logger.debug("Setting for loguru logger level MYNOTICE : level.name={} level.no={}  level.color={} level.icon={}", this_level.name, this_level.no, this_level.color, this_level.icon)

@@ -15,18 +15,19 @@ from datetime import datetime, timedelta
 
 
 if platform.system() == "Windows":
-  logger.debug("mod_yfinance.py - Running on Windows")
+  #logger.debug("mod_yfinance.py - Running on Windows")
   sys.path.append("H:\\git-projects\\python-code")
   sys.path.append("H:\\git-projects\\python-code\\streamlit_code")
 elif platform.system() == "Linux":
-  logger.debug("mod_yfinance.py - Running on Linux")
+  #logger.debug("mod_yfinance.py - Running on Linux")
   sys.path.append("~/git-projects/python-code")
   sys.path.append("~/git-projects/python-code/streamlit_code")
   sys.path.append("/home/cloud_user/git-projects/python-code/streamlit_code")
 else:
   print("Operating system not recognized")
 
-logger.debug(sys.path)
+#logger.debug(sys.path)
+
 import mod_utils_db as m_udb
 import mod_utils_date as m_udt
 import mod_others as m_oth
@@ -299,7 +300,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
   >> fn_sync_price_data_in_table_for_symbol("YFINANCE", dbconn, "AAPL")
   """
   
-  logger.debug("---- sync_price_data_in_table_for_symbol {} ---- STARTED ---", symbol)
+  logger.log("MYNOTICE", "---- sync_price_data_in_table_for_symbol {} ---- STARTED ---", symbol)
   logger.debug("Received arguments : data_venue={} dbconn={} symbol={}", data_venue, dbconn, symbol)
   df_return = pd.DataFrame()
 

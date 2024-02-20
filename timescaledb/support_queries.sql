@@ -11,7 +11,9 @@ select count(*) from tbl_instrument;
 select * from tbl_instrument 
 where 
 --symbol like '%RS%' and note_1='SP500';
-symbol in ('CSPX.L', 'EQQQ.L', 'IITU.L', 'ISF.L', 'SWDA.L', 'VHVG.L', 'VUAG.L', 'VUSA.L', 'VWRL.L', 'VWRP.L') and country_code='UK'
+--symbol in ('CSPX.L', 'EQQQ.L', 'IITU.L', 'ISF.L', 'SWDA.L', 'VHVG.L', 'VUAG.L', 'VUSA.L', 'VWRL.L', 'VWRP.L') 
+symbol in ('SPY', 'VWRL.L', 'VUSA.L', 'HACK')
+--and country_code='UK'
 
 select exchange_code, count(*) from tbl_instrument
 group by exchange_code;
@@ -41,7 +43,7 @@ where
 --rsi_14 is not null
 --where sma_200 is null
 --pd_symbol like 'A%'
-pd_symbol in ('SPY', 'MCO')
+pd_symbol in ('SPY', 'VWRL.L', 'VUSA.L', 'HACK')
 --AND pd_symbol in (select symbol from tbl_instrument where exchange_code='LSE')
 group by pd_symbol
 order by pd_symbol;
@@ -81,6 +83,24 @@ where pd_symbol in (
   'EMIM.L'
 )
 -- and pd_time > '2024-02-06' order by pd_time desc;
+
+
+
+INSERT INTO tbl_price_data_1day (
+  pd_symbol, pd_time, open, high, low, close, volume, ema_5, ema_13, sma_50, sma_200, rsi_14
+)
+SELECT
+  pd_symbol, 
+  pd_time + INTERVAL '1 day', -- Increment the date by 1 day
+  open,   high,   low,   close,   volume,   ema_5,   ema_13,   sma_50,   sma_200,   rsi_14
+FROM
+  tbl_price_data_1day
+WHERE
+  pd_symbol = 'SPY' -- Replace with the specific symbol you are interested in
+ORDER BY
+  pd_time DESC
+LIMIT 1;
+
 
 
 --- NEED TO CREATE VIEW BELOW I THINK FOR THE SCAN ---

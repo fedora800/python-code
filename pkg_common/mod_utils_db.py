@@ -15,11 +15,11 @@ import mod_others as m_oth
 import mod_yfinance as m_yfn
 
 if platform.system() == "Windows":
-  logger.debug("mod_utils_db.py - Running on Windows")
+  #logger.debug("mod_utils_db.py - Running on Windows")
   sys.path.append("H:\\git-projects\\python-code")
   sys.path.append("H:\\git-projects\\python-code\\streamlit_code")
 elif platform.system() == "Linux":
-  logger.debug("mod_utils_db.py - Running on Linux")
+  #logger.debug("mod_utils_db.py - Running on Linux")
   sys.path.append("~/git-projects/python-code")
   sys.path.append("~/git-projects/python-code/streamlit_code")
 #  sys.path.append("/home/cloud_user/git-projects/python-code/streamlit_code")
@@ -32,7 +32,7 @@ else:
 from streamlit_code.config import DB_INFO, DEBUG_MODE
 #from config import DB_INFO, DEBUG_MODE
 from technical_analysis import mod_technical_indicators as m_tin
-logger.debug(sys.path)
+#logger.debug(sys.path)
 #import config
 
 def fn_create_database_engine_sqlalchemy(db_uri: str)-> sa.Engine:
@@ -162,16 +162,19 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
   20  VWRL.L 2024-02-14  96.58  97.27  96.36  97.00   22437
   """
 
-  logger.debug("------------------ INSERT-PRICE-DATA ----  {}  --- START -----", symbol)
-  logger.debug( "Received arguments : dbconn={} symbol={} tbl_name={} df=", dbconn, symbol, table_name)
+  logger.log("MYNOTICE", "------------------ INSERT-PRICE-DATA ----  {}  --- START -----", symbol)
+  logger.debug( "Received arguments : dbconn={} symbol={} tbl_name={} to_insert_indicator_values={} df=", dbconn, symbol, table_name, to_insert_indicator_values)
   m_oth.fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
   bch_symbol = "SPY"
-  m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE",  dbconn, bch_symbol)
+  ##m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE",  dbconn, bch_symbol)
 
-  if symbol != bch_symbol and to_insert_indicator_values:
-    # first sync the benchmark symbol price data
-    # TODO: but that needs to be done before this as otherwise it will cause a recursive loop
+  # if symbol == bch_symbol:
+  #   #TODO: need to handle this properly
+  #   # syncing of the benchmark symbol price data needs to be done before this i think as otherwise it will cause a recursive loop
+  #   logger.warning("This is the same symbol as the benchmark symbol. Skipping insert of price data into the database")
+  #   return
 
+  if to_insert_indicator_values:
     # to compute the indicator values, we need a minimum of 50 records of historical data from the table
     # which is older than the oldest record in the current df that is going to be inserted
     NUM_OLDER_RECS = 75   # approx 50 trading days
@@ -185,6 +188,7 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
     df_prev_50periods = fn_get_table_data_for_symbol(dbconn, symbol, dt_50periods_prior_to_first_date, dt_df_first_date)
 
     # we also need to get the exact same amount of data for the benchmark symbol so that we can compute the indicators (mainly the CRS)
+    # TODO: need to check if benchmark symbol has the required amount of data
     df_bch_sym = fn_get_table_data_for_symbol(dbconn, bch_symbol, dt_50periods_prior_to_first_date, dt_df_last_date)
 
     df_prev_50periods["source"] = "older-data"

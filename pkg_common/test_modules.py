@@ -32,8 +32,8 @@ def main():
   df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", engine, "SPY")
   print("----11111--for SPY----", df_ohlcv_symbol)
   #df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", engine, "VWRL.L")
-  df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", engine, "VUSA.L")
-  print("----22222------", df_ohlcv_symbol)
+  #df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", engine, "VUSA.L")
+  #print("----22222------", df_ohlcv_symbol)
 
 # main
 if __name__ == "__main__":

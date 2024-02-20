@@ -6,11 +6,11 @@ import pandas as pd
 import talib as ta
 
 if platform.system() == "Windows":
-  logger.debug("mod_technical_indicators.py - Running on Windows")
+  #logger.debug("mod_technical_indicators.py - Running on Windows")
   sys.path.append("H:\\git-projects\\python-code")
   sys.path.append("H:\\git-projects\\python-code\\streamlit_code")
 elif platform.system() == "Linux":
-  logger.debug("mod_technical_indicators.py - Running on Linux")
+  #logger.debug("mod_technical_indicators.py - Running on Linux")
   sys.path.append("/home/cloud_user/git-projects/python-code")
 else:
   print("Operating system not recognized")
