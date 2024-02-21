@@ -455,8 +455,7 @@ def fn_compute_all_required_indicators(
 
   NUM_RECORDS_EXPECTED = 300
   IF_DELIMITER = ";"  # intra-field delimeter for the macd column
-  RSI_PERIOD = 14
-  CRS_LENGTH = 50
+
   # these are the names of the new columns that will be added to the dataframe with the computed indicators.
   COL_NAME_MACD = "macd_sig_hist"
   COL_NAME_ADX  = "dm_dp_adx"
@@ -481,10 +480,18 @@ def fn_compute_all_required_indicators(
       # TODO: exit maybe ?
 
   # ----- 1. SMA_50 -----
-  print("--- SMA_50 ---")
+  logger.debug("---Indicator 1 : SMA_50 ---")
+
+  SMA_50_PERIOD=50
+  df_sym["sma_50"] = ta.SMA(df_sym["close"], timeperiod=SMA_50_PERIOD)
+  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
 
   # ------ 2. SMA_200 ---
-  print("--- SMA_200 ---")
+  logger.debug("---Indicator 1 : SMA_200 ---")
+
+  SMA_200_PERIOD=200
+  df_sym["sma_200"] = ta.SMA(df_sym["close"], timeperiod=SMA_200_PERIOD)
+  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
 
   # ------ 3. EMA_5 ------
   print("--- EMA_5 ---")
@@ -494,6 +501,8 @@ def fn_compute_all_required_indicators(
 
   # ------ 5. RSI_14 ------
   logger.debug("---Indicator 5 : RSI ---")
+
+  RSI_PERIOD = 14
   df_sym["rsi_14"] = ta.RSI(df_sym["close"], timeperiod=RSI_PERIOD)
   df_sym["rsi_14"] = df_sym["rsi_14"].round(2)
   m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
@@ -543,6 +552,7 @@ def fn_compute_all_required_indicators(
   # ------ 8. CRS_50 ------
   logger.debug("---Indicator 8 : CRS_50---")
   
+  CRS_LENGTH = 50
   # do not manipulate the original dfs as they have all the computed indicator values, so create independant copies
   df_tmp_bch_sym = df_bch_sym.copy()
   df_tmp_sym = df_sym.copy()

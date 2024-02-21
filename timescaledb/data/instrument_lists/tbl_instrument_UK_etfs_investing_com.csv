@@ -1,0 +1,40 @@
+Symbol,Description,sector,industry,sub_industry,exchange_code,ASSET-TYPE,note_1
+3KWE.L,Leverage Shares 3x Long China Tech,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+3LNG.L,WisdomTree Natural Gas 3x Daily Leveraged,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+3NGL.L,WisdomTree Natural Gas 3x Daily Leveraged,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+3SNV.L,GraniteShares 3x Short NVIDIA Daily ETP,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+3UKS.L,WisdomTree FTSE 100 3x Daily Short,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+AGGU.L,iShares Global Aggregate Bond UCITS Hedged Acc,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+CNYA.L,iShares MSCI China A UCITS USD,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+CSPX.L,iShares Core S&P 500 UCITS,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+DHYA.L,iShares $ High Yield Corp Bond ESG UCITS USD (Acc),sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+DS2P.L,L&G DAX Daily 2x Short UCITS,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+DTLA.L,iShares $ Treasury Bond 20+yr UCITS ETF USD (Acc),sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+FLOA.L,iShares $ Floating Rate Bond UCITS Acc USD,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+HCHS.L,HSBC MSCI China UCITS USD (Acc),sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+IB01.L,iShares $ Treasury Bond 0-1yr UCITS Acc,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+IBTA.L,iShares $ Treasury Bond 1-3 Acc,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+IDTL.L,iShares USD Treasury Bond 20+Yr DE,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+IHYA.L,iShares $ High Yield Corp Bond Acc Share Class,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+IMBA.L,iShares US Mortgage Backed Securities Acc,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+ISLQDA.L,iShares $ Corp Bond Acc Share Class,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+ISMIDD.L,iShares FTSE 250 UCITS,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+ISNDIA.L,iShares MSCI India UCITS ETF USD Acc,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+IUAA.L,iShares US Aggregate Bond Acc,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+IUVL.L,iShares Edge MSCI USA Value Factor,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+JGRE.L,JPMorgan ETFs (Ireland) ICAV - Global Research Enh,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+JMRE.L,JPMorgan ETFs (Ireland) ICAV - Global Emerging Mar,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+JPEA.L,iShares J.P. Morgan $ EM Bond Acc,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+LGUG.L,L&G US Equity UCITS,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+LNGA.L,WisdomTree Natural Gas 2x Daily Leveraged,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+PAJP.L,Invesco MSCI Japan ESG Climate Paris Aligned UCITS,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+RIEU.L,L&G Europe Equity (Responsible Exclusions) UCITS E,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+SAEM.L,iShares MSCI EM IMI ESG Screened UCITS ETF USD (Ac,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+SDIA.L,iShares $ Short Duration Corp Bond Acc,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+SPL3.L,GraniteShares 3x Short Palantir Daily,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+SUK2.L,L&G FTSE 100 Super Short Strategy (Daily 2x) UCITS,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+SUOE.L,iShares EUR Corp Bond SRI UCITS,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+SUSM.L,iShares Sust MSCI EM SRI,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+V3AA.L,Vanguard ESG Global All Cap UCITS (USD) Accumulati,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+VILX.L,WisdomTree S&P 500 VIX Short-Term Futures 2.25x Da,sctr,ind,indgrp,LSE,ETF,INVESTING-COM
+VIXL.L,WisdomTree S&P 500 VIX Short-Term Futures 2.25x Da,sctr,ind,indgrp,LSE,ETF,INVESTING-COM

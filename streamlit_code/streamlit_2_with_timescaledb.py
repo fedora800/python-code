@@ -300,8 +300,8 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
   df_macd = pd.DataFrame({'pd_time': df['pd_time'], 'macd_sig_hist': df['macd_sig_hist']})
   # split the delimited macd values into 3 individual columns based off the delimiter
   df_macd[['macd', 'sig', 'hist']] = df_macd['macd_sig_hist'].str.split(';', expand=True)
-  print("-----New DataFrame-----")
-  print(df_macd)
+  logger.debug("-----New DataFrame-----")
+  logger.debug(df_macd)
 
   trace_macd_macd = gobj.Scatter(
       x=df_macd["pd_time"],
@@ -341,8 +341,8 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
   df_adx = pd.DataFrame({'pd_time': df['pd_time'], 'dm_dp_adx': df['dm_dp_adx']})
   # split the delimited macd values into 3 individual columns based off the delimiter
   df_adx[['dm', 'dp', 'adx']] = df_adx['dm_dp_adx'].str.split(';', expand=True)
-  print("-----New DataFrame-----")
-  print(df_adx)
+  logger.debug("-----New DataFrame-----")
+  logger.debug(df_adx)
 
   trace_adx_adx = gobj.Scatter(
       x=df_adx["pd_time"],
@@ -522,7 +522,7 @@ def sb_inputbox_symbol(data_venue: str, dbconn, symbol: str) -> str:
 
     # TODO: first check if symbol exists on the data source and throw error if not
     logger.warning("TODO: Need to code the function where it checks if the symbol is valid for that data venue ...")
-    df_ohlcv_symbol, df_sym_stats = m_yfn.fn_sync_price_data_in_table_for_symbol(data_venue, dbconn, symbol)
+    df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol(data_venue, dbconn, symbol)
     fn_generate_plotly_chart(dbconn, symbol, df_ohlcv_symbol)
 
 
@@ -561,7 +561,7 @@ def fn_st_selectbox_scans(dbconn):
         ],
         "scan_sqlquery": [
             "select * from viw_latest_price_data_by_symbol where close < sma_50",
-            "select * from viw_latest_price_data_by_symbol where close > sma_50",
+            "select pd_symbol, pd_time, name, close, volume, sma_50, sma_200, exchange_code as exch, sector from viw_latest_price_data_by_symbol where close > sma_50",
 #            "select * from viw_price_data_uk_most_traded"
             "select * from viw_tmp_001"
         ],
@@ -627,7 +627,8 @@ def fn_st_selectbox_scans(dbconn):
           df_ohlcv_symbol = m_udb.fn_get_table_data_for_symbol(dbconn, selected_symbol)
           fn_generate_plotly_chart(dbconn, selected_symbol, df_ohlcv_symbol)
 
-        logger.debug("Returning df ={} ", m_oth.fn_df_get_first_last(df_symbols))
+        logger.debug("Returning df = {}")
+        m_oth.fn_df_get_first_last_rows(df_symbols, 3, "ALL_COLS")
 
     logger.debug("------------------ fn_st_selectbox_scans ------- END ---------------------")
     return df_symbols

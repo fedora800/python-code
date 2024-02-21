@@ -35,6 +35,9 @@
 \echo "Loading into table tbl_instrument"
 \copy tbl_instrument (symbol, name, exchange_code, asset_type, data_source) FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_instrument_UK_etfs_trading212.csv' DELIMITER ',' CSV HEADER;
 
+-- this is a list i got as csv from Investing.com website 
+\copy tbl_instrument (symbol, name, sector, industry, sub_industry, exchange_code, asset_type, note_1) from '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_instrument_UK_etfs_investing_com.csv' DELIMITER ',' CSV HEADER;
+
 -- L03A - tbl_price_data_1day - USA
 \echo "Loading into table tbl_price_data_1day -- 2 year price data for around 25 S&P500 symbols - USA "
 -- awk -F',' 'BEGIN {OFS=",";} {print $1, $2, $4, $5, $6, $7, $8;}' sp500_quotes_data.csv > tbl_price_data_1day_data.csv 

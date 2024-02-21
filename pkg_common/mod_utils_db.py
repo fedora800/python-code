@@ -155,14 +155,18 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
       to_insert_indicator_values (boolean): this will tell the function if the advanced indicator values also need to be computed AND inserted into the respective columns
 
   df format:
-      symbol       date   open   high    low  close  volume
-  0   VWRL.L 2024-01-17  92.39  92.48  92.00  92.19   30614
-  1   VWRL.L 2024-01-18  92.07  92.71  92.04  92.58   23364
-  19  VWRL.L 2024-02-13  97.13  97.36  96.00  96.33   56403
-  20  VWRL.L 2024-02-14  96.58  97.27  96.36  97.00   22437
+  pd_symbol                   pd_time   open   high    low  close  volume ema_5  ema_13  sma_50  sma_200  rsi_14   macd_sig_hist          dm_dp_adx  crs_50
+50    VWRL.L 2024-01-23 00:00:00+00:00  93.65  94.02  93.44  93.88   25863   NaN     NaN     NaN      NaN   58.83  0.32;0.26;0.06   25.18;36.05;9.18  -0.057
+51    VWRL.L 2024-01-24 00:00:00+00:00  94.37  94.51  94.01  94.37   19136   NaN     NaN     NaN      NaN   61.41   0.4;0.29;0.11  23.89;38.19;10.17  -0.039
+52    VWRL.L 2024-01-25 00:00:00+00:00  94.12  94.57  94.03  94.57   30139   NaN     NaN     NaN      NaN   62.44  0.47;0.32;0.15  22.81;36.97;11.13  -0.049
+68    VWRL.L 2024-02-16 00:00:00+00:00  97.99  98.35  97.62  97.98   44746   NaN     NaN     NaN      NaN   68.75   1.12;1.0;0.13  13.68;43.25;38.43     NaN
+69    VWRL.L 2024-02-19 00:00:00+00:00  97.48  97.95  97.30  97.84   59012   NaN     NaN     NaN      NaN   67.39  1.14;1.03;0.11  15.33;41.11;38.95     NaN
+70    VWRL.L 2024-02-20 00:00:00+00:00  97.57  97.75  96.74  96.91  425346   NaN     NaN     NaN      NaN   58.99  1.06;1.03;0.03  18.15;37.86;38.68     NaN
+
   """
 
-  logger.log("MYNOTICE", "------------------ INSERT-PRICE-DATA ----  {}  --- START -----", symbol)
+  logger.log("MYNOTICE", "------------ INSERT-PRICE-DATA ----  {}  ------ {} ------- START -----", symbol, to_insert_indicator_values)
+  m_oth.fn_inspect_caller_functions()
   logger.debug( "Received arguments : dbconn={} symbol={} tbl_name={} to_insert_indicator_values={} df=", dbconn, symbol, table_name, to_insert_indicator_values)
   m_oth.fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
   bch_symbol = "SPY"
@@ -213,10 +217,9 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
     logger.debug("----COMPUTED INDICATORS AND df NOW UPDATED WITH THE VALUES -----")
     m_oth.fn_df_get_first_last_rows(df,  3, 'ALL_COLS')
 
-  logger.log("MYNOTICE", "Now inserting the new data for {} into {} using SQLAlchemy function df.to_sql() ...", symbol, table_name)
-  logger.log("MYNOTICE", "using first_and_last_date = {}", m_oth.fn_df_get_first_last_dates)
+  logger.log("MYNOTICE", "Now inserting the new data (above df) for {} into {} using SQLAlchemy function df.to_sql() ...", symbol, table_name)
+  logger.log("MYNOTICE", "using first_and_last_date = {}", m_oth.fn_df_get_first_last_dates(df))
   
-  logger.debug(df)
   tm_before_insert = time.time()
   # Insert the DataFrame into the specified table
   # index=False to avoid saving the DataFrame index as a separate column in the table

@@ -165,3 +165,8 @@ GROUP BY symbol,
 HAVING AVG(volume) > 50000
 ORDER BY AVG(volume) DESC
 LIMIT 50;
+
+
+
+
+

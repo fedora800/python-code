@@ -301,6 +301,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
   """
   
   logger.log("MYNOTICE", "---- sync_price_data_in_table_for_symbol {} ---- STARTED ---", symbol)
+  m_oth.fn_inspect_caller_functions()
   logger.debug("Received arguments : data_venue={} dbconn={} symbol={}", data_venue, dbconn, symbol)
   df_return = pd.DataFrame()
 
@@ -351,13 +352,13 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
     dt_end_date = dt_end_date.replace(hour=0, minute=0, second=0, microsecond=0)
     logger.info("Downloading historical price data with a default lookback period...")
     df_sym_downloaded_price_data = fn_download_historical_data_for_symbol("YFINANCE", symbol, dt_start_date, dt_end_date, False)
-    print("------SYNC 222 ----- BEFORE -----", df_sym_downloaded_price_data)
-    m_oth.fn_modify_dataframe_per_our_requirements(symbol, df_sym_downloaded_price_data)
-    print("------SYNC 222 ----- AFTER -----", df_sym_downloaded_price_data)
+    df_sym_downloaded_price_data = m_oth.fn_modify_dataframe_per_our_requirements(symbol, df_sym_downloaded_price_data)
+    logger.debug("--ELSE 1-- modified df_sym_downloaded_price_data prepared for insertion into table :")
+    m_oth.fn_df_get_first_last_rows(df_sym_downloaded_price_data, 3, 'ALL_COLS')
 
     # now  insert them into price data table
     #m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_sym_downloaded_price_data, "tbl_price_data_1day", True)
-    df_return = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_sym_downloaded_price_data, "tbl_price_data_1day", False)
+    df_return = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_sym_downloaded_price_data, "tbl_price_data_1day", True)
 
   m_oth.fn_df_get_first_last_rows(df_return, 3, 'ALL_COLS')
   logger.debug("---- sync_price_data_in_table_for_symbol {} ---- COMPLETED ---", symbol)

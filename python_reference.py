@@ -680,6 +680,11 @@ Custom decorators are commonly used for tasks such as logging, access control, a
    '''
 
 
+def fn_dates_related():
+  # all dates related things
+
+  # convert Timestamp object from DATAFRAME cell (1st row pd_time col) to string
+  str_dt_time = df['pd_time'].head(1).item() .strftime('%Y-%m-%d %H:%M:%S')
 
 def main():
 
@@ -699,6 +704,7 @@ else:
   #how_to_use_logger_module()
   different_data_types()
   how_to_use_loguru_module_for_logging()
+  fn_dates_related()
   #custom_decorator()
 
 # --- main ---
@@ -720,3 +726,86 @@ datetime_with_time = original_datetime.replace(hour=0, minute=0, second=0, micro
 datetime_with_timezone = datetime_with_time.replace(tzinfo=timezone.utc)
 
 print(datetime_with_timezone)
+
+
+--------------------------------------------------------------------------------
+
+import sys
+import inspect
+import traceback
+
+# to check which caller function invoked the function, using inspect module
+def fn_inspect_caller_functions():
+
+  print("-----0000----")
+  #print(inspect.stack()[0].function) # skip as it is this inspect function itself
+  #print(inspect.stack()[1].function)  # actual caller to inspect but we do not want that either
+  print('This function called by -', inspect.stack()[2].function)  # caller of the function of interest to us
+
+  # below is expensive to do, so only do for specific situations
+  #print("Traceback stack :")
+  #stack = traceback.extract_stack()[:-1]  # exclude the current frame because we are interested in the caller of the caller and higher up
+  #for frame in stack:
+  #  print(f"File: {frame.filename}, Line: {frame.lineno} Function: {frame.name} calls =>")
+  #print(inspect.stack())
+
+
+    """Prints function names and line numbers from the call stack."""
+    for frame in inspect.stack()[2:]:
+        print(f"  - Function: {frame.function} ({frame.filename}:{frame.lineno})")
+
+  #filename - full path of the code being executed by frame this traceback corresponds to
+  #lineno - of current line associated with the code being executed by this traceback frame 
+  #function - function name that is being executed by frame this traceback corresponds to.
+  # if not in a function, it will just say <module>
+  #previous_frame = inspect.currentframe().f_back
+  #print("previous_frame = ", previous_frame)
+  #print("caller function name = ", previous_frame.f_code.co_name)
+  # Use sys._getframe().f_back.f_code.co_name to access caller information directly, faster
+  # but will need to do in each and every function
+  #print('--WORKS---2---', sys._getframe().f_back.f_code.co_name)
+  #f = inspect.currentframe()  
+  #tb = inspect.getframeinfo(f)  # Traceback object
+  #print(f"----WORKS----3---- In function {tb.function}, file={tb.filename} lineno={tb.lineno}")
+
+def fn_grandfather():
+  print("")
+  print("--- in fn_grandfather()----")
+  fn_inspect_caller_functions()
+  fn_father()
+
+
+# this is the one i am documenting all about
+def fn_father():
+  print("")
+  print("-- in fn_father()----")
+  fn_inspect_caller_functions()
+  fn_son()
+
+def fn_son():
+  print("")
+  print("-- in fn_son()----")
+  fn_inspect_caller_functions()
+
+# --- main ----
+print("--starting main---")
+fn_grandfather()
+
+---
+
+
+def print_caller_info(index=2):
+    """Prints details about a specific frame in the call stack."""
+    frame = inspect.stack()[index]
+    print(f"Frame #{index}:")
+    print(f"  - Function: {frame.function}")
+    print(f"  - Filename: {frame.filename}")
+    print(f"  - Line number: {frame.lineno}")
+
+# Example usage
+print_caller_info(1)  # Print information about the caller (index 1)
+--------------------------------------------------------------------------------
+
+
+
+

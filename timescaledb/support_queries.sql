@@ -33,6 +33,18 @@ where symbol like 'B%'
 order by symbol
 
 
+update tbl_instrument 
+set note_1='MOST-ACTIVE;'
+where 
+exchange_code='LSE'
+--and data_source='INVESTING-COM'
+and data_source='TRADING212'
+and symbol in (
+'VWRL.L', 'VERX.L', 'V3AB.L', 'VHVG.L', 'VUAG.L', 'VWRP.L', 'VMID.L', 'VEVE.L', 
+'VFEM.L', 'VHYL.L', 'VJPN.L', 'V3AM.L', 'VUKG.L', 'VALW.L', 'V3MB.L'
+)
+
+
 --------------------------------------------------------------------------------
 ---- PRICE DATA RELATED ----
 

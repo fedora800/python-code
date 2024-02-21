@@ -26,6 +26,7 @@ CREATE TYPE typ_asset_type AS ENUM (
 -- TY02 - typ_data_source
 \echo "Creating TYPE typ_data_source"
 CREATE TYPE typ_data_source AS ENUM (
+  'INVESTING-COM',
   'YFINANCE',
   'THINKORSWIM',
   'TRADING212',
