@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "streamlit_2_with_args_debugger",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "args": [
+        "run",
+        "streamlit_2_with_timescaledb.py",
+        "--server.port",
+        "8000"
+      ]
+    }
+  ]
+}

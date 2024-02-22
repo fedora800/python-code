@@ -393,6 +393,9 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
 
   # --- subplot 6 on row 1 and column 1 (CRS) ---
   logger.debug("Preparing subplot 6 -- CRS ---")
+  # TODO: if it's SPY, then we need to skip this block
+  m_oth.fn_df_get_first_last_rows(df, 3, "ALL_COLS")
+
 
   # Prepare subplot with a gobj.Scatter object trace for CRS
   trace_subplot_row_6 = gobj.Scatter(
