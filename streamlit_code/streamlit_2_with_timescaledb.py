@@ -67,7 +67,8 @@ def fn_st_sb_selectbox_symbol_group(dbconn):
             """select symbol, name from viw_instrument_us_sp500_constituents where symbol like '%CO%';""",
             """select symbol, name from viw_instrument_us_etfs where symbol like '%AC%';""",
             #"""select symbol, name from viw_price_data_uk_most_traded;""",
-            """select symbol, name from viw_instrument_uk_equities where symbol like 'V%' and name like '%All%';""",
+            #"""select symbol, name from viw_instrument_uk_equities where symbol like 'V%' and name like '%All%';""",
+            """select symbol, name from viw_instrument_uk_equities where note_1 is not null order by symbol;""",
         ],
     }
 

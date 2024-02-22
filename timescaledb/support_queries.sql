@@ -20,6 +20,8 @@ group by exchange_code;
 
 select country_code, exchange_code, asset_type, note_1, data_source, deleted, count(*) 
 from tbl_instrument
+where 
+country_code='UK' 
 group by country_code, exchange_code, asset_type, note_1, data_source, deleted;
 
 delete from tbl_instrument 
@@ -32,15 +34,16 @@ select * from viw_instrument_uk_equities
 where symbol like 'B%'
 order by symbol
 
-
-update tbl_instrument 
-set note_1='MOST-ACTIVE;'
-where 
+update tbl_instrument
+set 
+--note_1='MOST-ACTIVE;'
+country_code='UK' 
+where
 exchange_code='LSE'
---and data_source='INVESTING-COM'
+and data_source='INVESTING-COM'
 and data_source='TRADING212'
 and symbol in (
-'VWRL.L', 'VERX.L', 'V3AB.L', 'VHVG.L', 'VUAG.L', 'VWRP.L', 'VMID.L', 'VEVE.L', 
+'VWRL.L', 'VERX.L', 'V3AB.L', 'VHVG.L', 'VUAG.L', 'VWRP.L', 'VMID.L', 'VEVE.L',
 'VFEM.L', 'VHYL.L', 'VJPN.L', 'V3AM.L', 'VUKG.L', 'VALW.L', 'V3MB.L'
 )
 
@@ -124,7 +127,7 @@ and close > sma_50
 and pd_symbol in (select pd_symbol from viw_latest_price_data_by_symbol)
 order by pd_time desc;
 
-CREATE OR REPLACE VIEW viw_tmp_001 AS 
+CREATE OR REPLACE VIEW viw_tmp_001 AS
   select pd_symbol,
     name,
     pd_time,
@@ -136,11 +139,10 @@ CREATE OR REPLACE VIEW viw_tmp_001 AS
   where pd_time > CURRENT_DATE - INTERVAL '4 days'
     and close > sma_50
     and pd_symbol in (
-      select pd_symbol
-      from viw_latest_price_data_by_symbol
-    )
+      select symbol from viw_instrument_uk_equities
+      where note_1 is not null    
+	)
   order by pd_time desc;
-
 
 
 --------------------------------------------------------------------------------
