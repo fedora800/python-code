@@ -343,11 +343,16 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
     logger.debug("--ELSE 1-- df_sym_stats is empty meaning there is no price data in the table")
     logger.trace("df_sym_stats is empty for symbol = {}", symbol)
     logger.warning("Price data not available for symbol {} in database", symbol)
-    # get roughly 1 year of historical data plus go further back ang get another 200 days
+    '''
+    # commented this out for now and will use a hard-coded start_date time.
+    # get roughly 1 year of historical data plus go further back and get another 200 days
     # that is because we dont want the SMA_200 plot to just start in the middle of the chart
     # so we are looking at around 565 days of data in total
     dt_start_date = datetime.now() - timedelta(days=365) - timedelta(days=200)
-    dt_end_date = datetime.now() - timedelta(days=1)
+    '''
+    dt_start_date = datetime(2022, 1, 1)
+    #dt_end_date = datetime.now() - timedelta(days=1)     # commenting out for now as seems to be not downloading yesterday prices
+    dt_end_date = datetime.now()
     dt_start_date = dt_start_date.replace(hour=0, minute=0, second=0, microsecond=0)
     dt_end_date = dt_end_date.replace(hour=0, minute=0, second=0, microsecond=0)
     logger.info("Downloading historical price data with a default lookback period...")

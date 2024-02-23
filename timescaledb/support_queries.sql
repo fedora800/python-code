@@ -150,7 +150,7 @@ CREATE OR REPLACE VIEW viw_tmp_001 AS
       select symbol from viw_instrument_uk_equities
       where note_1 is not null    
 	)
-  order by pd_time desc;
+  order by pd_symbol;
 
 
 --------------------------------------------------------------------------------

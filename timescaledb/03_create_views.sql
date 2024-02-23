@@ -53,7 +53,8 @@ FROM tbl_instrument
 WHERE 
   country_code = 'UK'
   and asset_type = 'ETF'
-  and deleted=false;
+  and deleted=false
+order by symbol;
 
 
 -- V03 - viw_price_data_stats_by_symbol 

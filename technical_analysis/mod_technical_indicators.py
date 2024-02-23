@@ -424,7 +424,7 @@ def fn_compute_all_required_indicators(
     bch_sym: str,
     df_bch_sym: pd.DataFrame,
     sym: str,
-    df_sym: pd.DataFrame
+    df_sym: pd.DataFrame,
 ) -> pd.DataFrame:
   """
   Computes all the required indicators for the given sym and benchmark sym.
@@ -479,11 +479,20 @@ def fn_compute_all_required_indicators(
       )
       # TODO: exit maybe ?
 
+  # check if the symbol passed down is itself an index or ETF like SPY, NIFTY etc
+  if bch_sym == sym:
+    sym_is_benchmark = True
+    logger.log("MYNOTICE", "symbol sym={} matches our predefined benchmark bch_sym={}", sym, bch_sym)
+  else:  
+    sym_is_benchmark = False
+
   # ----- 1. SMA_50 -----
   logger.debug("---Indicator 1 : SMA_50 ---")
 
   SMA_50_PERIOD=50
   df_sym["sma_50"] = ta.SMA(df_sym["close"], timeperiod=SMA_50_PERIOD)
+  df_sym["sma_50"] = df_sym["sma_50"] .round(2)
+
   m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
 
   # ------ 2. SMA_200 ---
@@ -491,6 +500,7 @@ def fn_compute_all_required_indicators(
 
   SMA_200_PERIOD=200
   df_sym["sma_200"] = ta.SMA(df_sym["close"], timeperiod=SMA_200_PERIOD)
+  df_sym["sma_200"] = df_sym["sma_200"] .round(2)
   m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
 
   # ------ 3. EMA_5 ------
@@ -552,56 +562,59 @@ def fn_compute_all_required_indicators(
   # ------ 8. CRS_50 ------
   logger.debug("---Indicator 8 : CRS_50---")
   
-  CRS_LENGTH = 50
-  # do not manipulate the original dfs as they have all the computed indicator values, so create independant copies
-  df_tmp_bch_sym = df_bch_sym.copy()
-  df_tmp_sym = df_sym.copy()
-  
-  df_tmp_bch_sym["dly_pct_change"] = df_tmp_bch_sym["close"].pct_change()
-  df_tmp_sym["dly_pct_change"] = df_tmp_sym["close"].pct_change()
-  df_tmp_bch_sym = df_tmp_bch_sym[["pd_time", "close", "dly_pct_change"]]
-  df_tmp_sym = df_tmp_sym[["pd_symbol", "pd_time", "close", "dly_pct_change"]]
+  if sym_is_benchmark:
+     logger.debug("Not computing CRS_50 as the symbol {} is the benchmark itself ...", sym)
+  else:
+    CRS_LENGTH = 50
+    # do not manipulate the original dfs as they have all the computed indicator values, so create independant copies
+    df_tmp_bch_sym = df_bch_sym.copy()
+    df_tmp_sym = df_sym.copy()
+    
+    df_tmp_bch_sym["dly_pct_change"] = df_tmp_bch_sym["close"].pct_change()
+    df_tmp_sym["dly_pct_change"] = df_tmp_sym["close"].pct_change()
+    df_tmp_bch_sym = df_tmp_bch_sym[["pd_time", "close", "dly_pct_change"]]
+    df_tmp_sym = df_tmp_sym[["pd_symbol", "pd_time", "close", "dly_pct_change"]]
 
-  print("------crs_50  dataframe 1 = df_tmp_sym -----")
-  print(df_tmp_sym)
-  print("------crs_50  dataframe 2 = df_tmp_bch_sym -----")
-  print(df_bch_sym)
+    print("------crs_50  dataframe 1 = df_tmp_sym -----")
+    print(df_tmp_sym)
+    print("------crs_50  dataframe 2 = df_tmp_bch_sym -----")
+    print(df_bch_sym)
 
-  # to fix below error, got a recommendation to make sure both fields are of the exact same type
-  # ValueError: You are trying to merge on datetime64[ns, UTC] and object columns for key 'pd_time'. If you wish to proceed you should use pd.concat
-  df_tmp_sym["pd_time"] = pd.to_datetime(df_tmp_sym["pd_time"], utc=True).dt.to_pydatetime()
-  df_tmp_bch_sym["pd_time"] = pd.to_datetime(df_tmp_bch_sym["pd_time"], utc=True).dt.to_pydatetime()
+    # to fix below error, got a recommendation to make sure both fields are of the exact same type
+    # ValueError: You are trying to merge on datetime64[ns, UTC] and object columns for key 'pd_time'. If you wish to proceed you should use pd.concat
+    df_tmp_sym["pd_time"] = pd.to_datetime(df_tmp_sym["pd_time"], utc=True).dt.to_pydatetime()
+    df_tmp_bch_sym["pd_time"] = pd.to_datetime(df_tmp_bch_sym["pd_time"], utc=True).dt.to_pydatetime()
 
 
-  # merge the 2 tmp dfs to get df_merged 
-  df_merged = pd.merge(
-      df_tmp_sym[["pd_symbol", "pd_time", "close", "dly_pct_change"]],
-      df_tmp_bch_sym[["pd_time", "close", "dly_pct_change"]],
-      on="pd_time",
-      suffixes=("_SYMB", "_ETF"),
-  )
+    # merge the 2 tmp dfs to get df_merged 
+    df_merged = pd.merge(
+        df_tmp_sym[["pd_symbol", "pd_time", "close", "dly_pct_change"]],
+        df_tmp_bch_sym[["pd_time", "close", "dly_pct_change"]],
+        on="pd_time",
+        suffixes=("_SYMB", "_ETF"),
+    )
 
-  # compute the CRS value for each row and put them in a new column
-  df_merged[COL_NAME_CRS] = (df_merged["close_SYMB"] / df_merged["close_SYMB"].shift(CRS_LENGTH) / 
-                      (df_merged["close_ETF"] / df_merged["close_ETF"].shift(CRS_LENGTH)) - 1
-  )
+    # compute the CRS value for each row and put them in a new column
+    df_merged[COL_NAME_CRS] = (df_merged["close_SYMB"] / df_merged["close_SYMB"].shift(CRS_LENGTH) / 
+                        (df_merged["close_ETF"] / df_merged["close_ETF"].shift(CRS_LENGTH)) - 1
+    )
 
-  # find out which of the rows have null or not null values
-  mask = ~df_merged[COL_NAME_CRS].isna()
-  logger.trace("mask={}", mask)
-  # apply rounding only on those that have non-null values
-  df_merged.loc[mask, COL_NAME_CRS] = df_merged.loc[mask, COL_NAME_CRS].round(3)
-  m_oth.fn_df_get_first_last_rows(df_merged, 3, 'ALL_COLS')
+    # find out which of the rows have null or not null values
+    mask = ~df_merged[COL_NAME_CRS].isna()
+    logger.trace("mask={}", mask)
+    # apply rounding only on those that have non-null values
+    df_merged.loc[mask, COL_NAME_CRS] = df_merged.loc[mask, COL_NAME_CRS].round(3)
+    m_oth.fn_df_get_first_last_rows(df_merged, 3, 'ALL_COLS')
 
-  print("-- Z 22 -- df_sym = ")
-  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
+    print("-- Z 22 -- df_sym = ")
+    m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
 
-  # finally, now update the original df's column with the computed values of CRS
-  df_sym[COL_NAME_CRS] = df_merged[COL_NAME_CRS]
-  print("-- Z 33 -- updated df_sym = ")
-  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
-  logger.debug("Now computed all the indicator values and at the end of the function, resulting df_sym=")
-  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
+    # finally, now update the original df's column with the computed values of CRS
+    df_sym[COL_NAME_CRS] = df_merged[COL_NAME_CRS]
+    print("-- Z 33 -- updated df_sym = ")
+    m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
+    logger.debug("Now computed all the indicator values and at the end of the function, resulting df_sym=")
+    m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
 
   logger.debug("---------- fn_compute_all_required_indicators ---- COMPLETED ----------")
   return df_sym

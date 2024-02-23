@@ -63,13 +63,14 @@ def fn_st_sb_selectbox_symbol_group(dbconn):
     logger.debug("Arguments : {}", dbconn)
 
     dct_options = {
-        "symbol_groups": ["US S&P500 constituents", "US ETFs", "UK ETFs"],
+        "symbol_groups": ["US S&P500 constituents", "US ETFs", "UK ETFs", "RS-UK Most Active"],
         "symbol_groups_sqlquery": [
             """select symbol, name from viw_instrument_us_sp500_constituents where symbol like '%CO%';""",
-            """select symbol, name from viw_instrument_us_etfs where symbol like '%AC%';""",
+            """select symbol, name from viw_instrument_us_etfs where symbol like '%PY%';""",
             #"""select symbol, name from viw_price_data_uk_most_traded;""",
             #"""select symbol, name from viw_instrument_uk_equities where symbol like 'V%' and name like '%All%';""",
             """select symbol, name from viw_instrument_uk_equities where note_1 is not null order by symbol;""",
+            """select symbol, name from viw_instrument_uk_equities where note_1 like '%MOST-ACTIVE%';""",
         ],
     }
 
@@ -597,7 +598,7 @@ def fn_st_selectbox_scans(dbconn):
             df_select_options["scan_name"] == chosen_sb_option_scan
         ]["scan_sqlquery"].iloc[0]
         logger.info("st_selectbox_scans - CHOSEN SQL_QUERY = {}", chosen_sql_query_scan)
-        sql_query = text(chosen_sql_query_scan)
+        sql_query = sa.text(chosen_sql_query_scan)
         df_symbols = pd.read_sql_query(sql_query, dbconn)
 
         # Now display this dataframe data as a nice table on the frontend. (note - will break down when you have >1000 rows)
