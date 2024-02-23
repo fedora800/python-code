@@ -5,7 +5,8 @@ from loguru import logger
 import streamlit as st
 import pandas as pd
 import numpy as np
-from sqlalchemy import text
+#from sqlalchemy import text
+import sqlalchemy as sa
 import talib as ta
 from config import DB_INFO, DEBUG_MODE
 
@@ -101,7 +102,7 @@ def fn_st_sb_selectbox_symbol_group(dbconn):
             sg_chosen_sql_query,
         )
         logger.info("User chose from Symbol Groups Dropdown : {} ", sg_chosen_sql_query)
-        sql_query = text(sg_chosen_sql_query)
+        sql_query = sa.text(sg_chosen_sql_query)
         df_symbols = pd.read_sql_query(sql_query, dbconn)
 
     df_head_foot = pd.concat([df_symbols.head(1), df_symbols.tail(1)])
@@ -657,7 +658,7 @@ def main():
   #   """
   # ).bindparams(wildcard_1=wildcard_value_1, wildcard_2=wildcard_value_2)
 
-  sql_query = text(
+  sql_query = sa.text(
       """
     SELECT symbol FROM tbl_instrument 
     WHERE exchange_code LIKE :wildcard_1 AND symbol LIKE :wildcard_2
@@ -690,6 +691,17 @@ def main():
           # generate the main chart with all the indicators
           # generate_chart_plot(df_symbol_price_data)
           logger.debug("df_symbol_price_data = {}", df_symbol_price_data)
+          #st.subheader(divider='rainbow')
+
+          sql_query = sa.text("SELECT * FROM tbl_instrument WHERE symbol = :prm_symbol").bindparams(prm_symbol=symbol)
+          df_result = pd.read_sql_query(sql_query, db_conn)
+          #str_result = ' '.join(df_result.iloc[0].astype(str))     # Concatenate all columns into a single string with space separator
+          str_result = df_result.iloc[0]["name"]
+          #st.markdown(":blue[{}]".format(str_result))
+          st.subheader(symbol)
+          st.subheader(str_result)
+
+          #st.subheader(divider='rainbow')
           fn_generate_plotly_chart(db_conn, symbol, df_symbol_price_data)
           # generate_chart_plot_with_sub_plots(df_symbol_price_data)
 

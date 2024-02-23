@@ -118,7 +118,7 @@ def fn_download_historical_data_for_symbol(data_venue: str, symbol: str, start_d
     tm_after_download = time.time()
     tm_taken_for_download_secs = tm_after_download - tm_before_download 
     tm_taken_for_download_secs  = "{:.3f}".format(tm_taken_for_download_secs)
-    logger.info("Time taken for download (secs) = {}", tm_taken_for_download_secs)
+    logger.debug("Time taken for download (secs) = {}", tm_taken_for_download_secs)
     m_oth.fn_df_get_first_last_rows(df_prices, 3, 'ALL_COLS')
 
     if write_to_file:
@@ -361,6 +361,6 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
     df_return = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_sym_downloaded_price_data, "tbl_price_data_1day", True)
 
   m_oth.fn_df_get_first_last_rows(df_return, 3, 'ALL_COLS')
-  logger.debug("---- sync_price_data_in_table_for_symbol {} ---- COMPLETED ---", symbol)
+  logger.info("---- sync_price_data_in_table_for_symbol {} ---- COMPLETED ---", symbol)
   return df_return
 

@@ -17,7 +17,7 @@ def fn_inspect_caller_functions():
 
   stack = traceback.extract_stack()[:-1]  # exclude the current frame because we are interested in the caller of the caller and higher up
   for frame in stack:
-    print(f"File: {frame.filename}, Line: {frame.lineno} Function: {frame.name} calls =>")
+    logger.debug("File: {}, Line: {} Function: {} calls =>", frame.filename, frame.lineno, frame.name)
 
 
 def fn_sleep_for_seconds(seconds: int) -> None:
@@ -95,7 +95,7 @@ def fn_modify_dataframe_per_our_requirements(sym: str, df: pd.DataFrame):
 
   '''
 
-  logger.info("------------------ fn_modify_dataframe_per_our_requirements ----  {}  --- START -----", sym)
+  logger.debug("------------------ fn_modify_dataframe_per_our_requirements ----  {}  --- START -----", sym)
   logger.debug("input df = ")
   fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
 

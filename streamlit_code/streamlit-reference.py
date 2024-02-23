@@ -182,7 +182,10 @@ a soft return is used for the next line.
 Two (or more) newline characters in a row will result in a hard return.
 '''
 st.markdown(multi)
+st.markdown("You selected from Symbol dropdown: :red[{}]".format(sm_chosen_symbol))
 
+st.subheader('This is a subheader with a divider', divider='rainbow')
+st.subheader('_Streamlit_ is :blue[cool] :sunglasses:')
 
 
 # --------------------------------------------------------------------------------

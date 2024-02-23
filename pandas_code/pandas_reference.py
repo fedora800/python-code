@@ -254,6 +254,10 @@ def fn_03_find_in_dataframe(df):
   # find missing (NaN - Not a Number) values in a df
   fn_03_A_find_missing_NAN(df)
 
+  # Concatenate all columns into a single string with space separator
+  result_string = ' '.join(df.iloc[0].astype(str))
+
+
 # --------------------------------------------------------------------------------
 def fn_03_A_find_missing_NAN(df):
   """

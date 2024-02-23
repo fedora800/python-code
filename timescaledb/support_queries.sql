@@ -63,6 +63,14 @@ pd_symbol in ('SPY', 'VWRL.L', 'VUSA.L', 'HACK')
 group by pd_symbol
 order by pd_symbol;
 
+
+select * from viw_price_data_stats_by_symbol
+where
+symbol in (
+--'V3AB.L','V3AM.L','V3MB.L','V3MM.L','VAGP.L'
+'CSPX.L', 'EQQQ.L', 'IITU.L', 'ISF.L', 'SWDA.L', 'VHVG.L', 'VUAG.L', 'VUSA.L', 'VWRL.L', 'VWRP.L'
+);
+
 --select * from tbl_price_data_1day 
 select pd_symbol, pd_time, close, rsi_14, macd_sig_hist, dm_dp_adx, crs_50
 from tbl_price_data_1day

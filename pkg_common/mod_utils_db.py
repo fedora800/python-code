@@ -139,7 +139,7 @@ def fn_get_symbol_price_data_stats_from_database(dbconn, symbol):
   sql_query = sa.text("SELECT * FROM viw_price_data_stats_by_symbol WHERE pd_symbol = :prm_symbol").bindparams(prm_symbol=symbol)
   logger.info("Now fetching price data table stats from database for symbol {} using query {}", symbol, sql_query)
   df_result = pd.read_sql_query(sql_query, dbconn)
-  logger.debug("Returning results df = \n{}", df_result)
+  logger.info("DB table contains this data, returning results df = \n{}", df_result)
 
   return df_result
 
@@ -165,7 +165,7 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
 
   """
 
-  logger.log("MYNOTICE", "------------ INSERT-PRICE-DATA ----  {}  ------ {} ------- START -----", symbol, to_insert_indicator_values)
+  logger.log("MYNOTICE", "-------- fn_insert_symbol_price_data_into_db --- {} --- {} --- START -----", symbol, to_insert_indicator_values)
   m_oth.fn_inspect_caller_functions()
   logger.debug( "Received arguments : dbconn={} symbol={} tbl_name={} to_insert_indicator_values={} df=", dbconn, symbol, table_name, to_insert_indicator_values)
   m_oth.fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
@@ -203,7 +203,7 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
     logger.debug("----COMBINED-----")
     m_oth.fn_df_get_first_last_rows(df_combined, 3, 'ALL_COLS')
 
-    logger.log("MYNOTICE", "Computing all the required indicators on df_combined for {} ...", symbol)
+    logger.info("Computing all the required indicators on df_combined for {} ...", symbol)
     #df_combined = m_tin.fn_relative_strength_indicator(df_combined)
     #df_combined = m_tin.fn_macd_indicator(df_combined, "macd_sig_hist")
     #df_combined = m_tin.fn_adx_indicator(df_combined, "dm_dp_adx")
@@ -228,7 +228,8 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
   logger.debug("---- AFTER INSERT df.to_sql() ----------")
   tm_taken_for_insertion_secs = tm_after_insert - tm_before_insert 
   tm_taken_for_insertion_secs  = "{:.3f}".format(tm_taken_for_insertion_secs)
-  logger.info("DB insert completed in {} seconds - {} rows inserted into table {} for symbol {}", tm_taken_for_insertion_secs, df.shape[0], table_name, symbol)
+  logger.debug("{} rows inserted into table {} for symbol {}", df.shape[0], table_name, symbol)
+  logger.debug("DB insert completed in {} seconds", tm_taken_for_insertion_secs)
   logger.trace("Exiting function fn_insert_symbol_price_data_into_db() ...")
   m_oth.fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
   logger.debug("------------------ INSERT-PRICE-DATA ----  {}  --- END -----", symbol)
