@@ -1,3 +1,4 @@
+import os
 import sys
 import platform
 
@@ -21,11 +22,13 @@ if platform.system() == "Windows":
   sys.path.append("H:\\git-projects\\python-code\\streamlit_code")
 elif platform.system() == "Linux":
   #logger.debug("streamlit_2_with_timescaledb.py - Running on Linux")
-  sys.path.append("/home/cloud_user/git-projects/python-code")
-  sys.path.append("/home/cloud_user/git-projects/python-code/pkg_common")
+  home_dir = os.environ.get("HOME")
+  if home_dir:
+    sys.path.append(os.path.join(home_dir, "git-projects/python-code"))
+    sys.path.append(os.path.join(home_dir, "git-projects/python-code/pkg_common"))
 else:
   print("Operating system not recognized")
-#logger.debug(sys.path)
+logger.debug(sys.path)
 
 
 # from mod_utils_db import connect_to_db_using_sqlalchemy

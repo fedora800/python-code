@@ -41,6 +41,14 @@ def get_arguments_info():
   # also refer to getopt and argparse modules - https://www.tutorialspoint.com/python/python_command_line_arguments.htm
 
 
+def use_environment_variables_linux():
+  import os
+  home_dir = os.environ.get("HOME")
+  print(home_dir)
+  if home_dir:
+   sys.path.append(os.path.join(home_dir, "git-projects/python-code"))
+   sys.path.append(f"{home_dir}/git-projects/python-code/pkg_common")
+
 
 def your_function_name(data_venue: str, symbol: str, start_date: datetime, end_date: datetime, optional_parameter3=None) -> pd.DataFrame:
     """
