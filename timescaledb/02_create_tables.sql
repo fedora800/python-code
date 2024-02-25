@@ -9,6 +9,8 @@
 -- T01 - tbl_exchange
 -- T02 - tbl_instrument
 -- T03 - tbl_price_data_1day
+-- T04 - tbl_symbol_filters
+
 
 I01 - idx_tbl_price_data_1day_symbol_time 
 */
@@ -95,6 +97,19 @@ CREATE TABLE IF NOT EXISTS tbl_price_data_1day (
 --   PRIMARY KEY (pd_ins_id, pd_time)
    PRIMARY KEY (pd_symbol, pd_time)
 );
+
+
+-- T04 - tbl_symbol_filters
+\echo "Creating TABLE tbl_symbol_filters"
+CREATE TABLE IF NOT EXISTS tbl_symbol_filters (
+  filter_id SERIAL PRIMARY KEY,
+  filter_name TEXT UNIQUE NOT NULL,
+  filter_query TEXT UNIQUE NOT NULL,
+  filter_description TEXT NOT NULL,
+  deleted BOOLEAN DEFAULT false
+);
+
+
 
 /* I01 - idx_tbl_price_data_1day_symbol_time -- so will be default criteria on SELECT */
 CREATE INDEX idx_tbl_price_data_1day_symbol_time

@@ -168,6 +168,40 @@ ORDER BY AVG(volume) DESC
 LIMIT 50;
 
 
+-- V08 - viw_price_data_us_etfs_most_traded
+-- use this view to get a list of 50 symbols from US ETFs which have most volume over last 30 days and so are the most active
+\echo "Creating VIEW viw_price_data_us_etfs_most_traded";
+CREATE OR REPLACE VIEW viw_price_data_us_etfs_most_traded AS 
+WITH tmp_latest_30_days_data AS (
+    SELECT v_US.symbol,
+      t_PD.pd_time,
+      t_PD.close,
+      t_PD.volume,
+      v_US.name,
+      v_US.exchange_code,
+      v_US.asset_type,
+      ROW_NUMBER() OVER (
+        PARTITION BY pd_symbol
+        ORDER BY pd_time DESC
+      ) AS row_num
+    FROM tbl_price_data_1day t_PD
+      JOIN viw_instrument_us_etfs v_US on t_PD.pd_symbol = v_US.symbol
+    WHERE pd_time > now() - INTERVAL '30 days'
+  )
+SELECT symbol,
+  name,
+  exchange_code,
+  asset_type,
+  AVG(volume) AS avg_volume_over_last_30_days
+FROM tmp_latest_30_days_data
+WHERE row_num <= 5
+GROUP BY symbol,
+  name,
+  exchange_code,
+  asset_type
+HAVING AVG(volume) > 50000
+ORDER BY AVG(volume) DESC
+LIMIT 50;
 
 
 

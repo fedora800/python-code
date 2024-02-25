@@ -8,6 +8,7 @@
 -- L02C - tbl_instrument - UK ETFs
 -- L03A - tbl_price_data_1day - USA
 -- L03B - tbl_price_data_1day - UK
+-- L04 - TBL_SYMBOL_FILTERS
 
 --------------------------------------------------------------------------------
 */
@@ -89,5 +90,18 @@ for FNAME in *.L.csv
 do
   echo ${PREFIX}/tmp/${FNAME}${SUFFIX}
 done
+
+-- L04 - TBL_SYMBOL_FILTERS
+INSERT INTO public.tbl_symbol_filters(filter_name, filter_query, filter_description, deleted)
+	VALUES ('RS-UK-ETF-List', 'select * from viw_price_data_uk_most_traded', 'Most active around 50 UK ETFs', False);
+INSERT INTO public.tbl_symbol_filters(filter_name, filter_query, filter_description, deleted)
+	VALUES ('RS-US-ETF-List', 'select * from viw_price_data_us_etfs_most_traded', 'Most active around 50 US ETFs', False);
+	
+
+
+
+
+
+
 
 
