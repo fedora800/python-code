@@ -507,7 +507,12 @@ def fn_compute_all_required_indicators(
   print("--- EMA_5 ---")
 
   # ------ 4. EMA_13 ------
-  print("--- EMA_13 ---")
+  logger.debug("---Indicator 4 : EMA_13 ---")
+
+  EMA_13_PERIOD=13
+  df_sym["ema_13"] = ta.EMA(df_sym["close"], timeperiod=EMA_13_PERIOD)
+  df_sym["ema_13"] = df_sym["ema_13"].round(2)
+  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
 
   # ------ 5. RSI_14 ------
   logger.debug("---Indicator 5 : RSI ---")
@@ -600,19 +605,39 @@ def fn_compute_all_required_indicators(
     )
 
     # find out which of the rows have null or not null values
-    mask = ~df_merged[COL_NAME_CRS].isna()
-    logger.trace("mask={}", mask)
+    #mask = ~df_merged[COL_NAME_CRS].isna()
+    #logger.trace("mask={}", mask)
     # apply rounding only on those that have non-null values
-    df_merged.loc[mask, COL_NAME_CRS] = df_merged.loc[mask, COL_NAME_CRS].round(3)
-    m_oth.fn_df_get_first_last_rows(df_merged, 3, 'ALL_COLS')
+    #df_merged.loc[mask, COL_NAME_CRS] = df_merged.loc[mask, COL_NAME_CRS].round(3)
+    columns_to_keep = ['pd_time', 'crs_50']
+    df_merged = df_merged[columns_to_keep]
+    print("-- Z 11 -- df_merged = ")
+    m_oth.fn_df_get_first_last_rows(df_merged, 5, 'ALL_COLS')
 
     print("-- Z 22 -- df_sym = ")
-    m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
+    m_oth.fn_df_get_first_last_rows(df_sym, 5, 'ALL_COLS')
 
-    # finally, now update the original df's column with the computed values of CRS
-    df_sym[COL_NAME_CRS] = df_merged[COL_NAME_CRS]
-    print("-- Z 33 -- updated df_sym = ")
-    m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
+    # we need to update the original df_sym column for crs_50 with the corresponding value from df_merged, based off pd_time
+    # so create a new df based on merging of df_sym and df_merged based on pd_time
+    #merged_df = pd.merge(df_sym, df_merged, how='left', on='pd_time')
+
+    # Create a mapping dictionary from df_merged
+    crs_50_mapping = df_merged.set_index('pd_time')['crs_50'].to_dict()
+    print("-- Z 33 -- crs_50_mapping = ", crs_50_mapping)
+
+    #m_oth.fn_df_get_first_last_rows(merged_df, 5, 'ALL_COLS')
+    # NOW FINALLY update the column in ORIGINAL df_sym with the corresponding values from df_merged
+    #df_sym['COL_NAME_CRS'] = merged_df['COL_NAME_CRS']
+
+    # Update values in df_sym based on matching pd_time in both df_sym and df_merged
+    #df_sym.loc[df_sym['pd_time'].isin(df_merged['pd_time']), COL_NAME_CRS] = df_merged.loc[df_merged['pd_time'].isin(df_sym['pd_time']), COL_NAME_CRS]
+
+    # Alternatively, update only if values exist in df_merged
+    #df_sym['COL_NAME_CRS'] = merged_df['COL_NAME_CRS'].where(merged_df['COL_NAME_CRS'].notna(), df_sym['COL_NAME_CRS'])
+
+    # Update the crs_50 column in df_sym with the mapped values
+    df_sym['crs_50'] = df_sym['pd_time'].map(crs_50_mapping)
+    print("-- Z 44 -- updated df_sym = ")
     logger.debug("Now computed all the indicator values and at the end of the function, resulting df_sym=")
     m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
 

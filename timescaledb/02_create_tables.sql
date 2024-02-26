@@ -106,6 +106,7 @@ CREATE TABLE IF NOT EXISTS tbl_symbol_filters (
   filter_name TEXT UNIQUE NOT NULL,
   filter_query TEXT UNIQUE NOT NULL,
   filter_description TEXT NOT NULL,
+  category TEXT,
   deleted BOOLEAN DEFAULT false
 );
 

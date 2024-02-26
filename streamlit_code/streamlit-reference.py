@@ -127,6 +127,40 @@ df = pd.DataFrame(
 )
 
 
+def select_dict_options(df):
+  dct_options = {
+      "scan_name": ["stocks below SMA50", 
+                    "stocks_above_SMA50",
+                    "UK_most_traded_stocks_above_SMA50"
+      ],
+      "scan_sqlquery": [
+          "select * from viw_latest_price_data_by_symbol where close < sma_50",
+          "select pd_symbol, pd_time, name, close, volume, sma_50, sma_200, exchange_code as exch, sector from viw_latest_price_data_by_symbol where close > sma_50",
+#            "select * from viw_price_data_uk_most_traded"
+          "select * from viw_tmp_001"
+      ],
+  }
+
+  # load data into a DataFrame object:
+  df_select_options = pd.DataFrame(dct_options)
+  logger.debug(
+      "type={}. df_select_options={}", type(df_select_options), df_select_options
+  )
+
+  # Take input from selectbox to select a specific scan
+  chosen_sb_option_scan = st.selectbox(
+      "Scans Dropdown",  # Drop-down named Scans Dropdown
+      df_select_options["scan_name"],
+      key="chosen_sb_option_scan",
+      index=None,
+  )
+  st.markdown("You selected from scans dropdown: :red[{}]".format(chosen_sb_option_scan))
+  logger.info("You selected from the Scans Dropdown - chosen_sb_option_scan={}", chosen_sb_option_scan)
+
+
+
+
+
 def dataframe_with_selections(df):
     df_with_selections = df.copy()
     df_with_selections.insert(0, "Select", False)
@@ -174,6 +208,9 @@ st.markdown("Here's a bouquet &mdash;\
             :tulip::cherry_blossom::rose::hibiscus::sunflower::blossom:")
 
 st.markdown("You selected option: :red[{}]".format(str_option))
+
+# colours text and gives font size as we want and also a header html type
+st.markdown(f'<h2 style="color:#ff3399;font-size:24px;">{"Please Wait ! Downloading ..."}</h2>', unsafe_allow_html=True)
 
 
 multi = '''If you end a line with two spaces,

@@ -65,38 +65,6 @@ def fn_st_sb_selectbox_symbol_group(dbconn):
     logger.info("---fn_st_sb_selectbox_symbol_group------START-----")
     logger.debug("Arguments : {}", dbconn)
 
-    '''
-    dct_options = {
-        "symbol_groups": ["US S&P500 constituents", "US ETFs", "UK ETFs", "RS-UK Most Active"],
-        "symbol_groups_sqlquery": [
-            """select symbol, name from viw_instrument_us_sp500_constituents where symbol like '%CO%';""",
-            """select symbol, name from viw_instrument_us_etfs where symbol like '%PY%';""",
-            #"""select symbol, name from viw_price_data_uk_most_traded;""",
-            #"""select symbol, name from viw_instrument_uk_equities where symbol like 'V%' and name like '%All%';""",
-            """select symbol, name from viw_instrument_uk_equities where note_1 is not null order by symbol;""",
-            """select symbol, name from viw_instrument_uk_equities where note_1 like '%MOST-ACTIVE%';""",
-        ],
-    }
-
-
-    # load data into a df
-    df_select_options = pd.DataFrame(dct_options)
-    logger.debug("type={}. df_select_options={}", type(df_select_options), df_select_options)
-
-    # Take input from Sidebar selectbox to select a symbol list group
-    sg_chosen_option = st.sidebar.selectbox(
-        "Symbol Groups Dropdown",  # Drop-down named Symbol Dropdown
-        df_select_options["symbol_groups"],
-        key="sg_chosen_option",
-        index=None,
-    )
-    st.markdown("You selected from symbol_groups dropdown: :red[{}]".format(sg_chosen_option))
-    logger.log("MYNOTICE", "You selected from the Symbol Groups Dropdown - sg_chosen_option={}", sg_chosen_option)
-
-    '''
-
-    # ---------------------------------
-    print("----1111----- NEW ----- start ----")
     # fetch the data from the database that we want to show users into the selectbox group dropdown sidebar
     sql_query = "select filter_name, filter_query, filter_description from tbl_symbol_filters where deleted=False"
     df_sym_filters = pd.read_sql_query(sql_query, dbconn)
@@ -110,9 +78,6 @@ def fn_st_sb_selectbox_symbol_group(dbconn):
         index=None,
     )
     logger.log("MYNOTICE", "You selected from the Symbol Groups Dropdown - sg_chosen_option={}", sg_chosen_option)
-    print("----1111----- NEW ----- end ----")    
-    # ---------------------------------
-
 
     # initial the return df
     df_symbols = pd.DataFrame()
@@ -166,6 +131,8 @@ def fn_st_sb_selectbox_symbol_only(dbconn, df):
   if sm_chosen_symbol:
       # TODO: for efficiency, i should be remove this sync bit from here and put it 1 level up, when we select the symbol group
       # at that level, we can sync all the symbols for that symbol group in 1 shot, so then when we do lookup here, that data is all in sync
+      #st.markdown(''' :red[Please Wait ! Downloading and updating database can take upto 30 seconds ...]''')
+      st.markdown(f'<h2 style="color:#ff3399;font-size:24px;">{"Please Wait ! Downloading and updating database can take upto 30 seconds ..."}</h2>', unsafe_allow_html=True)
       df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", dbconn, sm_chosen_symbol)
       logger.debug("df_ohlcv_symbol = {}", df_ohlcv_symbol)
 #       if not df_sym_stats.empty:
@@ -571,93 +538,92 @@ def fn_st_selectbox_scans(dbconn):
         _type_: _description_
     """
 
-    """
-  this the top-left 1st selectbox on the sidebarinput
-  user will select the group of symbols he wants to start on (eg US ETFs, UK ETFs, US S&P500 constituents etc)
-  TODO - what about no output ???
-
-  returns:
-    a df with the output of the the sql_query results (symbols list) corresponding to what option we chose from the dropdown
-  """
+#    this the top-left 1st selectbox on the sidebarinput
+#    user will select the group of symbols he wants to start on (eg US ETFs, UK ETFs, US S&P500 constituents etc)
+#    TODO - what about no output ???
+#  
+#    returns:
+#      a df with the output of the the sql_query results (symbols list) corresponding to what option we chose from the dropdown
 
     logger.debug("------------------ fn_st_selectbox_scans ------- START ---------------")
     logger.debug("Arguments : {}", dbconn)
 
-    dct_options = {
-        "scan_name": ["stocks below SMA50", 
-                      "stocks_above_SMA50",
-                      "UK_most_traded_stocks_above_SMA50"
-        ],
-        "scan_sqlquery": [
-            "select * from viw_latest_price_data_by_symbol where close < sma_50",
-            "select pd_symbol, pd_time, name, close, volume, sma_50, sma_200, exchange_code as exch, sector from viw_latest_price_data_by_symbol where close > sma_50",
-#            "select * from viw_price_data_uk_most_traded"
-            "select * from viw_tmp_001"
-        ],
-    }
+#    dct_options = {
+#        "scan_name": ["stocks below SMA50", 
+#                      "stocks_above_SMA50",
+#                      "UK_most_traded_stocks_above_SMA50"
+#        ],
+#        "scan_sqlquery": [
+#            "select * from viw_latest_price_data_by_symbol where close < sma_50",
+#            "select pd_symbol, pd_time, name, close, volume, sma_50, sma_200, exchange_code as exch, sector from viw_latest_price_data_by_symbol where close > sma_50",
+##            "select * from viw_price_data_uk_most_traded"
+#            "select * from viw_tmp_001"
+#        ],
+#    }
 
-    # load data into a DataFrame object:
-    df_select_options = pd.DataFrame(dct_options)
-    logger.debug(
-        "type={}. df_select_options={}", type(df_select_options), df_select_options
-    )
+    # fetch the scans from the database that we want to show in the selectbox dropdown
+    sql_query = "select filter_name, filter_query, filter_description from tbl_symbol_filters where category='scans' and deleted=False"
+    df_scans = pd.read_sql_query(sql_query, dbconn)
+    logger.debug("Scans filter query results df_scans =")
+    logger.debug(df_scans)
 
-    # Take input from selectbox to select a specific scan
-    chosen_sb_option_scan = st.selectbox(
+    sb_scan_chosen_option = st.selectbox(
         "Scans Dropdown",  # Drop-down named Scans Dropdown
-        df_select_options["scan_name"],
-        key="chosen_sb_option_scan",
+        df_scans["filter_name"],
+        key="sb_scan_chosen_option",
         index=None,
     )
-    st.markdown("You selected from scans dropdown: :red[{}]".format(chosen_sb_option_scan))
-    logger.info("You selected from the Scans Dropdown - chosen_sb_option_scan={}", chosen_sb_option_scan)
+    st.markdown("You selected from scans dropdown: :red[{}]".format(sb_scan_chosen_option))
+    logger.info("You selected from the Scans Dropdown - chosen_sb_option_scan={}", sb_scan_chosen_option)
 
     # initial the return df
     df_symbols = pd.DataFrame()
 
-    # if user chooses from the Scans dropdown, then run the sql query and return values into a dataframe
-    if chosen_sb_option_scan:
-        chosen_sql_query_scan = df_select_options[
-            df_select_options["scan_name"] == chosen_sb_option_scan
-        ]["scan_sqlquery"].iloc[0]
-        logger.info("st_selectbox_scans - CHOSEN SQL_QUERY = {}", chosen_sql_query_scan)
-        sql_query = sa.text(chosen_sql_query_scan)
-        df_symbols = pd.read_sql_query(sql_query, dbconn)
+    # if user has chosen an option from the scan filters dropdown, then run the sql query and return values into a dataframe
+    if sb_scan_chosen_option:
+      sb_chosen_sql_query = df_scans[df_scans["filter_name"] == sb_scan_chosen_option]["filter_query"].iloc[0]
+      logger.info("streamlit selectbox scans - CHOSEN SQL_QUERY = {}", sb_chosen_sql_query)
+      logger.info("User chose from Scans Dropdown : {} ", sb_chosen_sql_query)
+      sql_query = sa.text(sb_chosen_sql_query)
+      df_symbols = pd.read_sql_query(sql_query, dbconn)
 
-        # Now display this dataframe data as a nice table on the frontend. (note - will break down when you have >1000 rows)
-        st.write("### ", chosen_sb_option_scan)
-        #st.write(df_symbols)
-        # TODO: below stuff when we need user to choose some from among the rows
-        # selected_indices = st.multiselect('Select rows:', df_symbols.index)
-        # selected_rows = df_symbols.loc[selected_indices]
-        # st.write('### Selected Rows', selected_rows)
+    df_head_foot = pd.concat([df_symbols.head(1), df_symbols.tail(1)])
+    logger.debug("Returning Symbol List as df_head_foot = {} ", df_head_foot)
 
-        # using st.data_editor() for more interactivity instead of above
-        df_st_table = df_symbols.copy()
-        df_st_table.insert(0, "Select", False)    # add a column which is check-mark-able so can select multiple rows
-        # get row-selections from user into a df
-        df_st_table_edited = st.data_editor(df_st_table,
-                                            column_config={"Select": st.column_config.CheckboxColumn(required=True)},
-                                            disabled=df_symbols.columns,
-        )
-        # get the selected rows only into a df
-        #TODO: need to make user select only 1 row so that it will display the chart for that symbol
-        df_selected_rows = df_st_table_edited[df_st_table_edited.Select]
-        st.write("Your selection:")
-        st.write(df_selected_rows)
+    # Now display this dataframe data as a nice table on the frontend. (note - will break down when you have >1000 rows)
+    st.write("### ", sb_scan_chosen_option)
+    #st.write(df_symbols)
+    # TODO: below stuff when we need user to choose some from among the rows
+    # selected_indices = st.multiselect('Select rows:', df_symbols.index)
+    # selected_rows = df_symbols.loc[selected_indices]
+    # st.write('### Selected Rows', selected_rows)
 
-        if not df_selected_rows.empty:
-          #lst_selected_indices = list(np.where(df_st_table_edited.Select)[0])
-          #df_selected_rows = df_symbols[df_st_table_edited.Select]
-          #logger.debug("selected_rows_indices: {}                 selected_rows: {}", lst_selected_indices, df_selected_rows)
-          selected_symbol = df_selected_rows["pd_symbol"].iloc[0]
-          logger.debug("selected_symbol = {}", selected_symbol)
+    # using st.data_editor() for more interactivity instead of above
+    df_st_table = df_symbols.copy()
+    df_st_table.insert(0, "Select", False)    # add a column which is check-mark-able so can select multiple rows
+    # get row-selections from user into a df
+    df_st_table_edited = st.data_editor(df_st_table,
+                                        column_config={"Select": st.column_config.CheckboxColumn(required=True)},
+                                        disabled=df_symbols.columns,
+    )
+    # get the selected rows only into a df
+    #TODO: need to make user select only 1 row so that it will display the chart for that symbol
+    df_selected_rows = df_st_table_edited[df_st_table_edited.Select]
+    st.write("Your selection:")
+    st.write(df_selected_rows)
 
-          df_ohlcv_symbol = m_udb.fn_get_table_data_for_symbol(dbconn, selected_symbol)
-          fn_generate_plotly_chart(dbconn, selected_symbol, df_ohlcv_symbol)
+    if not df_selected_rows.empty:
+      #lst_selected_indices = list(np.where(df_st_table_edited.Select)[0])
+      #df_selected_rows = df_symbols[df_st_table_edited.Select]
+      #logger.debug("selected_rows_indices: {}                 selected_rows: {}", lst_selected_indices, df_selected_rows)
+      selected_symbol = df_selected_rows["pd_symbol"].iloc[0]
+      logger.debug("selected_symbol = {}", selected_symbol)
 
-        logger.debug("Returning df = {}")
-        m_oth.fn_df_get_first_last_rows(df_symbols, 3, "ALL_COLS")
+      df_ohlcv_symbol = m_udb.fn_get_table_data_for_symbol(dbconn, selected_symbol)
+      fn_generate_plotly_chart(dbconn, selected_symbol, df_ohlcv_symbol)
+
+    logger.debug("Returning df = {}")
+    m_oth.fn_df_get_first_last_rows(df_symbols, 3, "ALL_COLS")
 
     logger.debug("------------------ fn_st_selectbox_scans ------- END ---------------------")
     return df_symbols

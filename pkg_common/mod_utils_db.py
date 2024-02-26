@@ -1,3 +1,4 @@
+import os
 import sys
 import platform
 from datetime import datetime, timedelta
@@ -20,16 +21,17 @@ if platform.system() == "Windows":
   sys.path.append("H:\\git-projects\\python-code\\streamlit_code")
 elif platform.system() == "Linux":
   #logger.debug("mod_utils_db.py - Running on Linux")
-  sys.path.append("~/git-projects/python-code")
-  sys.path.append("~/git-projects/python-code/streamlit_code")
+  home_dir = os.environ.get("HOME")
+  if home_dir:
+    sys.path.append(os.path.join(home_dir, "git-projects/python-code"))
+    sys.path.append(os.path.join(home_dir, "git-projects/python-code/pkg_common"))
 #  sys.path.append("/home/cloud_user/git-projects/python-code/streamlit_code")
-  sys.path.append("/home/cloud_user/git-projects/python-code")
 else:
   print("Operating system not recognized")
 
 
 #from technical_analysis.config import DB_INFO, DEBUG_MODE
-from streamlit_code.config import DB_INFO, DEBUG_MODE
+#from streamlit_code.config import DB_INFO, DEBUG_MODE
 #from config import DB_INFO, DEBUG_MODE
 from technical_analysis import mod_technical_indicators as m_tin
 #logger.debug(sys.path)

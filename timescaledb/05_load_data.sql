@@ -8,7 +8,7 @@
 -- L02C - tbl_instrument - UK ETFs
 -- L03A - tbl_price_data_1day - USA
 -- L03B - tbl_price_data_1day - UK
--- L04 - TBL_SYMBOL_FILTERS
+-- L04 - tbl_symbol_filters
 
 --------------------------------------------------------------------------------
 */
@@ -35,6 +35,12 @@
 -- this is a list i massaged from Trading212 website JSON data
 \echo "Loading into table tbl_instrument"
 \copy tbl_instrument (symbol, name, exchange_code, asset_type, data_source) FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_instrument_UK_etfs_trading212.csv' DELIMITER ',' CSV HEADER;
+
+-- https://etfdb.com/compare/market-cap/  top 100 etfs by assets
+-- awk -F',' '{print $1","$2",US,ETF"}' /tmp/aaa | sort > /tmp/bbb
+-- COPY tmp_tbl_instrument (symbol, name, country_code, asset_type) FROM '/tmp/bbb' DELIMITER ',' CSV HEADER;
+-- but it will not copy everything as symbols will already exist so we need to do the temp table thing
+
 
 -- this is a list i got as csv from Investing.com website 
   \copy tbl_instrument (symbol, name, sector, industry, sub_industry, exchange_code, asset_type, note_1) from '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_instrument_UK_etfs_investing_com.csv' DELIMITER ',' CSV HEADER;
@@ -91,13 +97,19 @@ do
   echo ${PREFIX}/tmp/${FNAME}${SUFFIX}
 done
 
--- L04 - TBL_SYMBOL_FILTERS
+-- L04 - tbl_symbol_filters
 INSERT INTO public.tbl_symbol_filters(filter_name, filter_query, filter_description, deleted)
 	VALUES ('RS-UK-ETF-List', 'select * from viw_price_data_uk_most_traded', 'Most active around 50 UK ETFs', False);
 INSERT INTO public.tbl_symbol_filters(filter_name, filter_query, filter_description, deleted)
 	VALUES ('RS-US-ETF-List', 'select * from viw_price_data_us_etfs_most_traded', 'Most active around 50 US ETFs', False);
-	
+INSERT INTO public.tbl_symbol_filters(filter_name, filter_query, filter_description, category, deleted)
+        VALUES ('RS-scan-uk-above-sma50', 'select * from viw_tmp_001', 'UK ETFs most traded above sma_50', 'scans', False);
 
+/*
+insert into tbl_symbol_filters (filter_name, filter_query, filter_description, deleted) values ('RS-UK-ETF-1', $$select symbol, name  from viw_instrument_uk_equities where note_1 like '%MOST-ACTIVE%' and deleted=False;$$, 'UK most traded around top 50 etfs', False);
+
+ insert into tbl_symbol_filters (filter_name, filter_query, filter_description, deleted) values ('RS-US-ETFs', $$select symbol, name  from viw_instrument_us_etfs where symbol like '%P%Y%' and deleted=False;$$, 'US some etfs', False);
+*/
 
 
 

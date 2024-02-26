@@ -20,8 +20,8 @@ group by exchange_code;
 
 select country_code, exchange_code, asset_type, note_1, data_source, deleted, count(*) 
 from tbl_instrument
-where 
-country_code='UK' 
+--where 
+--country_code='UK' 
 group by country_code, exchange_code, asset_type, note_1, data_source, deleted;
 
 delete from tbl_instrument 
@@ -74,7 +74,9 @@ symbol in (
 --select * from tbl_price_data_1day 
 select pd_symbol, pd_time, close, rsi_14, macd_sig_hist, dm_dp_adx, crs_50
 from tbl_price_data_1day
-where pd_symbol='VWRL.L'
+where 
+pd_symbol='VWRL.L'
+--and pd_time between '2023-05-01' and '2023-07-01'
 order by pd_time DESC
 limit 20;
 
@@ -138,11 +140,12 @@ order by pd_time desc;
 CREATE OR REPLACE VIEW viw_tmp_001 AS
   select pd_symbol,
     name,
-    pd_time,
+    DATE(pd_time) as price_date,
     close,
     ema_13,
     sma_50,
-    volume
+    volume,
+    sector
   from viw_latest_price_data_by_symbol
   where pd_time > CURRENT_DATE - INTERVAL '4 days'
     and close > sma_50
@@ -151,6 +154,15 @@ CREATE OR REPLACE VIEW viw_tmp_001 AS
       where note_1 is not null    
 	)
   order by pd_symbol;
+
+
+update tbl_instrument
+set note_1 = 'MOST-ACTIVE;'
+where
+symbol in 
+('3KWE.L', '3LNG.L', '3NGL.L', '3SNV.L', '3UKS.L', 'AGGU.L', 'CNYA.L', 'CSPX.L', 'DHYA.L', 'DS2P.L', 'DTLA.L', 'FLOA.L', 'HCHS.L', 'IB01.L', 'IBTA.L', 'IDTL.L', 'IHYA.L', 'IMBA.L', 'ISLQDA.L', 'ISMIDD.L', 'ISNDIA.L', 'IUAA.L', 'IUVL.L', 'JGRE.L', 'JMRE.L', 'JPEA.L', 'LGUG.L', 'LNGA.L', 'PAJP.L', 'RIEU.L', 'SAEM.L', 'SDIA.L', 'SPL3.L', 'SUK2.L', 'SUOE.L', 'SUSM.L', 'V3AA.L', 'V3AB.L', 'V3AM.L', 'V3MB.L', 'VALW.L', 'VERX.L', 'VEVE.L', 'VFEM.L', 'VHVG.L', 'VHYL.L', 'VILX.L', 'VIXL.L', 'VJPN.L', 'VMID.L', 'VUAG.L', 'VUKG.L', 'VWRL.L', 'VWRP.L');
+
+update tbl_instrument set country_code='UK' where country_code is null and exchange_code='LSE' and asset_type='ETF' and note_1 like '%MOST-ACTIVE%';
 
 
 --------------------------------------------------------------------------------
