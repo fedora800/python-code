@@ -300,7 +300,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
   >> fn_sync_price_data_in_table_for_symbol("YFINANCE", dbconn, "AAPL")
   """
   
-  logger.log("MYNOTICE", "---- sync_price_data_in_table_for_symbol {} ---- STARTED ---", symbol)
+  logger.log("MYNOTICE", "START: Synchronizing price data from data feed into table {}", symbol)
   m_oth.fn_inspect_caller_functions()
   logger.debug("Received arguments : data_venue={} dbconn={} symbol={}", data_venue, dbconn, symbol)
   df_return = pd.DataFrame()
@@ -324,10 +324,10 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
 
       # ----- temporary for spy ------------
       if diff_days == 2 and symbol == 'SPY':
-        print("----temp---skipping download for SPY ...........")
+        logger.warning("----temp---skipping download for SPY ...........")
         return df_return
       else:
-        print("---temp--continuing---")
+        logger.warning("---temp--continuing---")
       # ----- temporary for spy ------------
 
       df_downloaded_missing_price_data = fn_download_historical_data_for_symbol('YFINANCE', symbol, dt_start_date, dt_end_date, False)
@@ -366,6 +366,6 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
     df_return = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_sym_downloaded_price_data, "tbl_price_data_1day", True)
 
   m_oth.fn_df_get_first_last_rows(df_return, 3, 'ALL_COLS')
-  logger.info("---- sync_price_data_in_table_for_symbol {} ---- COMPLETED ---", symbol)
+  logger.log("MYNOTICE", "END: Synchronizing price data from data feed into table {}", symbol)
   return df_return
 

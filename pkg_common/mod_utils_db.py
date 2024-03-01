@@ -139,9 +139,9 @@ def fn_get_symbol_price_data_stats_from_database(dbconn, symbol):
   logger.debug("Received arguments : dbconn={} symbol={}", dbconn, symbol)
 
   sql_query = sa.text("SELECT * FROM viw_price_data_stats_by_symbol WHERE pd_symbol = :prm_symbol").bindparams(prm_symbol=symbol)
-  logger.info("Now fetching price data table stats from database for symbol {} using query {}", symbol, sql_query)
+  logger.info("Looking up price data table stats from database for symbol {}. SQL Query=[{}]", symbol, sql_query)
   df_result = pd.read_sql_query(sql_query, dbconn)
-  logger.info("DB table contains this data, returning results df = \n{}", df_result)
+  logger.info("DB table contains this data for {} :\n{}", symbol, df_result)
 
   return df_result
 
@@ -167,7 +167,7 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
 
   """
 
-  logger.log("MYNOTICE", "-------- fn_insert_symbol_price_data_into_db --- {} --- {} --- START -----", symbol, to_insert_indicator_values)
+  logger.log("MYNOTICE", "START: Inserting downloaded price data into table for {}", symbol)
   m_oth.fn_inspect_caller_functions()
   logger.debug( "Received arguments : dbconn={} symbol={} tbl_name={} to_insert_indicator_values={} df=", dbconn, symbol, table_name, to_insert_indicator_values)
   m_oth.fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
@@ -205,7 +205,6 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
     logger.debug("----COMBINED-----")
     m_oth.fn_df_get_first_last_rows(df_combined, 3, 'ALL_COLS')
 
-    logger.info("Computing all the required indicators on df_combined for {} ...", symbol)
     #df_combined = m_tin.fn_relative_strength_indicator(df_combined)
     #df_combined = m_tin.fn_macd_indicator(df_combined, "macd_sig_hist")
     #df_combined = m_tin.fn_adx_indicator(df_combined, "dm_dp_adx")
@@ -219,7 +218,7 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
     logger.debug("----COMPUTED INDICATORS AND df NOW UPDATED WITH THE VALUES -----")
     m_oth.fn_df_get_first_last_rows(df,  3, 'ALL_COLS')
 
-  logger.log("MYNOTICE", "Now inserting the new data (above df) for {} into {} using SQLAlchemy function df.to_sql() ...", symbol, table_name)
+  logger.log("MYNOTICE", "Now inserting the new data (above df) for {} into DB table {} using SQLAlchemy function df.to_sql() ...", symbol, table_name)
   logger.log("MYNOTICE", "using first_and_last_date = {}", m_oth.fn_df_get_first_last_dates(df))
   
   tm_before_insert = time.time()
@@ -234,7 +233,8 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
   logger.debug("DB insert completed in {} seconds", tm_taken_for_insertion_secs)
   logger.trace("Exiting function fn_insert_symbol_price_data_into_db() ...")
   m_oth.fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
-  logger.debug("------------------ INSERT-PRICE-DATA ----  {}  --- END -----", symbol)
+  logger.log("MYNOTICE", "END: Inserting downloaded price data into table for {}, took {} seconds to complete", symbol, tm_taken_for_insertion_secs)
+
 
   return df
   
@@ -299,7 +299,8 @@ def fn_get_table_data_for_symbol(dbconn, symbol: str, start_date: Optional[datet
 
     sql_query = text(f"SELECT * FROM tbl_price_data_1day WHERE {where_clause}")
     dct_params = {"start_date": start_date, "end_date": end_date, "param": symbol}
-    logger.info("To get the price data for {} - constructed sql_query = {}       and dct_params = {}", symbol, sql_query, dct_params)
+    logger.info("Fetching price data for {} using below constructed sql query :", symbol)
+    logger.info("query=[{}] and dct_params=[{}]", sql_query, dct_params)
 
     # Execute the SQLAlchemy query and fetch data
     df_ohlcv_symbol = pd.read_sql_query(sql_query, dbconn, params=dct_params)

@@ -103,7 +103,11 @@ INSERT INTO public.tbl_symbol_filters(filter_name, filter_query, filter_descript
 INSERT INTO public.tbl_symbol_filters(filter_name, filter_query, filter_description, deleted)
 	VALUES ('RS-US-ETF-List', 'select * from viw_price_data_us_etfs_most_traded', 'Most active around 50 US ETFs', False);
 INSERT INTO public.tbl_symbol_filters(filter_name, filter_query, filter_description, category, deleted)
-        VALUES ('RS-scan-uk-above-sma50', 'select * from viw_tmp_001', 'UK ETFs most traded above sma_50', 'scans', False);
+  VALUES ('RS-scan-uk-above-sma50', 'select * from viw_tmp_001', 'UK ETFs most traded above sma_50', 'scans', False);
+INSERT INTO public.tbl_symbol_filters(filter_name, filter_query, filter_description, category, deleted)
+	VALUES ('SS-scan-test1', $$select symbol as pd_symbol, name, note_1 from tbl_instrument where symbol in ('SPY', 'META', 'TSLA', 'XOM')$$, 'some symbols of interest/testing', 'scans', False);
+
+
 
 /*
 insert into tbl_symbol_filters (filter_name, filter_query, filter_description, deleted) values ('RS-UK-ETF-1', $$select symbol, name  from viw_instrument_uk_equities where note_1 like '%MOST-ACTIVE%' and deleted=False;$$, 'UK most traded around top 50 etfs', False);

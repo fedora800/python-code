@@ -451,7 +451,7 @@ def fn_compute_all_required_indicators(
 
   """
 
-  logger.debug("---------- fn_compute_all_required_indicators ---- STARTED ----------")
+  logger.log("MYNOTICE", "START: Computing all the required indicators using dataframes for symbol={} and benchmark symbol = {}", sym, bch_sym)
 
   NUM_RECORDS_EXPECTED = 300
   IF_DELIMITER = ";"  # intra-field delimeter for the macd column
@@ -472,11 +472,7 @@ def fn_compute_all_required_indicators(
   m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
   num_recs = fn_check_data(df_sym, NUM_RECORDS_EXPECTED)
   if num_recs < 200:
-      logger.error(
-          "num_records={} less than expected records={}",
-          num_recs,
-          NUM_RECORDS_EXPECTED,
-      )
+      logger.error("num_records={} less than expected records={}", num_recs, NUM_RECORDS_EXPECTED)
       # TODO: exit maybe ?
 
   # check if the symbol passed down is itself an index or ETF like SPY, NIFTY etc
@@ -504,7 +500,8 @@ def fn_compute_all_required_indicators(
   m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
 
   # ------ 3. EMA_5 ------
-  print("--- EMA_5 ---")
+  # TODO: this one
+  logger.debug("--- TODO: EMA_5 ---")
 
   # ------ 4. EMA_13 ------
   logger.debug("---Indicator 4 : EMA_13 ---")
@@ -583,7 +580,7 @@ def fn_compute_all_required_indicators(
     print("------crs_50  dataframe 1 = df_tmp_sym -----")
     print(df_tmp_sym)
     print("------crs_50  dataframe 2 = df_tmp_bch_sym -----")
-    print(df_bch_sym)
+    print(df_tmp_bch_sym)
 
     # to fix below error, got a recommendation to make sure both fields are of the exact same type
     # ValueError: You are trying to merge on datetime64[ns, UTC] and object columns for key 'pd_time'. If you wish to proceed you should use pd.concat
@@ -623,7 +620,7 @@ def fn_compute_all_required_indicators(
 
     # Create a mapping dictionary from df_merged
     crs_50_mapping = df_merged.set_index('pd_time')['crs_50'].to_dict()
-    print("-- Z 33 -- crs_50_mapping = ", crs_50_mapping)
+    #print("-- Z 33 -- crs_50_mapping = ", crs_50_mapping)
 
     #m_oth.fn_df_get_first_last_rows(merged_df, 5, 'ALL_COLS')
     # NOW FINALLY update the column in ORIGINAL df_sym with the corresponding values from df_merged
@@ -641,7 +638,7 @@ def fn_compute_all_required_indicators(
     logger.debug("Now computed all the indicator values and at the end of the function, resulting df_sym=")
     m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
 
-  logger.debug("---------- fn_compute_all_required_indicators ---- COMPLETED ----------")
+  logger.log("MYNOTICE", "END: Computing all the required indicators using dataframes for symbol={} and benchmark symbol = {}", sym, bch_sym)
   return df_sym
 
 

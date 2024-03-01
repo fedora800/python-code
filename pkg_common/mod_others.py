@@ -13,7 +13,7 @@ from loguru import logger
 def fn_inspect_caller_functions():
 
   # print caller of the function of interest to us
-  logger.debug('inspect: this function was invoked by -', inspect.stack()[2].function)
+  logger.info('inspect: this function was invoked by -', inspect.stack()[2].function)
 
   stack = traceback.extract_stack()[:-1]  # exclude the current frame because we are interested in the caller of the caller and higher up
   for frame in stack:
