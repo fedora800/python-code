@@ -5,7 +5,8 @@ import mod_others as m_oth
 
 
 def main():
-  m_oth.fn_set_logger(True)
+#  m_oth.fn_set_logger(True)
+  m_oth.fn_set_logger(False)
   data_venue = "YFINANCE"
   # symbol="AAPL"
   # FILE_EXTN ='.csv'

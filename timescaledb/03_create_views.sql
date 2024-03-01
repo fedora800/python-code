@@ -167,7 +167,7 @@ GROUP BY symbol,
   asset_type,
   sector
 HAVING AVG(volume) > 50000
-ORDER BY AVG(volume) DESC
+ORDER BY symbol
 LIMIT 50;
 
 
