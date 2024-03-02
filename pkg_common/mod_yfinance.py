@@ -67,9 +67,9 @@ def read_csv_into_list(file_path, has_header=True):
 
 
 
-def fn_download_historical_data_for_symbol(data_venue: str, symbol: str, start_date: datetime, end_date: datetime, write_to_file: bool) -> pd.DataFrame:
+def fn_download_historical_data_for_one_symbol(data_venue: str, symbol: str, start_date: datetime, end_date: datetime, write_to_file: bool) -> pd.DataFrame:
   """
-  Retrieves historical data for a symbol from a data venue.
+  Retrieves historical data for just a single symbol from a data venue.
 
   Parameters:
   - data_venue (str): The string representing the data venue.

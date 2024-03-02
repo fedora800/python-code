@@ -51,7 +51,7 @@ def  fn_01_A_load_csv_file(csv_fname):
   df = pd.read_csv(csv_fname)
   return df
   
-def fn_01_B_save_as_csf_file(df):
+def fn_01_B_save_as_csv_file(df):
 
   csv_file_path = 'path/to/your/file.csv'
   

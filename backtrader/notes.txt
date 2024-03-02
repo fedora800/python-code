@@ -1,0 +1,9 @@
+
+see the various simple functions in a class created here - https://github.com/jesse-ai/example-strategies/blob/master/SMACrossover/__init__.py
+use quantstats - https://github.com/ranaroussi/quantstats
+nice detailed use of backtrader - https://github.com/WISEPLAT/Learn-BackTrader
+backtrader with MQL5 metatrader - https://github.com/khramkov/Backtrader-MQL5-API
+
+
+
+

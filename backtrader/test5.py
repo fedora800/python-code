@@ -3,7 +3,7 @@ import backtrader as bt
 
 ADX = 25
 QTY = 5
-SYMBOLFILE='XOM.csv'
+SYMBOLFILE='TSLA.csv'
 
 
 class IchimokuCrossStrategy(bt.Strategy):
@@ -70,7 +70,10 @@ cerebro.broker.set_cash(200000)
 print('Starting Portfolio Value: %.2f' % cerebro.broker.getvalue())
 print('Starting Portfolio Cash: %.2f' % cerebro.broker.get_cash())
 cerebro.addstrategy(IchimokuCrossStrategy)
-datafeed = bt.feeds.YahooFinanceCSVData(dataname=SYMBOLFILE, fromdate=datetime.datetime(2021, 1, 1), todate=datetime.datetime(2022, 1, 31), reverse=False)
+datafeed = bt.feeds.YahooFinanceCSVData(dataname=SYMBOLFILE, fromdate=datetime.datetime(2021, 1, 1), todate=datetime.datetime(2022, 12, 31), reverse=False)
+datafeed = bt.feeds.YahooFinanceData('XOM', 'd')
+
+
 #data0 = bt.feeds.YahooFinanceData(dataname='MSFT', fromdate=datetime(2016, 8, 1),todate=datetime(2020, 1, 25))
 
 cerebro.adddata(datafeed)

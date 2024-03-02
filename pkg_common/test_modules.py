@@ -4,20 +4,29 @@ import mod_utils_db as m_udb
 import mod_others as m_oth
 
 
-def main():
-#  m_oth.fn_set_logger(True)
-  m_oth.fn_set_logger(False)
+
+def test_fn_download_historical_data_for_symbol():
   data_venue = "YFINANCE"
-  # symbol="AAPL"
-  # FILE_EXTN ='.csv'
-  start_date = datetime(2022, 1, 1)
-  end_date = datetime(2022, 12, 31)
+  symbol="XOM"
+  file_extn ='.csv'
+  start_date = datetime(2021, 1, 1)
+  end_date = datetime(2023, 12, 31)
 
-  my_db_uri = "postgresql://postgres:Inesh#2012@localhost:5432/dbs_invest"
+  df = m_yfn.fn_download_historical_data_for_one_symbol(data_venue, symbol, start_date, end_date, True)
+  filename=symbol + file_extn
+  df.to_csv(filename, index=False)
+  print(f"Created csv file from downloaded date - {filename}")
+  
+
+def main():
+  m_oth.fn_set_logger(True)
+
+  test_fn_download_historical_data_for_symbol()
+
+  #my_db_uri = "postgresql://postgres:Inesh#2012@localhost:5432/dbs_invest"
   #my_db_uri = "postgresql://postgres:postgres@localhost:5432/dbs_invest"
-  engine = m_udb.fn_create_database_engine_sqlalchemy(my_db_uri)
+  #engine = m_udb.fn_create_database_engine_sqlalchemy(my_db_uri)
 
-  #df = m_yfn.fn_get_historical_data_symbol(data_venue, symbol, start_date, end_date, True)
 
 
   # this will be the full S&P 500 index constituents list
@@ -35,10 +44,10 @@ def main():
 
 
   # UK ETFs most-active list
-  # lst_symbols = ('3KWE.L', '3LNG.L', '3NGL.L', '3SNV.L', '3UKS.L', 'AGGU.L', 'CNYA.L', 'CSPX.L', 'DHYA.L', 'DS2P.L', 'DTLA.L', 'FLOA.L', 'HCHS.L', 'IB01.L', \
-  #   'IBTA.L', 'IDTL.L', 'IHYA.L', 'IMBA.L', 'IUAA.L', 'IUVL.L', 'JGRE.L', 'JMRE.L', 'JPEA.L', 'LGUG.L', 'LNGA.L', \
-  #   'PAJP.L', 'RIEU.L', 'SAEM.L', 'SDIA.L', 'SPL3.L', 'SUK2.L', 'SUOE.L', 'SUSM.L', 'V3AA.L', 'V3AB.L', 'V3AM.L', 'V3MB.L', 'VALW.L', 'VERX.L', 'VEVE.L', \
-  #   'VFEM.L', 'VHVG.L', 'VHYL.L', 'VILX.L', 'VIXL.L', 'VJPN.L', 'VMID.L', 'VUAG.L', 'VUKG.L', 'VWRL.L', 'VWRP.L')
+  lst_symbols = ('3KWE.L', '3LNG.L', '3NGL.L', '3SNV.L', '3UKS.L', 'AGGU.L', 'CNYA.L', 'CSPX.L', 'DHYA.L', 'DS2P.L', 'DTLA.L', 'FLOA.L', 'HCHS.L', 'IB01.L', \
+     'IBTA.L', 'IDTL.L', 'IHYA.L', 'IMBA.L', 'IUAA.L', 'IUVL.L', 'JGRE.L', 'JMRE.L', 'JPEA.L', 'LGUG.L', 'LNGA.L', \
+     'PAJP.L', 'RIEU.L', 'SAEM.L', 'SDIA.L', 'SPL3.L', 'SUK2.L', 'SUOE.L', 'SUSM.L', 'V3AA.L', 'V3AB.L', 'V3AM.L', 'V3MB.L', 'VALW.L', 'VERX.L', 'VEVE.L', \
+     'VFEM.L', 'VHVG.L', 'VHYL.L', 'VILX.L', 'VIXL.L', 'VJPN.L', 'VMID.L', 'VUAG.L', 'VUKG.L', 'VWRL.L', 'VWRP.L')
 
   #m_yfn.fn_get_historical_data_list_of_symbols(data_venue, lst_symbols, start_date, end_date, True)    # this puts into a csv file
   #df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", engine, "VWRL.L")
