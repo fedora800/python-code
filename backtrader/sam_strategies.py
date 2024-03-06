@@ -707,8 +707,12 @@ class SamStrategy_3in1_v1(bt.Strategy):
                                        period_me2=self.p.macd2,
                                        period_signal=self.p.macdsig)
 
-        # Add DMI indicators
-        self.dmi = bt.ind.DMI()
+        # # Add DMI indicators
+        # self.dmi = bt.ind.DMI()
+
+        # Add RSI indicators
+        self.rsi = bt.ind.RSI()
+
 
 
         # Indicators for the plotting display
@@ -724,9 +728,10 @@ class SamStrategy_3in1_v1(bt.Strategy):
         self.emacross_ind = bt.indicators.CrossOver(self.ema1, self.ema2)      # will plot this emacross_ind as a seperate indicator subplot on the chart
         self.macdcross_ind = bt.indicators.CrossOver(self.macd.macd, self.macd.signal)   # plot this macdcross_ind as a seperate indicator subplot on the chart
         #self.dmicross_ind = bt.ind.CrossOver(bt.ind.PlusDI(self.datas[0], plot=False), bt.ind.MinusDI(self.datas[0], plot=False))
-        self.dmicross_ind = bt.ind.CrossOver(bt.ind.PlusDI(self.datas[0]), bt.ind.MinusDI(self.datas[0]))
+        #self.dmicross_ind = bt.ind.CrossOver(bt.ind.PlusDI(self.datas[0]), bt.ind.MinusDI(self.datas[0]))
         #self.dmicross_ind = bt.ind.CrossOver(self.dmi.plusDI, self.DMI.MinusDI)
             #bt.ind.PlusDI(self.datas[0], plot=False), bt.ind.MinusDI(self.datas[0], plot=False))
+        self.rsi_cross_up_ind = bt.indicators.CrossOver(self.rsi, 60)
         self.three_in_one_ind = self.three_ind_cross_last_3bars
         
 
@@ -812,7 +817,7 @@ class SamStrategy_3in1_v1(bt.Strategy):
 
     def check_ema_cross_last_3bars(self):
         if (self.emacross_ind[0] == 1 or self.emacross_ind[-1] == 1 or self.emacross_ind[-2] == 1):
-            #print('--1---emacross UP in last 3 BARS--- curbar=',self.emacross_ind[0], ' 1barago=',self.emacross_ind[-1], ' 2barago=',self.emacross_ind[-2]) 
+            print('--1---emacross UP in last 3 BARS--- curbar=',self.emacross_ind[0], ' 1barago=',self.emacross_ind[-1], ' 2barago=',self.emacross_ind[-2]) 
             return self.CROSSED_UP
         elif (self.emacross_ind[0] == -1 or self.emacross_ind[-1] == -1 or self.emacross_ind[-2] == -1):
             #print('--1---emacross DOWN in last 3 BARS--- curbar=',self.emacross_ind[0], ' 1barago=',self.emacross_ind[-1], ' 2barago=',self.emacross_ind[-2]) 
@@ -823,7 +828,7 @@ class SamStrategy_3in1_v1(bt.Strategy):
 
     def check_macd_cross_last_3bars(self):
             if (self.macdcross_ind[0] == 1 or self.macdcross_ind[-1] == 1 or self.macdcross_ind[-2] == 1):
-                #print('--1---macdcross UP in last 3 BARS--- curbar=',self.macdcross_ind[0], ' 1barago=',self.macdcross_ind[-1], ' 2barago=',self.macdcross_ind[-2])
+                print('--1---macdcross UP in last 3 BARS--- curbar=',self.macdcross_ind[0], ' 1barago=',self.macdcross_ind[-1], ' 2barago=',self.macdcross_ind[-2])
                 return self.CROSSED_UP
             elif (self.macdcross_ind[0] == -1 or self.macdcross_ind[-1] == -1 or self.macdcross_ind[-2] == -1):
                 #print('--1---macdcross DOWN in last 3 BARS--- curbar=',self.macdcross_ind[0], ' 1barago=',self.macdcross_ind[-1], ' 2barago=',self.macdcross_ind[-2]) 
@@ -841,6 +846,16 @@ class SamStrategy_3in1_v1(bt.Strategy):
             else:
                 return self.NO_CROSS
 
+    def check_rsi_cross_up_last_3bars(self):
+        if (self.rsi_cross_up_ind[0] >= 60 or self.rsi_cross_up_ind[-1] >= 60 or self.rsi_cross_up_ind[-2] >= 60):
+            print('--1---rsi cross UP in last 3 BARS--- curbar=',self.rsi_cross_up_ind[0], ' 1barago=',self.rsi_cross_up_ind[-1], ' 2barago=',self.rsi_cross_up_ind[-2]) 
+            return self.CROSSED_UP
+        #elif (self.emacross_ind[0] == -1 or self.emacross_ind[-1] == -1 or self.emacross_ind[-2] == -1):
+        #    #print('--1---rsi cross DOWN in last 3 BARS--- curbar=',self.rsi_cross_up_ind[0], ' 1barago=',self.rsi_cross_up_ind[-1], ' 2barago=',self.rsi_cross_up_ind[-2]) 
+        #    return self.CROSSED_DOWN
+        else:
+            return self.NO_CROSS
+
 
     def next(self):
         #This is the most important part of the strategy class as most of our code will get executed here. 
@@ -856,7 +871,8 @@ class SamStrategy_3in1_v1(bt.Strategy):
         # print('---2--MACD CROSSOVER FOUND IN LAST 3 BARS--', self.check_macd_cross_last_3bars()) if self.check_macd_cross_last_3bars() != 'NO' else None
         # print('---3--DMI CROSSOVER FOUND IN LAST 3 BARS--', self.check_dmi_cross_last_3bars()) if self.check_dmi_cross_last_3bars() != 'NO' else None
 
-        self.three_ind_cross_last_3bars = self.check_ema_cross_last_3bars() + self.check_macd_cross_last_3bars() + self.check_dmi_cross_last_3bars()
+        #self.three_ind_cross_last_3bars = self.check_ema_cross_last_3bars() + self.check_macd_cross_last_3bars() + self.check_dmi_cross_last_3bars()
+        self.three_ind_cross_last_3bars = self.check_ema_cross_last_3bars() + self.check_macd_cross_last_3bars() + self.check_rsi_cross_up_last_3bars()
         print('--XXX--', self.three_ind_cross_last_3bars) if self.three_ind_cross_last_3bars in [-3, 3] else None
 
         # Check if an order is pending ... if yes, we cannot send a 2nd one

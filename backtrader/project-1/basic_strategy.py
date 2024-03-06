@@ -5,7 +5,7 @@
 from __future__ import (absolute_import, division, print_function, unicode_literals)
 from strategies import *
 import matplotlib
-matplotlib.use('agg')   # this is required to run on headless on server side where we cannot plot
+#matplotlib.use('agg')   # this is required to run on headless on server side where we cannot plot
 
 import datetime  # For datetime objects
 import os.path  # To manage paths
@@ -13,13 +13,13 @@ import sys  # To find out the script name (in argv[0])
 
 import backtrader as bt
 
-# the display of matplotlib pot via tkinter had errors, could not find tkinter somehow.
-# i had to downgrade to below exact versions which then worked
+# 05-mar-2024  (run on windows)
+# previously it gave errros on the display of matplotlib pot via tkinter had errors, could not find tkinter somehow. but was not complaining today, not sure.
 # backtrader    Version: 1.9.78.123
-# matplotlib    Version: 3.3.4
-# python        Version : 3.6                   (so run as C:\Python\Python36\python.exe .\basic_strategy.py)
+# matplotlib    Version: 3.7.1
+# python        Version : 3.11                  (so run as C:\Python\Python36\python.exe .\basic_strategy.py)
 
-# i installed tk using - sudo apt-get install python3-tk
+# i installed tk previously using - sudo apt-get install python3-tk            # but did not require.
 
 
 # Just a basic Strategy skeleton that only prints price, no logic
@@ -85,4 +85,4 @@ if __name__ == '__main__':
     print('Final Portfolio Value: %.2f' % cerebro.broker.getvalue())
 
     # Plot the result
-    #cerebro.plot()         # gives error on server as no gui to plot to
+    cerebro.plot()         # gives error on server as no gui to plot to

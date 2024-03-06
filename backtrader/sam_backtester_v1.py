@@ -9,7 +9,8 @@ import sam_strategies as sam_st
  #import OthersStrategy_01, SamStrategy_DMICrossover, MACDStrategyTest2, SamStrategy_MainTemplate, SmaCross
 
 PORTFOLIO_STARTING_AMOUNT = 100000.0
-SYMBOLFILE='BTC-USD.csv'
+#SYMBOLFILE='BTC-USD.csv'
+SYMBOLFILE='TSLA.csv'
 #STRATEGY_NAME='SamStrategy_1'
 STRATEGY_NAME='SamStrategy_DMICrossover'
 TRAILING_STOP_PCT = 0.40
