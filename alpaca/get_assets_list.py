@@ -19,7 +19,7 @@ request_params = CryptoBarsRequest(
 bars = crypto_client.get_crypto_bars(request_params)
 '''
 
-stock_client = StockHistoricalDataClient(config.ALPACA_API_KEY, config.ALPACA_API_SECRET)
+stock_client = StockHistoricalDataClient(config.PAPER_TRADING_ALPACA_API_KEY, config.PAPER_TRADING_ALPACA_API_SECRET)
 # multi symbol request - single symbol is similar
 multisymbol_request_params = StockLatestQuoteRequest(symbol_or_symbols=["SPY", "GLD", "TLT"])
 latest_multisymbol_quotes = stock_client.get_stock_latest_quote(multisymbol_request_params)
