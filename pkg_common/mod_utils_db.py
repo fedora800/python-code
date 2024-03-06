@@ -210,7 +210,7 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
     #df_combined = m_tin.fn_adx_indicator(df_combined, "dm_dp_adx")
     #df_combined = m_tin.fn_comparative_relative_strength_CRS_indicator(bch_symbol, df_bch_sym, symbol, df_combined, "crs_50")
     df_combined = m_tin.fn_compute_all_required_indicators(bch_symbol, df_bch_sym, symbol, df_combined)
-    print("---7000--------------", df_combined)
+    logger.debug("---7000--------------", df_combined)
 
     # extract back from the combined df only the rows that were in df
     df = df_combined[df_combined["source"] == "newer-data"]

@@ -140,7 +140,7 @@ def fn_get_historical_data_list_of_symbols(data_venue: str, lst_symbols: list, s
 
   for symbol in lst_symbols:
     logger.debug("symbol={}", symbol)
-    fn_download_historical_data_for_symbol(data_venue, symbol, start_date, end_date, write_to_file)
+    fn_download_historical_data_for_one_symbol(data_venue, symbol, start_date, end_date, write_to_file)
 
 
 
@@ -330,7 +330,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
         logger.warning("---temp--continuing---")
       # ----- temporary for spy ------------
 
-      df_downloaded_missing_price_data = fn_download_historical_data_for_symbol('YFINANCE', symbol, dt_start_date, dt_end_date, False)
+      df_downloaded_missing_price_data = fn_download_historical_data_for_one_symbol('YFINANCE', symbol, dt_start_date, dt_end_date, False)
       df_downloaded_missing_price_data = m_oth.fn_modify_dataframe_per_our_requirements(symbol, df_downloaded_missing_price_data)
       logger.debug("Now inserting the missing data into the table")
       df_return = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_downloaded_missing_price_data, "tbl_price_data_1day", True)
@@ -338,7 +338,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
       logger.debug("--ELSE 2-- diff_days < 1")
       logger.debug("df_sym_stats is not empty but negligible number of days of missing data = {}. Not downloading.", diff_days)
       df_return = m_udb.fn_get_table_data_for_symbol(dbconn, symbol, dt_oldest_record_time, dt_latest_record_date)
-      print("----here 01----", df_return)
+      logger.debug("--ELSE 2-- diff_days < 1 ---END -- df=", df_return)
   else:
     logger.debug("--ELSE 1-- df_sym_stats is empty meaning there is no price data in the table")
     logger.trace("df_sym_stats is empty for symbol = {}", symbol)
@@ -356,7 +356,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
     dt_start_date = dt_start_date.replace(hour=0, minute=0, second=0, microsecond=0)
     dt_end_date = dt_end_date.replace(hour=0, minute=0, second=0, microsecond=0)
     logger.info("Downloading historical price data with a default lookback period...")
-    df_sym_downloaded_price_data = fn_download_historical_data_for_symbol("YFINANCE", symbol, dt_start_date, dt_end_date, False)
+    df_sym_downloaded_price_data = fn_download_historical_data_for_one_symbol("YFINANCE", symbol, dt_start_date, dt_end_date, False)
     df_sym_downloaded_price_data = m_oth.fn_modify_dataframe_per_our_requirements(symbol, df_sym_downloaded_price_data)
     logger.debug("--ELSE 1-- modified df_sym_downloaded_price_data prepared for insertion into table :")
     m_oth.fn_df_get_first_last_rows(df_sym_downloaded_price_data, 3, 'ALL_COLS')
