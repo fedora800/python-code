@@ -1,4 +1,7 @@
 # https://docs.alpaca.markets/docs/getting-started-with-alpaca-market-data
+# https://github.com/alpacahq/alpaca-py
+# works perfectly fine without needing API keys as its crypto
+
 # pip install alpaca-py
 
 from alpaca.data.historical import CryptoHistoricalDataClient

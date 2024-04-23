@@ -1,6 +1,7 @@
 
 # https://pypi.org/project/yfinance/
 # https://analyzingalpha.com/yfinance-python
+
 import sys
 import platform
 import time
