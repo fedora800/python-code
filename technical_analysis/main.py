@@ -1,11 +1,11 @@
 import pandas as pd
-#import technical_analysis.mod_technical_indicators as m_ti
-import mod_technical_indicators as m_ti
-#from pkg_common import mod_utils_db as m_udb
-import mod_utils_db as m_udb
-import mod_yfinance as m_yfn
 from sqlalchemy import update, select, Table, MetaData, text
 
+#import technical_analysis.mod_technical_indicators as m_ti
+import mod_technical_indicators as m_ti
+#from pkg_common import mod_others as m_oth
+from pkg_common import mod_utils_db as m_udb
+#from pkg_common import mod_yfinance as m_yfn
 
 #benchmark_symbol_file = "/tmp/SPY.csv"
 #benchmark_symbol_file = "c:\\mytmp\\downloads\\SPY.csv"
@@ -33,7 +33,7 @@ if fetch_from == "file":
 elif fetch_from == "table":
   # --- fetch from csv file ---
   print(f"connecting to db with conn string = {my_db_uri}")
-  engine = m_udb.create_database_engine_sqlalchemy(my_db_uri)
+  engine = m_udb.fn_create_database_engine_sqlalchemy(my_db_uri)
   print(engine)
   sql_query = text("""select * from tbl_price_data_1day where pd_symbol= :param""").bindparams(param=symbol)
   df_symbol = m_udb.run_conn_sql_query(engine, sql_query)
