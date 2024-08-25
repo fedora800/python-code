@@ -49,6 +49,11 @@ def use_environment_variables_linux():
    sys.path.append(os.path.join(home_dir, "git-projects/python-code"))
    sys.path.append(f"{home_dir}/git-projects/python-code/pkg_common")
 
+  # will print all env variables
+  for data in os.environ:
+    #print(f"--------data={data}-------value={os.environ[data]}----------")
+    print(f"{data}={os.environ[data]}")
+
 
 def your_function_name(data_venue: str, symbol: str, start_date: datetime, end_date: datetime, optional_parameter3=None) -> pd.DataFrame:
     """

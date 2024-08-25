@@ -288,9 +288,9 @@ class SamStrategy_MainTemplate(bt.Strategy):
 
         # Simply log the closing price of the series from the reference
         #self.log('Close, %.2f' % self.dataclose[0])
-        #print('--1---',len(self))           # len(self) is the bar we are currently on
-        #print(self.order)
-        #print(self.position)
+        print('---in next function---',len(self))           # len(self) is the bar we are currently on
+        print('self.order = ', self.order)
+        print('self.position = ', self.position)
 
         # Check if an order is pending ... if yes, we cannot send a 2nd one
         if self.order:
@@ -671,8 +671,11 @@ class SamStrategy_3in1_v1(bt.Strategy):
 
     params = (
         # My EMA periods parameters
-        ('ema_period1', 5),
-        ('ema_period2', 13),
+        # ('ema_period1', 5),
+        # ('ema_period2', 13),
+        ('ema_period1', 13),
+        ('ema_period2', 50),
+
         # Standard MACD Parameters
         ('macd1', 12),
         ('macd2', 26),
@@ -795,7 +798,7 @@ class SamStrategy_3in1_v1(bt.Strategy):
         self.order = None
 
     def notify_trade(self, trade):
-        #print('notify_trade() : trade.status=', trade.status)
+        print('notify_trade() : trade.status=', trade.status)
 
         # toprint = (
         #     'ref', 'data', 'tradeid',
@@ -810,7 +813,8 @@ class SamStrategy_3in1_v1(bt.Strategy):
         if not trade.isclosed:
             return
 
-        self.log('TRADE NOTIFICATION - POSITION CLOSED : OPERATION PROFIT, TRADE_REF %d, GROSS %.2f, NET %.2f' % (trade.ref, trade.pnl, trade.pnlcomm))
+        self.log('TRADE NOTIFICATION - POSITION OPENED/CLOSED : OPERATION PROFIT, TRADE_REF %d, STATUS %d, GROSS %.2f, NET %.2f' 
+                 % (trade.ref, trade.status, trade.pnl, trade.pnlcomm))
         #print('notify_trade() 333 : self.order : ', self.order.ref,  self.order.size, self.order.price, trade.pnl, trade.pnlcomm)
         #print('444: ', trade)
 
@@ -828,7 +832,7 @@ class SamStrategy_3in1_v1(bt.Strategy):
 
     def check_macd_cross_last_3bars(self):
             if (self.macdcross_ind[0] == 1 or self.macdcross_ind[-1] == 1 or self.macdcross_ind[-2] == 1):
-                print('--1---macdcross UP in last 3 BARS--- curbar=',self.macdcross_ind[0], ' 1barago=',self.macdcross_ind[-1], ' 2barago=',self.macdcross_ind[-2])
+                print('--2---macdcross UP in last 3 BARS--- curbar=',self.macdcross_ind[0], ' 1barago=',self.macdcross_ind[-1], ' 2barago=',self.macdcross_ind[-2])
                 return self.CROSSED_UP
             elif (self.macdcross_ind[0] == -1 or self.macdcross_ind[-1] == -1 or self.macdcross_ind[-2] == -1):
                 #print('--1---macdcross DOWN in last 3 BARS--- curbar=',self.macdcross_ind[0], ' 1barago=',self.macdcross_ind[-1], ' 2barago=',self.macdcross_ind[-2]) 
@@ -838,7 +842,7 @@ class SamStrategy_3in1_v1(bt.Strategy):
 
     def check_dmi_cross_last_3bars(self):
             if (self.dmicross_ind[0] == 1 or self.dmicross_ind[-1] == 1 or self.dmicross_ind[-2] == 1):
-                #print('--1---macdcross UP in last 3 BARS--- curbar=',self.dmicross_ind[0], ' 1barago=',self.dmicross_ind[-1], ' 2barago=',self.dmicross_ind[-2])
+                #print('--3---macdcross UP in last 3 BARS--- curbar=',self.dmicross_ind[0], ' 1barago=',self.dmicross_ind[-1], ' 2barago=',self.dmicross_ind[-2])
                 return self.CROSSED_UP
             elif (self.dmicross_ind[0] == -1 or self.dmicross_ind[-1] == -1 or self.dmicross_ind[-2] == -1):
                 #print('--1---macdcross DOWN in last 3 BARS--- curbar=',self.dmicross_ind[0], ' 1barago=',self.dmicross_ind[-1], ' 2barago=',self.dmicross_ind[-2]) 
@@ -860,19 +864,41 @@ class SamStrategy_3in1_v1(bt.Strategy):
     def next(self):
         #This is the most important part of the strategy class as most of our code will get executed here. 
         # This part gets called every time Backtrader iterates over the next new data point.
-        print('Debug-In next() : dt=', self.datas[0].datetime.date(0), ' Close=', self.dataclose[0], 'self.order=', self.order, 'ema1 and ema2 = ', self.ema1[0], self.ema2[0])
+        #print('Debug-In next() : dt=', self.datas[0].datetime.date(0), ' Close=', self.dataclose[0], 'self.order=', self.order, 'ema1 and ema2 = ', self.ema1[0], self.ema2[0])
 
         # Simply log the closing price of the series from the reference
         #self.log('Close, %.2f' % self.dataclose[0])
         #print('--1---',len(self))           # len(self) is the bar we are currently on
         #print(self.order)
-        #print(self.position)
+        #print('self.position = ', self.position)
+        ''' output ->
+        self.position =  --- Position Begin
+                            - Size: 0
+                            - Price: 0.0
+                            - Price orig: 0.0
+                            - Closed: 0
+                            - Opened: 0
+                            - Adjbase: None
+                            --- Position End
+        '''
         # print('---1--EMA CROSSOVER FOUND IN LAST 3 BARS--', self.check_ema_cross_last_3bars()) if self.check_ema_cross_last_3bars() != 'NO' else None
         # print('---2--MACD CROSSOVER FOUND IN LAST 3 BARS--', self.check_macd_cross_last_3bars()) if self.check_macd_cross_last_3bars() != 'NO' else None
         # print('---3--DMI CROSSOVER FOUND IN LAST 3 BARS--', self.check_dmi_cross_last_3bars()) if self.check_dmi_cross_last_3bars() != 'NO' else None
 
         #self.three_ind_cross_last_3bars = self.check_ema_cross_last_3bars() + self.check_macd_cross_last_3bars() + self.check_dmi_cross_last_3bars()
-        self.three_ind_cross_last_3bars = self.check_ema_cross_last_3bars() + self.check_macd_cross_last_3bars() + self.check_rsi_cross_up_last_3bars()
+        #self.three_ind_cross_last_3bars = self.check_ema_cross_last_3bars() + self.check_macd_cross_last_3bars() + self.check_rsi_cross_up_last_3bars()
+
+        # below for testing purposes
+        if (self.emacross_ind[0] == 1 or self.emacross_ind[-1] == 1 or self.emacross_ind[-2] == 1):
+            print('--NEXT-1---emacross UP in last 3 BARS--- curbar=',self.emacross_ind[0], ' 1barago=',self.emacross_ind[-1], ' 2barago=',self.emacross_ind[-2]) 
+            self.three_ind_cross_last_3bars = self.CROSSED_UP
+        elif (self.emacross_ind[0] == -1 or self.emacross_ind[-1] == -1 or self.emacross_ind[-2] == -1):
+            #print('--1---emacross DOWN in last 3 BARS--- curbar=',self.emacross_ind[0], ' 1barago=',self.emacross_ind[-1], ' 2barago=',self.emacross_ind[-2]) 
+            self.three_ind_cross_last_3bars = self.CROSSED_DOWN
+        else:
+            self.three_ind_cross_last_3bars = self.NO_CROSS
+
+        #print('--YYY--', self.three_ind_cross_last_3bars)
         print('--XXX--', self.three_ind_cross_last_3bars) if self.three_ind_cross_last_3bars in [-3, 3] else None
 
         # Check if an order is pending ... if yes, we cannot send a 2nd one
@@ -890,7 +916,9 @@ class SamStrategy_3in1_v1(bt.Strategy):
             # Not yet ... we MIGHT BUY if ...
             #if self.dataclose[0] > self.sma1[0]:
 #            if self.ema1[0] > self.ema2[0]:
-            if self.three_ind_cross_last_3bars == 3:
+            #if self.three_ind_cross_last_3bars == 3:
+            # below for testing purposes only
+            if self.three_ind_cross_last_3bars == 1:
                 print('BUY STRATEGY USED = 3 indicators')
                 # BUY, BUY, BUY!!! (with all possible default parameters)
                 #self.log('BUY CREATE, %.2f' % self.dataclose[0])
@@ -903,9 +931,12 @@ class SamStrategy_3in1_v1(bt.Strategy):
 
         else:
 
+            #print('POSITION OPEN - checking if need to be closed.')
             #if self.dataclose[0] < self.sma1[0]:
-            if self.ema1[0] < self.ema2[0]:
-                print('SELL STRATEGY USED = ema crossover')
+            #if self.ema1[0] < self.ema2[0]:
+            #    print('SELL STRATEGY USED = ema crossover')
+            if self.three_ind_cross_last_3bars == -1:
+                print('SELL STRATEGY USED = 3 indicators')
             #if self.three_ind_cross_last_3bars == -3:    
                 # SELL, SELL, SELL!!! (with all possible default parameters)
                 #self.log('SELL CREATE, %.2f' % self.dataclose[0])

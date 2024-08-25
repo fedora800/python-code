@@ -321,7 +321,7 @@ def run_strategy(args=None):
     print('Strategy Name Used : ',STRATEGY_NAME)  # need to make it pick up dynamically 
     print('Symbol File Used : ', SYMBOLFILE)
     print('data.fromdate and data.todate needs printing ...')
-    print(type(datafeed))
+    print('datafeed object type= ', type(datafeed))
 
     
     # Run our backtest over everything
@@ -330,11 +330,13 @@ def run_strategy(args=None):
     #cerebro.run()
 
     # print the analyzers
+    print("----- Print the first strategy results -----")
     #printTradeAnalysis_A(first_strategy_results.analyzers.ta.get_analysis())
     #printSQN_A(first_strategy_results.analyzers.sqn.get_analysis())
     printTradeAnalysis_B(cerebro, first_strategy_results.analyzers)
 
     # Print out the final result
+    print("----- Print the final portfolio value -----")
     portfolio_final_value = cerebro.broker.getvalue()
     print('Final Portfolio Value: ${}'.format(portfolio_final_value))
 
