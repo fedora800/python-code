@@ -1,3 +1,5 @@
+# https://github.com/alpacahq/alpaca-backtrader-api
+
 import alpaca_backtrader_api
 import backtrader as bt
 from datetime import datetime
@@ -36,4 +38,4 @@ cerebro.adddata(data0)
 print('Starting Portfolio Value: %.2f' % cerebro.broker.getvalue())
 cerebro.run()
 print('Final Portfolio Value: %.2f' % cerebro.broker.getvalue())
-cerebro.plot()
+#cerebro.plot()

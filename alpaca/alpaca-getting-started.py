@@ -19,9 +19,9 @@ request_params = CryptoBarsRequest(
                         symbol_or_symbols=["BTC/USD"],
                         timeframe=TimeFrame.Day,
 #                        start=datetime(2022, 9, 1), T00:00:00Z",
-                        start=datetime(2023, 3, 1, 0, 0, 0, tzinfo=timezone.utc),
+                        start=datetime(2024, 3, 1, 0, 0, 0, tzinfo=timezone.utc),
 #                        end=datetime(2022, 9, 7) T00:00:00Z"
-                        end=datetime(2024, 3, 4, 0, 0, 0, tzinfo=timezone.utc),
+                        end=datetime(2024, 3, 5, 0, 0, 0, tzinfo=timezone.utc),
                         )
 
 # Finally, send the request using the client’s built-in method, get_crypto_bars. 
