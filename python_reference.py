@@ -44,7 +44,11 @@ def get_arguments_info():
 def use_environment_variables_linux():
   import os
   home_dir = os.environ.get("HOME")
+  app_version = os.getenv('APP_VERSION', '0.0.1')  # Default to '0.0.1' if not set
+
   print(home_dir)
+  print(f"Starting application version: {app_version}")
+
   if home_dir:
    sys.path.append(os.path.join(home_dir, "git-projects/python-code"))
    sys.path.append(f"{home_dir}/git-projects/python-code/pkg_common")
@@ -53,6 +57,108 @@ def use_environment_variables_linux():
   for data in os.environ:
     #print(f"--------data={data}-------value={os.environ[data]}----------")
     print(f"{data}={os.environ[data]}")
+
+  # prints the dictionary of all env variables 
+  print(os.environ)
+
+  for key, value in os.environ.items():
+    print(f'{key}: {value}')
+
+
+  # sorted
+  for name, value in sorted(os.environ.items()):
+     print("   " + name + "=" + value)
+
+  print(os.environ.get('APPENV', 'staging'))    # only returns value of staging if the env variable APPENV does not exist, does NOT set APPENV variable
+
+  try:                                        # to check if the key exists 
+    os.environ["APPENV"]
+  except KeyError: 
+    print("Please set the environment variable APPENV")
+    #sys.exit(1)
+  
+  os.environ['APPENV'] = 'uat'             # SETS env variable
+  print(os.environ.get('APPENV'))
+  
+
+
+
+def use_environment_variables_created_from_my_special_file():
+  # we can store seperate our required variables in .env file and using the below module to load and access them as regular env variables
+  # pip install python-dotenv
+  # https://ioflood.com/blog/python-dotenv-guide-how-to-use-environment-variables-in-python/
+
+  import os
+  from dotenv import load_dotenv, dotenv_values
+
+  load_dotenv()                      # Load environment variables from the .env file (if present) into the current environment
+  # eg .env file -
+  # ENV=staging
+  # DB_USER=prod_support
+  # # DB_PASSWORD=secret123!
+
+  # Access environment variables as if they came from the actual environment
+  DB_USER = os.getenv('DB_USER')
+  DB_PASSWORD = os.getenv('DB_PASSWORD')
+
+  # Example usage
+  print(f'DB_USER: {DB_USER}')
+  print(f'DB_PASSWORD: {DB_PASSWORD}')
+
+  # We can also put ALL the variables from the file into a dictionary
+  my_env_config = dotenv_values(".env")
+  print(my_env_config)
+  # OrderedDict([('DB_USER', 'prod_support'), ('DB_PASSWORD', 'secret123!')])
+  db_user = my_env_config['DB_USER']    # will get the value of this env variable 
+
+  # we can also make use of multiple .env files like .env.shared, .env.dev, .env.prod, .env.stage and use accordingly based off the APPENV env variable seperately set and access via os.getenv()
+  appenv = os.getenv('APPENV') 
+  load_dotenv(f'.env.{appenv}')
+
+  # we can also use shell commands to access/update this .env file, like such -
+  # $ dotenv -f .env.dev list
+  # DB_PASSWORD=secret123!
+  # DB_USER=prod_support
+  # $ dotenv get DB_USER
+  # prod_support
+  # $ dotenv set DB_PORT 3000
+  # DB_PORT=3000
+  # $ dotenv set DB_PASSWORD changed456!
+  # DB_PASSWORD=changed456!
+  # $ dotenv list
+  # DB_PASSWORD=changed456!
+  # DB_PORT=3000
+  # DB_USER=prod_support
+  # $ dotenv unset DB_PORT
+
+
+
+def dictionary_sorted()
+
+  import numpy as np
+  
+  my_dict = {'yash': 2, 'rajnish': 9,
+          'sanjeev': 15, 'chanda': 10, 'suraj': 32}
+  
+  
+  print("-----sorting by key-----")
+  my_keys = list(my_dict.keys())
+  my_keys.sort()
+  sorted_dict_by_key = {i: my_dict[i] for i in my_keys}
+  
+  print(sorted_dict_by_key)
+  
+  print("-----sorting by values-----")
+  sorted_list_by_value = sorted(my_dict.items(), key=lambda x:x[1])
+  sorted_dict_by_value = dict(sorted_list_by_value)
+  
+  print(sorted_dict_by_value)
+  
+  #-----sorting by key-----
+  #{'chanda': 10, 'rajnish': 9, 'sanjeev': 15, 'suraj': 32, 'yash': 2}
+  #-----sorting by values-----
+  #{'yash': 2, 'rajnish': 9, 'chanda': 10, 'sanjeev': 15, 'suraj': 32}
+
 
 
 def your_function_name(data_venue: str, symbol: str, start_date: datetime, end_date: datetime, optional_parameter3=None) -> pd.DataFrame:
