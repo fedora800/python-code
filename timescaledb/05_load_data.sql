@@ -3,12 +3,13 @@
 --------------------------------------------------------------------------------
 
 -- L01 - tbl_exchange_data
--- L02A - tbl_instrument - S&P500 constituents
--- L02B - tbl_instrument - US ETFs
--- L02C - tbl_instrument - UK ETFs
--- L03A - tbl_price_data_1day - USA
--- L03B - tbl_price_data_1day - UK
--- L04 - tbl_symbol_filters
+-- L02 - tbl_gics_sector
+-- L03A - tbl_instrument - S&P500 constituents
+-- L03B - tbl_instrument - US ETFs
+-- L03C - tbl_instrument - UK ETFs
+-- L04A - tbl_price_data_1day - USA
+-- L04B - tbl_price_data_1day - UK
+-- L05 - tbl_symbol_filters
 
 --------------------------------------------------------------------------------
 */
@@ -17,13 +18,17 @@
 \echo "Loading into table tbl_exchange"
 \copy tbl_exchange FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_exchange_data.csv' DELIMITER ',' CSV HEADER;
 
+-- L02 - tbl_gics_sector
+\echo "Loading into table tbl_gics_sector"
+\copy tbl_gics_sector FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_gics_mapping.csv' DELIMITER ',' CSV HEADER;
 
--- L02A - tbl_instrument - S&P500 constituents
+
+-- L03A - tbl_instrument - S&P500 constituents
 \echo "Loading into table tbl_instrument"
 \copy tbl_instrument (symbol, name, industry, exchange_code, asset_type, data_source, note_1) FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_instrument_data_sp500_symbols.csv' DELIMITER ',' CSV HEADER;
 
 
--- L02B - tbl_instrument - US ETFs
+-- L03B - tbl_instrument - US ETFs
 -- this is a list of all (around 1917 ) US ETFS from Scan > All ETFs watchlist scan file download from ThinkorSwim
 -- $ dos2unix thinkorswim_instrument_data.csv 
 -- $ sed -i 's/$/,ETF,UNKNOWN,THINKORSWIM/' thinkorswim_instrument_data.csv 
@@ -31,7 +36,7 @@
 \echo "Loading into table tbl_instrument"
 \copy tbl_instrument (symbol, name, sector, industry, sub_industry, asset_type, exchange_code, data_source) FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_instrument_data_etf_thinkorswim.csv' DELIMITER ',' CSV HEADER;
 
--- L02C - tbl_instrument - UK ETFs
+-- L03C - tbl_instrument - UK ETFs
 -- this is a list i massaged from Trading212 website JSON data
 \echo "Loading into table tbl_instrument"
 \copy tbl_instrument (symbol, name, exchange_code, asset_type, data_source) FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_instrument_UK_etfs_trading212.csv' DELIMITER ',' CSV HEADER;
@@ -48,7 +53,7 @@
 update tbl_instrument set note_1='MOST-ACTIVE;', country_code='UK' where exchange_code='LSE' and data_source is null and note_1='INVESTING-COM'
 
 
--- L03A - tbl_price_data_1day - USA
+-- L04A - tbl_price_data_1day - USA
 \echo "Loading into table tbl_price_data_1day -- 2 year price data for around 25 S&P500 symbols - USA "
 -- awk -F',' 'BEGIN {OFS=",";} {print $1, $2, $4, $5, $6, $7, $8;}' sp500_quotes_data.csv > tbl_price_data_1day_data.csv 
 --\copy tbl_price_data_1day (pd_symbol,pd_time,open,high,low,close, volume) FROM './tbl_price_data_1day_data.csv' DELIMITER ',' CSV HEADER;
@@ -77,7 +82,7 @@ update tbl_instrument set note_1='MOST-ACTIVE;', country_code='UK' where exchang
 \copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '~/git-projects/python-code/timescaledb/data/sp500symbols/PEP.csv' DELIMITER ',' CSV HEADER;
 \copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '~/git-projects/python-code/timescaledb/data/sp500symbols/ADBE.csv' DELIMITER ',' CSV HEADER;
 
--- L03B - TBL_PRICE_DATA_1DAY - UK
+-- L04B - tbl_price_data_1day - UK
 \echo "Loading into table tbl_price_data_1day -- 2 year price data for 4 ETFS - UK "
 --\copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '~/git-projects/python-code/timescaledb/data/uk_etfs/VHYG.L.csv' DELIMITER ',' CSV HEADER;
 \copy tbl_price_data_1day (pd_time,pd_symbol,open,high,low,close,volume) FROM '~/git-projects/python-code/timescaledb/data/uk_etfs/VMID.L.csv' DELIMITER ',' CSV HEADER;
@@ -97,7 +102,7 @@ do
   echo ${PREFIX}/tmp/${FNAME}${SUFFIX}
 done
 
--- L04 - tbl_symbol_filters
+-- L05 - tbl_symbol_filters
 INSERT INTO public.tbl_symbol_filters(filter_name, filter_query, filter_description, deleted)
 	VALUES ('RS-UK-ETF-List', 'select * from viw_price_data_uk_most_traded', 'Most active around 50 UK ETFs', False);
 INSERT INTO public.tbl_symbol_filters(filter_name, filter_query, filter_description, deleted)

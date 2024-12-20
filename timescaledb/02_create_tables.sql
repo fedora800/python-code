@@ -7,12 +7,13 @@
 -- TY03 - typ_country_code
 
 -- T01 - tbl_exchange
--- T02 - tbl_instrument
--- T03 - tbl_price_data_1day
--- T04 - tbl_symbol_filters
+-- T02 - tbl_gics_sector
+-- T03 - tbl_instrument
+-- T04 - tbl_price_data_1day
+-- T05 - tbl_symbol_filters
 
+-- I01 - idx_tbl_price_data_1day_symbol_time 
 
-I01 - idx_tbl_price_data_1day_symbol_time 
 */
 
 --------------------------------------------------------------------------------
@@ -54,7 +55,25 @@ CREATE TABLE IF NOT EXISTS tbl_exchange (
   note_1 TEXT
 );
 
--- T02 - tbl_instrument
+
+-- T02 - tbl_gics_sector
+-- https://en.wikipedia.org/wiki/Global_Industry_Classification_Standard
+-- https://en.wikipedia.org/wiki/List_of_S%26P_500_companies
+\echo "Creating TABLE tbl_gics_sector"
+CREATE TABLE IF NOT EXISTS tbl_gics_sector (
+  sector_code INTEGER NOT NULL,
+  sector_name VARCHAR(255) NOT NULL,
+  industry_group_code INTEGER NOT NULL,
+  industry_group_name VARCHAR(255) NOT NULL,
+  industry_code INTEGER NOT NULL,
+  industry_name VARCHAR(255) NOT NULL,
+  sub_industry_code INTEGER PRIMARY KEY,
+  sub_industry_name VARCHAR(255) NOT NULL,
+  UNIQUE (sector_code, industry_group_code, industry_code, sub_industry_code)
+);
+
+
+-- T03 - tbl_instrument
 \echo "Creating TABLE tbl_insrument"
 CREATE TABLE IF NOT EXISTS tbl_instrument (
   ins_id SERIAL PRIMARY KEY,
@@ -65,15 +84,25 @@ CREATE TABLE IF NOT EXISTS tbl_instrument (
   country_code typ_country_code,
   dtime_created  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   dtime_updated  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  sector TEXT,
-  industry TEXT,
-  sub_industry TEXT,
+  sector_code INTEGER,
+  industry_group_code INTEGER,
+  industry_code INTEGER,
+  sub_industry_code INTEGER,
   data_source typ_data_source,
   deleted BOOLEAN DEFAULT false,
   note_1 TEXT
+
+  CONSTRAINT cst_valid_sector_code_check
+    CHECK (sector_code IS NULL OR sector_code IN (SELECT sector_code FROM tbl_gics_sector)),
+  CONSTRAINT cst_valid_industry_group_code_check
+    CHECK (industry_group_code IS NULL OR industry_group_code IN (SELECT industry_group_code FROM tbl_gics_sector)),
+  CONSTRAINT cst_valid_industry_code_check
+    CHECK (industry_code IS NULL OR industry_code IN (SELECT industry_code FROM tbl_gics_sector)),
+  CONSTRAINT cst_valid_sub_industry_code_check
+    CHECK (sub_industry_code IS NULL OR sub_industry_code IN (SELECT sub_industry_code FROM tbl_gics_sector)),  
 );
 
--- T03 - tbl_price_data_1day
+-- T04 - tbl_price_data_1day
 \echo "Creating TABLE tbl_price_data_1day";
 CREATE TABLE IF NOT EXISTS tbl_price_data_1day (
 --   pd_ins_id INTEGER REFERENCES tbl_instrument (ins_id),
@@ -98,8 +127,7 @@ CREATE TABLE IF NOT EXISTS tbl_price_data_1day (
    PRIMARY KEY (pd_symbol, pd_time)
 );
 
-
--- T04 - tbl_symbol_filters
+-- T05 - tbl_symbol_filters
 \echo "Creating TABLE tbl_symbol_filters"
 CREATE TABLE IF NOT EXISTS tbl_symbol_filters (
   filter_id SERIAL PRIMARY KEY,
@@ -110,11 +138,13 @@ CREATE TABLE IF NOT EXISTS tbl_symbol_filters (
   deleted BOOLEAN DEFAULT false
 );
 
+--------------------------------------------------------------------------------
 
-
-/* I01 - idx_tbl_price_data_1day_symbol_time -- so will be default criteria on SELECT */
+-- I01 - idx_tbl_price_data_1day_symbol_time -- so will be default criteria on SELECT */
 CREATE INDEX idx_tbl_price_data_1day_symbol_time
   ON tbl_price_data_1day (pd_symbol ASC, pd_time ASC);
+
+--------------------------------------------------------------------------------
 
 /* Convert the standard table into a hypertable partitioned on the time column using the create_hypertable() function provided by Timescale. */
 \echo "Creating hypertable for  tbl_price_data_1day"

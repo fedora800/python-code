@@ -1,0 +1,112 @@
+---NOT-USED-YET---sub_industry_id, sub_industry_name
+25201040, Household Appliances
+25201050, Housewares & Specialties
+25202010, Leisure Products
+25203010, "Apparel, Accessories & Luxury Goods"
+25203020, Footwear
+25203030, Textiles
+25301010, Casinos & Gaming
+25301020, "Hotels, Resorts & Cruise Lines"
+25301030, Leisure Facilities
+25301040, Restaurants
+25302010, Education Services
+25302020, Specialized Consumer Services
+25501010, Distributors
+25502020, Internet & Direct Marketing Retail (Discontinued)
+25503010, Department Stores (Discontinued)
+25503020, General Merchandise Stores (Discontinued)
+25503030, Broadline Retail (New)
+25504010, Apparel Retail
+25504020, Computer & Electronics Retail
+25504030, Home Improvement Retail
+25504040, Other Specialty Retail (New Name)
+25504050, Automotive Retail
+25504060, Homefurnishing Retail
+30101010, Drug Retail
+30101020, Food Distributors
+30101030, Food Retail
+30101040, Consumer Staples Merchandise Retail (New Name & Definition Update)
+30201010, Brewers
+30201020, Distillers & Vintners
+30201030, Soft Drinks & Non-alcoholic Beverages (New Name)
+30202010, Agricultural Products & Services (New Name)
+30202030, Packaged Foods & Meats
+30203010, Tobacco
+30301010, Household Products
+30302010, Personal Care Products (New Name)
+35101010, Health Care Equipment
+35101020, Health Care Supplies
+35102010, Health Care Distributors
+35102015, Health Care Services
+35102020, Health Care Facilities
+35102030, Managed Health Care
+35103010, Health Care Technology
+35201010, Biotechnology
+35202010, Pharmaceuticals
+35203010, Life Sciences Tools & Services
+40101010, Diversified Banks
+40101015, Regional Banks (Definition Update)
+40102010, Thrifts & Mortgage Finance (Discontinued)
+40201020, Diversified Financial Services (New Name)
+40201030, Multi-Sector Holdings
+40201040, Specialized Finance
+40201050, Commercial & Residential Mortgage Finance (New)
+40201060, Transaction & Payment Processing Services (New)
+40202010, Consumer Finance
+40203010, Asset Management & Custody Banks
+40203020, Investment Banking & Brokerage
+40203030, Diversified Capital Markets
+40203040, Financial Exchanges & Data
+40204010, Mortgage REITs*
+40301010, Insurance Brokers
+40301020, Life & Health Insurance
+40301030, Multi-line Insurance
+40301040, Property & Casualty Insurance
+40301050, Reinsurance
+45102010, IT Consulting & Other Services
+45102020, Data Processing & Outsourced Services (Discontinued)
+45102030, Internet Services & Infrastructure
+45103010, Application Software
+45103020, Systems Software
+45201020, Communications Equipment
+45202030, "Technology Hardware, Storage & Peripherals"
+45203010, Electronic Equipment & Instruments 
+45203015, Electronic Components
+45203020, Electronic Manufacturing Services
+45203030, Technology Distributors
+45301010, Semiconductor Materials & Equipment (New Name)
+45301020, Semiconductors
+50101010, Alternative Carriers
+50101020, Integrated Telecommunication Services
+50102010, Wireless Telecommunication Services
+50201010, Advertising
+50201020, Broadcasting
+50201030, Cable & Satellite
+50201040, Publishing
+50202010, Movies & Entertainment
+50202020, Interactive Home Entertainment
+50203010, Interactive Media & Services
+55101010, Electric Utilities
+55102010, Gas Utilities
+55103010, Multi-Utilities
+55104010, Water Utilities
+55105010, Independent Power Producers & Energy Traders
+55105020, Renewable Electricity 
+60101010, Diversified REITs*
+60102510, Industrial REITs* (New Code)
+60103010, Hotel & Resort REITs* (New Code)
+60104010, Office REITs* (New Code)
+60105010, Health Care REITs* (New Code)
+60101060, Residential REITs (Discontinued)
+60106010, Multi-Family Residential REITs* (New)
+60106020, Single-Family Residential REITs* (New)
+60107010, Retail REITs* (New Code)
+60108010, Other Specialized REITs* (New Name/ New Code/Definition Update)
+60108020, Self-Storage REITs* (New)
+60108030, Telecom Tower REITs* (New)
+60108040, Timber REITs* (New)
+60108050, Data Center REITs* (New)
+60201010, Diversified Real Estate Activities (New Code)
+60201020, Real Estate Operating Companies (New Code)
+60201030, Real Estate Development (New Code)
+60201040, Real Estate Services (New Code)
