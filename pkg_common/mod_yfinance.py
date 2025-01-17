@@ -5,6 +5,7 @@
 import sys
 import platform
 import time
+import requests
 
 
 from loguru import logger
@@ -252,25 +253,39 @@ def get_other_data():
   # data available via: opt.calls, opt.puts
   print(opt)
 
-
+# List of S&P 500 tickers
+tickers = ['AAPL', 'MSFT', 'GOOGL']
 
 
 def get_stock_info(symbol):
     # if symbol does not exist, handle gracefully and return None, else return ticker info object
-    try:
-        ticker = yf.Ticker(symbol)
-        info = ticker.info
-        print("longname=", info.get('longName'))
-        print("industry=", info.get('industry'))
-        print("sector=", info.get('sector'))
-        print("previousClose=", info.get('previousClose'))
-        return info
-    except HTTPError as e:
-        if e.response.status_code == 404:
-            print(f"Symbol '{symbol}' not found.")
-        else:
-            print(f"An error occurred: {e}")
-        return None
+
+  # new version of yfinance needs SSL verification and i had bunch of issues from my office network
+  # so using unsafe_session
+  # this will circumvent SSL verification with warnings
+  unsafe_session = requests.session()
+  unsafe_session.verify = False
+
+  try:
+      print(f"--- get_stock_info() ---{symbol}---")
+      ticker = yf.Ticker(symbol)
+      dct_info = ticker.info
+
+      # Print all available fields
+      #for key, value in dct_info.items():
+      #  print(f"key/value    {key}: {value}")
+
+      print("longname=", dct_info.get('longName'))
+      print("industry=", dct_info.get('industry'))
+      print("sector=", dct_info.get('sector'))
+      print("previousClose=", dct_info.get('previousClose'))
+      return dct_info
+  except HTTPError as e:
+      if e.response.status_code == 404:
+          print(f"Symbol '{symbol}' not found.")
+      else:
+          print(f"An error occurred: {e}")
+      return None
 
 #        # Example usage
 #        symbol = 'TSLA'

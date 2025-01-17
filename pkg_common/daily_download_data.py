@@ -52,7 +52,7 @@ def main():
   #m_yfn.fn_get_historical_data_list_of_symbols(data_venue, lst_symbols, start_date, end_date, True)    # this puts into a csv file
   #df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", engine, "VWRL.L")
 
-  sql_query = text("""select symbol from viw_instrument_in_us_top100_etfs_by_aum where symbol like 'Q%'""")
+  sql_query = text("""select symbol from viw_instrument_in_us_top100_etfs_by_aum where symbol like 'I%'""")
   df_symbols = pd.read_sql_query(sql_query, db_conn)
   logger.debug(df_symbols)
   print(df_symbols)

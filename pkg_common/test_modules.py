@@ -60,10 +60,11 @@ def main():
   #my_db_uri = "postgresql://postgres:Inesh#2012@localhost:5432/dbs_invest"
   engine = m_udb.fn_create_database_engine_sqlalchemy(my_db_uri)
 
+  m_yfn.get_stock_info('IBM')
   #test_fn_download_historical_data_for_symbol()
 
 
-  test_fn_download_and_sync_db_loop_for_mult_symbols(engine)
+  #test_fn_download_and_sync_db_loop_for_mult_symbols(engine)
 
   
 # main
