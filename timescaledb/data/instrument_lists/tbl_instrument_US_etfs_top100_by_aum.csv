@@ -1,0 +1,101 @@
+symbol,name,asset_type,data_source,note_1
+SPY,SPDR S&P 500 ETF Trust,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=615.14B; hldgs=504; expratio=0.09%
+VOO,Vanguard S&P 500 ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=589.30B; hldgs=507; expratio=0.03%
+IVV,iShares Core S&P 500 ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=581.55B; hldgs=507; expratio=0.03%
+VTI,Vanguard Total Stock Market ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=455.61B; hldgs=3627; expratio=0.03%
+QQQ,Invesco QQQ Trust Series I,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=317.10B; hldgs=102; expratio=0.20%
+VUG,Vanguard Growth ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=155.14B; hldgs=185; expratio=0.04%
+VEA,Vanguard FTSE Developed Markets ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=132.41B; hldgs=3934; expratio=0.06%
+VTV,Vanguard Value ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=127.40B; hldgs=338; expratio=0.04%
+BND,Vanguard Total Bond Market ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=120.37B; hldgs=15000; expratio=0.03%
+AGG,iShares Core U.S. Aggregate Bond ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=118.42B; hldgs=12189; expratio=0.03%
+IEFA,iShares Core MSCI EAFE ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=116.71B; hldgs=2705; expratio=0.07%
+IWF,iShares Russell 1000 Growth ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=104.23B; hldgs=400; expratio=0.19%
+IJH,iShares Core S&P Mid-Cap ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=94.93B; hldgs=409; expratio=0.05%
+VIG,Vanguard Dividend Appreciation ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=86.10B; hldgs=341; expratio=0.06%
+IJR,iShares Core S&P Small Cap ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=86.08B; hldgs=611; expratio=0.06%
+VGT,Vanguard Information Technology ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=83.47B; hldgs=319; expratio=0.10%
+VWO,Vanguard FTSE Emerging Markets ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=76.44B; hldgs=4936; expratio=0.08%
+IEMG,iShares Core MSCI Emerging Markets ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=75.80B; hldgs=2839; expratio=0.09%
+GLD,SPDR Gold Shares,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=74.85B; hldgs=1; expratio=0.40%
+VXUS,Vanguard Total International Stock ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=74.16B; hldgs=8649; expratio=0.08%
+VO,Vanguard Mid-Cap ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=72.69B; hldgs=316; expratio=0.04%
+RSP,Invesco S&P 500 Equal Weight ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=71.82B; hldgs=508; expratio=0.20%
+XLK,Technology Select Sector SPDR Fund,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=71.55B; hldgs=72; expratio=0.09%
+IWM,iShares Russell 2000 ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=70.21B; hldgs=1975; expratio=0.19%
+SCHD,Schwab US Dividend Equity ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=66.09B; hldgs=103; expratio=0.06%
+ITOT,iShares Core S&P Total U.S. Stock Market ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=63.64B; hldgs=2513; expratio=0.03%
+VB,Vanguard Small-Cap ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=63.21B; hldgs=1382; expratio=0.05%
+IWD,iShares Russell 1000 Value ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=62.22B; hldgs=874; expratio=0.19%
+BNDX,Vanguard Total International Bond ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=61.44B; hldgs=6966; expratio=0.07%
+VYM,Vanguard High Dividend Yield Index ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=59.43B; hldgs=540; expratio=0.06%
+IVW,iShares S&P 500 Growth ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=56.20B; hldgs=212; expratio=0.18%
+SPLG,SPDR Portfolio S&P 500 ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=53.66B; hldgs=506; expratio=0.02%
+EFA,iShares MSCI EAFE ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=52.53B; hldgs=748; expratio=0.32%
+IBIT,iShares Bitcoin Trust ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=51.47B; hldgs=2; expratio=0.25%
+SCHX,Schwab U.S. Large-Cap ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=51.24B; hldgs=752; expratio=0.03%
+TLT,iShares 20+ Year Treasury Bond ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=50.09B; hldgs=48; expratio=0.15%
+QUAL,iShares MSCI USA Quality Factor ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=49.89B; hldgs=129; expratio=0.15%
+VCIT,Vanguard Intermediate-Term Corporate Bond ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=47.74B; hldgs=2229; expratio=0.04%
+XLF,Financial Select Sector SPDR Fund,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=46.65B; hldgs=76; expratio=0.09%
+VT,Vanguard Total World Stock ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=41.60B; hldgs=9847; expratio=0.07%
+VV,Vanguard Large-Cap ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=40.50B; hldgs=496; expratio=0.04%
+MUB,iShares National Muni Bond ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=39.62B; hldgs=5845; expratio=0.05%
+SCHF,Schwab International Equity ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=39.59B; hldgs=1494; expratio=0.06%
+IWB,iShares Russell 1000 ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=39.35B; hldgs=1013; expratio=0.15%
+QQQM,Invesco NASDAQ 100 ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=38.65B; hldgs=104; expratio=0.15%
+IWR,iShares Russell Midcap ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=38.43B; hldgs=818; expratio=0.19%
+XLV,Health Care Select Sector SPDR Fund,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=37.44B; hldgs=63; expratio=0.09%
+SCHG,Schwab U.S. Large-Cap Growth ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=37.18B; hldgs=229; expratio=0.04%
+JEPI,JPMorgan Equity Premium Income ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=37.08B; hldgs=131; expratio=0.35%
+DIA,SPDR Dow Jones Industrial Average ETF Trust,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=37.03B; hldgs=31; expratio=0.16%
+VEU,Vanguard FTSE All-World ex-US Index Fund,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=36.88B; hldgs=3866; expratio=0.07%
+BIL,SPDR Bloomberg 1-3 Month T-Bill ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=36.86B; hldgs=19; expratio=0.14%
+IXUS,iShares Core MSCI Total International Stock ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=36.74B; hldgs=4371; expratio=0.07%
+MBB,iShares MBS ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=35.70B; hldgs=11209; expratio=0.04%
+VTEB,Vanguard Tax-Exempt Bond ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=35.41B; hldgs=10096; expratio=0.05%
+VCSH,Vanguard Short-Term Corporate Bond ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=34.57B; hldgs=2633; expratio=0.04%
+IVE,iShares S&P 500 Value ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=34.39B; hldgs=406; expratio=0.18%
+SPYG,SPDR Portfolio S&P 500 Growth ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=34.10B; hldgs=210; expratio=0.04%
+IAU,iShares Gold Trust,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=33.83B; hldgs=1; expratio=0.25%
+XLE,Energy Select Sector SPDR Fund,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=33.71B; hldgs=25; expratio=0.09%
+VNQ,Vanguard Real Estate ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=33.33B; hldgs=163; expratio=0.13%
+BSV,Vanguard Short-Term Bond ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=33.24B; hldgs=2786; expratio=0.04%
+SCHB,Schwab U.S. Broad Market ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=32.37B; hldgs=2401; expratio=0.03%
+DFAC,Dimensional U.S. Core Equity 2 ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=32.19B; hldgs=2645; expratio=0.17%
+IUSB,iShares Core Total USD Bond Market ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=31.58B; hldgs=15000; expratio=0.06%
+SGOV,iShares 0-3 Month Treasury Bond ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=31.15B; hldgs=20; expratio=0.09%
+IEF,iShares 7-10 Year Treasury Bond ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=31.06B; hldgs=15; expratio=0.15%
+VBR,Vanguard Small Cap Value ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=30.81B; hldgs=839; expratio=0.07%
+VGIT,Vanguard Intermediate-Term Treasury ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=30.21B; hldgs=108; expratio=0.04%
+DGRO,iShares Core Dividend Growth ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=29.90B; hldgs=411; expratio=0.08%
+GOVT,iShares U.S. Treasury Bond ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=29.32B; hldgs=193; expratio=0.05%
+LQD,iShares iBoxx $ Investment Grade Corporate Bond ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=28.38B; hldgs=2841; expratio=0.14%
+JPST,JPMorgan Ultra-Short Income ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=28.34B; hldgs=858; expratio=0.18%
+COWZ,Pacer US Cash Cows 100 ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=25.09B; hldgs=103; expratio=0.49%
+VONG,Vanguard Russell 1000 Growth ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=24.95B; hldgs=397; expratio=0.08%
+MGK,Vanguard Mega Cap Growth ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=24.71B; hldgs=72; expratio=0.07%
+SPYV,SPDR Portfolio S&P 500 Value ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=24.30B; hldgs=404; expratio=0.04%
+TQQQ,ProShares UltraPro QQQ,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=23.86B; hldgs=130; expratio=0.84%
+MDY,SPDR S&P Midcap 400 ETF Trust,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=23.78B; hldgs=401; expratio=0.24%
+SMH,VanEck Semiconductor ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=23.08B; hldgs=26; expratio=0.35%
+XLY,Consumer Discretionary Select Sector SPDR Fund,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=22.69B; hldgs=52; expratio=0.09%
+SHY,iShares 1-3 Year Treasury Bond ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=22.57B; hldgs=128; expratio=0.15%
+USMV,iShares MSCI USA Min Vol Factor ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=22.15B; hldgs=187; expratio=0.15%
+VXF,Vanguard Extended Market ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=21.24B; hldgs=3496; expratio=0.06%
+JEPQ,JPMorgan NASDAQ Equity Premium Income ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=21.07B; hldgs=105; expratio=0.35%
+VGSH,Vanguard Short-Term Treasury ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=21.03B; hldgs=98; expratio=0.04%
+IGSB,iShares 1-5 Year Investment Grade Corporate Bond ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=20.99B; hldgs=4065; expratio=0.04%
+IUSG,iShares Core S&P U.S. Growth ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=20.97B; hldgs=453; expratio=0.04%
+SPDW,SPDR Portfolio Developed World ex-US ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=20.91B; hldgs=2399; expratio=0.03%
+BIV,Vanguard Intermediate-Term Bond ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=20.70B; hldgs=2290; expratio=0.04%
+XLC,Communication Services Select Sector SPDR Fund,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=20.19B; hldgs=24; expratio=0.09%
+XLI,Industrial Select Sector SPDR Fund,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=20.08B; hldgs=81; expratio=0.09%
+IUSV,iShares Core S&P US Value ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=19.71B; hldgs=707; expratio=0.04%
+DVY,iShares Select Dividend ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=19.66B; hldgs=104; expratio=0.38%
+IYW,iShares U.S. Technology ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=19.60B; hldgs=146; expratio=0.39%
+SDY,SPDR S&P Dividend ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=19.53B; hldgs=136; expratio=0.35%
+FBTC,Fidelity Wise Origin Bitcoin Fund,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=19.50B; hldgs=-; expratio=0.25%
+VBK,Vanguard Small-Cap Growth ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=19.49B; hldgs=610; expratio=0.07%
+VMBS,Vanguard Mortgage-Backed Securities ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=19.32B; hldgs=5079; expratio=0.04%
+USHY,iShares Broad USD High Yield Corporate Bond ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=19.05B; hldgs=1898; expratio=0.08%

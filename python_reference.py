@@ -396,6 +396,8 @@ def common_and_utilities_files():
 
 def connect_to_DB_using_SQLAlchemy_and_get_results():
 
+  from sqlalchemy import text
+
   my_db_uri = "postgresql://postgres:postgres@localhost:5432/dbs_invest"
   #my_sql_query = """SELECT * FROM tbl_instrument;"""   # use it in this fashion so that it does not mess when '%ET%' types are used. use as below using patterns search
   # Replace the '%' character with ':wildcard' and bind the actual value
@@ -633,8 +635,8 @@ def how_to_use_loguru_module_for_logging():
   # the severity number is not linked back to levels name (this implies that several levels can share the same severity).
   # To add a new level, its ``name`` and its ``no`` are required.
   # A ``color`` and an ``icon`` can also be specified or will be empty by default.
-  logger.level("CUSTOM", no=45, color="<red>", icon="🚨")  # add/set a new custom level for logger
-  logger.level("CUSTOM")   # => (name='CUSTOM', no=33, color="<red>", icon="🚨")      # gets the settings for this level
+  logger.level("CUSTOM", no=45, color="<red>", icon="🚨")  # add/SETS a new custom level for logger
+  logger.level("CUSTOM")   # => (name='CUSTOM', no=33, color="<red>", icon="🚨")      # shows/GETS the settings that are defined for this level
   logger.log("CUSTOM", "logging hello world in my CUSTOM logger style")   # => 33 @ logging hello world in my CUSTOM logger style
 
   logger.add(sys.stderr, format = "<red>[{level}]</red> Message : <green>{message}</green> @ {time}", colorize=True)    # to change the format
@@ -743,17 +745,13 @@ except ValueError:  # Level not found
   #logger.level("MYNOTICE", no=MYNOTICE, color="<LIGHT-YELLOW>", icon="@")
   logger.level("MYNOTICE", no=MYNOTICE, color="<black><LIGHT-YELLOW>", icon="@")
   this_level = logger.level("MYNOTICE")
-  logger.log("MYNOTICE", "New logging level set with values {}", this_level)
+  logger.log("MYNOTICE", "New logging level for MYNOTICE set with values {}", this_level)
   logger.debug("Setting for loguru logger level MYNOTICE : level.name={} level.no={}  level.color={} level.icon={}", this_level.name, this_level.no, this_level.color, this_level.icon)
 
+# Verify registered levels
+for level in logger._core.levels.values():
+  print(level.name, level.no, level.color)
 
-# set another customized logging level
-MYNOTICE=21
-#logger.level("MYNOTICE", no=MYNOTICE, color="<LIGHT-YELLOW>", icon="@")
-logger.level("MYNOTICE", no=MYNOTICE, color="<black><LIGHT-YELLOW>", icon="@")
-this_level = logger.level("MYNOTICE")
-logger.log("MYNOTICE", "New logging level set with values {}", this_level)
-logger.debug("Setting for loguru logger level MYNOTICE : level.name={} level.no={}  level.color={} level.icon={}", this_level.name, this_level.no, this_level.color, this_level.icon)
 # ----------  this code works perfectly -------------------end-----
 
 

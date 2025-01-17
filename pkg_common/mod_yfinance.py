@@ -103,7 +103,7 @@ def fn_download_historical_data_for_one_symbol(data_venue: str, symbol: str, sta
 #    start_date = next_day.replace(tzinfo=timezone.utc)    # get till yesterday
 #  end_date = datetime.now() - timedelta(days=1)
 
-  logger.info("Downloading from {} for symbol={} start_date={} end_date={}", data_venue, symbol, start_date, end_date)
+  logger.info("Downloading from Data Venue {} for symbol={} start_date={} end_date={}", data_venue, symbol, start_date, end_date)
   #logger.info("Downloading from {} for symbol={} start_date={} end_date={}", data_venue, symbol, oldest_price_date, latest_price_date)
   tm_before_download = time.time()
 
@@ -120,7 +120,8 @@ def fn_download_historical_data_for_one_symbol(data_venue: str, symbol: str, sta
     tm_taken_for_download_secs = tm_after_download - tm_before_download 
     tm_taken_for_download_secs  = "{:.3f}".format(tm_taken_for_download_secs)
     logger.debug("Time taken for download (secs) = {}", tm_taken_for_download_secs)
-    m_oth.fn_df_get_first_last_rows(df_prices, 3, 'ALL_COLS')
+    print(df_prices.head())
+    m_oth.fn_df_print_first_last_rows(df_prices, 3, 'ALL_COLS')
 
     if write_to_file:
       FILE_EXTN =".csv"
@@ -295,13 +296,14 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
   - symbol (str): The string representing the symbol.
   
   Returns:
-  - pandas dataframe containing data that was inserted into the table
+  - pandas dataframe containing ONLY THAT data which was INSERTED into the table
 
   Example:
   >> fn_sync_price_data_in_table_for_symbol("YFINANCE", dbconn, "AAPL")
   """
+  dt_default_start_date = datetime(2024, 1, 1)
   
-  logger.log("MYNOTICE", "START: Synchronizing price data from data feed into table {}", symbol)
+  logger.log("MYNOTICE", "START: LOG-TAG-003 : Synchronizing price data from data feed into table {}", symbol)
   m_oth.fn_inspect_caller_functions()
   logger.debug("Received arguments : data_venue={} dbconn={} symbol={}", data_venue, dbconn, symbol)
   df_return = pd.DataFrame()
@@ -318,7 +320,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
     if diff_days > 1:
       logger.debug("--IF 2-- diff_days > 1")
       logger.trace("df_sym_stats is not empty, but missing some days of recent data")
-      logger.debug("Number of days of missing data = {}. So now fetch and insert this missing recent data into price data table ", diff_days)
+      logger.log("MYNOTICE", "Number of days of missing data = {}. So now fetch and insert this missing recent data into price data table ", diff_days)
       dt_start_date = m_udt.get_date_with_zero_time(dt_latest_record_date)
       dt_start_date += timedelta(days=1)
       dt_end_date = m_udt.get_date_with_zero_time(dt_today)
@@ -351,7 +353,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
     # so we are looking at around 565 days of data in total
     dt_start_date = datetime.now() - timedelta(days=365) - timedelta(days=200)
     '''
-    dt_start_date = datetime(2022, 1, 1)
+    dt_start_date = dt_default_start_date
     #dt_end_date = datetime.now() - timedelta(days=1)     # commenting out for now as seems to be not downloading yesterday prices
     dt_end_date = datetime.now()
     dt_start_date = dt_start_date.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -360,13 +362,13 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
     df_sym_downloaded_price_data = fn_download_historical_data_for_one_symbol("YFINANCE", symbol, dt_start_date, dt_end_date, False)
     df_sym_downloaded_price_data = m_oth.fn_modify_dataframe_per_our_requirements(symbol, df_sym_downloaded_price_data)
     logger.debug("--ELSE 1-- modified df_sym_downloaded_price_data prepared for insertion into table :")
-    m_oth.fn_df_get_first_last_rows(df_sym_downloaded_price_data, 3, 'ALL_COLS')
+    m_oth.fn_df_print_first_last_rows(df_sym_downloaded_price_data, 3, 'ALL_COLS')
 
     # now  insert them into price data table
     #m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_sym_downloaded_price_data, "tbl_price_data_1day", True)
     df_return = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_sym_downloaded_price_data, "tbl_price_data_1day", True)
 
-  m_oth.fn_df_get_first_last_rows(df_return, 3, 'ALL_COLS')
-  logger.log("MYNOTICE", "END: Synchronizing price data from data feed into table {}", symbol)
+  m_oth.fn_df_print_first_last_rows(df_return, 3, 'ALL_COLS')
+  logger.log("MYNOTICE", "END: LOG-TAG-003 : End of Synchronizing price data from data feed into table {}", symbol)
   return df_return
 

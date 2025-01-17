@@ -24,8 +24,8 @@
 
 
 -- L03A - tbl_instrument - S&P500 constituents
-\echo "Loading into table tbl_instrument"
-\copy tbl_instrument (symbol, name, industry, exchange_code, asset_type, data_source, note_1) FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_instrument_data_sp500_symbols.csv' DELIMITER ',' CSV HEADER;
+\echo "Loading into table tbl_instrument - S&P500 constituents"
+\copy tbl_instrument (symbol, name, sector_code, sub_industry_code, exchange_code, asset_type, country_code, data_source, note_1) FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_instrument_data_sp500_symbols.csv' DELIMITER ',' CSV HEADER;
 
 
 -- L03B - tbl_instrument - US ETFs
@@ -33,12 +33,12 @@
 -- $ dos2unix thinkorswim_instrument_data.csv 
 -- $ sed -i 's/$/,ETF,UNKNOWN,THINKORSWIM/' thinkorswim_instrument_data.csv 
 -- $ sed -i 's/\(Symbol,.*\)\(ETF.*\)/\1asset_type,exchange_code,data_source/' thinkorswim_instrument_data.csv 
-\echo "Loading into table tbl_instrument"
+\echo "Loading into table tbl_instrument - US ETFs"
 \copy tbl_instrument (symbol, name, sector, industry, sub_industry, asset_type, exchange_code, data_source) FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_instrument_data_etf_thinkorswim.csv' DELIMITER ',' CSV HEADER;
 
 -- L03C - tbl_instrument - UK ETFs
 -- this is a list i massaged from Trading212 website JSON data
-\echo "Loading into table tbl_instrument"
+\echo "Loading into table tbl_instrument - UK ETFs"
 \copy tbl_instrument (symbol, name, exchange_code, asset_type, data_source) FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_instrument_UK_etfs_trading212.csv' DELIMITER ',' CSV HEADER;
 
 -- https://etfdb.com/compare/market-cap/  top 100 etfs by assets
@@ -46,11 +46,46 @@
 -- COPY tmp_tbl_instrument (symbol, name, country_code, asset_type) FROM '/tmp/bbb' DELIMITER ',' CSV HEADER;
 -- but it will not copy everything as symbols will already exist so we need to do the temp table thing
 
-
 -- this is a list i got as csv from Investing.com website 
   \copy tbl_instrument (symbol, name, sector, industry, sub_industry, exchange_code, asset_type, note_1) from '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_instrument_UK_etfs_investing_com.csv' DELIMITER ',' CSV HEADER;
 -- will need to do the below for now to clean it further - 
 update tbl_instrument set note_1='MOST-ACTIVE;', country_code='UK' where exchange_code='LSE' and data_source is null and note_1='INVESTING-COM'
+
+-- L03D - tbl_instrument - IN NIFTY 200 Stocks
+-- https://www.nseindia.com/products-services/indices-nifty200-index   - provides a csv file
+-- $ awk -F',' 'NR==1 {print $3","$1",exchange_code,asset_type,data_source,note_1"} NR>1 {print $3".NS,"$1",NSE,STOCK,NSEINDIA-COM,NIFTY200"}' ind_nifty200list.csv  > tbl_instrument_NSE_nifty200.csv
+\echo "Loading into table tbl_instrument - IN NIFTY 200 Stocks"
+\copy tbl_instrument (symbol, name, exchange_code, asset_type, data_source, note_1) FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_instrument_NSE_nifty200.csv' DELIMITER ',' CSV HEADER;
+
+-- L03E - tbl_instrument - Top US 100 ETFs by Assets under management
+--go to https://stockanalysis.com/etf/screener/
+--and 'Edit View' to only pick these columns -
+--Symbol ;Fund Name ;Asset Class ;Assets; Holdings ;Exp. Ratio
+--paste them into vim (tab is the seperator), do it on 2nd page also to get a total of 100 symbols
+--replace it with semi-colon(;) and remove the commas.
+--then replace all ; with ,
+--Symbol ,Fund Name ,Asset Class ,Assets, Holdings ,Exp. Ratio
+--SPY,SPDR S&P 500 ETF Trust,Equity,615.14B,504,0.09%
+--VOO,Vanguard S&P 500 ETF,Equity,589.30B,507,0.03%
+--IVV,iShares Core S&P 500 ETF,Equity,581.55B,507,0.03%
+--$ awk -F',' 'NR==1 {print "symbol,name,asset_type,data_source,note_1"} NR>1 {print $1","$2",ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum="$4"; hldgs="$5"; expratio="$6}' temp-1.csv > temp.csv
+
+-- do these 3 steps as there is SPY symbol duplicate. otherwise just remove SPY from my above file.
+--CREATE TEMP TABLE temp_instrument (
+--    symbol TEXT,
+--    name TEXT,
+--    asset_type typ_asset_type,
+--    data_source typ_data_source,
+--    note_1 TEXT
+--);
+--COPY temp_instrument (symbol, name, asset_type, data_source,note_1)
+--FROM 'C:\mytmp\downloads\temp.csv'
+--DELIMITER ','
+--CSV HEADER;
+--INSERT INTO tbl_instrument (symbol, name, asset_type, data_source, note_1)
+--SELECT symbol, name, asset_type, data_source, note_1
+--FROM temp_instrument
+--ON CONFLICT (symbol) DO NOTHING;
 
 
 -- L04A - tbl_price_data_1day - USA
@@ -104,14 +139,23 @@ done
 
 -- L05 - tbl_symbol_filters
 INSERT INTO public.tbl_symbol_filters(filter_name, filter_query, filter_description, deleted)
-	VALUES ('RS-UK-ETF-List', 'select * from viw_price_data_uk_most_traded', 'Most active around 50 UK ETFs', False);
+	VALUES ('RS-UK-ETF-List', 
+          'select * from viw_price_data_uk_most_traded', 'Most active around 50 UK ETFs', False);
 INSERT INTO public.tbl_symbol_filters(filter_name, filter_query, filter_description, deleted)
-	VALUES ('RS-US-ETF-List', 'select * from viw_price_data_us_etfs_most_traded', 'Most active around 50 US ETFs', False);
+	VALUES ('RS-US-ETF-List', 
+          'select * from viw_price_data_us_etfs_most_traded', 'Most active around 50 US ETFs', False);
 INSERT INTO public.tbl_symbol_filters(filter_name, filter_query, filter_description, category, deleted)
-  VALUES ('RS-scan-uk-above-sma50', 'select * from viw_tmp_001', 'UK ETFs most traded above sma_50', 'scans', False);
+  VALUES ('RS-scan-uk-above-sma50', 
+          'select * from viw_tmp_001', 'UK ETFs most traded above sma_50', 'scans', False);
 INSERT INTO public.tbl_symbol_filters(filter_name, filter_query, filter_description, category, deleted)
-	VALUES ('SS-scan-test1', $$select symbol as pd_symbol, name, note_1 from tbl_instrument where symbol in ('SPY', 'META', 'TSLA', 'XOM')$$, 'some symbols of interest/testing', 'scans', False);
-
+	VALUES ('SS-scan-test1', 
+          $$select symbol as pd_symbol, name, note_1 from tbl_instrument where symbol in ('SPY', 'META', 'TSLA', 'XOM')$$, 'some symbols of interest/testing', 'scans', False);
+INSERT INTO public.tbl_symbol_filters(filter_name, filter_query, filter_description, category, deleted)
+	VALUES ('SS-US-CRS-above-0', 
+          $$select pd_symbol, name, exchange_code, crs_50 from viw_latest_price_data_by_symbol where note_1='SP500' and crs_50 > 0$$, 'US SP500 stocks with CRS above 0', 'scans', False);
+INSERT INTO public.tbl_symbol_filters(filter_name, filter_query, filter_description, category, deleted)
+	VALUES ('SS-US-TOP100-AUM-ETFS-CRS-above-0', 
+          $$select pd_symbol, name, exchange_code, crs_50 from viw_latest_price_data_by_symbol where pd_symbol in (select symbol from viw_instrument_in_us_top100_etfs_by_aum) and crs_50 > 0$$, 'US TOP100 AUM ETFS stocks with CRS above 0', 'scans', False);
 
 
 /*

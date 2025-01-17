@@ -13,7 +13,7 @@ from loguru import logger
 def fn_inspect_caller_functions():
 
   # print caller of the function of interest to us
-  logger.info('inspect: this function was invoked by -', inspect.stack()[2].function)
+  logger.debug('inspect: this function was invoked by -', inspect.stack()[2].function)
 
   stack = traceback.extract_stack()[:-1]  # exclude the current frame because we are interested in the caller of the caller and higher up
   for frame in stack:
@@ -38,7 +38,7 @@ def fn_sleep_for_seconds(seconds: int) -> None:
 
 
 
-def fn_df_get_first_last_rows(df: pd.DataFrame, num_rows: int, column_opt: str):
+def fn_df_print_first_last_rows(df: pd.DataFrame, num_rows: int, column_opt: str):
   """ print with logger module the first n and last n rows of df and we can choose which columns to print 
 
   Args:
@@ -63,7 +63,7 @@ def fn_df_get_first_last_rows(df: pd.DataFrame, num_rows: int, column_opt: str):
   df_print = df[lst_column_names]
 
   df_first_last = pd.concat([df_print.head(num_rows), df_print.tail(num_rows)])
-  logger.debug("df with only first and last [{}] rows = \n{}", num_rows, df_first_last)
+  logger.debug("df with only first and last [{}] rows = \n[  {}  ]", num_rows, df_first_last)
 
 
 def fn_df_get_first_last_dates(df: pd.DataFrame) -> str:
@@ -97,7 +97,7 @@ def fn_modify_dataframe_per_our_requirements(sym: str, df: pd.DataFrame):
 
   logger.debug("------------------ fn_modify_dataframe_per_our_requirements ----  {}  --- START -----", sym)
   logger.debug("input df = ")
-  fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
+  fn_df_print_first_last_rows(df, 3, 'ALL_COLS')
 
   # we are trying to make this df exactly same in format as the data we have from tbl_price_data_1day when put into a df
   df.reset_index(inplace=True)  # reset the Date index and make it into a column by itself. will be the 1st column
@@ -111,7 +111,7 @@ def fn_modify_dataframe_per_our_requirements(sym: str, df: pd.DataFrame):
   df_return = df.assign(**{col: np.NaN for col in new_columns})   #  add the new columns with value NaN for each column across all rows
 
   logger.debug("converted df_return =")
-  fn_df_get_first_last_rows(df_return, 3, 'ALL_COLS')
+  fn_df_print_first_last_rows(df_return, 3, 'ALL_COLS')
   logger.debug("------------------ fn_modify_dataframe_per_our_requirements ----  {}  --- END -----", sym)
   return df_return
 
@@ -136,10 +136,10 @@ def fn_set_logger(enable_debug_mode: bool):
     LOGGING_LEVEL = "INFO"  # our default logging level
 
   logger.remove()  # All configured handlers are removed
-  logger.add(sys.stderr, level=LOGGING_LEVEL)  # sets the logging level
+  logger.add(sys.stderr, level=LOGGING_LEVEL, colorize=True)  # sets the logging level
   
   curr_level = logger.level(LOGGING_LEVEL)     # get the current logging level
-  logger.info("Logging level set to {} ", curr_level)  # Level(name='DEBUG', no=10, color='<blue><bold>', icon='🐞')
+  logger.info("Current Logging level is : {} ", curr_level)  # Level(name='DEBUG', no=10, color='<blue><bold>', icon='🐞')
   logger.debug("Setting for loguru logger level {} : level.name={} level.no={}  level.color={} level.icon={}", LOGGING_LEVEL, curr_level.name, curr_level.no, curr_level.color, curr_level.icon)
   
   # Check if the "MYNOTICE" level already exists

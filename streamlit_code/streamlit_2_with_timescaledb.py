@@ -32,7 +32,8 @@ logger.debug(sys.path)
 
 
 # from mod_utils_db import connect_to_db_using_sqlalchemy
-import mod_others as m_oth
+#import mod_others as m_oth
+from pkg_common import mod_others as m_oth
 import mod_utils_db as m_udb
 import mod_yfinance as m_yfn
 from technical_analysis import mod_technical_indicators as m_ti
@@ -62,7 +63,7 @@ def fn_st_sb_selectbox_symbol_group(dbconn):
       a df with the output of the the sql_query results (symbols list) corresponding to what option we chose from the dropdown
     """
 
-    logger.info("---fn_st_sb_selectbox_symbol_group------START-----")
+    logger.debug("---fn_st_sb_selectbox_symbol_group------START-----")
     logger.debug("Arguments : {}", dbconn)
 
     # fetch the data from the database that we want to show users into the selectbox group dropdown sidebar
@@ -101,7 +102,7 @@ def fn_st_sb_selectbox_symbol_group(dbconn):
     #   m_yfn.sync_price_data_in_table_for_symbol("YFINANCE", dbconn, row["symbol"])
     #   st.markdown("Syncing data for :blue[{}]".format(row["symbol"]))
 
-    logger.info("---fn_st_sb_selectbox_symbol_group------END-----")
+    logger.debug("---fn_st_sb_selectbox_symbol_group------END-----")
     return df_symbols
 
 
@@ -150,7 +151,7 @@ def fn_st_sb_selectbox_symbol_only(dbconn, df):
       print("---200---fn_st_sb_selectbox_symbol_only------END    NOTHING RETURNED-----")
 
 
-def sb_inputbox_symbol(data_venue: str, dbconn, symbol: str) -> str:
+def fn_sb_inputbox_symbol(data_venue: str, dbconn, symbol: str) -> str:
     """
     User inputs a symbol in sidebar input box and this will first check if the symbol exists on the data venue we chose.
 
@@ -163,14 +164,17 @@ def sb_inputbox_symbol(data_venue: str, dbconn, symbol: str) -> str:
     str: a string containing some summary information
 
     Example:
-    >>> sb_inputbox_symbol("YFINANCE", dbconn, "AAPL")
+    >>> fn_sb_inputbox_symbol("YFINANCE", dbconn, "AAPL")
     """
 
+    logger.debug("------------------ fn_sb_inputbox_symbol ------- START ---------------")
     # TODO: first check if symbol exists on the data source and throw error if not
     logger.warning("TODO: Need to code the function where it checks if the symbol is valid for that data venue ...")
     df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol(data_venue, dbconn, symbol)
+    # we want all the data from the table, not the partial inserted above, so 
+    df_ohlcv_symbol = m_udb.fn_get_table_data_for_symbol(dbconn, symbol)
     fn_generate_plotly_chart(dbconn, symbol, df_ohlcv_symbol)
-
+    logger.debug("----------------- fn_sb_inputbox_symbol ----  {} --- END -------------", symbol)
 
 
 def fn_generate_plotly_chart(dbconn, symbol, df):
@@ -180,12 +184,11 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
   https://plotly.com/python/mixed-subplots/
   https://plotly.com/python/table-subplots/
   """
+  logger.log("MYNOTICE", "START: LOG-TAG-003 : fn_generate_plotly_chart ----  {} ---", symbol)
 
-  logger.log("MYNOTICE", "----------------- fn_generate_plotly_chart ----  {} --- START -------------", symbol)
   logger.debug("Arguments : dbconn={}, symbol={} df=", dbconn, symbol)
-  m_oth.fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
-  print(df)
-
+  m_oth.fn_df_print_first_last_rows(df, 3, 'ALL_COLS')
+  
   # Create subplots with specific settings
   #
   fig = make_subplots(
@@ -449,7 +452,7 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
   # --- subplot 6 on row 1 and column 1 (CRS) ---
   logger.debug("Preparing subplot 6 -- CRS ---")
   # TODO: if it's SPY, then we need to skip this block
-  m_oth.fn_df_get_first_last_rows(df, 3, "ALL_COLS")
+  m_oth.fn_df_print_first_last_rows(df, 3, "ALL_COLS")
 
 
   # Prepare subplot with a gobj.Scatter object trace for CRS
@@ -516,8 +519,7 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
   )  # make sure to match it with the fig layout, but can also do like below
   # st.plotly_chart(fig, use_container_height=True, use_container_width=True)
 
-  logger.debug("----------------- fn_generate_plotly_chart ----  {} --- END -------------", symbol)
-
+  logger.log("MYNOTICE", "END : LOG-TAG-003 : fn_generate_plotly_chart ----  {} ---", symbol)
 
 
 
@@ -574,7 +576,7 @@ def fn_st_selectbox_scans(dbconn):
         index=None,
     )
     st.markdown("You selected from scans dropdown: :red[{}]".format(sb_scan_chosen_option))
-    logger.info("You selected from the Scans Dropdown - chosen_sb_option_scan={}", sb_scan_chosen_option)
+    logger.info("You selected from the Scans Dropdown: chosen_sb_option_scan = {}", sb_scan_chosen_option)
 
     # initial the return df
     df_symbols = pd.DataFrame()
@@ -582,8 +584,7 @@ def fn_st_selectbox_scans(dbconn):
     # if user has chosen an option from the scan filters dropdown, then run the sql query and return values into a dataframe
     if sb_scan_chosen_option:
       sb_chosen_sql_query = df_scans[df_scans["filter_name"] == sb_scan_chosen_option]["filter_query"].iloc[0]
-      logger.info("streamlit selectbox scans - CHOSEN SQL_QUERY = {}", sb_chosen_sql_query)
-      logger.info("User chose from Scans Dropdown : {} ", sb_chosen_sql_query)
+      logger.info("SQL Query corresponding to {} =  {}", sb_scan_chosen_option, sb_chosen_sql_query)
       sql_query = sa.text(sb_chosen_sql_query)
       df_symbols = pd.read_sql_query(sql_query, dbconn)
 
@@ -623,7 +624,7 @@ def fn_st_selectbox_scans(dbconn):
       fn_generate_plotly_chart(dbconn, selected_symbol, df_ohlcv_symbol)
 
     logger.debug("Returning df = {}")
-    m_oth.fn_df_get_first_last_rows(df_symbols, 3, "ALL_COLS")
+    m_oth.fn_df_print_first_last_rows(df_symbols, 3, "ALL_COLS")
 
     logger.debug("------------------ fn_st_selectbox_scans ------- END ---------------------")
     return df_symbols
@@ -640,6 +641,7 @@ def main():
   db_conn = m_udb.fn_create_database_engine_sqlalchemy(my_db_uri)
   wildcard_value_1 = "LSE%"
   wildcard_value_2 = "A%"
+
   # sql_query = text(
   #   """
   #   SELECT symbol FROM tbl_instrument
@@ -647,6 +649,14 @@ def main():
   #   ORDER BY symbol
   #   """
   # ).bindparams(wildcard_1=wildcard_value_1, wildcard_2=wildcard_value_2)
+
+  # -- temp -- to code better afterwards ---
+  # -- this one is for fresh SPY data to be synched into the DB first time app is started
+  # -- but currently it will do every time page any action is taken
+  print("---- 00 --- SPY SYNCH --- START ---")
+  df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", db_conn, "SPY")
+  #logger.debug("df_ohlcv_symbol = {}", df_ohlcv_symbol)
+  print(f"---- 00 --- SPY SYNCH --- END --- ")
 
   sql_query = sa.text(
       """
@@ -695,26 +705,27 @@ def main():
           fn_generate_plotly_chart(db_conn, symbol, df_symbol_price_data)
           # generate_chart_plot_with_sub_plots(df_symbol_price_data)
 
-  print("---3000---")
+  
 
   # --- SIDEBAR -- TEXT INPUT BOX -- SYMBOL FOR DATA DOWNLOAD ---
-  sb_symbol = st.sidebar.text_input("Symbol for Data Download", value=None, max_chars=7)
+  sb_symbol = st.sidebar.text_input("Symbol for Data Download", value=None, max_chars=20)
   st.markdown("You selected symbol via text_input box : :red[{}]".format(sb_symbol))
-  logger.info("You selected symbol via text_input box ={}", sb_symbol)
-  if sb_symbol:
-    st_response = sb_inputbox_symbol("YFINANCE", db_conn, sb_symbol)
-    st.write("sb_inputbox_symbol return string = {}", st_response)
-    logger.info("sb_inputbox_symbol return string = {}", st_response)
+  logger.log("MYNOTICE", "You selected symbol via text_input box = {}", sb_symbol)
 
-  print("---4000---")
+  if sb_symbol:
+    st_response = fn_sb_inputbox_symbol("YFINANCE", db_conn, sb_symbol)
+    st.write("fn_sb_inputbox_symbol return string = {}", st_response)
+    logger.info("fn_sb_inputbox_symbol return string = {}", st_response)
+  
   df_scans = fn_st_selectbox_scans(db_conn)
+  logger.info("####################################################################################")
   logger.debug("------------------ main() ------- END ---------------------")
 
 
 # main
 if __name__ == "__main__":
 
-  m_oth.fn_set_logger(True)
+  m_oth.fn_set_logger(DEBUG_MODE)
   
   APP_NAME = "Stock Analysis App!"
 

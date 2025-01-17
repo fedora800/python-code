@@ -18,23 +18,14 @@ def test_fn_download_historical_data_for_symbol():
   print(f"Created csv file from downloaded date - {filename}")
   
 
-def main():
-  m_oth.fn_set_logger(False)
 
-  test_fn_download_historical_data_for_symbol()
-
-  #my_db_uri = "postgresql://postgres:postgres@localhost:5432/dbs_invest"
-  my_db_uri = "postgresql://postgres:Inesh#2012@localhost:5432/dbs_invest"
-  engine = m_udb.fn_create_database_engine_sqlalchemy(my_db_uri)
-
-
-
+def test_fn_download_and_sync_db_loop_for_mult_symbols(engine):
   # this will be the full S&P 500 index constituents list
   #csv_file_path = 'sp500_constituents.csv'  # Replace with the actual path to your CSV file
   # 25 largest S&P 500 index constituents by weighting
   # AAPL, MSFT, AMZN, NVDA, GOOGL, TSLA, GOOG, BRK-B, META, UNH, XOM, LLY, JPM, JNJ, V, PG, MA, AVGO, HD, CVX, MRK, ABBV, COST, PEP, ADBE
   #lst_symbols = ['AAPL', 'MSFT', 'AMZN', 'NVDA', 'GOOGL', 'TSLA', 'GOOG', 'BRK-B', 'META', 'UNH', 'XOM', 'LLY', 'JPM', 'JNJ', 'V', 'PG', 'MA', 'AVGO', 'HD', 'CVX', 'MRK', 'ABBV', 'COST', 'PEP', 'ADBE']
-  #lst_symbols = ['META', 'TSLA', 'XOM']
+  lst_symbols = ['META', 'TSLA', 'XOM']
   #lst_symbols = ['VMID.L','VUKE.L','VUSA.L']
   #lst_symbols = ['META']            # test for 1 symbol
   #lst_symbols = ['SPY']
@@ -47,8 +38,8 @@ def main():
   #    'VFEM.L', 'VHVG.L', 'VHYL.L', 'VILX.L', 'VIXL.L', 'VJPN.L', 'VMID.L', 'VUAG.L', 'VUKG.L', 'VWRL.L', 'VWRP.L')
 
   # temp - part of above list
-  lst_symbols = ('SUOE.L', 'SUSM.L', 'V3AA.L', 'V3AB.L', 'V3AM.L', 'V3MB.L', 'VALW.L', 'VERX.L', 'VEVE.L', \
-    'VFEM.L', 'VHVG.L', 'VHYL.L', 'VILX.L', 'VIXL.L', 'VJPN.L', 'VMID.L', 'VUAG.L', 'VUKG.L', 'VWRL.L', 'VWRP.L')
+  # lst_symbols = ('SUOE.L', 'SUSM.L', 'V3AA.L', 'V3AB.L', 'V3AM.L', 'V3MB.L', 'VALW.L', 'VERX.L', 'VEVE.L', \
+  #   'VFEM.L', 'VHVG.L', 'VHYL.L', 'VILX.L', 'VIXL.L', 'VJPN.L', 'VMID.L', 'VUAG.L', 'VUKG.L', 'VWRL.L', 'VWRP.L')
 
   #m_yfn.fn_get_historical_data_list_of_symbols(data_venue, lst_symbols, start_date, end_date, True)    # this puts into a csv file
   #df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", engine, "VWRL.L")
@@ -60,7 +51,20 @@ def main():
   # for SPY exclusively
   #df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", engine, "SPY")
   #print("----11111--for SPY----", df_ohlcv_symbol)
-  
+
+
+def main():
+  m_oth.fn_set_logger(False)
+
+  my_db_uri = "postgresql://postgres:postgres@localhost:5432/dbs_invest"
+  #my_db_uri = "postgresql://postgres:Inesh#2012@localhost:5432/dbs_invest"
+  engine = m_udb.fn_create_database_engine_sqlalchemy(my_db_uri)
+
+  #test_fn_download_historical_data_for_symbol()
+
+
+  test_fn_download_and_sync_db_loop_for_mult_symbols(engine)
+
   
 # main
 if __name__ == "__main__":

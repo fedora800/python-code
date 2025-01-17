@@ -2,6 +2,7 @@ import sys
 import platform
 
 from loguru import logger
+import numpy as np
 import pandas as pd
 import talib as ta
 
@@ -17,12 +18,11 @@ else:
 
 from pkg_common import mod_others as m_oth
 
-def fn_check_data(df: pd.DataFrame, exp_recs: int):
+def fn_check_data(df: pd.DataFrame):
   """_summary_
 
   Args:
       df (pd.DataFrame): contains the data_
-      exp_recs (int): a number mentioning minimum number of records we expect in the df
 
   Returns:
       int: number of records in the dataframe
@@ -138,7 +138,7 @@ def fn_macd_indicator_last_row_only(df: pd.DataFrame, column_name: str):        
     )
 
     logger.trace("-------df.info={}------", df.info())
-    m_oth.fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
+    m_oth.fn_df_print_first_last_rows(df, 3, 'ALL_COLS')
     return df
 
     # '''
@@ -242,7 +242,7 @@ def fn_macd_indicator(df: pd.DataFrame, column_name: str):
   )
 
   logger.trace("-------df.info={}------", df.info())
-  m_oth.fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
+  m_oth.fn_df_print_first_last_rows(df, 3, 'ALL_COLS')
   return df
 
 
@@ -259,7 +259,7 @@ def fn_relative_strength_indicator(df: pd.DataFrame):
 
   df["rsi_14"] = ta.RSI(df["close"], timeperiod=PERIOD)
   df["rsi_14"] = df["rsi_14"].round(3)
-  m_oth.fn_df_get_first_last_rows(df, 3, 'ALL_COLS')
+  m_oth.fn_df_print_first_last_rows(df, 3, 'ALL_COLS')
 
   return df
 
@@ -318,9 +318,9 @@ def fn_comparative_relative_strength_CRS_indicator(bch_sym: str, df_bch_sym: pd.
   LENGTH = 50
 
   logger.debug("Received arguments : df_bch_sym=")
-  m_oth.fn_df_get_first_last_rows(df_bch_sym, 3, 'ALL_COLS')
+  m_oth.fn_df_print_first_last_rows(df_bch_sym, 3, 'ALL_COLS')
   logger.debug("Received arguments : df_sym=")
-  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
+  m_oth.fn_df_print_first_last_rows(df_sym, 3, 'ALL_COLS')
 
   # benchmark might have holidays on some days while symbol can have on another day, meaning all records will not match on pd_time
   # we need to handle this by currently only taking the common rows on pd_time
@@ -353,9 +353,9 @@ def fn_comparative_relative_strength_CRS_indicator(bch_sym: str, df_bch_sym: pd.
   df_bch_sym_filtered = df_bch_sym_filtered[["pd_time", "close", "dly_pct_change"]]
   df_sym_filtered = df_sym_filtered[["pd_symbol", "pd_time", "close", "dly_pct_change"]]
   print("----- df_bch_sym_filtered ----")
-  m_oth.fn_df_get_first_last_rows(df_bch_sym_filtered, 3, 'ALL_COLS')
+  m_oth.fn_df_print_first_last_rows(df_bch_sym_filtered, 3, 'ALL_COLS')
   print("----- df_sym_filtered ----")
-  m_oth.fn_df_get_first_last_rows(df_sym_filtered, 3, 'ALL_COLS')
+  m_oth.fn_df_print_first_last_rows(df_sym_filtered, 3, 'ALL_COLS')
   # df_sym = df_sym[['pd_time','close','dly_pct_change']]
 
   print("--- Merging the 2 dfs using pandas merge function ---")
@@ -369,7 +369,7 @@ def fn_comparative_relative_strength_CRS_indicator(bch_sym: str, df_bch_sym: pd.
   )
 
   print("--- MERGED DF ---")
-  m_oth.fn_df_get_first_last_rows(df_merged, 3, 'ALL_COLS')
+  m_oth.fn_df_print_first_last_rows(df_merged, 3, 'ALL_COLS')
   df_merged["close"] = df_sym["close"]      # add the close column back to the merged df
   print("---YYY ---")
   print(df_merged.tail(3))
@@ -414,7 +414,7 @@ def fn_comparative_relative_strength_CRS_indicator(bch_sym: str, df_bch_sym: pd.
   """
 
   logger.trace("-------df_sym.info={}------", df_sym.info())
-  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
+  m_oth.fn_df_print_first_last_rows(df_sym, 3, 'ALL_COLS')
   return df_sym
 
 
@@ -451,9 +451,9 @@ def fn_compute_all_required_indicators(
 
   """
 
-  logger.log("MYNOTICE", "START: Computing all the required indicators using dataframes for symbol={} and benchmark symbol = {}", sym, bch_sym)
+  logger.log("MYNOTICE", "START: LOG-TAG-002 : Computing all the required indicators using dataframes for symbol={} and benchmark symbol = {}", sym, bch_sym)
 
-  NUM_RECORDS_EXPECTED = 300
+  NUM_RECORDS_EXPECTED = 60
   IF_DELIMITER = ";"  # intra-field delimeter for the macd column
 
   # these are the names of the new columns that will be added to the dataframe with the computed indicators.
@@ -467,11 +467,11 @@ def fn_compute_all_required_indicators(
   # print(df_sym)
 
   logger.debug("Received arguments : bch_sym={} df_bch_sym=", bch_sym)
-  m_oth.fn_df_get_first_last_rows(df_bch_sym, 3, 'ALL_COLS')
+  m_oth.fn_df_print_first_last_rows(df_bch_sym, 3, 'ALL_COLS')
   logger.debug("Received arguments :           sym={}           df_sym=", sym)
-  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
-  num_recs = fn_check_data(df_sym, NUM_RECORDS_EXPECTED)
-  if num_recs < 200:
+  m_oth.fn_df_print_first_last_rows(df_sym, 3, 'ALL_COLS')
+  num_recs = fn_check_data(df_sym)
+  if num_recs < NUM_RECORDS_EXPECTED:
       logger.error("num_records={} less than expected records={}", num_recs, NUM_RECORDS_EXPECTED)
       # TODO: exit maybe ?
 
@@ -489,7 +489,7 @@ def fn_compute_all_required_indicators(
   df_sym["sma_50"] = ta.SMA(df_sym["close"], timeperiod=SMA_50_PERIOD)
   df_sym["sma_50"] = df_sym["sma_50"] .round(2)
 
-  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
+  m_oth.fn_df_print_first_last_rows(df_sym, 3, 'ALL_COLS')
 
   # ------ 2. SMA_200 ---
   logger.debug("---Indicator 1 : SMA_200 ---")
@@ -497,7 +497,7 @@ def fn_compute_all_required_indicators(
   SMA_200_PERIOD=200
   df_sym["sma_200"] = ta.SMA(df_sym["close"], timeperiod=SMA_200_PERIOD)
   df_sym["sma_200"] = df_sym["sma_200"] .round(2)
-  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
+  m_oth.fn_df_print_first_last_rows(df_sym, 3, 'ALL_COLS')
 
   # ------ 3. EMA_5 ------
   # TODO: this one
@@ -509,7 +509,7 @@ def fn_compute_all_required_indicators(
   EMA_13_PERIOD=13
   df_sym["ema_13"] = ta.EMA(df_sym["close"], timeperiod=EMA_13_PERIOD)
   df_sym["ema_13"] = df_sym["ema_13"].round(2)
-  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
+  m_oth.fn_df_print_first_last_rows(df_sym, 3, 'ALL_COLS')
 
   # ------ 5. RSI_14 ------
   logger.debug("---Indicator 5 : RSI ---")
@@ -517,7 +517,7 @@ def fn_compute_all_required_indicators(
   RSI_PERIOD = 14
   df_sym["rsi_14"] = ta.RSI(df_sym["close"], timeperiod=RSI_PERIOD)
   df_sym["rsi_14"] = df_sym["rsi_14"].round(2)
-  m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
+  m_oth.fn_df_print_first_last_rows(df_sym, 3, 'ALL_COLS')
 
   # ------ 6. MACD ------
   logger.debug("---Indicator 6 : MACD ---")
@@ -572,8 +572,9 @@ def fn_compute_all_required_indicators(
     df_tmp_bch_sym = df_bch_sym.copy()
     df_tmp_sym = df_sym.copy()
     
-    df_tmp_bch_sym["dly_pct_change"] = df_tmp_bch_sym["close"].pct_change()
-    df_tmp_sym["dly_pct_change"] = df_tmp_sym["close"].pct_change()
+    df_tmp_bch_sym["dly_pct_change"] = df_tmp_bch_sym["close"].pct_change().round(3)
+    df_tmp_sym["dly_pct_change"] = df_tmp_sym["close"].pct_change().round(3)
+    # now reduce these 2 dataframes to keep only the required columns
     df_tmp_bch_sym = df_tmp_bch_sym[["pd_time", "close", "dly_pct_change"]]
     df_tmp_sym = df_tmp_sym[["pd_symbol", "pd_time", "close", "dly_pct_change"]]
 
@@ -584,7 +585,8 @@ def fn_compute_all_required_indicators(
 
     # to fix below error, got a recommendation to make sure both fields are of the exact same type
     # ValueError: You are trying to merge on datetime64[ns, UTC] and object columns for key 'pd_time'. If you wish to proceed you should use pd.concat
-    df_tmp_sym["pd_time"] = pd.to_datetime(df_tmp_sym["pd_time"], utc=True).dt.to_pydatetime()
+    #df_tmp_sym["pd_time"] = pd.to_datetime(df_tmp_sym["pd_time"], utc=True).dt.to_pydatetime()
+    df_tmp_sym["pd_time"] = np.array(pd.to_datetime(df_tmp_sym["pd_time"], utc=True).dt.to_pydatetime())
     df_tmp_bch_sym["pd_time"] = pd.to_datetime(df_tmp_bch_sym["pd_time"], utc=True).dt.to_pydatetime()
 
 
@@ -595,11 +597,22 @@ def fn_compute_all_required_indicators(
         on="pd_time",
         suffixes=("_SYMB", "_ETF"),
     )
+    print("-- Z 00 -- df_merged (sym and benchmark quote data on pd_time) BEFORE CRS computation")
+    m_oth.fn_df_print_first_last_rows(df_merged, 5, 'ALL_COLS')
 
     # compute the CRS value for each row and put them in a new column
+    logger.log("MYNOTICE", "Now actually computing CRS over symbol and benchmark dataframes and putting values into a merged df")
+    # df_merged["close_SYMB"] / df_merged["close_SYMB"].shift(CRS_LENGTH) calculates the percentage change for the symbol over CRS_LENGTH rows.
+    # df_merged["close_ETF"] / df_merged["close_ETF"].shift(CRS_LENGTH) calculates the percentage change for the ETF over the same period.
+    # The division of the two changes computes the relative strength ratio, subtracting 1 centers it around zero.
     df_merged[COL_NAME_CRS] = (df_merged["close_SYMB"] / df_merged["close_SYMB"].shift(CRS_LENGTH) / 
                         (df_merged["close_ETF"] / df_merged["close_ETF"].shift(CRS_LENGTH)) - 1
     )
+    # Round the CRS values to three decimal places
+    df_merged[COL_NAME_CRS] = df_merged[COL_NAME_CRS].round(3)
+
+    print("-- Z 00B -- df_merged AFTER CRS computation")
+    m_oth.fn_df_print_first_last_rows(df_merged, 5, 'ALL_COLS')
 
     # find out which of the rows have null or not null values
     #mask = ~df_merged[COL_NAME_CRS].isna()
@@ -609,10 +622,10 @@ def fn_compute_all_required_indicators(
     columns_to_keep = ['pd_time', 'crs_50']
     df_merged = df_merged[columns_to_keep]
     print("-- Z 11 -- df_merged = ")
-    m_oth.fn_df_get_first_last_rows(df_merged, 5, 'ALL_COLS')
+    m_oth.fn_df_print_first_last_rows(df_merged, 5, 'ALL_COLS')
 
     print("-- Z 22 -- df_sym = ")
-    m_oth.fn_df_get_first_last_rows(df_sym, 5, 'ALL_COLS')
+    m_oth.fn_df_print_first_last_rows(df_sym, 5, 'ALL_COLS')
 
     # we need to update the original df_sym column for crs_50 with the corresponding value from df_merged, based off pd_time
     # so create a new df based on merging of df_sym and df_merged based on pd_time
@@ -636,9 +649,9 @@ def fn_compute_all_required_indicators(
     df_sym['crs_50'] = df_sym['pd_time'].map(crs_50_mapping)
     print("-- Z 44 -- updated df_sym = ")
     logger.debug("Now computed all the indicator values and at the end of the function, resulting df_sym=")
-    m_oth.fn_df_get_first_last_rows(df_sym, 3, 'ALL_COLS')
+    m_oth.fn_df_print_first_last_rows(df_sym, 3, 'ALL_COLS')
 
-  logger.log("MYNOTICE", "END: Computing all the required indicators using dataframes for symbol={} and benchmark symbol = {}", sym, bch_sym)
+  logger.log("MYNOTICE", "END: LOG-TAG-002 : Completed computing all the required indicators using dataframes for symbol={} and benchmark symbol = {}", sym, bch_sym)
   return df_sym
 
 

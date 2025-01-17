@@ -2,6 +2,7 @@ exchange_code, name, note_1
 LSE,London Stock Exchange,
 NYSE,New York Stock Exchange,
 NASDAQ,Nasdaq Exchange,
+NSE, National Stock Exchange
 BATS,CBOE US,
 UK-EXCH-TODO,TODO,
 UNKNOWN, TODO,

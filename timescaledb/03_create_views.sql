@@ -6,42 +6,35 @@
  -- V03 - viw_price_data_stats_by_symbol 
  -- V04 - viw_instrument_us_etfs
  -- V05 - viw_instrument_us_sp500_constituents
+ -- viw_instrument_in_nifty200_constituents
  -- V06 - viw_instrument_price_data_records_count
  -- V07 - viw_price_data_uk_most_traded
- 
+ -- viw_instrument_table_summary
+
  --------------------------------------------------------------------------------
  */
 -- V01 - viw_latest_price_data_by_symbol 
--- use this view when we want to get only the latest record by pd_time for each symbol
+-- use this view when we want to get only the latest price data record by pd_time for each symbol
 \echo "Creating VIEW viw_latest_price_data_by_symbol";
 CREATE OR REPLACE VIEW viw_latest_price_data_by_symbol AS 
-WITH recent_price_data AS (
-  SELECT pd_symbol,
-    pd_time,
-    open,
-    high,
-    low,
-    close,
-    volume,
-    ema_5,
-    ema_13,
-    sma_50,
-    sma_200,
-    ROW_NUMBER() OVER (
+WITH tmp_ranked_tbl_price_data_1day AS (
+  SELECT 
+	  *,    
+	  ROW_NUMBER() OVER (
       PARTITION BY pd_symbol
       ORDER BY pd_time DESC
     ) AS latest_row_num_by_symbol
   FROM tbl_price_data_1day
-  WHERE pd_time >= CURRENT_DATE - INTERVAL '15 days'
-  ),
-symbol_data AS (
-	SELECT symbol, name, exchange_code, sector FROM tbl_instrument		
+  WHERE 
+    pd_time >= CURRENT_DATE - INTERVAL '15 days'
+ --   AND pd_symbol in ('AAPL', 'PLTR', 'SPY')
 )
-SELECT RD.*, SD.*
-FROM recent_price_data RD, symbol_data SD
+SELECT A.*, B.name, B.exchange_code, B.asset_type, B.country_code, B.sector_code, B.industry_code, B.sub_industry_code, B.data_source, B.note_1 
+FROM tmp_ranked_tbl_price_data_1day A, tbl_instrument B
 WHERE 
-RD.pd_symbol = SD.symbol
-AND latest_row_num_by_symbol = 1;
+A.pd_symbol = B.symbol
+and B.deleted = false 
+and A.latest_row_num_by_symbol = 1;
 
 
 -- V02 - viw_instrument_uk_equities
@@ -58,27 +51,40 @@ order by symbol;
 
 
 -- V03 - viw_price_data_stats_by_symbol 
--- use this view when we want to see oldest and latest records by time and count of records for each symbol
+-- use this view when we want to see oldest and latest records by time and count of records for each symbol as well as other stats
 \echo "Creating VIEW viw_price_data_stats_by_symbol";
 CREATE OR REPLACE VIEW viw_price_data_stats_by_symbol AS 
 WITH tmp_pricedata AS (
   SELECT pd_symbol,
     MIN(pd_time) as oldest_rec_pd_time,
     MAX(pd_time) as latest_rec_pd_time,
-    COUNT(*) as num_records
+    COUNT(*) as num_records,
+    -- Calculate the difference between the max and min pd_time in days
+    EXTRACT(DAY FROM (MAX(pd_time) - MIN(pd_time))) AS time_difference_in_days,
+    -- Calculate the difference between max(pd_time) and today in days
+    EXTRACT(DAY FROM (CURRENT_DATE - MAX(pd_time))) AS days_since_latest,
+    -- Calculate weekdays only (excluding weekends) between min and max pd_time
+    (SELECT COUNT(*) 
+     FROM generate_series(MIN(pd_time)::DATE, MAX(pd_time)::DATE, '1 day'::INTERVAL) AS series(date)
+     WHERE EXTRACT(DOW FROM series.date) NOT IN (0, 6)) AS weekdays_between_oldest_and_latest
   FROM tbl_price_data_1day
   GROUP BY pd_symbol
-  ORDER By pd_symbol
+  ORDER BY pd_symbol
 )
-SELECT t_I.symbol,
+SELECT t_P.pd_symbol,
   t_I.name,
   t_I.exchange_code,
   t_I.asset_type,
-  t_P.*
+  t_P.oldest_rec_pd_time,
+  t_P.latest_rec_pd_time,
+  t_P.num_records,
+  t_P.time_difference_in_days, -- Add the calculated difference between max and min pd_time in days
+  t_P.days_since_latest, -- Add the calculated difference between max(pd_time) and today in days
+  t_P.weekdays_between_oldest_and_latest -- Add the calculated weekdays difference
 FROM tbl_instrument t_I,
   tmp_pricedata t_P
 WHERE t_I.symbol = t_P.pd_symbol
-  and t_I.deleted=false
+  AND t_I.deleted = false
 ORDER BY t_I.symbol;
 
 
@@ -104,6 +110,27 @@ WHERE asset_type = 'STOCK'
   and note_1 = 'SP500'
   and deleted=false;
 
+-- viw_instrument_in_nifty200_constituents
+-- use this view when we want to get all the instruments which are in the NIFTY 200 index
+\echo "Creating VIEW viw_instrument_in_nifty200_constituents";
+CREATE OR REPLACE VIEW viw_instrument_in_nifty200_constituents AS
+SELECT *
+FROM tbl_instrument
+WHERE exchange_code = 'NSE'
+  and asset_type = 'STOCK'
+  and note_1 = 'NIFTY200'
+  and deleted=false;
+
+-- viw_instrument_in_us_top100_etfs_by_aum
+-- use this view when we want to get the top 100 US ETF instruments by assets under management
+\echo "Creating VIEW viw_instrument_in_us_top100_etfs_by_aum";
+CREATE OR REPLACE VIEW viw_instrument_in_us_top100_etfs_by_aum AS
+SELECT *
+FROM tbl_instrument
+WHERE 
+  asset_type = 'ETF'
+  and note_1 like '%US_TOP_100_BY_AUM%'
+  and deleted=false
 
 -- V06 - viw_instrument_price_data_records_count
 -- use this view when we want to see how much data we have in the price_data_1day table for each symbol
@@ -209,5 +236,25 @@ HAVING AVG(volume) > 50000
 ORDER BY AVG(volume) DESC
 LIMIT 50;
 
+-- gives a count of records in tbl_instrument grouped by various fields
+\echo "Creating VIEW viw_instrument_table_summary";
+CREATE OR REPLACE VIEW viw_instrument_table_summary AS
+SELECT
+  country_code,
+  exchange_code,
+  asset_type,
+  note_1,
+  data_source,
+  deleted,
+  COUNT(*) AS num_records
+FROM
+  tbl_instrument
+GROUP BY
+  country_code,
+  exchange_code,
+  asset_type,
+  note_1,
+  data_source,
+  deleted;
 
 

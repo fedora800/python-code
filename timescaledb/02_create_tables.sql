@@ -30,10 +30,12 @@ CREATE TYPE typ_asset_type AS ENUM (
 \echo "Creating TYPE typ_data_source"
 CREATE TYPE typ_data_source AS ENUM (
   'INVESTING-COM',
-  'YFINANCE',
+  'NSEINDIA-COM',
+  'STOCKANALYSIS-COM',
+  'TEMPORARY',
   'THINKORSWIM',
   'TRADING212',
-  'TEMPORARY'
+  'YFINANCE'
 );
 
 
@@ -52,6 +54,7 @@ CREATE TYPE typ_country_code AS ENUM (
 CREATE TABLE IF NOT EXISTS tbl_exchange (
   exchange_code TEXT PRIMARY KEY,
   name TEXT NOT NULL,
+  country_code typ_country_code DEFAULT 'US' NOT NULL,
   note_1 TEXT
 );
 
@@ -72,6 +75,12 @@ CREATE TABLE IF NOT EXISTS tbl_gics_sector (
   UNIQUE (sector_code, industry_group_code, industry_code, sub_industry_code)
 );
 
+/*
+Above UNIQUE is sufficient per chatgpt, so remove this after testing
+ALTER TABLE your_table
+ADD CONSTRAINT sector_hierarchy_unique 
+UNIQUE (sector_code, industry_group_code, industry_code, sub_industry_code);
+*/
 
 -- T03 - tbl_instrument
 \echo "Creating TABLE tbl_insrument"
@@ -90,16 +99,9 @@ CREATE TABLE IF NOT EXISTS tbl_instrument (
   sub_industry_code INTEGER,
   data_source typ_data_source,
   deleted BOOLEAN DEFAULT false,
-  note_1 TEXT
-
-  CONSTRAINT cst_valid_sector_code_check
-    CHECK (sector_code IS NULL OR sector_code IN (SELECT sector_code FROM tbl_gics_sector)),
-  CONSTRAINT cst_valid_industry_group_code_check
-    CHECK (industry_group_code IS NULL OR industry_group_code IN (SELECT industry_group_code FROM tbl_gics_sector)),
-  CONSTRAINT cst_valid_industry_code_check
-    CHECK (industry_code IS NULL OR industry_code IN (SELECT industry_code FROM tbl_gics_sector)),
-  CONSTRAINT cst_valid_sub_industry_code_check
-    CHECK (sub_industry_code IS NULL OR sub_industry_code IN (SELECT sub_industry_code FROM tbl_gics_sector)),  
+  note_1 TEXT,
+  FOREIGN KEY (sector_code, industry_group_code, industry_code, sub_industry_code) 
+    REFERENCES tbl_gics_sector(sector_code, industry_group_code, industry_code, sub_industry_code) 
 );
 
 -- T04 - tbl_price_data_1day
@@ -120,7 +122,7 @@ CREATE TABLE IF NOT EXISTS tbl_price_data_1day (
    rsi_14         NUMERIC(10,2) NULL,
    macd_sig_hist  TEXT NULL,
    dm_dp_adx      TEXT NULL,
-   crs_50         NUMERIC(3,3) NULL,
+   crs_50         NUMERIC(5,3) NULL,
 --  vendor_id INTEGER REFERENCES data_vendors(vendor_id),
 --   PRIMARY KEY (pd_ins_id, vendor_id, dtime)
 --   PRIMARY KEY (pd_ins_id, pd_time)
