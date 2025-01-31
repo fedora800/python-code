@@ -45,10 +45,13 @@ def run_conn_sql_query(dbconn, sql_query):
     TODO - what about no output ???
     """
     print("Input sql_query = ", sql_query)
+    logger.warning("--- X1 --- run_conn_sql_query ---BEGIN --")
+
 
     df_output = pd.read_sql_query(sql_query, dbconn)
     print("Output df = ", df_output)
     generate_table_plot(df_output)
+    logger.warning("--- X1 --- run_conn_sql_query ---END --") 
 
     return df_output
 
@@ -151,9 +154,12 @@ def fn_st_sb_selectbox_symbol_only(dbconn, df):
       print("---200---fn_st_sb_selectbox_symbol_only------END    NOTHING RETURNED-----")
 
 
-def fn_sb_inputbox_symbol(data_venue: str, dbconn, symbol: str) -> str:
+def fn_sb_inputbox_symbol(data_venue: str, sa_engine, symbol: str) -> str:
     """
-    User inputs a symbol in sidebar input box and this will first check if the symbol exists on the data venue we chose.
+    User inputs a symbol in sidebar input box and this function does all of below :
+    first check if valid symbol, 
+    then sync data from data venue into the database for that symbol,
+    and finally generate the chart data and plot it.
 
     Parameters:
     - data_venue (str): The string representing the data venue.
@@ -169,12 +175,24 @@ def fn_sb_inputbox_symbol(data_venue: str, dbconn, symbol: str) -> str:
 
     logger.debug("------------------ fn_sb_inputbox_symbol ------- START ---------------")
     # TODO: first check if symbol exists on the data source and throw error if not
-    logger.warning("TODO: Need to code the function where it checks if the symbol is valid for that data venue ...")
-    df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol(data_venue, dbconn, symbol)
-    # we want all the data from the table, not the partial inserted above, so 
-    df_ohlcv_symbol = m_udb.fn_get_table_data_for_symbol(dbconn, symbol)
-    fn_generate_plotly_chart(dbconn, symbol, df_ohlcv_symbol)
+
+    if m_udb.fn_check_symbol_exists_in_instrument_table(sa_engine, symbol):
+      st.markdown(f"<span style='color:green; font-weight:bold;'>{symbol} FOUND,   plotting chart ...</span>", unsafe_allow_html=True)
+      df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol(data_venue, sa_engine, symbol)
+      #print(df_ohlcv_symbol)
+      # we want all the data from the table, not the partial inserted above, so 
+      df_ohlcv_symbol = m_udb.fn_get_table_data_for_symbol(sa_engine, symbol)
+      fn_generate_plotly_chart(sa_engine, symbol, df_ohlcv_symbol)
+      str_return = "Data downloaded and updated in table and chart generated on GUI"
+    else:
+      logger.error(f"SYMBOL NOT FOUND - {symbol} !!! - skipping sync ...")
+      st.markdown(f"<span style='color:red; font-weight:bold;'>{symbol} NOT FOUND !!! </span>", unsafe_allow_html=True)
+      str_return = "Symbol not found, Sync skipped for " + symbol
+
     logger.debug("----------------- fn_sb_inputbox_symbol ----  {} --- END -------------", symbol)
+    return str_return
+
+    
 
 
 def fn_generate_plotly_chart(dbconn, symbol, df):
@@ -184,7 +202,7 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
   https://plotly.com/python/mixed-subplots/
   https://plotly.com/python/table-subplots/
   """
-  logger.log("MYNOTICE", "START: LOG-TAG-003 : fn_generate_plotly_chart ----  {} ---", symbol)
+  logger.log("MYNOTICE", "START: LOG-TAG-004 : fn_generate_plotly_chart ----  {} ---", symbol)
 
   logger.debug("Arguments : dbconn={}, symbol={} df=", dbconn, symbol)
   m_oth.fn_df_print_first_last_rows(df, 3, 'ALL_COLS')
@@ -519,7 +537,7 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
   )  # make sure to match it with the fig layout, but can also do like below
   # st.plotly_chart(fig, use_container_height=True, use_container_width=True)
 
-  logger.log("MYNOTICE", "END : LOG-TAG-003 : fn_generate_plotly_chart ----  {} ---", symbol)
+  logger.log("MYNOTICE", "END : LOG-TAG-004 : fn_generate_plotly_chart ----  {} ---", symbol)
 
 
 
@@ -696,7 +714,7 @@ def main():
           sql_query = sa.text("SELECT * FROM tbl_instrument WHERE symbol = :prm_symbol").bindparams(prm_symbol=symbol)
           df_result = pd.read_sql_query(sql_query, db_conn)
           #str_result = ' '.join(df_result.iloc[0].astype(str))     # Concatenate all columns into a single string with space separator
-          str_result = df_result.iloc[0]["name"]
+          str_result = df_result.iloc[0]["name"]      # returns name column field value of 1st row
           #st.markdown(":blue[{}]".format(str_result))
           st.subheader(symbol)
           st.subheader(str_result)
@@ -714,7 +732,6 @@ def main():
 
   if sb_symbol:
     st_response = fn_sb_inputbox_symbol("YFINANCE", db_conn, sb_symbol)
-    st.write("fn_sb_inputbox_symbol return string = {}", st_response)
     logger.info("fn_sb_inputbox_symbol return string = {}", st_response)
   
   df_scans = fn_st_selectbox_scans(db_conn)

@@ -109,35 +109,71 @@ def fn_download_historical_data_for_one_symbol(data_venue: str, symbol: str, sta
   tm_before_download = time.time()
 
   try:
-    df_prices = yf.download(symbol, start=start_date, end=end_date, rounding=True)
+    session = requests.Session()
+    session.verify = False  # Disable SSL verification 
+    logger.warning("Disabling SSL Verification and downloading ...")
+    df_prices = yf.download(symbol, start=start_date, end=end_date, rounding=True, session=session)
+    # yf.download() does not raise exceptions – Instead, it prints errors to the console and returns an empty DataFrame.
 
     '''
         Date        Open        High        Low         Close       Adj Close    Volume
         2023-02-15  176.210007  178.820007  175.000000  177.419998  176.321732   815900
         2023-02-16  175.000000  177.279999  174.720001  176.220001  175.129166   679300
         2023-02-17  176.419998  177.330002  175.000000  177.130005  176.033524  1829500
+
+              Open   High    Low  Close    Volume
+              XOM    XOM    XOM    XOM       XOM
+2021-01-04  35.12  34.74  35.16  35.80  27764700
+2021-01-05  35.45  35.44  36.86  37.96  44035100
+2021-01-06  37.63  37.03  37.80  38.21  36484800
+2021-01-07  38.13  37.73  38.09  38.61  29528100
+2021-01-08  38.30  38.09  38.52  38.82  28628200        
     '''
-    tm_after_download = time.time()
-    tm_taken_for_download_secs = tm_after_download - tm_before_download 
-    tm_taken_for_download_secs  = "{:.3f}".format(tm_taken_for_download_secs)
-    logger.debug("Time taken for download (secs) = {}", tm_taken_for_download_secs)
-    print(df_prices.head())
-    m_oth.fn_df_print_first_last_rows(df_prices, 3, 'ALL_COLS')
 
-    if write_to_file:
-      FILE_EXTN =".csv"
-      csv_file_path = symbol + FILE_EXTN
-      df_prices.to_csv(csv_file_path, index=False)
-      logger.info("DataFrame has been written to {} ...", csv_file_path)
+    if df_prices is None or df_prices.empty:
+      raise ValueError(f"Failed to download data for {symbol}. DataFrame is empty.")
 
-    logger.debug("---------- fn_download_historical_data_for_symbol ---- COMPLETED ----------")
-    return df_prices
-  
   except Exception as e:
-    logger.error("An error occurred: {}", e)
+    logger.error("An error occurred while downloading data: {}", e)
+    return None
+  
+  tm_after_download = time.time()
+  tm_taken_for_download_secs = tm_after_download - tm_before_download 
+  tm_taken_for_download_secs  = "{:.3f}".format(tm_taken_for_download_secs)
+  logger.debug("Time taken for download (secs) = {}", tm_taken_for_download_secs)
+
+  m_oth.fn_df_print_first_last_rows(df_prices, 5, 'ALL_COLS')
+  print(f"--DataFrame Shape: {df_prices.shape} rows and columns--")
+  print(f"--df.columns = {df_prices.columns}--")
+  print(f"--type(df.columns) = {type(df_prices.columns)}--")
+
+  # Now convert/format the dataframe to our required format
+  df_prices.columns = df_prices.columns.droplevel(1)        # Flatten MultiIndex columns by dropping the second level ('XOM')
+  df_prices = df_prices.reset_index()                       # Reset the index to make 'Date' a column
+  df_prices.rename(columns={'index': 'Date'}, inplace=True)
+  df_prices = df_prices[['Date', 'Open', 'High', 'Low', 'Close', 'Volume']]   # Reorder columns to match the desired format
+
+  m_oth.fn_df_print_first_last_rows(df_prices, 5, 'ALL_COLS')
+  print(f"--DataFrame Shape: {df_prices.shape} rows and columns--")
+  print(f"--df.columns = {df_prices.columns}--")
+  print(f"--type(df.columns) = {type(df_prices.columns)}--")
+
+  if write_to_file:
+    FILE_EXTN =".csv"
+    csv_file_path = symbol + FILE_EXTN
+    df_prices.to_csv(csv_file_path, index=False)
+    logger.info("DataFrame has been written to {} ...", csv_file_path)
+
+  logger.debug("---------- fn_download_historical_data_for_symbol ---- COMPLETED ----------")
+  return df_prices
+  
 
 
-def fn_get_historical_data_list_of_symbols(data_venue: str, lst_symbols: list, start_date: datetime, end_date: datetime, write_to_file: bool) -> pd.DataFrame:
+
+def fn_get_historical_data_loop_symbols_list(data_venue: str, lst_symbols: list, start_date: datetime, end_date: datetime, write_to_file: bool) -> pd.DataFrame:
+
+  # this will take 1 symbol at a time from the symbols list and download data from the data_venue for it
+  # can cause venue to deny our requests if we have a bunch of symbols
 
   logger.debug("Received arguments : data_venue={} write_to_file={} start_date={} end_date={} lst_symbols={}", data_venue, write_to_file, start_date, end_date, lst_symbols)
 
@@ -147,9 +183,10 @@ def fn_get_historical_data_list_of_symbols(data_venue: str, lst_symbols: list, s
 
 
 
-def get_historical_data_multiple_symbols():
+def get_historical_data_multiple_symbols_single_request():
 
   # this gives output in a non-user-friendly way, see below, i am not sure i want to use it.
+  # but it will download for a bunch of symbols at 1 time from the data venue, thus avoiding too many requests to their server
   '''
 ,Close,Close,High,High,Low,Low,Open,Open,Volume,Volume
 ,AAPL,MSFT,AAPL,MSFT,AAPL,MSFT,AAPL,MSFT,AAPL,MSFT
@@ -340,16 +377,22 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
       dt_start_date += timedelta(days=1)
       dt_end_date = m_udt.get_date_with_zero_time(dt_today)
 
-      # ----- temporary for spy ------------
-      if diff_days == 2 and symbol == 'SPY':
-        logger.warning("----temp---skipping download for SPY ...........")
-        return df_return
+      # If the symbol passed was the benchmark symbol, then check if we have latest data (<2 missing is fine) for it already, and if so, don't download it again
+      if symbol == 'SPY':
+        if diff_days <= 2:
+          logger.warning("SPECIAL SITUATION: symbol is the BENCHMARK symbol {} but diff_days is just under 2 days. So we are going to skip download for it ...", symbol)
+          return df_return
+        else:
+          logger.warning("SPECIAL SITUATION: symbol is the BENCHMARK symbol {} but diff_days is more than 2 days.. So proceeding to download for it ...", symbol)
       else:
-        logger.warning("---temp--continuing---")
-      # ----- temporary for spy ------------
+        logger.debug("Not a benchmark symbol")
 
       df_downloaded_missing_price_data = fn_download_historical_data_for_one_symbol('YFINANCE', symbol, dt_start_date, dt_end_date, False)
+      if df_downloaded_missing_price_data is None:
+        return None
+      print("---sync---01-----", df_downloaded_missing_price_data.head)
       df_downloaded_missing_price_data = m_oth.fn_modify_dataframe_per_our_requirements(symbol, df_downloaded_missing_price_data)
+      print("---sync---02-----", df_downloaded_missing_price_data.head)
       logger.debug("Now inserting the missing data into the table")
       df_return = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_downloaded_missing_price_data, "tbl_price_data_1day", True)
     else:
@@ -387,3 +430,30 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
   logger.log("MYNOTICE", "END: LOG-TAG-003 : End of Synchronizing price data from data feed into table {}", symbol)
   return df_return
 
+
+
+
+def get_data_without_using_ssl(symbol):
+  # once i upgraded yfinance module to version 0.2.51 (from 0.1.xx), started getting SSL CERTIFICATE type errors when trying from my office network.
+  # so found this way online to get data, which works
+  # https://stackoverflow.com/questions/79189727/how-to-disable-or-ignore-the-ssl-for-the-yfinance-package
+
+  import requests 
+  import yfinance as yf
+      
+  unsafe_session = requests.session()
+  unsafe_session.verify = False
+
+  print(f"---- fetching without ssl from yfinance for symbol {symbol} ----")
+  df = yf.download(symbol, start='2024-01-01', end='2025-01-01', session=unsafe_session)
+  print(df)
+
+  # NOTE: 0.2.5 atleast, i saw the below format, which is a MultiIndex format, so if want to use we will have to convert some of it
+  # Price           Close       High        Low       Open    Volume
+  # Ticker            WMT        WMT        WMT        WMT       WMT
+  # Date
+  # 2024-01-02  52.467781  52.550126  51.776071  51.795835  23539800
+  # 2024-01-03  52.471073  52.800461  52.349201  52.625887  18756000
+  # ...               ...        ...        ...        ...       ...
+  # 2024-12-30  90.570000  91.070000  90.129997  90.730003   9790200
+  # 2024-12-31  90.349998  90.940002  90.059998  90.570000  11267700

@@ -1,13 +1,15 @@
 from datetime import datetime
+import pandas as pd
+import sqlalchemy as sa
+import certifi
+import os
 import mod_yfinance as m_yfn
 import mod_utils_db as m_udb
 import mod_others as m_oth
 
 
-
-def test_fn_download_historical_data_for_symbol():
+def test_fn_download_historical_data_for_symbol(symbol):
   data_venue = "YFINANCE"
-  symbol="XOM"
   file_extn ='.csv'
   start_date = datetime(2021, 1, 1)
   end_date = datetime(2023, 12, 31)
@@ -19,18 +21,18 @@ def test_fn_download_historical_data_for_symbol():
   
 
 
-def test_fn_download_and_sync_db_loop_for_mult_symbols(engine):
+def test_fn_download_and_sync_db_loop_for_mult_symbols(sa_engine):
   # this will be the full S&P 500 index constituents list
   #csv_file_path = 'sp500_constituents.csv'  # Replace with the actual path to your CSV file
   # 25 largest S&P 500 index constituents by weighting
   # AAPL, MSFT, AMZN, NVDA, GOOGL, TSLA, GOOG, BRK-B, META, UNH, XOM, LLY, JPM, JNJ, V, PG, MA, AVGO, HD, CVX, MRK, ABBV, COST, PEP, ADBE
   #lst_symbols = ['AAPL', 'MSFT', 'AMZN', 'NVDA', 'GOOGL', 'TSLA', 'GOOG', 'BRK-B', 'META', 'UNH', 'XOM', 'LLY', 'JPM', 'JNJ', 'V', 'PG', 'MA', 'AVGO', 'HD', 'CVX', 'MRK', 'ABBV', 'COST', 'PEP', 'ADBE']
-  lst_symbols = ['META', 'TSLA', 'XOM']
+  #lst_symbols = ['META', 'TSLA', 'XOM']
   #lst_symbols = ['VMID.L','VUKE.L','VUSA.L']
-  #lst_symbols = ['META']            # test for 1 symbol
+  #lst_symbols = ['XOM']            # test for 1 symbol
   #lst_symbols = ['SPY']
   #lst_symbols = ['CSPX.L', 'EQQQ.L', 'IITU.L', 'ISF.L', 'SWDA.L', 'VHVG.L', 'VUAG.L', 'VUSA.L', 'VWRL.L', 'VWRP.L']
-
+  #lst_symbols = ['DGRO', 'IAU', 'IBIT', 'IEF']
   # UK ETFs most-active list
   # lst_symbols = ('3KWE.L', 'AGGU.L', 'CNYA.L', 'CSPX.L', 'DHYA.L', 'DS2P.L', 'DTLA.L', 'FLOA.L', 'HCHS.L', 'IB01.L', \
   #    'IBTA.L', 'IDTL.L', 'IHYA.L', 'IMBA.L', 'IUAA.L', 'IUVL.L', 'JGRE.L', 'JMRE.L', 'JPEA.L', 'LGUG.L', \
@@ -45,8 +47,11 @@ def test_fn_download_and_sync_db_loop_for_mult_symbols(engine):
   #df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", engine, "VWRL.L")
   for symbol in lst_symbols:
     print(""); print("---------------------FOR LOOP ------", symbol, " -------------------------------------")
-    df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", engine, symbol)
-    #print(df_ohlcv_symbol)
+    if m_udb.fn_check_symbol_exists_in_instrument_table(sa_engine, symbol):
+      df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, symbol)
+      #print(df_ohlcv_symbol)
+    else:
+      print("!!! SYMBOL NOT FOUND - ", symbol, "  !!! - skipping ..." )
 
   # for SPY exclusively
   #df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", engine, "SPY")
@@ -54,19 +59,32 @@ def test_fn_download_and_sync_db_loop_for_mult_symbols(engine):
 
 
 def main():
-  m_oth.fn_set_logger(False)
+  #m_oth.fn_set_logger(False)
+  m_oth.fn_set_logger(True)
+
+  os.environ["SSL_CERT_FILE"] = certifi.where()
 
   my_db_uri = "postgresql://postgres:postgres@localhost:5432/dbs_invest"
   #my_db_uri = "postgresql://postgres:Inesh#2012@localhost:5432/dbs_invest"
-  engine = m_udb.fn_create_database_engine_sqlalchemy(my_db_uri)
+  sa_engine = m_udb.fn_create_database_engine_sqlalchemy(my_db_uri)
 
-  m_yfn.get_stock_info('IBM')
-  #test_fn_download_historical_data_for_symbol()
+  #m_yfn.get_data_without_using_ssl('IUSB')
+  #m_yfn.get_stock_info('IBM')
+  #test_fn_download_historical_data_for_symbol('AAPL')
+  #test_fn_download_and_sync_db_loop_for_mult_symbols(sa_engine)
 
+  wildcard_value_1 = "%IU%"
+  wildcard_value_2 = "%SB%"
+  sql_query = "SELECT * FROM viw_instrument_in_us_top100_etfs_by_aum WHERE symbol LIKE :param1 OR symbol LIKE :param2;"
+  dct_params = {"param1": wildcard_value_1, "param2": wildcard_value_2}
+  df_symbols= m_udb.fn_run_conn_sqlalchemy_query(sa_engine, sql_query, dct_params)
+  df_symbols = df_symbols[["symbol"]]
+  lst_symbols = df_symbols["symbol"].tolist()
+  print("---xxx---", lst_symbols)
+  for symbol in lst_symbols:
+    print(""); print("---------------------FOR LOOP ------", symbol, " -------------------------------------")
+    df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, symbol)
 
-  #test_fn_download_and_sync_db_loop_for_mult_symbols(engine)
-
-  
 # main
 if __name__ == "__main__":
   main()

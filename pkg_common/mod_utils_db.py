@@ -9,7 +9,7 @@ import sqlalchemy as sa
 import psycopg2 as psy
 import pandas as pd
 import numpy as np
-from sqlalchemy import text
+import sqlalchemy as sa
 from loguru import logger
 
 import mod_others as m_oth
@@ -108,17 +108,85 @@ def connect_to_db_using_psycopg2():
     return connection
 
 
-def run_conn_sql_query(dbconn, sql_query):
+def fn_run_conn_sql_query(dbconn, sql_query, params=None):
     """
-    input is the db connection and the sql_query. it will run against the database and return output in a pandas df.
-    TODO - what about no output ???
-    """
-    print("Input sql_query = ", sql_query)
+    Execute a SQL query on the provided database connection and return the result as a pandas DataFrame.
 
-    df_output = pd.read_sql_query(sql_query, dbconn)
+    Parameters:
+    - dbconn: Database connection object.
+    - sql_query: SQL query string to be executed.
+    - params: Dictionary of query parameters for placeholder substitution.
+
+
+    Returns:
+    - DataFrame: The resulting data from the SQL query.
+    
+    TODO:
+    - Handle cases where the query returns no output.
+    """
+    # Log the input SQL query for debugging purposes
+    logger.info("Input sql_query = {}", sql_query)
+    if params:
+        logger.info("Query parameters = {}", params)
+    # Execute the SQL query and store the result in a DataFrame
+    df_output = pd.read_sql_query(sql_query, dbconn, params=params)
+    
+    # Log the first and last few rows of the DataFrame for inspection
     m_oth.fn_df_print_first_last_rows(df_output, 3, 'ALL_COLS')
  
+    # Return the resulting DataFrame
     return df_output
+
+
+
+### ** I AM NOT SURE IF THIS BINDING WILL BE GENERIC AS the bindparam function is highly customized ******** 
+### i think the binding needs to happen outside the function and then it can become generic .....
+def fn_run_conn_sqlalchemy_query(engine, sql_query, dct_params=None):
+    """
+    Execute a SQL query using SQLAlchemy and return results as a pandas DataFrame.
+    
+    Parameters:
+      engine: SQLAlchemy engine object
+      sql_query (str): SQL query with optional parameter placeholders
+      dct_params (dict, optional): Dictionary of parameter values for query placeholders
+    
+    Returns:
+      pandas.DataFrame: Query results as a DataFrame
+    
+    Example invocation:
+      wildcard_value_1 = "%FA%"
+      wildcard_value_2 = "%SB%"
+      sql_query = "SELECT * FROM viw_instrument_in_us_top100_etfs_by_aum WHERE symbol LIKE :param1 OR symbol LIKE :param2;"
+      dct_params = {"param1": wildcard_value_1, "param2": wildcard_value_2}
+      m_udb.fn_run_conn_sqlalchemy_query(sa_engine, sql_query, dct_params)  
+
+
+    TODO:
+    - Handle cases where the query returns no output.
+    """
+    # Log the input SQL query for debugging purposes
+    logger.debug("Input sql_query = {}", sql_query)
+    if dct_params:
+        logger.debug("Input sql query parameters = {}", dct_params)
+    #logger.info("Full SQL Query evaluates to : {}", sql_query.replace(":param1", "'%FA%'").replace(":param2", "'%SB%'"))
+    
+    sql_query_with_bind = sa.text(sql_query).bindparams(
+      #sa.bindparam('param1', '%FA%'), sa.bindparam('param2', '%SB%')
+      sa.bindparam('param1', dct_params['param1']), sa.bindparam('param2', dct_params['param2'])
+    )
+    #logger.info("Executing SQL query with bind parameters: {}", sql_query_with_bind)
+
+    with engine.connect() as connection:
+        result = connection.execute(sql_query_with_bind)
+        df_output = pd.DataFrame(result.fetchall(), columns=result.keys())
+
+    # Log the first and last few rows of the DataFrame for inspection
+    m_oth.fn_df_print_first_last_rows(df_output, 3, 'ALL_COLS')
+
+    # Return the resulting DataFrame
+    return df_output
+    
+
 
 
 def fn_get_symbol_price_data_stats_from_database(dbconn, symbol):
@@ -169,23 +237,34 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
 
   logger.log("MYNOTICE", "START: LOG-TAG-001 : Inserting downloaded price data into table for {}", symbol)
   m_oth.fn_inspect_caller_functions()
-  logger.debug( "Received arguments : dbconn={} symbol={} tbl_name={} to_insert_indicator_values={} df=", dbconn, symbol, table_name, to_insert_indicator_values)
+  logger.debug("Received arguments : dbconn={} symbol={} tbl_name={} to_insert_indicator_values={} df={} rows and columns", dbconn, symbol, table_name, to_insert_indicator_values, df.shape)
   m_oth.fn_df_print_first_last_rows(df, 3, 'ALL_COLS')
   bch_symbol = "SPY"
   ##m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE",  dbconn, bch_symbol)
+
+  print("----101---------------")
+  print(df.head())
+  print("----202---------------")
 
   # if symbol == bch_symbol:
   #   #TODO: need to handle this properly
   #   # syncing of the benchmark symbol price data needs to be done before this i think as otherwise it will cause a recursive loop
   #   logger.warning("This is the same symbol as the benchmark symbol. Skipping insert of price data into the database")
   #   return
-
   if to_insert_indicator_values:
-    # to compute the indicator values, we need a minimum of 50 records of historical data from the table
+    # to compute the indicator values, we need to check if there is a minimum of 50 records of historical data from the table
     # which is older than the oldest record in the current df that is going to be inserted
     NUM_OLDER_RECS = 75   # approx 50 trading days
-    dt_df_first_date = df.iloc[0]["pd_time"]
-    dt_df_last_date = df.iloc[-1]["pd_time"]
+
+    if not df.empty:
+      dt_df_first_date = df.iloc[0]["pd_time"]
+      dt_df_last_date = df.iloc[-1]["pd_time"]
+    else:
+      logger.error("DataFrame is empty. No data to process.")
+    # Handle the empty DataFrame case, e.g., return or raise an exception
+
+
+
     dt_50periods_prior_to_first_date  = dt_df_first_date - timedelta(days=NUM_OLDER_RECS)
     logger.debug("For the df passed as argument for {} : dt_df_first_date = {}, dt_df_last_date = {}, dt_50periods_prior_to_first_date = {}", 
                   symbol, dt_df_first_date, dt_df_last_date, dt_50periods_prior_to_first_date)
@@ -219,7 +298,7 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
     logger.debug("----COMPUTED INDICATORS AND df NOW UPDATED WITH THE VALUES -----")
     m_oth.fn_df_print_first_last_rows(df,  3, 'ALL_COLS')
 
-  logger.log("MYNOTICE", "Now inserting the new data (above df) for {} into DB table {} using SQLAlchemy function df.to_sql() ...", symbol, table_name)
+  logger.log("MYNOTICE", "Now inserting the new data (above df) using SQLAlchemy function df.to_sql() for {} into DB table {} ...", symbol, table_name)
   logger.log("MYNOTICE", "using first_and_last_date = {}", m_oth.fn_df_get_first_last_dates(df))
   
   tm_before_insert = time.time()
@@ -262,7 +341,7 @@ def get_symbol_input_check_against_db_using_psycopg2(dbconn):
 
 def record_exists(dbconn, pd_symbol, pd_time):
     # Check if a record with the given pd_symbol and pd_time already exists
-    sql_query = text(
+    sql_query = sa.text(
         """
       SELECT 1
       FROM tbl_price_data_1day
@@ -272,6 +351,30 @@ def record_exists(dbconn, pd_symbol, pd_time):
 
     result = dbconn.execute(sql_query, symbol=pd_symbol, time=pd_time)
     return result.fetchone() is not None
+
+
+
+def fn_check_symbol_exists_in_instrument_table(sa_engine, symbol):
+    """
+    Check if a symbol exists in the tbl_instrument table.
+
+    Parameters:
+    - engine: SQLAlchemy engine object
+    - symbol: The symbol to check for existence
+
+    Returns:
+    - bool: True if the symbol exists in the table, False otherwise
+    """
+    sql_query = sa.text("SELECT * FROM tbl_instrument WHERE symbol = :symbol")
+    with sa_engine.connect() as connection:
+      result = connection.execute(sql_query, {"symbol": symbol})
+      rows = result.fetchall()  # Fetch all rows as a list
+      count = len(rows)         # Count the number of rows
+      if count > 0:
+        logger.debug("query result data : {}", rows)
+        return True
+      else:
+        return False
 
 
 
@@ -292,13 +395,13 @@ def fn_get_table_data_for_symbol(dbconn, symbol: str, start_date: Optional[datet
     # NOTE - it took me a fair bit of time with chatgpt etc to build this SQLAlchemy syntax specific query
     conditions = []
     if start_date:
-      conditions.append(text("pd_time >= :start_date"))
+      conditions.append(sa.text("pd_time >= :start_date"))
     if end_date:
-      conditions.append(text("pd_time <= :end_date"))
-    conditions.append(text("pd_symbol = :param"))
+      conditions.append(sa.text("pd_time <= :end_date"))
+    conditions.append(sa.text("pd_symbol = :param"))
     where_clause = " AND ".join([str(condition) for condition in conditions])
 
-    sql_query = text(f"SELECT * FROM tbl_price_data_1day WHERE {where_clause}")
+    sql_query = sa.text(f"SELECT * FROM tbl_price_data_1day WHERE {where_clause}")
     dct_params = {"start_date": start_date, "end_date": end_date, "param": symbol}
     logger.info("Fetching price data from Database for {} using below constructed sql query :", symbol)
     logger.info("query=[{}] and dct_params=[{}]", sql_query, dct_params)
@@ -312,3 +415,65 @@ def fn_get_table_data_for_symbol(dbconn, symbol: str, start_date: Optional[datet
     logger.debug("----------------- fn_get_table_data_for_symbol ------- END -------------")
     return df_ohlcv_symbol
 
+
+# --------------------------------------------------------------------------------
+
+'''
+**** i think this section needs to go into sqlalchemy section ?? ******
+
+engine = db.create_engine('sqlite:///census.sqlite')
+conn = engine.connect()
+metadata = db.MetaData()
+#census= db.Table('census', metadata, autoload=True, autoload_with=engine) #Table object
+
+This code is written in Python and it is using SQLAlchemy library to interact with a database.
+•  The first line creates a MetaData object which is used to store information about the database schema.
+•  The second line creates a Table object named census by passing the table name census, the metadata object, and two optional arguments autoload=True and autoload_with=engine.
+•  The autoload=True argument tells SQLAlchemy to automatically load the table schema from the database, and autoload_with=engine specifies the database connection to use.
+•  Overall, this code is extracting metadata and creating a Table object for the census table in the database.
+
+#engine = db.create_engine('dialect+driver://user:pass@host:port/db')
+census = db.Table('census', metadata, autoload=True, autoload_with=engine)
+# Print the column names
+print(census.columns.keys())
+  The census variable is assumed to be a Pandas DataFrame.
+•  The columns attribute of a DataFrame returns a pandas.core.indexes.base.Index object that contains the column labels of the DataFrame.
+•  The keys() method is then called on this Index object to return a list of the column labels as strings.
+•  Finally, the print() function is used to output this list of column labels to the console.
+['state', 'sex', 'age', 'pop2000', 'pop2008']
+# Print full table metadata
+print(repr(metadata.tables['census']))
+•  The code is accessing the census table by using its name as the key in the tables dictionary.
+•  The repr() function is used to return a string representation of the census table object.
+
+Table('census', MetaData(bind=None), Column('state', VARCHAR(length=30), table=<census>), Column('sex', VARCHAR(length=1), table=<census>), Column('age', INTEGER(), table=<census>), Column('pop2000', INTEGER(), table=<census>), Column('pop2008', INTEGER(), table=<census>), schema=None)
+
+#Equivalent to 'SELECT * FROM census'
+query = db.select([census]) 
+print(query)
+
+results = conn.execute(query)
+
+ResultSet = results.fetchall()
+•  The output.fetchall() method retrieves all the rows of the query result as a list of tuples.
+
+ResultSet[:3]
+
+[('Illinois', 'M', 0, 89600, 95012),
+ ('Illinois', 'M', 1, 88445, 91829),
+ ('Illinois', 'M', 2, 88729, 89547)]
+
+#Convert to dataframe
+df = pd.DataFrame(ResultSet)
+df.columns = ResultSet[0].keys()
+•  The code sets the column names of the DataFrame to be the keys of the first dictionary in the results list.
+•  This assumes that all dictionaries in the list have the same keys.
+
+# Write csv file data into database table
+df = pd.read_csv('Stock Exchange Data.csv')
+df.to_sql(con=engine, name="Stock_price", if_exists='replace', index=False)
+This code reads a CSV file named "Stock Exchange Data.csv" using the pandas library's read_csv() function and stores it in a pandas DataFrame object named df.
+•  Then, it uses the to_sql() method to write the contents of the DataFrame to a SQL database table named "Stock_price" using the SQLAlchemy library's engine object.
+•  The if_exists parameter is set to 'replace', which means that if the table already exists, it will be dropped and recreated with the new data.
+•  The index parameter is set to False, which means that the DataFrame's index will not be included in the SQL table.
+'''

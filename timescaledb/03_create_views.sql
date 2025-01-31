@@ -34,7 +34,8 @@ FROM tmp_ranked_tbl_price_data_1day A, tbl_instrument B
 WHERE 
 A.pd_symbol = B.symbol
 and B.deleted = false 
-and A.latest_row_num_by_symbol = 1;
+and A.latest_row_num_by_symbol = 1
+ORDER BY B.symbol;
 
 
 -- V02 - viw_instrument_uk_equities
@@ -97,7 +98,8 @@ FROM tbl_instrument
 WHERE exchange_code = 'UNKNOWN'
   and asset_type = 'ETF'
   and data_source = 'THINKORSWIM'
-  and deleted=false;
+  and deleted=false
+ORDER BY symbol;
 
 
 -- V05 - viw_instrument_us_sp500_constituents
@@ -108,7 +110,8 @@ SELECT *
 FROM tbl_instrument
 WHERE asset_type = 'STOCK'
   and note_1 = 'SP500'
-  and deleted=false;
+  and deleted=false
+ORDER BY symbol;
 
 -- viw_instrument_in_nifty200_constituents
 -- use this view when we want to get all the instruments which are in the NIFTY 200 index
@@ -119,7 +122,8 @@ FROM tbl_instrument
 WHERE exchange_code = 'NSE'
   and asset_type = 'STOCK'
   and note_1 = 'NIFTY200'
-  and deleted=false;
+  and deleted=false
+ORDER BY symbol;
 
 -- viw_instrument_in_us_top100_etfs_by_aum
 -- use this view when we want to get the top 100 US ETF instruments by assets under management
@@ -131,6 +135,7 @@ WHERE
   asset_type = 'ETF'
   and note_1 like '%US_TOP_100_BY_AUM%'
   and deleted=false
+ORDER BY symbol;
 
 -- V06 - viw_instrument_price_data_records_count
 -- use this view when we want to see how much data we have in the price_data_1day table for each symbol

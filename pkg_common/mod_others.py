@@ -1,3 +1,4 @@
+import os
 import sys
 import time
 import inspect
@@ -18,6 +19,8 @@ def fn_inspect_caller_functions():
   stack = traceback.extract_stack()[:-1]  # exclude the current frame because we are interested in the caller of the caller and higher up
   for frame in stack:
     logger.debug("File: {}, Line: {} Function: {} calls =>", frame.filename, frame.lineno, frame.name)
+    #print("   File: {}, Line: {}, Function: {} calls =>".format(os.path.basename(frame.filename), frame.lineno, frame.name,))
+
 
 
 def fn_sleep_for_seconds(seconds: int) -> None:
@@ -42,12 +45,12 @@ def fn_df_print_first_last_rows(df: pd.DataFrame, num_rows: int, column_opt: str
   """ print with logger module the first n and last n rows of df and we can choose which columns to print 
 
   Args:
-      df (pd.DataFrame): _description_
-      num_rows (int): _description_
-      column_opt (str): for which columns need to be displayed
+      df (pd.DataFrame): df containing the data
+      num_rows (int): number of rows to print
+      column_opt (str): which columns need to be displayed
           valid options are : ALL_COLS, IND_COLS
   """
- 
+
   lst_column_names = []
   if column_opt == 'ALL_COLS':
     # print all columns
@@ -65,6 +68,17 @@ def fn_df_print_first_last_rows(df: pd.DataFrame, num_rows: int, column_opt: str
   df_first_last = pd.concat([df_print.head(num_rows), df_print.tail(num_rows)])
   logger.debug("df with only first and last [{}] rows = \n[  {}  ]", num_rows, df_first_last)
 
+  df.info
+  logger.debug("Number of levels in columns = {}", df.columns.nlevels)
+  if df.columns.nlevels == 1:
+    logger.debug("Columns are a regular Index:", df.columns.tolist())
+  else:
+    logger.debug("Columns are a MultiIndex. Levels = {}", df.columns.levels)
+    #print("Full structure:")
+    #print(df.columns.to_frame(index=False))  # Converts MultiIndex to a DataFrame
+
+
+
 
 def fn_df_get_first_last_dates(df: pd.DataFrame) -> str:
   # Find the dates of the first and last row of df and return them as a comma seperated string
@@ -77,13 +91,20 @@ def fn_df_get_first_last_dates(df: pd.DataFrame) -> str:
 def fn_modify_dataframe_per_our_requirements(sym: str, df: pd.DataFrame):
   '''
   Input df :
-                  Open   High    Low  Close  Adj Close  Volume
-     Date
-     2022-08-04  49.90  49.90  48.83  49.48      49.31  263700
-     2022-08-05  49.22  50.01  49.08  49.98      49.80  105100
-     2022-08-08  50.17  50.90  49.92  49.96      49.78   68200
-     2022-08-09  49.79  49.96  49.35  49.57      49.40  165700
-     2022-08-10  50.69  51.25  50.69  51.18      51.00  160700
+                  Open   High    Low  Close  Volume
+     Date08-04  49.90  49.90  48.83  49.48   263700
+     2022-08-05  49.22  50.01  49.08  49.98  105100
+     2022-08-08  50.17  50.90  49.92  49.96   68200
+     2022-08-09  49.79  49.96  49.35  49.57  165700
+     2022-08-10  50.69  51.25  50.69  51.18  160700
+
+         [  Close    High     Low    Open   Volume
+2025-01-03  157.83  158.44  154.49  155.42  5885800
+2025-01-06  159.85  165.67  159.33  159.33  9599800
+2025-01-07  160.52  163.45  159.25  162.00  7666000
+2025-01-15  164.41  165.45  162.09  162.10  9284000
+2025-01-16  161.43  165.84  161.28  165.35  7188900
+2025-01-17  164.56  165.61  163.10  165.38  8065900  ]
 
   Output df :
          pd_symbol                   pd_time   open   high    low  close  volume  ema_5  ema_13  sma_50  sma_200  rsi_14  macd_sig_hist  dm_dp_adx  crs_50
@@ -99,16 +120,18 @@ def fn_modify_dataframe_per_our_requirements(sym: str, df: pd.DataFrame):
   logger.debug("input df = ")
   fn_df_print_first_last_rows(df, 3, 'ALL_COLS')
 
+
   # we are trying to make this df exactly same in format as the data we have from tbl_price_data_1day when put into a df
-  df.reset_index(inplace=True)  # reset the Date index and make it into a column by itself. will be the 1st column
-  df.drop(columns=['Adj Close'], inplace=True)
-  df.columns = df.columns.str.lower()  # convert header/column names to lowercase
+  #df.reset_index(inplace=True)  # reset the Date index and make it into a column by itself. will be the 1st column
+
+  #df.drop(columns=['Adj Close'], inplace=True)   #new version of yfinance does not download this column by default
+  df.columns = df.columns.str.lower()  # convert all header/column names to lowercase
   df = df.rename(columns={'date': 'pd_time'})
   df['pd_time'] = pd.to_datetime(df['pd_time'], format='%Y-%m-%d', utc=True)
   df['pd_time'] = df['pd_time'].dt.normalize()    # Normalize the time part to midnight
   df.insert(0, "pd_symbol", sym) # add Symbol as 1st column after date
   new_columns = ['ema_5', 'ema_13', 'sma_50', 'sma_200', 'rsi_14', 'macd_sig_hist', 'dm_dp_adx', 'crs_50']      #  define the names of the new columns
-  df_return = df.assign(**{col: np.NaN for col in new_columns})   #  add the new columns with value NaN for each column across all rows
+  df_return = df.assign(**{col: np.nan for col in new_columns})   #  add the new columns with value NaN for each column across all rows
 
   logger.debug("converted df_return =")
   fn_df_print_first_last_rows(df_return, 3, 'ALL_COLS')

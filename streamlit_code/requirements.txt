@@ -1,4 +1,10 @@
+certifi
+loguru
+numpy
+pandas
 plotly
+requests
 streamlit
 SQLAlchemy
 psycopg2
+yfinance

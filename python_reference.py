@@ -911,6 +911,66 @@ fn_grandfather()
 ---
 
 
+def fn_dataframes_related():
+
+  # note - this one has multiindex columns
+  data = {
+      ('Open', 'XOM'): [35.12, 35.45, 37.63, 38.13, 38.30],
+      ('High', 'XOM'): [34.74, 35.44, 37.03, 37.73, 38.09],
+      ('Low', 'XOM'): [35.16, 36.86, 37.80, 38.09, 38.52],
+      ('Close', 'XOM'): [35.80, 37.96, 38.21, 38.61, 38.82],
+      ('Volume', 'XOM'): [27764700, 44035100, 36484800, 29528100, 28628200],
+  }
+  index = pd.date_range(start='2021-01-04', periods=5, freq='D')
+  df = pd.DataFrame(data, index=index)
+  print("----Source---", df)
+  print(f"--DataFrame Shape: {df.shape} rows and columns--")
+#(5, 5) rows and columns
+  print("--DataFrame Info : ")
+  df.info()
+"""
+<class 'pandas.core.frame.DataFrame'>
+DatetimeIndex: 5 entries, 2021-01-04 to 2021-01-08
+Freq: D
+Data columns (total 5 columns):
+ #   Column         Non-Null Count  Dtype
+---  ------         --------------  -----
+ 0   (Open, XOM)    5 non-null      float64
+ 1   (High, XOM)    5 non-null      float64
+ 2   (Low, XOM)     5 non-null      float64
+ 3   (Close, XOM)   5 non-null      float64
+ 4   (Volume, XOM)  5 non-null      int64
+dtypes: float64(4), int64(1)
+memory usage: 240.0 bytes 
+"""
+  print(f"--df.columns and their levels = {df.columns}--")
+"""
+MultiIndex([(  'Open', 'XOM'),
+            (  'High', 'XOM'),
+            (   'Low', 'XOM'),
+            ( 'Close', 'XOM'),
+            ('Volume', 'XOM')],
+           )
+"""
+
+  print(f"--type(df.columns) = {type(df.columns)}--")
+# <class 'pandas.core.indexes.multi.MultiIndex'>
+
+  print(df.columns.levels)  # Display levels of the MultiIndex
+#[['Close', 'High', 'Low', 'Open', 'Volume'], ['XOM']]
+
+  print(df.columns.names)   # View names of the levels (if set)
+#[None, None]
+
+
+# extract just 1 column from the dataframe
+df_symbols = df_symbols[["symbol"]]
+
+# convert to list
+lst_symbols = df_symbols["symbol"].tolist()
+
+
+
 def print_caller_info(index=2):
     """Prints details about a specific frame in the call stack."""
     frame = inspect.stack()[index]

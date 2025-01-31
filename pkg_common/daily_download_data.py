@@ -6,28 +6,13 @@ import mod_utils_db as m_udb
 import mod_others as m_oth
 from sqlalchemy import text
 
-def test_fn_download_historical_data_for_symbol():
-  data_venue = "YFINANCE"
-  symbol="XOM"
-  file_extn ='.csv'
-  start_date = datetime(2021, 1, 1)
-  end_date = datetime(2023, 12, 31)
-
-  df = m_yfn.fn_download_historical_data_for_one_symbol(data_venue, symbol, start_date, end_date, True)
-  filename=symbol + file_extn
-  df.to_csv(filename, index=False)
-  print(f"Created csv file from downloaded date - {filename}")
-  
 
 def main():
   m_oth.fn_set_logger(False)
 
-  # use this for testing the downloading from yahoo part
-  #test_fn_download_historical_data_for_symbol()
-
   my_db_uri = "postgresql://postgres:postgres@localhost:5432/dbs_invest"
   #my_db_uri = "postgresql://postgres:Inesh#2012@localhost:5432/dbs_invest"
-  db_conn = m_udb.fn_create_database_engine_sqlalchemy(my_db_uri)
+  sa_engine = m_udb.fn_create_database_engine_sqlalchemy(my_db_uri)
   logger.debug(my_db_uri)
 
 
@@ -52,21 +37,20 @@ def main():
   #m_yfn.fn_get_historical_data_list_of_symbols(data_venue, lst_symbols, start_date, end_date, True)    # this puts into a csv file
   #df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", engine, "VWRL.L")
 
-  sql_query = text("""select symbol from viw_instrument_in_us_top100_etfs_by_aum where symbol like 'I%'""")
-  df_symbols = pd.read_sql_query(sql_query, db_conn)
-  logger.debug(df_symbols)
-  print(df_symbols)
-  lst_symbols = df_symbols["symbol"].tolist()
-
-  for symbol in lst_symbols:
-    #print(""); print("---------------------FOR LOOP ------", symbol, " -------------------------------------")
-    logger.info(""); logger.info("---------------------FOR LOOP ------------- {} ----------------", symbol)
-    df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", db_conn, symbol)
-    #print(df_ohlcv_symbol)
+  # sql_query = text("""select symbol from viw_instrument_in_us_top100_etfs_by_aum where symbol like 'I%'""")
+  # df_symbols = pd.read_sql_query(sql_query, db_conn)
+  # logger.debug(df_symbols)
+  # print(df_symbols)
+  # lst_symbols = df_symbols["symbol"].tolist()
+  # for symbol in lst_symbols:
+  #   #print(""); print("---------------------FOR LOOP ------", symbol, " -------------------------------------")
+  #   logger.info(""); logger.info("---------------------FOR LOOP ------------- {} ----------------", symbol)
+  #   df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", db_conn, symbol)
+  #   #print(df_ohlcv_symbol)
 
   # for SPY exclusively
-  #df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", engine, "SPY")
-  #print("----11111--for SPY----", df_ohlcv_symbol)
+  df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, "SPY")
+  print("----11111--for SPY----", df_ohlcv_symbol)
   
   
 # main
