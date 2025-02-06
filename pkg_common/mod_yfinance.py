@@ -183,26 +183,32 @@ def fn_get_historical_data_loop_symbols_list(data_venue: str, lst_symbols: list,
 
 
 
-def get_historical_data_multiple_symbols_single_request():
+def fn_get_historical_data_multiple_symbols_single_request(lst_symbols: list, start_date: datetime, session: requests.Session) -> pd.DataFrame:
 
-  # this gives output in a non-user-friendly way, see below, i am not sure i want to use it.
-  # but it will download for a bunch of symbols at 1 time from the data venue, thus avoiding too many requests to their server
-  '''
-,Close,Close,High,High,Low,Low,Open,Open,Volume,Volume
-,AAPL,MSFT,AAPL,MSFT,AAPL,MSFT,AAPL,MSFT,AAPL,MSFT
-Date,,,,,,,,,,
-2023-12-04,189.42999267578125,369.1400146484375,190.0500030517578,369.5199890136719,187.4499969482422,362.8999938964844,189.97999572753906,369.1000061035156,43389500,32063300
-2023-12-05,193.4199981689453,372.5199890136719,194.39999389648438,373.0799865722656,190.17999267578125,365.6199951171875,190.2100067138672,366.45001220703125,66628400,23065000
-2023-12-06,192.32000732421875,368.79998779296875,194.75999450683594,374.17999267578125,192.11000061035156,368.0299987792969,194.4499969482422,373.5400085449219,41089700,21182100
-2023-12-07,194.27000427246094,370.95001220703125,195.0,371.45001220703125,193.58999633789062,366.32000732421875,193.6300048828125,368.2300109863281,47477700,23118900
-  '''
+  """
+  Fetch historical stock data for multiple symbols using yfinance in a single API call.
 
-#tickers = yf.Tickers('msft aapl goog')
-  df_prices_mult_symbols = yf.download("MSFT AAPL", period="1mo")
-  print(df_prices_mult_symbols.head(3))
-  df_prices_mult_symbols.drop(columns=['Adj Close'], inplace=True)
-  print("modified df so as to be able to insert into postgres table : \n", df_prices_mult_symbols.head(3))
-  df_prices_mult_symbols.to_csv('output-data.csv')
+  :param symbols: List of stock symbols (e.g., ['AAPL', 'MSFT', 'IBM'])
+  :param start_date: Start date for historical data in 'YYYY-MM-DD' format.
+  :return: Pandas DataFrame containing stock data.
+
+Ticker            AAPL                                                      MSFT                                                       IBM
+Price             Open        High         Low       Close    Volume        Open        High         Low       Close    Volume        Open        High         Low       Close   Volume
+Date
+2024-12-02  237.270004  240.789993  237.160004  239.589996  48137100  421.570007  433.000000  421.309998  430.980011  20207200  227.500000  228.380005  225.509995  227.389999  2655900
+2024-12-03  239.809998  242.759995  238.899994  242.649994  38861000  429.839996  432.470001  427.739990  431.200012  18302000  227.240005  229.110001  226.669998  229.000000  3163800
+2024-12-04  242.869995  244.110001  241.250000  243.009995  44383900  433.029999  439.670013  432.630005  437.420013  26009400  230.000000  233.740005  229.350006  233.490005  4104200
+2024-12-05  243.990005  244.539993  242.130005  243.039993  40033900  437.920013  444.660004  436.170013  442.619995  21697800  233.550003  236.520004  233.460007  234.750000  4791100
+2024-12-06  242.910004  244.630005  242.080002  242.839996  36870600  442.299988  446.100006  441.769989  443.570007  18821000  234.429993  238.380005  234.220001  238.039993  4028400
+
+  """
+
+  df_prices_mult_symbols = yf.download(lst_symbols, start=start_date, group_by='ticker', session=session)
+  #print(df_prices_mult_symbols.head())
+
+  return df_prices_mult_symbols
+
+
 
 
 
@@ -338,10 +344,19 @@ def get_stock_info(symbol):
 def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) -> pd.DataFrame:
   """
   Synchronize the price data for a symbol in a table in the database.
+
   TODO: check if i need the sybmol to exist in tbl_instrument
-  If the table does not exist, create it.
-  If the table already exists, update it with the latest price data. 
-  
+  If the symbol does not exist, create it.
+  If the symbol already exists, update it with the latest price data. 
+
+  Summary:
+  It checks if there's existing price data for the symbol in the database.
+  If data exists, it checks for missing recent data (more than 1 day) and downloads the missing data if necessary.
+  If the symbol is a benchmark symbol (SPY), it skips downloading data if there are less than 2 days of missing data.
+  If no data exists for the symbol, it downloads historical price data for the symbol with a default lookback period (approximately 1 year + 200 days).
+  It modifies the downloaded data according to specific requirements and inserts it into the database table.
+  Finally, it returns a pandas DataFrame containing the newly inserted data.
+
   Parameters:
   - data_venue (str): The string representing the data venue.
   - dbconn : handle to db
@@ -431,16 +446,19 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
   return df_return
 
 
+def fn_disable_session_for_ssl() -> requests.Session:
+  unsafe_session = requests.session()
+  unsafe_session.verify = False
+  logger.warning("Session is disabled for SSL verification")
+  return unsafe_session
 
 
-def get_data_without_using_ssl(symbol):
+
+def fn_get_data_without_using_ssl(symbol):
   # once i upgraded yfinance module to version 0.2.51 (from 0.1.xx), started getting SSL CERTIFICATE type errors when trying from my office network.
   # so found this way online to get data, which works
   # https://stackoverflow.com/questions/79189727/how-to-disable-or-ignore-the-ssl-for-the-yfinance-package
 
-  import requests 
-  import yfinance as yf
-      
   unsafe_session = requests.session()
   unsafe_session.verify = False
 

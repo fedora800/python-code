@@ -189,7 +189,7 @@ def fn_run_conn_sqlalchemy_query(engine, sql_query, dct_params=None):
 
 
 
-def fn_get_symbol_price_data_stats_from_database(dbconn, symbol):
+def fn_get_symbol_price_data_stats_from_database(dbconn: object, symbol: str) -> pd.DataFrame:
   """
   Looks up in the database for details about how much price data information we have on this particular symbol
 
@@ -203,6 +203,10 @@ def fn_get_symbol_price_data_stats_from_database(dbconn, symbol):
   Raises:
   SpecificException: Description of when this exception is raised.
   AnotherException: Description of another possible exception.
+
+  Returns:
+         pd_symbol       name exchange_code asset_type        oldest_rec_pd_time        latest_rec_pd_time  num_records  time_difference_in_days  days_since_latest  weekdays_between_oldest_and_latest
+  0      TSLA  Tesla Inc        NASDAQ      STOCK 2022-01-03 00:00:00+00:00 2025-01-10 00:00:00+00:00          759                   1103.0               27.0                                 790
   """
   logger.debug("Received arguments : dbconn={} symbol={}", dbconn, symbol)
 
@@ -217,6 +221,7 @@ def fn_get_symbol_price_data_stats_from_database(dbconn, symbol):
 def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_insert_indicator_values: bool):
   """Using the df provided, insert OHLC data into the table for this particular symbol
 
+  NOTE: this will not check whether symbol exists, or if the data in the price data table exists for these days, it assumes all that has been done already.
   Args:
       dbconn (db connection object): SQLAlchemy db connection handle
       symbol (string): symbol for which we need the data inserted

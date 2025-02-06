@@ -26,7 +26,7 @@ WITH tmp_ranked_tbl_price_data_1day AS (
     ) AS latest_row_num_by_symbol
   FROM tbl_price_data_1day
   WHERE 
-    pd_time >= CURRENT_DATE - INTERVAL '15 days'
+    pd_time >= CURRENT_DATE - INTERVAL '30 days'
  --   AND pd_symbol in ('AAPL', 'PLTR', 'SPY')
 )
 SELECT A.*, B.name, B.exchange_code, B.asset_type, B.country_code, B.sector_code, B.industry_code, B.sub_industry_code, B.data_source, B.note_1 

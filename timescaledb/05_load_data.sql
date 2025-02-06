@@ -7,6 +7,9 @@
 -- L03A - tbl_instrument - S&P500 constituents
 -- L03B - tbl_instrument - US ETFs
 -- L03C - tbl_instrument - UK ETFs
+-- L03D - tbl_instrument - IN NIFTY 200 Stocks
+-- L03E - tbl_instrument - Top US 100 ETFs by Assets under management
+-- L03F - tbl_instrument - example INSERT statements
 -- L04A - tbl_price_data_1day - USA
 -- L04B - tbl_price_data_1day - UK
 -- L05 - tbl_symbol_filters
@@ -87,6 +90,16 @@ update tbl_instrument set note_1='MOST-ACTIVE;', country_code='UK' where exchang
 --FROM temp_instrument
 --ON CONFLICT (symbol) DO NOTHING;
 
+-- L03F - tbl_instrument - example INSERT statements
+/*
+insert into tbl_instrument(symbol, name, exchange_code, asset_type, country_code, data_source, note_1) 
+  values ('PLTR','Palantir Technologies Inc', 'NASDAQ', 'STOCK', 'US', 'YFINANCE','');
+insert into tbl_instrument(symbol, name, exchange_code, asset_type, country_code, data_source, note_1) 
+  values ('VUKE.L','Vanguard FTSE 100 UCITS ETF (VUKE)', 'LSE', 'STOCK', 'UK', 'YFINANCE','');
+-- https://swingtradebot.com/stocks-tagged-as/41811-ibd-50
+insert into tbl_instrument(symbol, name, asset_type, country_code, data_source, note_1) 
+  values ('ALAB','Astera Labs', 'STOCK', 'US', 'ONLINE_BLOG','IBD50-04Feb2025');
+*/
 
 -- L04A - tbl_price_data_1day - USA
 \echo "Loading into table tbl_price_data_1day -- 2 year price data for around 25 S&P500 symbols - USA "
