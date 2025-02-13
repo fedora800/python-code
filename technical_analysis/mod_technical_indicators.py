@@ -578,17 +578,14 @@ def fn_compute_all_required_indicators(
     df_tmp_bch_sym = df_tmp_bch_sym[["pd_time", "close", "dly_pct_change"]]
     df_tmp_sym = df_tmp_sym[["pd_symbol", "pd_time", "close", "dly_pct_change"]]
 
-    print("------crs_50  dataframe 1 = df_tmp_sym -----")
-    print(df_tmp_sym)
-    print("------crs_50  dataframe 2 = df_tmp_bch_sym -----")
-    print(df_tmp_bch_sym)
+    logger.debug("------crs_50  dataframe 1 = df_tmp_sym -----")
+    logger.debug(df_tmp_sym)
+    logger.debug("------crs_50  dataframe 2 = df_tmp_bch_sym -----")
+    logger.debug(df_tmp_bch_sym)
 
-    # to fix below error, got a recommendation to make sure both fields are of the exact same type
-    # ValueError: You are trying to merge on datetime64[ns, UTC] and object columns for key 'pd_time'. If you wish to proceed you should use pd.concat
-    #df_tmp_sym["pd_time"] = pd.to_datetime(df_tmp_sym["pd_time"], utc=True).dt.to_pydatetime()
-    df_tmp_sym["pd_time"] = np.array(pd.to_datetime(df_tmp_sym["pd_time"], utc=True).dt.to_pydatetime())
-    df_tmp_bch_sym["pd_time"] = pd.to_datetime(df_tmp_bch_sym["pd_time"], utc=True).dt.to_pydatetime()
-
+    # Convert pd_time into pandas timestamp object first and then convert to python datetime object using dt.to_pydatetime()
+    df_tmp_sym["pd_time"] = pd.to_datetime(df_tmp_sym["pd_time"], utc=True).dt.to_pydatetime().tolist()
+    df_tmp_bch_sym["pd_time"] = pd.to_datetime(df_tmp_bch_sym["pd_time"], utc=True).dt.to_pydatetime().tolist()
 
     # merge the 2 tmp dfs to get df_merged 
     df_merged = pd.merge(

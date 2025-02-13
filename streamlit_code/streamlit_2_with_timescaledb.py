@@ -307,10 +307,9 @@ def fn_generate_plotly_chart(dbconn, symbol, df):
   fig.add_trace(trace_subplot_row_2, row=2, col=1)
 
   # Clean the 'close' column from NaN values
-  # df['close'].fillna(method='ffill', inplace=True)  # Forward fill NaN values
-  df["close"].ffill(inplace=True)
-  # df['close'].fillna(method='bfill', inplace=True)  # Backward fill remaining NaN values
-  df["close"].bfill(inplace=True)
+  df["close"] = df["close"].ffill()  # Forward fill NaN values
+  df["close"] = df["close"].bfill()  # Backward fill remaining NaN values
+
 
   # --- subplot 3 on row 1 and column 1 (RSI) ---
   # Calculate RSI(14)

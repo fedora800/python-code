@@ -240,17 +240,15 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
 
   """
 
+  logger.debug("---------- fn_insert_symbol_price_data_into_db ---- STARTED ----------")
+
   logger.log("MYNOTICE", "START: LOG-TAG-001 : Inserting downloaded price data into table for {}", symbol)
   m_oth.fn_inspect_caller_functions()
   logger.debug("Received arguments : dbconn={} symbol={} tbl_name={} to_insert_indicator_values={} df={} rows and columns", dbconn, symbol, table_name, to_insert_indicator_values, df.shape)
   m_oth.fn_df_print_first_last_rows(df, 3, 'ALL_COLS')
   bch_symbol = "SPY"
   ##m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE",  dbconn, bch_symbol)
-
-  print("----101---------------")
-  print(df.head())
-  print("----202---------------")
-
+  
   # if symbol == bch_symbol:
   #   #TODO: need to handle this properly
   #   # syncing of the benchmark symbol price data needs to be done before this i think as otherwise it will cause a recursive loop
@@ -268,18 +266,16 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
       logger.error("DataFrame is empty. No data to process.")
     # Handle the empty DataFrame case, e.g., return or raise an exception
 
-
-
     dt_50periods_prior_to_first_date  = dt_df_first_date - timedelta(days=NUM_OLDER_RECS)
     logger.debug("For the df passed as argument for {} : dt_df_first_date = {}, dt_df_last_date = {}, dt_50periods_prior_to_first_date = {}", 
                   symbol, dt_df_first_date, dt_df_last_date, dt_50periods_prior_to_first_date)
     
-    # first get the previous 50 days data from the table that is required so that we can calculate indicators on current data
+    logger.info("We now need to get the previous 50 days data from the table so that we can calculate indicators on the latest downloaded data")
     df_prev_50periods = fn_get_table_data_for_symbol(dbconn, symbol, dt_50periods_prior_to_first_date, dt_df_first_date)
 
-    # we also need to get the exact same amount of data for the benchmark symbol so that we can compute the indicators (mainly the CRS)
+    
     # TODO: need to check if benchmark symbol has the required amount of data
-    logger.info("Also getting price data for benchmark symbol {} for the same period", bch_symbol)
+    logger.info("We also need to get the exact same amount of data for the benchmark symbol {} so that we can compute the indicators (mainly the CRS)", bch_symbol)
     df_bch_sym = fn_get_table_data_for_symbol(dbconn, bch_symbol, dt_50periods_prior_to_first_date, dt_df_last_date)
 
     df_prev_50periods["source"] = "older-data"
@@ -318,9 +314,9 @@ def fn_insert_symbol_price_data_into_db(dbconn, symbol, df, table_name, to_inser
   logger.debug("DB insert completed in {} seconds", tm_taken_for_insertion_secs)
   logger.trace("Exiting function fn_insert_symbol_price_data_into_db() ...")
   m_oth.fn_df_print_first_last_rows(df, 3, 'ALL_COLS')
+
   logger.log("MYNOTICE", "END: LOG-TAG-001 : Completed inserting downloaded price data into table for {}, took {} seconds to complete", symbol, tm_taken_for_insertion_secs)
-
-
+  logger.debug("---------- fn_insert_symbol_price_data_into_db ---- COMPLETED ----------")
   return df
   
 

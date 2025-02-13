@@ -46,33 +46,47 @@ def test_fn_download_and_sync_db_loop_for_mult_symbols(sa_engine, session):
   #m_yfn.fn_get_historical_data_list_of_symbols(data_venue, lst_symbols, start_date, end_date, True)    # this puts into a csv file
   #df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", engine, "VWRL.L")
   
-  for symbol in lst_symbols:
-    print(""); print("---------------------FOR LOOP ------", symbol, " -------------------------------------")
-    if m_udb.fn_check_symbol_exists_in_instrument_table(sa_engine, symbol):
-      df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, symbol)
-      #print(df_ohlcv_symbol)
-    else:
-      print("!!! SYMBOL NOT FOUND - ", symbol, "  !!! - skipping ..." )
+  # for symbol in lst_symbols:
+  #   print(""); print("---------------------FOR LOOP ------", symbol, " -------------------------------------")
+  #   if m_udb.fn_check_symbol_exists_in_instrument_table(sa_engine, symbol):
+  #     df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, symbol)
+  #     #print(df_ohlcv_symbol)
+  #   else:
+  #     print("!!! SYMBOL NOT FOUND - ", symbol, "  !!! - skipping ..." )
 
   # for SPY exclusively
   #df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, "SPY")
   #print("----11111--for SPY----", df_ohlcv_symbol)
 
   # # batch download data for multiple symbols in a single request
-  # start_date = '2024-12-01'
-  # df_multi = m_yfn.fn_get_historical_data_multiple_symbols_single_request(lst_symbols, start_date, session)
-  # print(df_multi.head())  # Display the first few rows
-  # symbol_dfs = {}     # Dictionary to store individual DataFrames
+  start_date = '2024-12-01'
+  df_multi = m_yfn.fn_get_historical_data_multiple_symbols_single_request(lst_symbols, start_date, session)
+  print(df_multi.head())  # Display the first few rows
+  symbol_dfs = {}     # Dictionary to store individual DataFrames
+  for symbol in lst_symbols:
+    print(f"\n---------------------- {symbol} ----------------------")
+    df_ohlcv_symbol = df_multi[symbol].copy()    # Extract data for a single symbol
+    symbol_dfs[symbol] = df_ohlcv_symbol
+    print(f"Head for {symbol}: \n", df_ohlcv_symbol.head())
+    wildcard_value_1 = symbol
+    sql_query = "SELECT * FROM viw_price_data_stats_by_symbol WHERE symbol = :wildcard_value_1;"
+    df_prices = m_udb.fn_get_symbol_price_data_stats_from_database(sa_engine, symbol)
+    print("df_xx = ", df_prices)
+    df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, symbol, df_prices)
+    print(df_ohlcv_symbol)
+
+  # this one using 2 wildcards for specific sql query
+  # wildcard_value_1 = "%FA%"
+  # wildcard_value_2 = "%SB%"
+  # sql_query = "SELECT * FROM viw_instrument_in_us_top100_etfs_by_aum WHERE symbol LIKE :param1 OR symbol LIKE :param2;"
+  # dct_params = {"param1": wildcard_value_1, "param2": wildcard_value_2}
+  # df_symbols= m_udb.fn_run_conn_sqlalchemy_query(sa_engine, sql_query, dct_params)
+  # df_symbols = df_symbols[["symbol"]]
+  # lst_symbols = df_symbols["symbol"].tolist()
+  # print("---xxx---", lst_symbols)
   # for symbol in lst_symbols:
-  #   print(f"\n---------------------- {symbol} ----------------------")
-  #   df_ohlcv_symbol = df_multi[symbol].copy()    # Extract data for a single symbol
-  #   symbol_dfs[symbol] = df_ohlcv_symbol
-  #   print(f"Head for {symbol}: \n", df_ohlcv_symbol.head())
-  #   wildcard_value_1 = symbol
-  #   sql_query = "SELECT * FROM viw_price_data_stats_by_symbol WHERE symbol = :wildcard_value_1;"
-  #   df_xx = m_udb.fn_get_symbol_price_data_stats_from_database(sa_engine, symbol)
-  #   print("df_xx = ", df_xx)
-  
+  #   print(""); print("---------------------FOR LOOP ------", symbol, " -------------------------------------")
+  #   df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, symbol)  
 
 
 def main():
@@ -90,19 +104,6 @@ def main():
   #m_yfn.get_stock_info('IBM')
   #test_fn_download_historical_data_for_symbol('AAPL')
   test_fn_download_and_sync_db_loop_for_mult_symbols(sa_engine, session_nossl)
-
-  # wildcard_value_1 = "%IU%"
-  # wildcard_value_2 = "%SB%"
-  # sql_query = "SELECT * FROM viw_instrument_in_us_top100_etfs_by_aum WHERE symbol LIKE :param1 OR symbol LIKE :param2;"
-  # dct_params = {"param1": wildcard_value_1, "param2": wildcard_value_2}
-  # df_symbols= m_udb.fn_run_conn_sqlalchemy_query(sa_engine, sql_query, dct_params)
-  # df_symbols = df_symbols[["symbol"]]
-  # lst_symbols = df_symbols["symbol"].tolist()
-  # print("---xxx---", lst_symbols)
-  # for symbol in lst_symbols:
-  #   print(""); print("---------------------FOR LOOP ------", symbol, " -------------------------------------")
-  #   df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, symbol)
-
 
 # main
 if __name__ == "__main__":

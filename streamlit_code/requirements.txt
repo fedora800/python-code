@@ -1,10 +1,11 @@
 certifi
-loguru
+loguru==0.7.3
 numpy
-pandas
+pandas==2.2.3
 plotly
+#psycopg2==2.9.10
+psycopg2-binary  # PostgreSQL adapter binary pkg recommended by chatgpt as its precompiled instead of above
 requests
-streamlit
-SQLAlchemy
-psycopg2
-yfinance
+streamlit==1.41.1
+sqlalchemy==2.0.38
+yfinance==0.2.52

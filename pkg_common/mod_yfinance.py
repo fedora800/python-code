@@ -143,9 +143,9 @@ def fn_download_historical_data_for_one_symbol(data_venue: str, symbol: str, sta
   logger.debug("Time taken for download (secs) = {}", tm_taken_for_download_secs)
 
   m_oth.fn_df_print_first_last_rows(df_prices, 5, 'ALL_COLS')
-  print(f"--DataFrame Shape: {df_prices.shape} rows and columns--")
-  print(f"--df.columns = {df_prices.columns}--")
-  print(f"--type(df.columns) = {type(df_prices.columns)}--")
+  logger.debug(f"--DataFrame Shape: {df_prices.shape} rows and columns--")
+  logger.debug(f"--df.columns = {df_prices.columns}--")
+  logger.debug(f"--type(df.columns) = {type(df_prices.columns)}--")
 
   # Now convert/format the dataframe to our required format
   df_prices.columns = df_prices.columns.droplevel(1)        # Flatten MultiIndex columns by dropping the second level ('XOM')
@@ -154,9 +154,9 @@ def fn_download_historical_data_for_one_symbol(data_venue: str, symbol: str, sta
   df_prices = df_prices[['Date', 'Open', 'High', 'Low', 'Close', 'Volume']]   # Reorder columns to match the desired format
 
   m_oth.fn_df_print_first_last_rows(df_prices, 5, 'ALL_COLS')
-  print(f"--DataFrame Shape: {df_prices.shape} rows and columns--")
-  print(f"--df.columns = {df_prices.columns}--")
-  print(f"--type(df.columns) = {type(df_prices.columns)}--")
+  logger.debug(f"--DataFrame Shape: {df_prices.shape} rows and columns--")
+  logger.debug(f"--df.columns = {df_prices.columns}--")
+  logger.debug(f"--type(df.columns) = {type(df_prices.columns)}--")
 
   if write_to_file:
     FILE_EXTN =".csv"
@@ -341,7 +341,7 @@ def get_stock_info(symbol):
 
 
 
-def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str) -> pd.DataFrame:
+def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str, df_price_data: pd.DataFrame) -> pd.DataFrame:
   """
   Synchronize the price data for a symbol in a table in the database.
 
@@ -353,6 +353,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
   It checks if there's existing price data for the symbol in the database.
   If data exists, it checks for missing recent data (more than 1 day) and downloads the missing data if necessary.
   If the symbol is a benchmark symbol (SPY), it skips downloading data if there are less than 2 days of missing data.
+  It will check for price data passed to this function.
   If no data exists for the symbol, it downloads historical price data for the symbol with a default lookback period (approximately 1 year + 200 days).
   It modifies the downloaded data according to specific requirements and inserts it into the database table.
   Finally, it returns a pandas DataFrame containing the newly inserted data.
@@ -361,6 +362,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
   - data_venue (str): The string representing the data venue.
   - dbconn : handle to db
   - symbol (str): The string representing the symbol.
+  - df_price_data (pd.DataFrame): The DataFrame containing the price data to be inserted into the table. If not provided, this function will download it.
   
   Returns:
   - pandas dataframe containing ONLY THAT data which was INSERTED into the table
@@ -402,12 +404,16 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str)
       else:
         logger.debug("Not a benchmark symbol")
 
-      df_downloaded_missing_price_data = fn_download_historical_data_for_one_symbol('YFINANCE', symbol, dt_start_date, dt_end_date, False)
-      if df_downloaded_missing_price_data is None:
-        return None
-      print("---sync---01-----", df_downloaded_missing_price_data.head)
+      if not df_price_data.empty:
+        logger.info("Using df_price_data provided by caller", df_downloaded_missing_price_data.head)
+        df_downloaded_missing_price_data = df_price_data
+      else:
+        df_downloaded_missing_price_data = fn_download_historical_data_for_one_symbol('YFINANCE', symbol, dt_start_date, dt_end_date, False)
+        if df_downloaded_missing_price_data is None:
+          return None
+      logger.debug("---sync---01-----", df_downloaded_missing_price_data.head)
       df_downloaded_missing_price_data = m_oth.fn_modify_dataframe_per_our_requirements(symbol, df_downloaded_missing_price_data)
-      print("---sync---02-----", df_downloaded_missing_price_data.head)
+      logger.debug("---sync---02-----", df_downloaded_missing_price_data.head)
       logger.debug("Now inserting the missing data into the table")
       df_return = m_udb.fn_insert_symbol_price_data_into_db(dbconn, symbol, df_downloaded_missing_price_data, "tbl_price_data_1day", True)
     else:
