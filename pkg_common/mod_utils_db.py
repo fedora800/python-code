@@ -13,7 +13,6 @@ import sqlalchemy as sa
 from loguru import logger
 
 import mod_others as m_oth
-import mod_yfinance as m_yfn
 
 if platform.system() == "Windows":
   #logger.debug("mod_utils_db.py - Running on Windows")
@@ -139,8 +138,6 @@ def fn_run_conn_sql_query(dbconn, sql_query, params=None):
 
 
 
-### ** I AM NOT SURE IF THIS BINDING WILL BE GENERIC AS the bindparam function is highly customized ******** 
-### i think the binding needs to happen outside the function and then it can become generic .....
 def fn_run_conn_sqlalchemy_query(engine, sql_query, dct_params=None):
     """
     Execute a SQL query using SQLAlchemy and return results as a pandas DataFrame.
@@ -153,13 +150,22 @@ def fn_run_conn_sqlalchemy_query(engine, sql_query, dct_params=None):
     Returns:
       pandas.DataFrame: Query results as a DataFrame
     
-    Example invocation:
+    Example invocation 1:
       wildcard_value_1 = "%FA%"
       wildcard_value_2 = "%SB%"
-      sql_query = "SELECT * FROM viw_instrument_in_us_top100_etfs_by_aum WHERE symbol LIKE :param1 OR symbol LIKE :param2;"
       dct_params = {"param1": wildcard_value_1, "param2": wildcard_value_2}
-      m_udb.fn_run_conn_sqlalchemy_query(sa_engine, sql_query, dct_params)  
-
+      sql_query = "SELECT * FROM viw_instrument_in_us_top100_etfs_by_aum WHERE symbol LIKE :param1 OR symbol LIKE :param2;"
+      df_symbols = m_udb.fn_run_conn_sqlalchemy_query(sa_engine, sql_query, dct_params)  
+    Example invocation 2:
+      dct_params = {"sector_nm": "Industrials", "indgrp_nm": "Capital Goods", "ind_nm": "Machinery"}
+      sql_query = \"\"\"                           # commented as it is in docstring
+        select * from tbl_gics_sector 
+        where 
+        sector_name = :sector_nm
+        and industry_group_name = :indgrp_nm
+        and industry_name = :ind_nm 
+      \"\"\"    
+      df_symbols = m_udb.fn_run_conn_sqlalchemy_query(sa_engine, sql_query, dct_params)
 
     TODO:
     - Handle cases where the query returns no output.
@@ -167,25 +173,21 @@ def fn_run_conn_sqlalchemy_query(engine, sql_query, dct_params=None):
     # Log the input SQL query for debugging purposes
     logger.debug("Input sql_query = {}", sql_query)
     if dct_params:
-        logger.debug("Input sql query parameters = {}", dct_params)
-    #logger.info("Full SQL Query evaluates to : {}", sql_query.replace(":param1", "'%FA%'").replace(":param2", "'%SB%'"))
-    
-    sql_query_with_bind = sa.text(sql_query).bindparams(
-      #sa.bindparam('param1', '%FA%'), sa.bindparam('param2', '%SB%')
-      sa.bindparam('param1', dct_params['param1']), sa.bindparam('param2', dct_params['param2'])
-    )
-    #logger.info("Executing SQL query with bind parameters: {}", sql_query_with_bind)
+      logger.debug("Input sql query parameters = {}", dct_params)
+        
+    # Create the SQLAlchemy text object (WITHOUT binding parameters)
+    sql_query_text = sa.text(sql_query)
 
     with engine.connect() as connection:
-        result = connection.execute(sql_query_with_bind)
-        df_output = pd.DataFrame(result.fetchall(), columns=result.keys())
+      # Execute the query and pass parameters at execution time
+      result = connection.execute(sql_query_text, dct_params)
+      df_output = pd.DataFrame(result.fetchall(), columns=result.keys())    
 
     # Log the first and last few rows of the DataFrame for inspection
     m_oth.fn_df_print_first_last_rows(df_output, 3, 'ALL_COLS')
 
     # Return the resulting DataFrame
     return df_output
-    
 
 
 

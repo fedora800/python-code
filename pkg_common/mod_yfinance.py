@@ -5,8 +5,6 @@
 import sys
 import platform
 import time
-import requests
-
 
 from loguru import logger
 import yfinance as yf
@@ -14,6 +12,8 @@ import pandas as pd
 import csv
 from requests.exceptions import HTTPError
 from datetime import datetime, timedelta
+
+import mod_others as m_oth
 
 
 if platform.system() == "Windows":
@@ -69,7 +69,7 @@ def read_csv_into_list(file_path, has_header=True):
 
 
 
-def fn_download_historical_data_for_one_symbol(data_venue: str, symbol: str, start_date: datetime, end_date: datetime, write_to_file: bool) -> pd.DataFrame:
+def fn_download_historical_data_for_one_symbol(data_venue: str, symbol: str, start_date: datetime, end_date: datetime, write_to_file: bool, use_ssl: bool) -> pd.DataFrame:
   """
   Retrieves historical data for just a single symbol from a data venue.
 
@@ -78,12 +78,14 @@ def fn_download_historical_data_for_one_symbol(data_venue: str, symbol: str, sta
   - symbol (str): The symbol for whom we want to download data
   - start_date (datetime): The start date for the historical data.
   - end_date (datetime): The end date for the historical data.
+  - write_to_file (bool): Whether to write the data to a CSV file.
+  - use_ssl (bool): Whether to use SSL verification for the session.
 
   Returns:
   Any: pandas dataframe
 
   Example:
-  >>> get_historical_data_symbol("YFINANCE", "AAPL", datetime(2022, 1, 1), datetime(2022, 12, 31))
+  >>> fn_download_historical_data_for_one_symbol("YFINANCE", "AAPL", datetime(2022, 1, 1), datetime(2022, 12, 31), False, False)
   """
 
   #data_venue = "YFINANCE"
@@ -91,7 +93,8 @@ def fn_download_historical_data_for_one_symbol(data_venue: str, symbol: str, sta
   # oldest_price_date = df.at[0,"oldest_rec_pd_time"]
   # latest_price_date = df.at[0,"latest_rec_pd_time"]
   logger.debug("---------- fn_download_historical_data_for_symbol ---- STARTED ----------")
-  logger.debug("Received arguments : data_venue={} symbol={} start_date={} end_date={} write_to_file={}", data_venue, symbol, start_date, end_date, write_to_file)
+  logger.debug("Received arguments : data_venue={} symbol={} start_date={} end_date={} write_to_file={} use_ssl={}", 
+              data_venue, symbol, start_date, end_date, write_to_file, use_ssl)
 
   # # Convert the date strings to datetime objects and zero out time component
   # start_date = oldest_price_date.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -109,10 +112,11 @@ def fn_download_historical_data_for_one_symbol(data_venue: str, symbol: str, sta
   tm_before_download = time.time()
 
   try:
-    session = requests.Session()
-    session.verify = False  # Disable SSL verification 
-    logger.warning("Disabling SSL Verification and downloading ...")
-    df_prices = yf.download(symbol, start=start_date, end=end_date, rounding=True, session=session)
+    if use_ssl:
+      session = m_oth.fn_enable_session_for_ssl_certifi()
+    else:
+      session = m_oth.fn_disable_session_for_ssl()
+    df_prices = yf.download(symbol, start=start_date, end=end_date, rounding=True, session=session, progress=True, auto_adjust=True)
     # yf.download() does not raise exceptions – Instead, it prints errors to the console and returns an empty DataFrame.
 
     '''
@@ -170,7 +174,7 @@ def fn_download_historical_data_for_one_symbol(data_venue: str, symbol: str, sta
 
 
 
-def fn_get_historical_data_loop_symbols_list(data_venue: str, lst_symbols: list, start_date: datetime, end_date: datetime, write_to_file: bool) -> pd.DataFrame:
+def fn_get_historical_data_loop_symbols_list(data_venue: str, lst_symbols: list, start_date: datetime, end_date: datetime, write_to_file: bool, use_ssl: bool) -> pd.DataFrame:
 
   # this will take 1 symbol at a time from the symbols list and download data from the data_venue for it
   # can cause venue to deny our requests if we have a bunch of symbols
@@ -179,14 +183,15 @@ def fn_get_historical_data_loop_symbols_list(data_venue: str, lst_symbols: list,
 
   for symbol in lst_symbols:
     logger.debug("symbol={}", symbol)
-    fn_download_historical_data_for_one_symbol(data_venue, symbol, start_date, end_date, write_to_file)
+    fn_download_historical_data_for_one_symbol(data_venue, symbol, start_date, end_date, write_to_file, use_ssl)
 
 
 
-def fn_get_historical_data_multiple_symbols_single_request(lst_symbols: list, start_date: datetime, session: requests.Session) -> pd.DataFrame:
+def fn_get_historical_data_multiple_symbols_single_request(lst_symbols: list, start_date: datetime) -> pd.DataFrame:
 
   """
   Fetch historical stock data for multiple symbols using yfinance in a single API call.
+  NOTE: not sure how many symbols at one time yfinance can handle
 
   :param symbols: List of stock symbols (e.g., ['AAPL', 'MSFT', 'IBM'])
   :param start_date: Start date for historical data in 'YYYY-MM-DD' format.
@@ -202,13 +207,26 @@ Date
 2024-12-06  242.910004  244.630005  242.080002  242.839996  36870600  442.299988  446.100006  441.769989  443.570007  18821000  234.429993  238.380005  234.220001  238.039993  4028400
 
   """
+  
+  num_symbols = len(lst_symbols)
+  logger.info("Number of symbols in the list : {}", num_symbols)
+  df_prices_mult_symbols = pd.DataFrame()
+  batch_size = 50
+  #batch_size = 3
 
-  df_prices_mult_symbols = yf.download(lst_symbols, start=start_date, group_by='ticker', session=session)
-  #print(df_prices_mult_symbols.head())
+  session = m_oth.fn_enable_session_for_ssl_certifi()
 
+  # Break the list of symbols into batches of size batch_size, starts from 0 and goes to num_symbols
+  # This is so that we don't overload ourselves and yfinance with large lists of symbols at once
+  for idx in range(0, num_symbols, batch_size):
+    lst_current_batch= lst_symbols[idx:idx+batch_size]
+    logger.info("Downloading data for current batch of symbols [{} to {}] : {}", idx, idx+batch_size, lst_current_batch)
+
+    df_prices_current_batch = yf.download(lst_symbols, start=start_date, group_by='ticker', rounding=True, session=session, progress=True, auto_adjust=True)
+    #print(df_prices_mult_symbols.head())
+    df_prices_mult_symbols = pd.concat([df_prices_mult_symbols, df_prices_current_batch])
+    
   return df_prices_mult_symbols
-
-
 
 
 
@@ -344,6 +362,7 @@ def get_stock_info(symbol):
 def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str, df_price_data: pd.DataFrame) -> pd.DataFrame:
   """
   Synchronize the price data for a symbol in a table in the database.
+  ASSUMPTION: symbol is already in tbl_instrument  (use fn_check_symbol_exists_in_instrument_table to check)
 
   TODO: check if i need the sybmol to exist in tbl_instrument
   If the symbol does not exist, create it.
@@ -368,7 +387,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str,
   - pandas dataframe containing ONLY THAT data which was INSERTED into the table
 
   Example:
-  >> fn_sync_price_data_in_table_for_symbol("YFINANCE", dbconn, "AAPL")
+  >> fn_sync_price_data_in_table_for_symbol("YFINANCE", dbconn, "AAPL", pd.DataFrame())
   """
   dt_default_start_date = datetime(2024, 1, 1)
   
@@ -405,10 +424,10 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str,
         logger.debug("Not a benchmark symbol")
 
       if not df_price_data.empty:
-        logger.info("Using df_price_data provided by caller", df_downloaded_missing_price_data.head)
+        logger.info("Using df_price_data provided by caller {}", df_downloaded_missing_price_data.head())
         df_downloaded_missing_price_data = df_price_data
       else:
-        df_downloaded_missing_price_data = fn_download_historical_data_for_one_symbol('YFINANCE', symbol, dt_start_date, dt_end_date, False)
+        df_downloaded_missing_price_data = fn_download_historical_data_for_one_symbol('YFINANCE', symbol, dt_start_date, dt_end_date, False, False)
         if df_downloaded_missing_price_data is None:
           return None
       logger.debug("---sync---01-----", df_downloaded_missing_price_data.head)
@@ -438,7 +457,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str,
     dt_start_date = dt_start_date.replace(hour=0, minute=0, second=0, microsecond=0)
     dt_end_date = dt_end_date.replace(hour=0, minute=0, second=0, microsecond=0)
     logger.info("Downloading historical price data with a default lookback period...")
-    df_sym_downloaded_price_data = fn_download_historical_data_for_one_symbol("YFINANCE", symbol, dt_start_date, dt_end_date, False)
+    df_sym_downloaded_price_data = fn_download_historical_data_for_one_symbol("YFINANCE", symbol, dt_start_date, dt_end_date, False, False)
     df_sym_downloaded_price_data = m_oth.fn_modify_dataframe_per_our_requirements(symbol, df_sym_downloaded_price_data)
     logger.debug("--ELSE 1-- modified df_sym_downloaded_price_data prepared for insertion into table :")
     m_oth.fn_df_print_first_last_rows(df_sym_downloaded_price_data, 3, 'ALL_COLS')
@@ -452,24 +471,18 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str,
   return df_return
 
 
-def fn_disable_session_for_ssl() -> requests.Session:
-  unsafe_session = requests.session()
-  unsafe_session.verify = False
-  logger.warning("Session is disabled for SSL verification")
-  return unsafe_session
-
-
-
-def fn_get_data_without_using_ssl(symbol):
+def fn_download_data_for_symbol(symbol, use_ssl=True):
   # once i upgraded yfinance module to version 0.2.51 (from 0.1.xx), started getting SSL CERTIFICATE type errors when trying from my office network.
   # so found this way online to get data, which works
   # https://stackoverflow.com/questions/79189727/how-to-disable-or-ignore-the-ssl-for-the-yfinance-package
 
-  unsafe_session = requests.session()
-  unsafe_session.verify = False
+  if use_ssl:
+    session = m_oth.fn_enable_session_for_ssl_certifi()
+  else:
+    session = m_oth.fn_disable_session_for_ssl()
 
-  print(f"---- fetching without ssl from yfinance for symbol {symbol} ----")
-  df = yf.download(symbol, start='2024-01-01', end='2025-01-01', session=unsafe_session)
+  logger.info(f"Downloading data from yfinance for {symbol}...")
+  df = yf.download(symbol, start="2023-01-01", end="2024-01-01", rounding=True, session=session, progress=True, auto_adjust=True)    # use the secure session
   print(df)
 
   # NOTE: 0.2.5 atleast, i saw the below format, which is a MultiIndex format, so if want to use we will have to convert some of it

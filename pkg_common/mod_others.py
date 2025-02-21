@@ -3,6 +3,8 @@ import sys
 import time
 import inspect
 import traceback
+import requests
+import certifi
 
 import pandas as pd
 import numpy as np
@@ -181,4 +183,15 @@ def fn_set_logger(enable_debug_mode: bool):
     logger.log("MYNOTICE", "New logging level set with values {}", this_level)
     logger.debug("Setting for loguru logger level MYNOTICE : level.name={} level.no={}  level.color={} level.icon={}", this_level.name, this_level.no, this_level.color, this_level.icon)
 
+def fn_disable_session_for_ssl() -> requests.Session:
+  unsafe_session = requests.session()
+  unsafe_session.verify = False
+  logger.warning("Session is disabled for SSL verification")
+  return unsafe_session
 
+
+def fn_enable_session_for_ssl_certifi() -> requests.Session:
+  session = requests.session()
+  session.verify = certifi.where()    # ensures that requests uses the certifi-managed CA bundle for SSL verification
+  logger.warning("Session is now enabled to use SSL certificate from certifi ...")
+  return session

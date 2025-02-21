@@ -18,41 +18,48 @@ def main():
 
   #lst_symbols = ['PLTR']            # test for 1 symbol
   #lst_symbols = ['SPY']
-  # this will be the full S&P 500 index constituents list
-  #csv_file_path = 'sp500_constituents.csv'  # Replace with the actual path to your CSV file
   # 25 largest S&P 500 index constituents by weighting
-  # AAPL, MSFT, AMZN, NVDA, GOOGL, TSLA, GOOG, BRK-B, META, UNH, XOM, LLY, JPM, JNJ, V, PG, MA, AVGO, HD, CVX, MRK, ABBV, COST, PEP, ADBE
   #lst_symbols = ['AAPL', 'MSFT', 'AMZN', 'NVDA', 'GOOGL', 'TSLA', 'GOOG', 'BRK-B', 'META', 'UNH', 'XOM', 'LLY', 'JPM', 'JNJ', 'V', 'PG', 'MA', 'AVGO', 'HD', 'CVX', 'MRK', 'ABBV', 'COST', 'PEP', 'ADBE']
   #lst_symbols = ['META', 'TSLA', 'XOM']
   #lst_symbols = ['VMID.L','VUKE.L','VUSA.L']
-  lst_symbols = ['AAL','AAPL','COF']
   #lst_symbols = ['CSPX.L', 'EQQQ.L', 'IITU.L', 'ISF.L', 'SWDA.L', 'VHVG.L', 'VUAG.L', 'VUSA.L', 'VWRL.L', 'VWRP.L']
 
-  # UK ETFs most-active list
-  # lst_symbols = ('3KWE.L', '3LNG.L', '3NGL.L', '3SNV.L', '3UKS.L', 'AGGU.L', 'CNYA.L', 'CSPX.L', 'DHYA.L', 'DS2P.L', 'DTLA.L', 'FLOA.L', 'HCHS.L', 'IB01.L', \
-  #   'IBTA.L', 'IDTL.L', 'IHYA.L', 'IMBA.L', 'IUAA.L', 'IUVL.L', 'JGRE.L', 'JMRE.L', 'JPEA.L', 'LGUG.L', 'LNGA.L', \
-  #   'PAJP.L', 'RIEU.L', 'SAEM.L', 'SDIA.L', 'SPL3.L', 'SUK2.L', 'SUOE.L', 'SUSM.L', 'V3AA.L', 'V3AB.L', 'V3AM.L', 'V3MB.L', 'VALW.L', 'VERX.L', 'VEVE.L', \
-  #   'VFEM.L', 'VHVG.L', 'VHYL.L', 'VILX.L', 'VIXL.L', 'VJPN.L', 'VMID.L', 'VUAG.L', 'VUKG.L', 'VWRL.L', 'VWRP.L')
-
-  #m_yfn.fn_get_historical_data_list_of_symbols(data_venue, lst_symbols, start_date, end_date, True)    # this puts into a csv file
-  #df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", engine, "VWRL.L")
-
-  # sql_query = text("""select symbol from viw_instrument_in_us_top100_etfs_by_aum where symbol like 'I%'""")
-  # df_symbols = pd.read_sql_query(sql_query, db_conn)
-  # logger.debug(df_symbols)
-  # print(df_symbols)
-  # lst_symbols = df_symbols["symbol"].tolist()
-  # for symbol in lst_symbols:
-  #   #print(""); print("---------------------FOR LOOP ------", symbol, " -------------------------------------")
-  #   logger.info(""); logger.info("---------------------FOR LOOP ------------- {} ----------------", symbol)
-  #   df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", db_conn, symbol)
-  #   #print(df_ohlcv_symbol)
-
   # for SPY exclusively
-  df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, "SPY")
-  print("----11111--for SPY----", df_ohlcv_symbol)
+  logger.info("First download and insert latest prices for benchmark SPY ...")
+  df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, "SPY", pd.DataFrame())
+  logger.debug(df_ohlcv_symbol)
   
-  
+  # now download and insert latest prices for our list of symbols
+  logger.info("Now download and insert latest prices for our list of symbols ...")
+  #dct_params = {}
+  #sql_query = """select symbol from viw_instrument_us_sp500_constituents"""
+  dct_params = {"sympattern_1": "B%"}
+  sql_query = """select * from tbl_instrument where symbol like :sympattern_1"""
+  df_symbols= m_udb.fn_run_conn_sqlalchemy_query(sa_engine, sql_query, dct_params)
+  df_symbols = df_symbols[["symbol"]]
+  lst_symbols = df_symbols["symbol"].tolist()
+  logger.info("lst_symbols = {}", lst_symbols)
+
+  # batch download data for multiple symbols in a single request
+  start_date = datetime.strptime('2024-12-01', '%Y-%m-%d')
+  df_prices_mult_symbols = m_yfn.fn_get_historical_data_multiple_symbols_single_request(lst_symbols, start_date)
+  print(df_prices_mult_symbols.head())  # Display the first few rows
+  symbol_dfs = {}     # Dictionary to store individual DataFrames
+  for symbol in lst_symbols:
+    print(""); print("--------------------- lst_symbols : FOR LOOP ------", symbol, " -------------------------------------")
+    df_ohlcv_symbol = df_prices_mult_symbols[symbol].copy()    # Extract data for a single symbol
+    symbol_dfs[symbol] = df_ohlcv_symbol
+    print(f"Head for {symbol}: \n", df_ohlcv_symbol.head())
+    if m_udb.fn_check_symbol_exists_in_instrument_table(sa_engine, symbol):
+      wildcard_value_1 = symbol
+      sql_query = "SELECT * FROM viw_price_data_stats_by_symbol WHERE symbol = :wildcard_value_1;"
+      df_prices_from_db = m_udb.fn_get_symbol_price_data_stats_from_database(sa_engine, symbol)
+      print("df_xx = ", df_prices_from_db)
+      df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, symbol, pd.DataFrame())
+      print(df_ohlcv_symbol)
+    else:
+      print("!!! SYMBOL NOT FOUND - ", symbol, "  !!! - skipping this lst_symbols loop..." )
+
 # main
 if __name__ == "__main__":
   main()

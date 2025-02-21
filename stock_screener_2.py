@@ -19,7 +19,7 @@ def get_stock_list():
 def get_stock_price(symbol):
   print('In get_stock_list for ', symbol, ' ...')
   # you can change the start date
-  df_prices = yf.download(symbol, start="2023-01-01")
+  df_prices = yf.download(symbol, start="2023-01-01", rounding=True, session=session, progress=True, auto_adjust=True)
   #print('data=', df_prices)
   print("FIRST row of df_stock_quotes df = ", df_prices.head(1))
   print("LAST row of df_stock_quotes df = ", df_prices.tail(1))

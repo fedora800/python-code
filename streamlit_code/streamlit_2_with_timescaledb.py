@@ -137,7 +137,7 @@ def fn_st_sb_selectbox_symbol_only(dbconn, df):
       # at that level, we can sync all the symbols for that symbol group in 1 shot, so then when we do lookup here, that data is all in sync
       #st.markdown(''' :red[Please Wait ! Downloading and updating database can take upto 30 seconds ...]''')
       st.markdown(f'<h2 style="color:#ff3399;font-size:24px;">{"Please Wait ! Downloading and updating database can take upto 30 seconds ..."}</h2>', unsafe_allow_html=True)
-      df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", dbconn, sm_chosen_symbol)
+      df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", dbconn, sm_chosen_symbol, pd.DataFrame())
       logger.debug("df_ohlcv_symbol = {}", df_ohlcv_symbol)
 #       if not df_sym_stats.empty:
 #         ps_sym_stats = df_sym_stats.iloc[0]  # Extract the first row as a Series
@@ -178,7 +178,7 @@ def fn_sb_inputbox_symbol(data_venue: str, sa_engine, symbol: str) -> str:
 
     if m_udb.fn_check_symbol_exists_in_instrument_table(sa_engine, symbol):
       st.markdown(f"<span style='color:green; font-weight:bold;'>{symbol} FOUND,   plotting chart ...</span>", unsafe_allow_html=True)
-      df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol(data_venue, sa_engine, symbol)
+      df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol(data_venue, sa_engine, symbol, pd.DataFrame())
       #print(df_ohlcv_symbol)
       # we want all the data from the table, not the partial inserted above, so 
       df_ohlcv_symbol = m_udb.fn_get_table_data_for_symbol(sa_engine, symbol)
@@ -671,7 +671,7 @@ def main():
   # -- this one is for fresh SPY data to be synched into the DB first time app is started
   # -- but currently it will do every time page any action is taken
   print("---- 00 --- SPY SYNCH --- START ---")
-  df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", db_conn, "SPY")
+  df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", db_conn, "SPY", pd.DataFrame())
   #logger.debug("df_ohlcv_symbol = {}", df_ohlcv_symbol)
   print(f"---- 00 --- SPY SYNCH --- END --- ")
 

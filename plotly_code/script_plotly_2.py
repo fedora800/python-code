@@ -18,7 +18,7 @@ from plotly.subplots import make_subplots
 
 # download stock price data
 symbol = 'AAPL'
-df = yf.download(symbol, start='2020-01-01')
+df = yf.download(symbol, start='2020-01-01', rounding=True, session=session, progress=True, auto_adjust=True)
      
 
 [*********************100%***********************]  1 of 1 completed
