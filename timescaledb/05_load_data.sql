@@ -28,7 +28,7 @@
 
 -- L03A - tbl_instrument - S&P500 constituents
 \echo "Loading into table tbl_instrument - S&P500 constituents"
-\copy tbl_instrument (symbol, name, sector_code, sub_industry_code, exchange_code, asset_type, country_code, data_source, note_1) FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_instrument_data_sp500_symbols.csv' DELIMITER ',' CSV HEADER;
+\copy tbl_instrument (symbol, name, sector_code, sub_industry_code, exchange_code, asset_type, country_code, data_source, note_1) FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_instrument_data_sp500_constituents.csv' DELIMITER ',' CSV HEADER;
 
 
 -- L03B - tbl_instrument - US ETFs

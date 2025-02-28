@@ -33,8 +33,12 @@ def main():
   logger.info("Now download and insert latest prices for our list of symbols ...")
   #dct_params = {}
   #sql_query = """select symbol from viw_instrument_us_sp500_constituents"""
-  dct_params = {"sympattern_1": "B%"}
-  sql_query = """select * from tbl_instrument where symbol like :sympattern_1"""
+  #dct_params = {"sympattern_1": "J%"}
+  #sql_query = """select * from tbl_instrument where symbol like :sympattern_1"""
+  #sql_query = """select * from viw_instrument_us_sp500_constituents where symbol like :sympattern_1"""
+  #dct_params = {"sympattern_1": "[K-O]%"}
+  dct_params = {"sympattern_1": "[P-Z]%"}
+  sql_query = """select * from viw_instrument_us_sp500_constituents where symbol SIMILAR TO :sympattern_1"""
   df_symbols= m_udb.fn_run_conn_sqlalchemy_query(sa_engine, sql_query, dct_params)
   df_symbols = df_symbols[["symbol"]]
   lst_symbols = df_symbols["symbol"].tolist()
@@ -44,12 +48,12 @@ def main():
   start_date = datetime.strptime('2024-12-01', '%Y-%m-%d')
   df_prices_mult_symbols = m_yfn.fn_get_historical_data_multiple_symbols_single_request(lst_symbols, start_date)
   print(df_prices_mult_symbols.head())  # Display the first few rows
-  symbol_dfs = {}     # Dictionary to store individual DataFrames
+  df_prices_symbol = {}     # Dictionary to store individual DataFrames
   for symbol in lst_symbols:
-    print(""); print("--------------------- lst_symbols : FOR LOOP ------", symbol, " -------------------------------------")
+    print(""); print(f"--------------------- lst_symbols : FOR LOOP ------{symbol}-------------------------------------")
     df_ohlcv_symbol = df_prices_mult_symbols[symbol].copy()    # Extract data for a single symbol
-    symbol_dfs[symbol] = df_ohlcv_symbol
-    print(f"Head for {symbol}: \n", df_ohlcv_symbol.head())
+    print("df_ohlcv_symbol = ", df_ohlcv_symbol.head())
+    print("Head for ", symbol, " df_ohlcv_symbol = ", df_ohlcv_symbol.head())
     if m_udb.fn_check_symbol_exists_in_instrument_table(sa_engine, symbol):
       wildcard_value_1 = symbol
       sql_query = "SELECT * FROM viw_price_data_stats_by_symbol WHERE symbol = :wildcard_value_1;"

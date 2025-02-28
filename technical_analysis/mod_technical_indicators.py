@@ -453,7 +453,8 @@ def fn_compute_all_required_indicators(
 
   logger.log("MYNOTICE", "START: LOG-TAG-002 : Computing all the required indicators using dataframes for symbol={} and benchmark symbol = {}", sym, bch_sym)
 
-  NUM_RECORDS_EXPECTED = 60
+  # we need this many records of past data to compute the indicators on the current row
+  NUM_RECORDS_EXPECTED = 50
   IF_DELIMITER = ";"  # intra-field delimeter for the macd column
 
   # these are the names of the new columns that will be added to the dataframe with the computed indicators.
@@ -565,7 +566,7 @@ def fn_compute_all_required_indicators(
   logger.debug("---Indicator 8 : CRS_50---")
   
   if sym_is_benchmark:
-     logger.debug("Not computing CRS_50 as the symbol {} is the benchmark itself ...", sym)
+    logger.debug("Not computing CRS_50 as the symbol {} is the benchmark itself ...", sym)
   else:
     CRS_LENGTH = 50
     # do not manipulate the original dfs as they have all the computed indicator values, so create independant copies
@@ -583,9 +584,9 @@ def fn_compute_all_required_indicators(
     logger.debug("------crs_50  dataframe 2 = df_tmp_bch_sym -----")
     logger.debug(df_tmp_bch_sym)
 
-    # Convert pd_time into pandas timestamp object first and then convert to python datetime object using dt.to_pydatetime()
-    df_tmp_sym["pd_time"] = pd.to_datetime(df_tmp_sym["pd_time"], utc=True).dt.to_pydatetime().tolist()
-    df_tmp_bch_sym["pd_time"] = pd.to_datetime(df_tmp_bch_sym["pd_time"], utc=True).dt.to_pydatetime().tolist()
+    # Convert pd_time column values into pandas timestamp objects first and then convert those to python datetime objects
+    df_tmp_sym["pd_time"] = pd.to_datetime(df_tmp_sym["pd_time"], utc=True).tolist()
+    df_tmp_bch_sym["pd_time"] = pd.to_datetime(df_tmp_bch_sym["pd_time"], utc=True).tolist()
 
     # merge the 2 tmp dfs to get df_merged 
     df_merged = pd.merge(
@@ -594,7 +595,7 @@ def fn_compute_all_required_indicators(
         on="pd_time",
         suffixes=("_SYMB", "_ETF"),
     )
-    print("-- Z 00 -- df_merged (sym and benchmark quote data on pd_time) BEFORE CRS computation")
+    logger.debug("------crs_50  MERGED df on pd_time (df_merged = symbol and benchmark sym and benchmark quote data) BEFORE CRS computation -----")
     m_oth.fn_df_print_first_last_rows(df_merged, 5, 'ALL_COLS')
 
     # compute the CRS value for each row and put them in a new column
@@ -608,7 +609,7 @@ def fn_compute_all_required_indicators(
     # Round the CRS values to three decimal places
     df_merged[COL_NAME_CRS] = df_merged[COL_NAME_CRS].round(3)
 
-    print("-- Z 00B -- df_merged AFTER CRS computation")
+    logger.debug("------crs_50  MERGED df AFTER CRS computation -----")
     m_oth.fn_df_print_first_last_rows(df_merged, 5, 'ALL_COLS')
 
     # find out which of the rows have null or not null values
@@ -618,10 +619,10 @@ def fn_compute_all_required_indicators(
     #df_merged.loc[mask, COL_NAME_CRS] = df_merged.loc[mask, COL_NAME_CRS].round(3)
     columns_to_keep = ['pd_time', 'crs_50']
     df_merged = df_merged[columns_to_keep]
-    print("-- Z 11 -- df_merged = ")
+    logger.debug("------crs_50  Remove unwanted columns df_merged -----")
     m_oth.fn_df_print_first_last_rows(df_merged, 5, 'ALL_COLS')
 
-    print("-- Z 22 -- df_sym = ")
+    logger.debug("------crs_50  df_sym -----")
     m_oth.fn_df_print_first_last_rows(df_sym, 5, 'ALL_COLS')
 
     # we need to update the original df_sym column for crs_50 with the corresponding value from df_merged, based off pd_time
@@ -644,7 +645,6 @@ def fn_compute_all_required_indicators(
 
     # Update the crs_50 column in df_sym with the mapped values
     df_sym['crs_50'] = df_sym['pd_time'].map(crs_50_mapping)
-    print("-- Z 44 -- updated df_sym = ")
     logger.debug("Now computed all the indicator values and at the end of the function, resulting df_sym=")
     m_oth.fn_df_print_first_last_rows(df_sym, 3, 'ALL_COLS')
 

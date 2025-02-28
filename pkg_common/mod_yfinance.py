@@ -10,7 +10,8 @@ from loguru import logger
 import yfinance as yf
 import pandas as pd
 import csv
-from requests.exceptions import HTTPError
+import requests
+#from requests.exceptions import HTTPError
 from datetime import datetime, timedelta
 
 import mod_others as m_oth
@@ -210,23 +211,25 @@ Date
   
   num_symbols = len(lst_symbols)
   logger.info("Number of symbols in the list : {}", num_symbols)
+  logger.info("start_date : {}", start_date)
   df_prices_mult_symbols = pd.DataFrame()
-  batch_size = 50
-  #batch_size = 3
+  batch_size = 3
 
   session = m_oth.fn_enable_session_for_ssl_certifi()
 
   # Break the list of symbols into batches of size batch_size, starts from 0 and goes to num_symbols
   # This is so that we don't overload ourselves and yfinance with large lists of symbols at once
   for idx in range(0, num_symbols, batch_size):
-    lst_current_batch= lst_symbols[idx:idx+batch_size]
-    logger.info("Downloading data for current batch of symbols [{} to {}] : {}", idx, idx+batch_size, lst_current_batch)
-
-    df_prices_current_batch = yf.download(lst_symbols, start=start_date, group_by='ticker', rounding=True, session=session, progress=True, auto_adjust=True)
+    lst_current_batch = lst_symbols[idx: min(idx + batch_size, num_symbols)]
+    logger.info("Downloading data for current batch of symbols [{} to {}] : {}", 
+            idx, idx + len(lst_current_batch) - 1, lst_current_batch)
+    #df_prices_current_batch = yf.download(lst_current_batch, start=start_date, group_by='ticker', rounding=True, session=session, progress=True, auto_adjust=True)   #goplit suggested to remove progress to improve speed
+    df_prices_current_batch = yf.download(lst_current_batch, start=start_date, group_by='ticker', rounding=True, session=session, progress=False, auto_adjust=True)
     #print(df_prices_mult_symbols.head())
     df_prices_mult_symbols = pd.concat([df_prices_mult_symbols, df_prices_current_batch])
     
   return df_prices_mult_symbols
+
 
 
 
