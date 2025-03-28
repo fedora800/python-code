@@ -1,8 +1,8 @@
-exchange_code, name, note_1
-LSE,London Stock Exchange,
-NYSE,New York Stock Exchange,
-NASDAQ,Nasdaq Exchange,
-NSE, National Stock Exchange
-BATS,CBOE US,
-UK-EXCH-TODO,TODO,
-UNKNOWN, TODO,
+exchange_code, name, country_code, note_1
+LSE,London Stock Exchange,UK, NULL
+NYSE,New York Stock Exchange,US,NULL
+NASDAQ,Nasdaq Exchange,US,NULL
+NSE, National Stock Exchange,IN,NULL
+BATS,CBOE,US,NULL
+UK-EXCH-TODO,TODO1,US,NULL
+UNKNOWN,TODO2,US,NULL

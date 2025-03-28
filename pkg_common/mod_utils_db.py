@@ -175,7 +175,14 @@ def fn_run_conn_sqlalchemy_query(engine, sql_query, dct_params=None):
     if dct_params:
       logger.debug("Input sql query parameters = {}", dct_params)
         
-    # Create the SQLAlchemy text object (WITHOUT binding parameters)
+    # Print the SQL query with the actual values substituted
+    formatted_query = sql_query
+    for key, value in dct_params.items():
+      formatted_value = f"'{value}'" if isinstance(value, str) else str(value)
+      formatted_query = formatted_query.replace(f":{key}", formatted_value)
+    logger.info("Complete SQL Query with values = \n{}", formatted_query)
+
+    # Create the SQLAlchemy text object (no parameters bound yet to this query)
     sql_query_text = sa.text(sql_query)
 
     with engine.connect() as connection:

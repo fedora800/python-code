@@ -9,7 +9,7 @@ sp500_symbols = ["AAPL", "GOOGL", ...]  # Add all S&P 500 stock symbols
 # Step 2: Fetch Historical Data and Calculate 30-Day Volume Average
 data = {}
 for symbol in sp500_symbols:
-    stock_data = yf.download(symbol, start=datetime.now() - timedelta(days=365), end=datetime.now(), rounding=True, session=session, progress=True, auto_adjust=True)
+    stock_data = yf.download(symbol, start=datetime.now() - timedelta(days=365), end=datetime.now(), rounding=True, progress=True, auto_adjust=True)
     stock_data['30d_avg_volume'] = stock_data['Volume'].rolling(window=30).mean()
     data[symbol] = stock_data
 

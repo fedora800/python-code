@@ -1,18 +1,48 @@
 /*
  --------------------------------------------------------------------------------
- 
- -- V01 - viw_latest_price_data_by_symbol
- -- V02 - viw_instrument_uk_equities
+ -- General
+-- viw_instrument_table_summary
+-- viw_latest_price_data_by_symbol
+
+ -- viw_instrument_uk_equities
+ -- viw_instrument_us_equities
  -- V03 - viw_price_data_stats_by_symbol 
  -- V04 - viw_instrument_us_etfs
  -- V05 - viw_instrument_us_sp500_constituents
  -- viw_instrument_in_nifty200_constituents
  -- V06 - viw_instrument_price_data_records_count
- -- V07 - viw_price_data_uk_most_traded
- -- viw_instrument_table_summary
+ -- viw_price_data_uk_most_traded
+ -- viw_price_data_us_most_traded
+ 
 
  --------------------------------------------------------------------------------
  */
+
+-- General
+
+-- gives a count of records in tbl_instrument grouped by various fields
+\echo "Creating VIEW viw_instrument_table_summary";
+CREATE OR REPLACE VIEW viw_instrument_table_summary AS
+SELECT
+  country_code,
+  exchange_code,
+  asset_type,
+  note_1,
+  data_source,
+  deleted,
+  COUNT(*) AS num_records
+FROM
+  tbl_instrument
+GROUP BY
+  country_code,
+  exchange_code,
+  asset_type,
+  note_1,
+  data_source,
+  deleted;
+
+
+
 -- V01 - viw_latest_price_data_by_symbol 
 -- use this view when we want to get only the latest price data record by pd_time for each symbol
 \echo "Creating VIEW viw_latest_price_data_by_symbol";
@@ -38,7 +68,7 @@ and A.latest_row_num_by_symbol = 1
 ORDER BY B.symbol;
 
 
--- V02 - viw_instrument_uk_equities
+-- viw_instrument_uk_equities
 -- use this view when we want to get all the instruments which are UK EQUITIES
 \echo "Creating VIEW viw_instrument_uk_equities";
 CREATE OR REPLACE VIEW viw_instrument_uk_equities AS
@@ -46,10 +76,21 @@ SELECT *
 FROM tbl_instrument
 WHERE 
   country_code = 'UK'
-  and asset_type = 'ETF'
   and deleted=false
 order by symbol;
 
+
+
+--  viw_instrument_us_equities
+-- use this view when we want to get all the instruments which are US EQUITIES
+\echo "Creating VIEW viw_instrument_us_equities";
+CREATE OR REPLACE VIEW viw_instrument_us_equities AS
+SELECT *
+FROM tbl_instrument
+WHERE 
+  country_code = 'US'
+  and deleted=false
+order by symbol;
 
 -- V03 - viw_price_data_stats_by_symbol 
 -- use this view when we want to see oldest and latest records by time and count of records for each symbol as well as other stats
@@ -95,9 +136,8 @@ ORDER BY t_I.symbol;
 CREATE OR REPLACE VIEW viw_instrument_us_etfs AS
 SELECT *
 FROM tbl_instrument
-WHERE exchange_code = 'UNKNOWN'
-  and asset_type = 'ETF'
-  and data_source = 'THINKORSWIM'
+WHERE 
+  asset_type = 'ETF'
   and deleted=false
 ORDER BY symbol;
 
@@ -164,7 +204,7 @@ order by i.symbol,
 
 
 
--- V07 - viw_price_data_uk_most_traded
+-- viw_price_data_uk_most_traded
 -- use this view to get a list of 50 symbols from UK ETFs which have most volume over last 30 days and so are the most active
 \echo "Creating VIEW viw_price_data_uk_most_traded";
 CREATE OR REPLACE VIEW viw_price_data_uk_most_traded AS 
@@ -176,7 +216,7 @@ WITH tmp_latest_30_days_data AS (
       v_UK.name,
       v_UK.exchange_code,
       v_UK.asset_type,
-      v_UK.sector,
+      v_UK.sector_code,
       ROW_NUMBER() OVER (
         PARTITION BY pd_symbol
         ORDER BY pd_time DESC
@@ -189,7 +229,7 @@ SELECT symbol,
   name,
   exchange_code,
   asset_type,
-  sector,
+  sector_code,
   AVG(volume) AS avg_volume_over_last_30_days
 FROM tmp_latest_30_days_data
 WHERE row_num <= 5
@@ -197,7 +237,47 @@ GROUP BY symbol,
   name,
   exchange_code,
   asset_type,
-  sector
+  sector_code
+HAVING AVG(volume) > 50000
+ORDER BY symbol
+LIMIT 50;
+
+
+-- viw_price_data_us_most_traded
+-- use this view to get a list of 50 symbols from US ETFs which have the most volume over the last 30 days and are the most active
+\echo "Creating VIEW viw_price_data_us_most_traded";
+CREATE OR REPLACE VIEW viw_price_data_us_most_traded AS 
+WITH tmp_latest_30_days_data AS (
+    SELECT v_US.symbol,
+      t_PD.pd_time,
+      t_PD.close,
+      t_PD.volume,
+      v_US.name,
+      v_US.exchange_code,
+      v_US.asset_type,
+      v_US.sector_code,
+      ROW_NUMBER() OVER (
+        PARTITION BY pd_symbol
+        ORDER BY pd_time DESC
+      ) AS row_num
+    FROM tbl_price_data_1day t_PD
+      JOIN viw_instrument_us_etfs v_US ON t_PD.pd_symbol = v_US.symbol
+    WHERE pd_time > now() - INTERVAL '30 days'
+    AND v_US.asset_type = 'ETF'
+  )
+SELECT symbol,
+  name,
+  exchange_code,
+  asset_type,
+  sector_code,
+  AVG(volume) AS avg_volume_over_last_30_days
+FROM tmp_latest_30_days_data
+WHERE row_num <= 5
+GROUP BY symbol,
+  name,
+  exchange_code,
+  asset_type,
+  sector_code
 HAVING AVG(volume) > 50000
 ORDER BY symbol
 LIMIT 50;
@@ -215,7 +295,7 @@ WITH tmp_latest_30_days_data AS (
       v_US.name,
       v_US.exchange_code,
       v_US.asset_type,
-      v_US.sector,
+      v_US.sector_code,
       ROW_NUMBER() OVER (
         PARTITION BY pd_symbol
         ORDER BY pd_time DESC
@@ -228,7 +308,7 @@ SELECT symbol,
   name,
   exchange_code,
   asset_type,
-  sector,
+  sector_code,
   AVG(volume) AS avg_volume_over_last_30_days
 FROM tmp_latest_30_days_data
 WHERE row_num <= 5
@@ -236,30 +316,10 @@ GROUP BY symbol,
   name,
   exchange_code,
   asset_type,
-  sector
+  sector_code
 HAVING AVG(volume) > 50000
 ORDER BY AVG(volume) DESC
 LIMIT 50;
 
--- gives a count of records in tbl_instrument grouped by various fields
-\echo "Creating VIEW viw_instrument_table_summary";
-CREATE OR REPLACE VIEW viw_instrument_table_summary AS
-SELECT
-  country_code,
-  exchange_code,
-  asset_type,
-  note_1,
-  data_source,
-  deleted,
-  COUNT(*) AS num_records
-FROM
-  tbl_instrument
-GROUP BY
-  country_code,
-  exchange_code,
-  asset_type,
-  note_1,
-  data_source,
-  deleted;
 
 

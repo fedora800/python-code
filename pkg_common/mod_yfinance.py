@@ -84,6 +84,7 @@ def fn_download_historical_data_for_one_symbol(data_venue: str, symbol: str, sta
 
   Returns:
   Any: pandas dataframe
+  None: if an error occurred
 
   Example:
   >>> fn_download_historical_data_for_one_symbol("YFINANCE", "AAPL", datetime(2022, 1, 1), datetime(2022, 12, 31), False, False)
@@ -117,7 +118,7 @@ def fn_download_historical_data_for_one_symbol(data_venue: str, symbol: str, sta
       session = m_oth.fn_enable_session_for_ssl_certifi()
     else:
       session = m_oth.fn_disable_session_for_ssl()
-    df_prices = yf.download(symbol, start=start_date, end=end_date, rounding=True, session=session, progress=True, auto_adjust=True)
+    df_prices = yf.download(symbol, start=start_date, end=end_date, rounding=True, progress=True, auto_adjust=True)
     # yf.download() does not raise exceptions – Instead, it prints errors to the console and returns an empty DataFrame.
 
     '''
@@ -223,8 +224,8 @@ Date
     lst_current_batch = lst_symbols[idx: min(idx + batch_size, num_symbols)]
     logger.info("Downloading data for current batch of symbols [{} to {}] : {}", 
             idx, idx + len(lst_current_batch) - 1, lst_current_batch)
-    #df_prices_current_batch = yf.download(lst_current_batch, start=start_date, group_by='ticker', rounding=True, session=session, progress=True, auto_adjust=True)   #goplit suggested to remove progress to improve speed
-    df_prices_current_batch = yf.download(lst_current_batch, start=start_date, group_by='ticker', rounding=True, session=session, progress=False, auto_adjust=True)
+    #df_prices_current_batch = yf.download(lst_current_batch, start=start_date, group_by='ticker', rounding=True, progress=True, auto_adjust=True)   #goplit suggested to remove progress to improve speed
+    df_prices_current_batch = yf.download(lst_current_batch, start=start_date, group_by='ticker', rounding=True, progress=False, auto_adjust=True)
     #print(df_prices_mult_symbols.head())
     df_prices_mult_symbols = pd.concat([df_prices_mult_symbols, df_prices_current_batch])
     
@@ -432,6 +433,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str,
       else:
         df_downloaded_missing_price_data = fn_download_historical_data_for_one_symbol('YFINANCE', symbol, dt_start_date, dt_end_date, False, False)
         if df_downloaded_missing_price_data is None:
+          logger.debug("df_downloaded_missing_price_data is None. So returning None df")
           return None
       logger.debug("---sync---01-----", df_downloaded_missing_price_data.head)
       df_downloaded_missing_price_data = m_oth.fn_modify_dataframe_per_our_requirements(symbol, df_downloaded_missing_price_data)
@@ -485,7 +487,7 @@ def fn_download_data_for_symbol(symbol, use_ssl=True):
     session = m_oth.fn_disable_session_for_ssl()
 
   logger.info(f"Downloading data from yfinance for {symbol}...")
-  df = yf.download(symbol, start="2023-01-01", end="2024-01-01", rounding=True, session=session, progress=True, auto_adjust=True)    # use the secure session
+  df = yf.download(symbol, start="2023-01-01", end="2024-01-01", rounding=True, progress=True, auto_adjust=True)    # use the secure session
   print(df)
 
   # NOTE: 0.2.5 atleast, i saw the below format, which is a MultiIndex format, so if want to use we will have to convert some of it

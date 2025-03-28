@@ -32,7 +32,8 @@ def test_fn_download_and_sync_db_loop_for_mult_symbols(sa_engine):
   #lst_symbols = ['SPY']
   #lst_symbols = ['CSPX.L', 'EQQQ.L', 'IITU.L', 'ISF.L', 'SWDA.L', 'VHVG.L', 'VUAG.L', 'VUSA.L', 'VWRL.L', 'VWRP.L']
   #lst_symbols = ['MRK', 'ABBV', 'COST', 'PEP', 'ADBE']
-  lst_symbols = ['UAL', 'UDR', 'UHS', 'ULTA', 'UNH', 'UNP', 'UPS', 'URI', 'USB']
+  #lst_symbols = ['PEAK', 'MRNA', 'BAD2']       # 1 good, 2 bad symbols
+  #lst_symbols = ['UAL', 'UDR', 'UHS', 'ULTA', 'UNH', 'UNP', 'UPS', 'URI', 'USB']
   #lst_symbols = ['DGRO', 'IAU', 'IBIT', 'IEF']
   # UK ETFs most-active list
   # lst_symbols = ('3KWE.L', 'AGGU.L', 'CNYA.L', 'CSPX.L', 'DHYA.L', 'DS2P.L', 'DTLA.L', 'FLOA.L', 'HCHS.L', 'IB01.L', \
@@ -49,7 +50,7 @@ def test_fn_download_and_sync_db_loop_for_mult_symbols(sa_engine):
   # for symbol in lst_symbols:
   #   print(""); print("---------------------FOR LOOP ------", symbol, " -------------------------------------")
   #   if m_udb.fn_check_symbol_exists_in_instrument_table(sa_engine, symbol):
-  #     df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, symbol)
+  #     df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, symbol, pd.DataFrame())
   #     #print(df_ohlcv_symbol)
   #   else:
   #     print("!!! SYMBOL NOT FOUND - ", symbol, "  !!! - skipping ..." )
@@ -79,22 +80,23 @@ def test_fn_download_and_sync_db_loop_for_mult_symbols(sa_engine):
 
   # ---------------------------------------------------------------------------------------------------------
   # # this one using wildcards and a specific sql query
-  # #dct_params = {"sympattern_1": "CO%", "sympattern_2": "MS%", "notepattern": "SP500"}
-  # dct_params = {"sympattern_1": "MO%", "sympattern_2": "NO%", "notepattern": "SP500"}
-  # sql_query = """
-  #   select * from tbl_instrument
-  #   where 
-  #   note_1 = :notepattern
-  #   and (symbol like :sympattern_1 or symbol like :sympattern_2)
-  # """
-  # df_symbols= m_udb.fn_run_conn_sqlalchemy_query(sa_engine, sql_query, dct_params)
-  # print("---1 df_symbols---", df_symbols)
-  # df_symbols = df_symbols[["symbol"]]
-  # lst_symbols = df_symbols["symbol"].tolist()
-  # print("---2 lst_symbols---", lst_symbols)
-  # for symbol in lst_symbols:
-  #   print(""); print("---------------------FOR LOOP ------", symbol, "-------------------------------------")
-  #   df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, symbol, pd.DataFrame())  
+  #dct_params = {"sympattern_1": "CO%", "sympattern_2": "MS%", "notepattern": "SP500"}
+  #dct_params = {"sympattern_1": "MO%", "sympattern_2": "NO%", "notepattern": "SP500"}
+  dct_params = {"sympattern_1": "IU%", "sympattern_2": "X%", "notepattern": "%US_TOP_100_BY_AUM%"}
+  sql_query = """
+    select * from tbl_instrument
+    where 
+    note_1 like :notepattern
+    and (symbol like :sympattern_1 or symbol like :sympattern_2)
+  """
+  df_symbols= m_udb.fn_run_conn_sqlalchemy_query(sa_engine, sql_query, dct_params)
+  print("---1 df_symbols---", df_symbols)
+  df_symbols = df_symbols[["symbol"]]
+  lst_symbols = df_symbols["symbol"].tolist()
+  print("---2 lst_symbols---", lst_symbols)
+  for symbol in lst_symbols:
+    print(""); print("---------------------FOR LOOP ------", symbol, "-------------------------------------")
+    df_ohlcv_symbol = m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, symbol, pd.DataFrame())  
 
 
 def main():
@@ -103,14 +105,15 @@ def main():
 
   #os.environ["SSL_CERT_FILE"] = certifi.where()
 
+  session = m_oth.fn_enable_session_for_ssl_certifi()
   my_db_uri = "postgresql://postgres:postgres@localhost:5432/dbs_invest"
   #my_db_uri = "postgresql://postgres:Inesh#2012@localhost:5432/dbs_invest"
   sa_engine = m_udb.fn_create_database_engine_sqlalchemy(my_db_uri)
 
-  #m_yfn.fn_download_data_for_symbol('META', True)
-  #m_yfn.get_stock_info('IBM')
+  m_yfn.fn_download_data_for_symbol('META', True)
+  #m_yfn.get_stock_info('IBM')  # test stock info retrieval
   #test_fn_download_historical_data_for_symbol('AAPL')
-  m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, "SPY", pd.DataFrame())      # for SPY exclusively
+  #m_yfn.fn_sync_price_data_in_table_for_symbol("YFINANCE", sa_engine, "SPY", pd.DataFrame())      # for SPY exclusively
   #test_fn_download_and_sync_db_loop_for_mult_symbols(sa_engine)
 
 # main

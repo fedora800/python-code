@@ -19,7 +19,8 @@
 --------------------------------------------------------------------------------
 
 -- TY01 - typ_asset_type
-\echo "Creating TYPE typ_asset_type"
+\echo "Dropping and Creating TYPE typ_asset_type"
+DROP TYPE IF EXISTS typ_asset_type CASCADE;
 CREATE TYPE typ_asset_type AS ENUM (
   'EQUITY_FUNDS',
   'ETF',
@@ -27,7 +28,8 @@ CREATE TYPE typ_asset_type AS ENUM (
 );
 
 -- TY02 - typ_data_source
-\echo "Creating TYPE typ_data_source"
+\echo "Dropping and Creating TYPE typ_data_source"
+DROP TYPE IF EXISTS typ_data_source CASCADE;
 CREATE TYPE typ_data_source AS ENUM (
   'INVESTING-COM',
   'NSEINDIA-COM',
@@ -41,7 +43,8 @@ CREATE TYPE typ_data_source AS ENUM (
 
 
 -- TY03 - typ_country_code
-\echo "Creating TYPE typ_country_code"
+\echo "Dropping and Creating TYPE typ_country_code"
+DROP TYPE IF EXISTS typ_country_code CASCADE;
 CREATE TYPE typ_country_code AS ENUM (
   'IN',
   'UK',
@@ -51,19 +54,21 @@ CREATE TYPE typ_country_code AS ENUM (
 --------------------------------------------------------------------------------
 
 -- T01 - tbl_exchange
-\echo "Creating TABLE tbl_exchange"
+\echo "Dropping and Creating TABLE tbl_exchange"
+DROP TABLE IF EXISTS tbl_exchange CASCADE;
 CREATE TABLE IF NOT EXISTS tbl_exchange (
   exchange_code TEXT PRIMARY KEY,
   name TEXT NOT NULL,
   country_code typ_country_code DEFAULT 'US' NOT NULL,
-  note_1 TEXT
+  note_1 TEXT DEFAULT NULL
 );
 
 
 -- T02 - tbl_gics_sector
 -- https://en.wikipedia.org/wiki/Global_Industry_Classification_Standard
 -- https://en.wikipedia.org/wiki/List_of_S%26P_500_companies
-\echo "Creating TABLE tbl_gics_sector"
+\echo "Dropping and Creating TABLE tbl_gics_sector"
+DROP TABLE IF EXISTS tbl_gics_sector CASCADE;
 CREATE TABLE IF NOT EXISTS tbl_gics_sector (
   sector_code INTEGER NOT NULL,
   sector_name VARCHAR(255) NOT NULL,
@@ -83,8 +88,10 @@ ADD CONSTRAINT sector_hierarchy_unique
 UNIQUE (sector_code, industry_group_code, industry_code, sub_industry_code);
 */
 
+
 -- T03 - tbl_instrument
-\echo "Creating TABLE tbl_insrument"
+\echo "Dropping and Creating TABLE tbl_insrument"
+DROP TABLE IF EXISTS tbl_instrument CASCADE;
 CREATE TABLE IF NOT EXISTS tbl_instrument (
   ins_id SERIAL PRIMARY KEY,
   symbol TEXT UNIQUE NOT NULL,
@@ -106,7 +113,8 @@ CREATE TABLE IF NOT EXISTS tbl_instrument (
 );
 
 -- T04 - tbl_price_data_1day
-\echo "Creating TABLE tbl_price_data_1day";
+\echo "Dropping and Creating TABLE tbl_price_data_1day";
+DROP TABLE IF EXISTS tbl_price_data_1day CASCADE;
 CREATE TABLE IF NOT EXISTS tbl_price_data_1day (
 --   pd_ins_id INTEGER REFERENCES tbl_instrument (ins_id),
    pd_symbol      TEXT REFERENCES tbl_instrument (symbol),
@@ -131,7 +139,8 @@ CREATE TABLE IF NOT EXISTS tbl_price_data_1day (
 );
 
 -- T05 - tbl_symbol_filters
-\echo "Creating TABLE tbl_symbol_filters"
+\echo "Dropping and Creating TABLE tbl_symbol_filters"
+DROP TABLE IF EXISTS tbl_symbol_filters CASCADE;
 CREATE TABLE IF NOT EXISTS tbl_symbol_filters (
   filter_id SERIAL PRIMARY KEY,
   filter_name TEXT UNIQUE NOT NULL,
@@ -144,16 +153,18 @@ CREATE TABLE IF NOT EXISTS tbl_symbol_filters (
 --------------------------------------------------------------------------------
 
 -- I01 - idx_tbl_price_data_1day_symbol_time -- so will be default criteria on SELECT */
+\echo "Dropping and Creating INDEX idx_tbl_price_data_1day_symbol_time"
+DROP INDEX IF EXISTS idx_tbl_price_data_1day_symbol_time;
 CREATE INDEX idx_tbl_price_data_1day_symbol_time
   ON tbl_price_data_1day (pd_symbol ASC, pd_time ASC);
 
 --------------------------------------------------------------------------------
 
 /* Convert the standard table into a hypertable partitioned on the time column using the create_hypertable() function provided by Timescale. */
-\echo "Creating hypertable for  tbl_price_data_1day"
+\echo "Converting tbl_price_data_1day into a hypertable partitioned on pd_time"
 SELECT create_hypertable('tbl_price_data_1day', 'pd_time');
 
 
-\echo creating table
+\echo "Checking the number of rows in tbl_instrument"
 select count(*) from tbl_instrument;
 

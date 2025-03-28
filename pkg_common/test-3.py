@@ -24,5 +24,5 @@ print("Effective CA Bundle:", requests.get('https://www.howsmyssl.com/a/check').
 
 # Example: Fetching data with the secure session
 ticker = "META"
-data = yf.download(ticker, session=session)
+data = yf.download(ticker)
 print(data)

@@ -1,5 +1,5 @@
 symbol,name,asset_type,data_source,note_1
-SPY,SPDR S&P 500 ETF Trust,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=615.14B; hldgs=504; expratio=0.09%
+#SPY,SPDR S&P 500 ETF Trust,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=615.14B; hldgs=504; expratio=0.09%
 VOO,Vanguard S&P 500 ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=589.30B; hldgs=507; expratio=0.03%
 IVV,iShares Core S&P 500 ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=581.55B; hldgs=507; expratio=0.03%
 VTI,Vanguard Total Stock Market ETF,ETF,STOCKANALYSIS-COM, US_TOP_100_BY_AUM ; aum=455.61B; hldgs=3627; expratio=0.03%

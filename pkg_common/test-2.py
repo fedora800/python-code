@@ -12,7 +12,7 @@ symbol = "AAPL"
 
 # Fetch historical data using the session
 print(f"Downloading data for {symbol} using a secure session...")
-df = yf.download(symbol, start="2023-01-01", end="2024-01-01", rounding=True, session=session, progress=True, auto_adjust=True)    # use the secure session
+df = yf.download(symbol, start="2023-01-01", end="2024-01-01", rounding=True, progress=True, auto_adjust=True)    # use the secure session
 
 # Display basic info
 print(f"Downloaded {len(df)} rows for {symbol}")

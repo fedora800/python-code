@@ -17,7 +17,7 @@ def get_stock_list():
 def get_stock_price(code):
   print('In get_stock_list for ', code, ' ...')
   # you can change the start date
-  data = yf.download(code, start="2022-01-01", rounding=True, session=session, progress=True, auto_adjust=True)
+  data = yf.download(code, start="2022-01-01", rounding=True, progress=True, auto_adjust=True)
   #print('data=', data)
   return data
 
