@@ -19,6 +19,7 @@
 
 -- F01 - fnc_calculate_sma
 -- Create a function to calculate the sma50 
+\echo "Creating FUNCTION fnc_calculate_sma"
 DROP FUNCTION IF EXISTS fnc_calculate_sma() CASCADE;
 CREATE OR REPLACE FUNCTION fnc_calculate_sma()
 RETURNS TRIGGER AS $$
@@ -71,6 +72,7 @@ $$ LANGUAGE plpgsql;
 
 -- F02 - fnc_calculate_ema
 -- Create a function to calculate the ema13
+\echo "Creating FUNCTION fnc_calculate_ema_13"
 CREATE OR REPLACE FUNCTION fnc_calculate_ema_13()
 RETURNS TRIGGER AS $$
 DECLARE
@@ -104,6 +106,7 @@ $$ LANGUAGE plpgsql;
 
 -- F03 - fnc_calculate_rsi
 -- Create a function to calculate the rsi14
+\echo "Creating FUNCTION fnc_calculate_rsi"
 CREATE OR REPLACE FUNCTION fnc_calculate_rsi()
 RETURNS TRIGGER AS $$
 DECLARE
@@ -145,6 +148,7 @@ $$ LANGUAGE plpgsql;
 
 -- TR01 - trg_update_sma
 -- Create a trigger to run the function on INSERT
+\echo "Dropping and Creating TRIGGER trg_update_sma"
 DROP TRIGGER IF EXISTS trg_update_sma ON tbl_price_data_1day CASCADE;
 CREATE TRIGGER trg_update_sma
 BEFORE INSERT ON tbl_price_data_1day
@@ -154,6 +158,8 @@ EXECUTE FUNCTION fnc_calculate_sma();
 
 -- TR02 - trg_update_ema
 -- Create a trigger to run the function on INSERT
+\echo "Dropping and Creating TRIGGER trg_update_ema_13"
+DROP TRIGGER IF EXISTS trg_update_ema_13 ON tbl_price_data_1day CASCADE;
 CREATE TRIGGER trg_update_ema_13
 BEFORE INSERT ON tbl_price_data_1day
 FOR EACH ROW

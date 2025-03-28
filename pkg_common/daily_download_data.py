@@ -37,11 +37,14 @@ def main():
   #sql_query = """select * from tbl_instrument where symbol like :sympattern_1"""
   #sql_query = """select * from viw_instrument_us_sp500_constituents where symbol like :sympattern_1"""
   #dct_params = {"sympattern_1": "[K-O]%"}
-  dct_params = {"sympattern_1": "[P-Z]%"}
-  sql_query = """select * from viw_instrument_us_sp500_constituents where symbol SIMILAR TO :sympattern_1"""
+  #dct_params = {"sympattern_1": "[P-Z]%"}
+  #sql_query = """select * from viw_instrument_us_sp500_constituents where symbol like :sympattern_1"""
+  dct_params = {"sympattern_1": "I%"}
+  sql_query = """select * from viw_instrument_in_us_top100_etfs_by_aum where symbol like :sympattern_1"""
   df_symbols= m_udb.fn_run_conn_sqlalchemy_query(sa_engine, sql_query, dct_params)
   df_symbols = df_symbols[["symbol"]]
   lst_symbols = df_symbols["symbol"].tolist()
+  symbol_count = len(lst_symbols)
   logger.info("lst_symbols = {}", lst_symbols)
 
   # batch download data for multiple symbols in a single request
@@ -49,8 +52,9 @@ def main():
   df_prices_mult_symbols = m_yfn.fn_get_historical_data_multiple_symbols_single_request(lst_symbols, start_date)
   print(df_prices_mult_symbols.head())  # Display the first few rows
   df_prices_symbol = {}     # Dictionary to store individual DataFrames
-  for symbol in lst_symbols:
-    print(""); print(f"--------------------- lst_symbols : FOR LOOP ------{symbol}-------------------------------------")
+  #for symbol in lst_symbols:
+  for idx, symbol in enumerate(lst_symbols, start=1):     # loop with index and start index at 1
+    print(""); print(f"------------- lst_symbols : FOR LOOP ({idx} of {symbol_count}) ------{symbol}------------------------")
     df_ohlcv_symbol = df_prices_mult_symbols[symbol].copy()    # Extract data for a single symbol
     print("df_ohlcv_symbol = ", df_ohlcv_symbol.head())
     print("Head for ", symbol, " df_ohlcv_symbol = ", df_ohlcv_symbol.head())

@@ -176,7 +176,7 @@ WITH tmp_latest_30_days_data AS (
       v_UK.name,
       v_UK.exchange_code,
       v_UK.asset_type,
-      v_UK.sector,
+      v_UK.sector_code,
       ROW_NUMBER() OVER (
         PARTITION BY pd_symbol
         ORDER BY pd_time DESC
@@ -189,7 +189,7 @@ SELECT symbol,
   name,
   exchange_code,
   asset_type,
-  sector,
+  sector_code,
   AVG(volume) AS avg_volume_over_last_30_days
 FROM tmp_latest_30_days_data
 WHERE row_num <= 5
@@ -197,7 +197,7 @@ GROUP BY symbol,
   name,
   exchange_code,
   asset_type,
-  sector
+  sector_code
 HAVING AVG(volume) > 50000
 ORDER BY symbol
 LIMIT 50;
@@ -215,7 +215,7 @@ WITH tmp_latest_30_days_data AS (
       v_US.name,
       v_US.exchange_code,
       v_US.asset_type,
-      v_US.sector,
+      v_US.sector_code,
       ROW_NUMBER() OVER (
         PARTITION BY pd_symbol
         ORDER BY pd_time DESC
@@ -228,7 +228,7 @@ SELECT symbol,
   name,
   exchange_code,
   asset_type,
-  sector,
+  sector_code,
   AVG(volume) AS avg_volume_over_last_30_days
 FROM tmp_latest_30_days_data
 WHERE row_num <= 5
@@ -236,7 +236,7 @@ GROUP BY symbol,
   name,
   exchange_code,
   asset_type,
-  sector
+  sector_code
 HAVING AVG(volume) > 50000
 ORDER BY AVG(volume) DESC
 LIMIT 50;

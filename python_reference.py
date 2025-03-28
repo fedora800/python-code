@@ -908,6 +908,21 @@ def fn_son():
 print("--starting main---")
 fn_grandfather()
 
+def fn_inspect_code
+  import inspect
+  import yfinance as yf
+
+  # inspect.getsource gives us the code snippet of the code being called, output like below - 
+  #   @utils.log_indent_decorator
+  #    def history(self, *args, **kwargs) -> pd.DataFrame:
+  #       return self._lazy_load_price_history().history(*args, **kwargs)
+  print(inspect.getsource(yf.Ticker("AAPL").history))
+
+  # help() is a python function that provides help on (my local or pkg module) function that we are calling, output will be like below - 
+  #   Help on method history in module yfinance.base:
+  #   history(*args, **kwargs) -> pandas.core.frame.DataFrame method of yfinance.ticker.Ticker instance
+  help(yf.Ticker("AAPL").history)
+
 ---
 
 

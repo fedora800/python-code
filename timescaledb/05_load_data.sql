@@ -19,7 +19,7 @@
 
 -- L01 - tbl_exchange_data
 \echo "Loading into table tbl_exchange"
-\copy tbl_exchange FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_exchange_data.csv' DELIMITER ',' CSV HEADER;
+\copy tbl_exchange FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_exchange_data.csv' DELIMITER ',' CSV HEADER NULL AS 'NULL';
 
 -- L02 - tbl_gics_sector
 \echo "Loading into table tbl_gics_sector"

@@ -84,6 +84,7 @@ def fn_download_historical_data_for_one_symbol(data_venue: str, symbol: str, sta
 
   Returns:
   Any: pandas dataframe
+  None: if an error occurred
 
   Example:
   >>> fn_download_historical_data_for_one_symbol("YFINANCE", "AAPL", datetime(2022, 1, 1), datetime(2022, 12, 31), False, False)
@@ -432,6 +433,7 @@ def fn_sync_price_data_in_table_for_symbol(data_venue: str, dbconn, symbol: str,
       else:
         df_downloaded_missing_price_data = fn_download_historical_data_for_one_symbol('YFINANCE', symbol, dt_start_date, dt_end_date, False, False)
         if df_downloaded_missing_price_data is None:
+          logger.debug("df_downloaded_missing_price_data is None. So returning None df")
           return None
       logger.debug("---sync---01-----", df_downloaded_missing_price_data.head)
       df_downloaded_missing_price_data = m_oth.fn_modify_dataframe_per_our_requirements(symbol, df_downloaded_missing_price_data)

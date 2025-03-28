@@ -1,4 +1,5 @@
 sector_code, sector_name, industry_group_code, industry_group_name, industry_code, industry_name, sub_industry_code, sub_industry_name
+-99,Unknown,-99,Unknown,-99,Unknown,-99,Unknown
 10,Energy,1010,Energy,101010,Energy Equipment & Services,10101010,Oil & Gas Drilling
 10,Energy,1010,Energy,101010,Energy Equipment & Services,10101020,Oil & Gas Equipment & Services
 10,Energy,1010,Energy,101020,"Oil, Gas & Consumable Fuels",10102010,Integrated Oil & Gas
