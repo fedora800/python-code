@@ -1,0 +1,830 @@
+Invesco FTSE All‑World ][ FWRG ][ Global companies ][ TER 0.15% ][ Accumulating
+Amundi Smart Overnight Return GBP Hedged ][ CSH2 ][ Money market fund ][ TER 0.05% ][ Accumulating
+Vanguard FTSE All‑World ][ VWRP ][ Global companies ][ TER 0.19% ][ Accumulating
+Vanguard S&P 500 ][ VUAG ][ Large US companies ][ TER 0.07% ][ Accumulating
+SPDR MSCI ACWI ][ ACWI ][ Global companies ][ TER 0.12% ][ Accumulating
+Vanguard FTSE Developed World ][ VHVG ][ Developed market companies ][ TER 0.12% ][ Accumulating
+iShares Ultra‑Short Bonds ][ ERNS ][ Global bonds ][ TER 0.09% ][ Yield 5.07%
+SPDR S&P 500 ][ SPXL ][ Large US companies ][ TER 0.03% ][ Accumulating
+Vanguard FTSE Emerging Markets ][ VFEG ][ Emerging markets companies ][ TER 0.17% ][ Accumulating
+Invesco Nasdaq 100 ][ EQQQ ][ US technology companies ][ TER 0.30% ][ Yield 0.29%
+Amundi Prime All Country World ][ PACW ][ Global Companies ][ TER 0.07% ][ Yield 1.16%
+Vanguard Global Aggregate Bond ][ VAGS ][ Global bonds ][ TER 0.08% ][ Accumulating
+ARK Artificial Intelligence And Robotics ][ ARCI ][ Automation and robotics ][ TER 0.75% ][ Accumulating
+UBS MSCI World ][ WRDA ][ Global Companies ][ TER 0.06% ][ Accumulating
+Vanguard FTSE All‑World High Dividend Yield ][ VHYL ][ High dividend global companies ][ TER 0.29% ][ Yield 2.76%
+iShares MSCI Emerging Markets IMI ][ EMIM ][ Emerging markets companies ][ TER 0.18% ][ Accumulating
+Xtrackers MSCI World ex USA ][ XMWX ][ Global companies ][ TER 0.15% ][ Accumulating
+Vanguard FTSE 100 ][ VUKG ][ Large UK companies ][ TER 0.09% ][ Accumulating
+iShares Core MSCI World ][ SWDA ][ Global companies ][ TER 0.20% ][ Accumulating
+VanEck Morningstar Developed Market Dividend Leaders ][ TDGB ][ High dividend developed markets companies ][ TER 0.38% ][ Yield 3.64%
+iShares FTSE 100 ][ CUKX ][ Large UK companies ][ TER 0.07% ][ Accumulating
+Vanguard FTSE Developed World ][ VEVE ][ Developed market companies ][ TER 0.12% ][ Yield 1.37%
+iShares MSCI World ex‑USA ][ XUSE ][ Global companies ][ TER 0.15% ][ Accumulating
+iShares S&P 500 Information Technology ][ IITU ][ US technology companies ][ TER 0.15% ][ Accumulating
+Vanguard FTSE All‑World ][ VWRL ][ Global companies ][ TER 0.19% ][ Yield 1.34%
+Vanguard FTSE All‑World High Dividend Yield ][ VHYG ][ High dividend global companies ][ TER 0.29% ][ Accumulating
+Xtrackers Nasdaq 100 ][ XNAQ ][ US technology companies ][ TER 0.20% ][ Accumulating
+Global X NASDAQ 100 Covered Call ][ QYLP ][ US technology companies ][ TER 0.45% ][ Yield 11.81%
+iShares Gold Producers ][ SPGP ][ Gold mining companies ][ TER 0.55% ][ Accumulating
+Vanguard FTSE Developed Europe Ex‑UK ][ VERG ][ Large European companies ][ TER 0.10% ][ Accumulating
+Amundi Stoxx Europe 600 ][ MEUD ][ Large European companies ][ TER 0.07% ][ Accumulating
+Invesco Nasdaq 100 ][ EQGB ][ US technology companies ][ TER 0.35% ][ Accumulating
+L&G Global Equity ][ LGGG ][ Global companies ][ TER 0.10% ][ Accumulating
+VanEck Uranium and Nuclear Technologies ][ NUCG ][ Energy Technology Companies ][ TER 0.55%
+Invesco Technology S&P US Select Sector ][ XLKQ ][ US technology companies ][ TER 0.14% ][ Accumulating
+VanEck Vectors Semiconductor ][ SMGB ][ Semiconductor companies ][ TER 0.35% ][ Accumulating
+VanEck Quantum Computing ][ QNTG ][ Global technology companies ][ TER 0.55% ][ Accumulating
+Vanguard ESG Global All Cap ][ V3AB ][ Global companies ][ TER 0.24% ][ Accumulating
+UBS MSCI World Socially Responsible ][ SRIW ][ Global companies ][ TER 0.19% ][ Yield 1.24%
+J.P. Morgan GBP Ultra‑Short Income ][ JGST ][ UK bonds ][ TER 0.18% ][ Yield 4.50%
+iShares MSCI World Small Cap ][ WLDS ][ Global small companies ][ TER 0.35% ][ Accumulating
+Vanguard FTSE Emerging Markets ][ VFEM ][ Emerging markets companies ][ TER 0.17% ][ Yield 2.14%
+L&G Artificial Intelligence ][ AIAG ][ AI companies ][ TER 0.49% ][ Accumulating
+Xtrackers MSCI World Value ][ XDEV ][ Undervalued global companies ][ TER 0.25% ][ Accumulating
+Invesco FTSE All‑World ][ FTWG ][ Global companies ][ TER 0.15% ][ Yield 1.34%
+Xtrackers GBP Overnight Rate Swap ][ XSTR ][ Money market fund ][ TER 0.10% ][ Yield 4.61%
+Avantis Global Small Cap Value ][ AVSG ][ Global small companies ][ TER 0.39% ][ Accumulating
+Invesco FTSE RAFI All World 3000 ][ PSRW ][ Global companies ][ TER 0.39% ][ Yield 1.99%
+Vanguard FTSE Japan ][ VJPB ][ Japanese companies ][ TER 0.10% ][ Accumulating
+Vanguard Global Aggregate Bonds ][ VAGP ][ Global bonds ][ TER 0.08% ][ Yield 3.14%
+Invesco Defence Innovation ][ DFNX ][ Defence companies ][ TER 0.35% ][ Accumulating
+Global X Blockchain ][ BKCG ][ Cryptocurrency companies ][ TER 0.50% ][ Accumulating
+iShares NASDAQ 100 ][ CNX1 ][ US technology companies ][ TER 0.30% ][ Accumulating
+iShares Edge MSCI World Value Factor ][ IWFV ][ Undervalued global companies ][ TER 0.25% ][ Accumulating
+Vanguard Global Government Bond ][ VGGS ][ Global government bonds ][ TER 0.10% ][ Accumulating
+VanEck Rare Earth and Strategic Metals ][ REGB ][ Metals companies ][ TER 0.59% ][ Accumulating
+Global X Uranium ][ URNG ][ Uranium companies ][ TER 0.65% ][ Accumulating
+iShares Blockchain Technology ][ BLKC ][ Blockchain Companies ][ TER 0.50% ][ Accumulating
+VanEck Gold Miners ][ GDGB ][ Gold mining companies ][ TER 0.53% ][ Accumulating
+Global X Defence Tech ][ ARMG ][ Defence Companies ][ TER 0.50% ][ Accumulating
+J.P. Morgan Global Equity Premium Income ][ JEGP ][ High dividend global companies ][ TER 0.35% ][ Yield 8.03%
+iShares World Equity High Income ][ WINC ][ Global dividend companies ][ TER 0.35% ][ Yield 9.54%
+Global X Silver Miners ][ SILG ][ Silver mining companies ][ TER 0.65% ][ Accumulating
+L&G Asia Pacific ex‑Japan Equity ][ LGAG ][ Asia ex‑Japan companies ][ TER 0.10% ][ Accumulating
+iShares MSCI Global Semiconductors ][ SEMI ][ Global semicondutors companies ][ TER 0.35% ][ Accumulating
+HSBC MSCI Emerging Markets ][ HMEF ][ Emerging markets companies ][ TER 0.15% ][ Yield 1.95%
+PIMCO US Short‑Term High Yield Corporate Bond ][ SSHY ][ Global corporate bonds ][ TER 0.55% ][ Yield 7.33%
+WisdomTree Blockchain ][ BKCN ][ Cryptocurrency companies ][ TER 0.45% ][ Accumulating
+ARK Genomic Revolution ][ ARCG ][ Large biotech companies ][ TER 0.75% ][ Accumulating
+Xtrackers Artificial Intelligence & Big Data ][ XAIX ][ Global companies ][ TER 0.35% ][ Accumulating
+Amundi S&P 500 II ][ SP5G ][ American companies ][ TER 0.05% ][ Yield 1.11%
+iShares S&P 500 Equal Weight ][ EWSP ][ American Companies ][ TER 0.15% ][ Accumulating
+Vanguard FTSE Developed Europe ][ VEUA ][ Large European companies ][ TER 0.10% ][ Accumulating
+iShares Index‑Linked Gilts ][ INXG ][ UK inflation‑linked government bonds ][ TER 0.10% ][ Yield 7.16%
+iShares S&P 500 ][ CSP1 ][ Large US companies ][ TER 0.07% ][ Accumulating
+iShares Ultrashort Bond ESG ][ UESD ][ Global bonds ][ TER 0.09% ][ Yield 4.98%
+UBS Emerging Markets Sovereign Bonds ][ SBEG ][ Emerging markets government bonds ][ TER 0.28% ][ Yield 9.58%
+L&G UK Equity ][ LGUK ][ Large UK companies ][ TER 0.05% ][ Accumulating
+Amundi MSCI Emerging Markets II ][ E127 ][ Emerging Markets Companies ][ TER 0.14% ][ Yield 2.67%
+Xtrackers MSCI Emerging Markets ][ XMMS ][ Emerging Markets Companies ][ TER 0.18% ][ Accumulating
+Vanguard UK Gilt ][ VGOV ][ UK government bonds ][ TER 0.05% ][ Yield 4.04%
+HSBC MSCI World Islamic ESG ][ HIWS ][ Global Companies ][ TER 0.30% ][ Accumulating
+VanEck Space Innovators ][ JEDG ][ Global technology companies ][ TER 0.55% ][ Accumulating
+Amundi Prime Global ][ MWOZ ][ Global Companies ][ TER 0.05% ][ Yield 1.55%
+Future of Defence ][ NATP ][ Defence companies ][ TER 0.49% ][ Accumulating
+iShares UK Dividend ][ IUKD ][ High dividend UK companies ][ TER 0.40% ][ Yield 4.93%
+Invesco MSCI World Equal Weight ][ MWEP ][ Global Companies ][ TER 0.20% ][ Accumulating
+SPDR S&P 500 ][ SPX5 ][ Large US companies ][ TER 0.03% ][ Yield 0.97%
+Amundi Core UK Equity All Cap ][ LCUK ][ UK companies ][ TER 0.04% ][ Yield 3.13%
+iShares MSCI All Country World Index ][ SSAC ][ Global companies ][ TER 0.20% ][ Accumulating
+L&G Clean Energy ][ RENG ][ Clean energy companies ][ TER 0.49% ][ Accumulating
+UBS MSCI World ][ WRDD ][ Global Companies ][ TER 0.06% ][ Yield 1.52%
+Franklin FTSE China ][ FRCH ][ Emerging Market Companies ][ TER 0.19% ][ Accumulating
+Invesco CoinShares Global Blockchain ][ BCHS ][ Cryptocurrency companies ][ TER 0.65% ][ Accumulating
+iShares UK Gilts ][ 0 – 5 Years ][ IGLS ][ UK government bonds ][ TER 0.07% ][ Yield 3.89%
+WisdomTree Artificial Intelligence ][ INTL ][ AI companies ][ TER 0.40% ][ Accumulating
+iShares Automation and Robotics ][ RBTX ][ Automation and robotics ][ TER 0.40% ][ Accumulating
+WisdomTree Europe Equity Income ][ EEI ][ Large European companies ][ TER 0.29% ][ Yield 5.34%
+Invesco Artificial Intelligence Enablers ][ IAIX ][ Automation and robotics ][ TER 0.35% ][ Accumulating
+HSBC MSCI World ][ HMWS ][ Global Companies ][ TER 0.15% ][ Accumulating
+Vanguard FTSE Developed Asia Pacific Ex‑Japan ][ VDPG ][ Asia ex‑Japan companies ][ TER 0.15% ][ Accumulating
+Amundi Prime Europe ][ PRIE ][ Large European companies ][ TER 0.05% ][ Yield 2.35%
+Pimco UK Short‑maturity Bonds ][ QUID ][ UK bonds ][ TER 0.19% ][ Yield 4.22%
+L&G Battery Value‑Chain ][ BATG ][ Battery tech companies ][ TER 0.49% ][ Accumulating
+Invesco S&P 500 ][ G500 ][ Large US companies ][ TER 0.05% ][ Accumulating
+VanEck Vectors Junior Gold Miners ][ GJGB ][ Gold mining companies ][ TER 0.55% ][ Accumulating
+Vanguard FTSE 100 ][ VUKE ][ Large UK companies ][ TER 0.09% ][ Yield 3.12%
+Global X S&P 500 Covered Call ][ XYLP ][ American companies ][ TER 0.45% ][ Yield 10.60%
+Global X SuperDividend ][ SDIP ][ High dividend Global companies ][ TER 0.45% ][ Yield 9.47%
+iShares MSCI Emerging Markets ][ SEMA ][ Emerging markets companies ][ TER 0.18% ][ Accumulating
+Amundi UK Government Bond ][ GILS ][ UK government bonds ][ TER 0.05% ][ Yield 2.63%
+Vanguard ESG Global All Cap ][ V3AM ][ Global companies ][ TER 0.24% ][ Yield 1.11%
+Global X Copper Miners ][ COPG ][ Mining companies ][ TER 0.55% ][ Accumulating
+Amundi MSCI Emerging Ex China ][ EMXN ][ Emerging Market Companies ][ TER 0.15% ][ Accumulating
+WisdomTree Europe Defence ][ WDEP ][ European Defence Companies ][ TER 0.40% ][ Accumulating
+WisdomTree Renewable Energy ][ WREN ][ Renewable energy companies ][ TER 0.45% ][ Accumulating
+iShares MSCI World Islamic ][ ISWD ][ Global companies ][ TER 0.30% ][ Yield 1.09%
+Vanguard USD Corporate Bonds ][ VUCP ][ US corporate bonds ][ TER 0.07% ][ Yield 4.76%
+SPDR S&P Global Dividend Aristocrats ][ GBDV ][ High dividend global companies ][ TER 0.45% ][ Yield 4.12%
+Vanguard U.K. Gilts ][ VGVA ][ UK government bonds ][ TER 0.05% ][ Accumulating
+iShares MSCI Emerging Markets Asia ][ CEA1 ][ Emerging markets companies ][ TER 0.20% ][ Accumulating
+Vanguard Eurozone Government Bonds ][ VETA ][ European government bonds ][ TER 0.07% ][ Accumulating
+iShares Edge MSCI World Value Factor ][ IWVG ][ Undervalued global companies ][ TER 0.25% ][ Yield 2.36%
+iShares S&P 500 Healthcare Sector ][ IHCU ][ US healthcare companies ][ TER 0.15% ][ Accumulating
+First Trust Nasdaq Clean Edge Smart Grid Infrastructure ][ FGRD ][ Global Companies ][ TER 0.63% ][ Accumulating
+Invesco FTSE 100 ][ S100 ][ Large UK companies ][ TER 0.09% ][ Accumulating
+L&G UK Quality Dividends Equal Weight ][ LDUK ][ High quality UK companies ][ TER 0.25% ][ Yield 4.96%
+iShares MSCI World Health Care Sector ESG ][ WHCA ][ Global Companies ][ TER 0.18% ][ Accumulating
+iShares UK Corporate Bonds ][ 0 – 5 Years ][ IS15 ][ UK corporate bonds ][ TER 0.20% ][ Yield 4.35%
+Invesco EURO STOXX 50 ][ SX5S ][ European Companies ][ TER 0.05% ][ Accumulating
+Vanguard USD Treasury Bonds ][ VUTY ][ US government bonds ][ TER 0.05% ][ Yield 3.93%
+Amundi Euro Stoxx Banks ][ BNKE ][ European Banks ][ TER 0.30% ][ Accumulating
+HSBC FTSE 100 ][ HUKX ][ Large UK companies ][ TER 0.07% ][ Yield 3.03%
+Global X Lithium and Battery Tech ][ LITG ][ Battery tech companies ][ TER 0.60% ][ Accumulating
+WisdomTree Battery Solutions ][ CHRG ][ Battery tech companies ][ TER 0.40% ][ Accumulating
+SPDR MSCI World Value ][ VALW ][ Undervalued global companies ][ TER 0.25% ][ Accumulating
+iShares Global Aggregate Bond ][ AGBP ][ Global bonds ][ TER 0.10% ][ Yield 3.00%
+iShares MSCI UK ][ CSUK ][ Large UK companies ][ TER 0.33% ][ Accumulating
+iShares UK Gilts ][ 0 – 5 ][ yr ][ IGL5 ][ UK government bonds ][ TER 0.07% ][ Accumulating
+HSBC Euro STOXX 50 ][ H50E ][ Large European companies ][ TER 0.05% ][ Yield 2.45%
+Xtrackers MSCI World Information Technology ][ XXTW ][ Global technology companies ][ TER 0.25% ][ Accumulating
+Gold Miners Screened ][ ESGP ][ Gold mining companies ][ TER 0.60% ][ Accumulating
+Xtrackers MSCI USA Consumer Staples ][ XSCS ][ US staples companies ][ TER 0.12% ][ Yield 2.03%
+Vanguard FTSE North America ][ VNRG ][ Large US companies ][ TER 0.08% ][ Accumulating
+WisdomTree Megatrends ][ WMGG ][ Global companies ][ TER 0.50% ][ Accumulating
+SPDR Bloomberg Barclays 15+ Year Gilt ][ GLTL ][ UK government bonds ][ TER 0.15% ][ Yield 4.81%
+iShares MSCI EM ex‑China ][ EXCS ][ Emerging markets ex‑China companies ][ TER 0.18% ][ Accumulating
+JPMorgan EUR Ultra‑Short Income ][ JSET ][ Short Duration Bonds ][ TER 0.18% ][ Accumulating
+Vanguard FTSE Developed Europe ][ VEUR ][ Large European companies ][ TER 0.10% ][ Yield 2.71%
+iShares S&P 500 Top 20 ][ SP20 ][ American Companies ][ TER 0.20% ][ Accumulating
+J.P. Morgan BetaBuilders EUR Govenment Bond ][ 1 – 3 Years ][ J13E ][ European government bonds ][ TER 0.10% ][ Accumulating
+L&G All Commodities ][ BCOG ][ Commodities ][ TER 0.15% ][ Accumulating
+Amundi Prime Japan ][ PRIJ ][ Japanese companies ][ TER 0.05% ][ Yield 1.57%
+Invesco Euro STOXX High Dividend Low Volatility ][ EUHD ][ European high dividend companies ][ TER 0.30% ][ Yield 4.83%
+Amundi S&P Eurozone PAB Net Zero Ambition ][ PABG ][ European Companies ][ TER 0.20% ][ Accumulating
+UBS Core MSCI Europe ][ UB12 ][ European companies ][ TER 0.06% ][ Yield 2.46%
+HSBC MSCI World Climate Paris Aligned ][ HPAO ][ Global companies ][ TER 0.18% ][ Accumulating
+HSBC UK Sustainable Equity ][ HSUK ][ Large UK companies ][ TER 0.12% ][ Accumulating
+Vanguard FTSE 250 ][ VMIG ][ Mid‑size UK companies ][ TER 0.10% ][ Accumulating
+SPDR MSCI World Small Cap ][ WOSC ][ Global small companies ][ TER 0.45% ][ Accumulating
+iShares MSCI Europe Energy Sector ][ ESIE ][ European energy companies ][ TER 0.18% ][ Accumulating
+iShares Digital Security ][ SHLG ][ Digital‑tech companies ][ TER 0.40% ][ Yield 0.35%
+Invesco FTSE RAFI UK 100 ][ PSRU ][ Large UK companies ][ TER 0.39% ][ Yield 3.25%
+iShares Russell 1000 Growth ][ R1GB ][ US companies ][ TER 0.18%
+SPDR UK Dividend Aristocrats ][ UKDV ][ High dividend UK companies ][ TER 0.30% ][ Yield 3.75%
+VanEck Global Mining ][ GIGB ][ Mining companies ][ TER 0.50% ][ Accumulating
+JPMorgan Nasdaq Equity Premium Income ][ JEQP ][ High dividend American companies ][ TER 0.35% ][ Yield 9.34%
+iShares Global Infrastructure ][ INFR ][ Infrastructure companies ][ TER 0.65% ][ Yield 2.22%
+Xtrackers Russell 2000 ][ XRSG ][ Small US companies ][ TER 0.30% ][ Accumulating
+SPDR FTSE UK All Share ][ FTAL ][ Large UK companies ][ TER 0.20% ][ Accumulating
+Amundi IBEX 35 ][ CS1 ][ Spanish companies ][ TER 0.30% ][ Accumulating
+HSBC Hang Seng Tech ][ HSTC ][ Chinese technology companies ][ TER 0.50% ][ Accumulating
+HSBC MSCI Emerging Markets Islamic ESG ][ HIES ][ Emerging Market Companies ][ TER 0.35% ][ Accumulating
+iShares MSCI World ESG Enhanced ][ EEWG ][ Global companies ][ TER 0.20% ][ Yield 1.16%
+Amundi Global Hydrogen ESG Screened ][ ANRJ ][ European energy companies ][ TER 0.45% ][ Accumulating
+iShares MSCI USA Value ][ IUVF ][ Undervalued US companies ][ TER 0.20% ][ Accumulating
+iShares Corporate Bond ][ SLXX ][ Global corporate bonds ][ TER 0.20% ][ Yield 4.79%
+iShares Edge MSCI World Minimum Volatility ][ WMVG ][ Low volatility companies ][ TER 0.35% ][ Accumulating
+J.P. Morgan EUR ][ 1 – 5 yr IG ][ Corporate Bond ][ J15R ][ European corporate bonds ][ TER 0.04% ][ Accumulating
+iShares MSCI Europe Ex‑UK ][ IEUX ][ Large European companies ][ TER 0.40% ][ Yield 2.08%
+SPDR S&P Euro Dividend Aristocrats ][ EUDV ][ High dividend European companies ][ TER 0.30% ][ Yield 4.07%
+iShares Euro Dividend ][ IDVY ][ High dividend European companies ][ TER 0.40% ][ Yield 4.34%
+J.P. Morgan Global Emerging Markets Research Enhanced Index Equity ][ JMRE ][ Emerging markets companies ][ TER 0.30% ][ Accumulating
+Amundi MSCI Emerging Markets SRI ][ MSRG ][ Emerging Market Companies ][ TER 0.25% ][ Accumulating
+Global X Robotics and Artificial Intelligence ][ BOTG ][ Automation and robotics ][ TER 0.50% ][ Yield 0.22%
+Xtrackers MSCI World Consumer Staples ][ XWCS ][ Global consumer staples companies ][ TER 0.25% ][ Accumulating
+Invesco Solar Energy ][ RAYS ][ Solar energy companies ][ TER 0.69% ][ Accumulating
+Sprott Pure Play Copper Miners ][ COPP ][ Copper mining companies ][ TER 0.59% ][ Accumulating
+Xtrackers Nikkei 225 ][ XDJP ][ Japanese companies ][ TER 0.09% ][ Yield 1.29%
+iShares USD Treasury Bonds ][ 7 – 10 Years ][ IBTM ][ US government bonds ][ TER 0.07% ][ Yield 4.14%
+iShares Global Clean Energy ][ INRG ][ Clean energy companies ][ TER 0.65% ][ Yield 1.27%
+UBS Core MSCI World ][ WRDG ][ Global companies ][ TER 0.09% ][ Yield 1.50%
+Invesco US Treasury Bond ][ 3 – 7 Year ][ TR7G ][ US government bonds ][ TER 0.06% ][ Yield 4.16%
+Vanguard USD Treasury Bonds ][ VUTA ][ US government bonds ][ TER 0.05% ][ Accumulating
+iShares USD Ultra‑Short Bonds ][ ERNU ][ US bonds ][ TER 0.09% ][ Yield 5.28%
+SPDR S&P 500 Leaders ][ SPPY ][ Large US companies ][ TER 0.03% ][ Accumulating
+Invesco STOXX Europe 600 Optimised Banks ][ X7PP ][ European banks ][ TER 0.20% ][ Accumulating
+iShares US Inflation‑linked Bonds ][ 0 – 5 Years ][ TP05 ][ Inflation‑linked bonds ][ TER 0.10% ][ Yield 5.69%
+Vanguard USD Corporate ][ 1 – 3 Year Bond ][ VUSC ][ US corporate bonds ][ TER 0.09% ][ Yield 4.49%
+Invesco S&P 500 QVM ][ PQVG ][ American companies ][ TER 0.35% ][ Yield 0.78%
+Invesco FTSE Emerging Markets High Dividend Low Volatility ][ HDEM ][ High Dividend Emerging Market companies ][ TER 0.49% ][ Yield 5.15%
+Amundi MSCI Semiconductors ESG Filtered ][ SEMG ][ Semiconductor companies ][ TER 0.35% ][ Accumulating
+iShares FTSE 100 ][ ISF ][ Large UK companies ][ TER 0.07% ][ Yield 2.97%
+iShares US Treasury Bonds ][ 1 – 3 Years ][ IBTS ][ US government bonds ][ TER 0.07% ][ Yield 4.21%
+iShares S&P 500 Energy Sector ][ IESU ][ US energy companies ][ TER 0.15% ][ Accumulating
+iShares MSCI Europe Industrials Sector ][ ESIN ][ European industrial companies ][ TER 0.18% ][ Accumulating
+iShares MSCI EM IMI ESG Screened ][ SEGM ][ Emerging markets companies ][ TER 0.18% ][ Accumulating
+SPDR Europe Value ][ EVAL ][ Undervalued European companies ][ TER 0.20% ][ Accumulating
+HSBC Emerging Market Sustainable Equity ][ HSEF ][ Emerging markets companies ][ TER 0.18% ][ Accumulating
+iShares MSCI Japan ][ IJPH ][ Japanese companies ][ TER 0.64% ][ Accumulating
+iShares MSCI World ESG Enhanced ][ EGMW ][ Global companies ][ TER 0.20% ][ Accumulating
+L&G Healthcare Technology & Innovation ][ DOCG ][ Global healthcare companies ][ TER 0.49% ][ Accumulating
+iShares MSCI World Information Technology Sector ESG ][ WITS ][ Global technology companies ][ TER 0.18% ][ Yield 0.31%
+HSBC MSCI China ][ HMCH ][ Large Chinese companies ][ TER 0.28% ][ Yield 2.22%
+Avantis Global Equity ][ AVCG ][ Global Companies ][ TER 0.22% ][ Accumulating
+L&G Europe ex‑UK Quality Dividends Equal Weight ][ LDEG ][ High quality European companies ][ TER 0.25% ][ Yield 3.52%
+HSBC MSCI China A ][ HMCA ][ Large Chinese companies ][ TER 0.30% ][ Yield 1.70%
+Invesco S&P 500 Equal Weight ][ SPES ][ Global companies ][ TER 0.20% ][ Yield 1.33%
+Invesco Nasdaq Next Generation 100 ][ EQJS ][ US technology companies ][ TER 0.25% ][ Accumulating
+iShares Global Corporate Bond ][ CRPS ][ Global corporate bonds ][ TER 0.20% ][ Yield 4.12%
+iShares MSCI Europe Quality Dividend ][ EQDS ][ High quality European companies ][ TER 0.28% ][ Yield 2.84%
+L&G Cyber Security ][ ISPY ][ Cybersecurity companies ][ TER 0.69% ][ Accumulating
+iShares US Property Yield ][ IUSP ][ US property companies ][ TER 0.40% ][ Yield 3.22%
+Xtrackers STOXX Global Select Dividend 100 Swap ][ XGSD ][ Global dividend companies ][ TER 0.50% ][ Yield 3.36%
+iShares Global Government Bond ][ IGLH ][ Global government bonds ][ TER 0.25% ][ Yield 2.80%
+Amundi Core MSCI World ][ MWRL ][ Global companies ][ TER 0.12% ][ Accumulating
+WisdomTree Cybersecurity ][ CYSE ][ Cybersecurity companies ][ TER 0.45% ][ Accumulating
+iShares MSCI World ][ IWRD ][ Global companies ][ TER 0.50% ][ Yield 0.94%
+iShares Digitalisation ][ DGIT ][ Digital‑tech companies ][ TER 0.40% ][ Accumulating
+Xtrackers MSCI Europe Small Cap ][ XXSC ][ European companies ][ TER 0.30% ][ Accumulating
+Invesco Global Clean Energy ][ GCLX ][ Clean energy companies ][ TER 0.60% ][ Accumulating
+Amundi MSCI Pacific Ex Japan ][ PAXG ][ Asia ex‑Japan companies ][ TER 0.12% ][ Yield 5.20%
+HSBC Developed World Sustainable Equity ][ HSWO ][ Developed market companies ][ TER 0.18% ][ Accumulating
+UBS US Liquid Corporate Bonds ][ 1 – 5 Years ][ UC82 ][ US corporate bonds ][ TER 0.19% ][ Yield 6.81%
+iShares MSCI Emerging Markets ESG Enhanced ][ EDG2 ][ Emerging markets companies ][ TER 0.18% ][ Accumulating
+Invesco MSCI Emerging Markets ][ MXFP ][ Emerging markets companies ][ TER 0.19% ][ Accumulating
+Amundi MSCI Korea ][ KRWL ][ Korean companies ][ TER 0.45% ][ Accumulating
+Invesco MSCI Emerging Markets ESG Universal Screened ][ ESES ][ Emerging markets companies ][ TER 0.19% ][ Accumulating
+Invesco Corporate Bonds ][ IGCB ][ Global corporate bonds ][ TER 0.10% ][ Yield 5.19%
+L&G Pharma Breakthrough ][ BIGT ][ Pharmaceutical companies ][ TER 0.49% ][ Accumulating
+Amundi Index MSCI Europe ][ CE2D ][ Large European companies ][ TER 0.12% ][ Yield 2.31%
+Invesco Bloomberg Commodity ][ CMOP ][ Commodities ][ TER 0.19% ][ Accumulating
+VanEck Global Real Estate ][ TREG ][ Global real estate companies ][ TER 0.25% ][ Yield 3.52%
+iShares Core MSCI Europe ][ IMEU ][ Large European companies ][ TER 0.12% ][ Yield 2.50%
+L&G UK Gilt ][ 0 – 5 Year ][ UKG5 ][ UK government bonds ][ TER 0.06% ][ Yield 3.89%
+Invesco S&P 500 ESG ][ SPEP ][ Large US companies ][ TER 0.09% ][ Accumulating
+WisdomTree Enhanced Commodity ][ WCOG ][ Commodities ][ TER 0.35% ][ Yield 4.61%
+iShares MSCI USA ][ CU1 ][ Large US companies ][ TER 0.07% ][ Accumulating
+VanEck European Equal Weight ][ TEGB ][ Large European companies ][ TER 0.40% ][ Yield 2.43%
+SPDR MSCI Europe Health Care ][ HEAE ][ European Healthcare companies ][ TER 0.18% ][ Accumulating
+Invesco Nasdaq‑100 Swap ][ EQSG ][ US technology companies ][ TER 0.20% ][ Accumulating
+iShares S&P 500 Equal Weight ][ ISPE ][ American Companies ][ TER 0.17% ][ Accumulating
+iShares US Aggregate Bonds ][ SUAG ][ US bonds ][ TER 0.25% ][ Yield 3.74%
+Amundi MSCI World Ex USA ][ WEXU ][ Global companies ][ TER 0.15% ][ Accumulating
+Franklin FTSE Korea ][ FLRK ][ Korean companies ][ TER 0.09% ][ Accumulating
+HSBC MSCI World Small Cap Screened ][ HWSS ][ Global small companies ][ TER 0.25% ][ Accumulating
+Invesco FTSE RAFI Europe ][ PSRE ][ European companies ][ TER 0.39%
+Invesco Global Active ESG Equity ][ IQSS ][ Global companies ][ TER 0.30% ][ Accumulating
+iShares Copper Miners ][ MINE ][ Copper mining companies ][ TER 0.55% ][ Accumulating
+iShares Edge MSCI World Momentum Factor ][ IWFM ][ High momentum global companies ][ TER 0.25% ][ Accumulating
+iShares Essential Metals Producers ][ METG ][ Commodity companies ][ TER 0.55% ][ Accumulating
+iShares Global Aerospace & Defence ][ DFND ][ Aerospace & Defence companies ][ TER 0.35% ][ Accumulating
+iShares Govenment Bond ][ 15 – 30 Year ][ IBGL ][ European government bonds ][ TER 0.15%
+iShares US Equity Enhanced Active ][ USEE ][ American companies ][ TER 0.20% ][ Accumulating
+JPMorgan All Country Research ][ JRUW ][ Global companies ][ TER 0.25%
+L&G Gold Mining ][ AUCP ][ Mining companies ][ TER 0.55% ][ Accumulating
+SPDR Bloomberg Barclays UK Gilt ][ GLTY ][ UK government bonds ][ TER 0.15%
+UBS Core MSCI Japan ][ UB02 ][ Japanese comapnies ][ TER 0.12%
+Invesco NASDAQ‑100 ESG ][ NESP ][ US Technology companies ][ TER 0.25% ][ Accumulating
+iShares S&P 500 Financials ][ UIFS ][ US financial companies ][ TER 0.15% ][ Accumulating
+iShares Edge MSCI World Minimum Volatility ESG ][ MVEW ][ Low volatility companies ][ TER 0.30% ][ Accumulating
+L&G Multi‑Strategy Enhanced Commodities ][ ENCG ][ Commodities ][ TER 0.30% ][ Accumulating
+iShares MSCI Europe ESG Screened ][ SDUE ][ Large European companies ][ TER 0.12% ][ Yield 2.40%
+Xtrackers MSCI USA Information Technology ][ XSTC ][ US technology companies ][ TER 0.12% ][ Yield 0.32%
+Amundi MSCI Disruptive Technology ESG Filtered ][ DTEC ][ Global technology companies ][ TER 0.45% ][ Accumulating
+JPM UK Equity Core ][ JUKC ][ Large UK companies ][ TER 0.25% ][ Accumulating
+iShares FTSE MIB ][ CMB1 ][ Large Italian companies ][ TER 0.33% ][ Accumulating
+iShares Global Aggregate Bond ][ SAGG ][ Global bonds ][ TER 0.10% ][ Yield 3.00%
+Global X Genomics and Biotechnology ][ GNOG ][ Biotech companies ][ TER 0.50% ][ Accumulating
+iShares EUR Ultrashort Bond ][ ERN1 ][ Global Bonds ][ TER 0.09% ][ Yield 3.28%
+iShares Nikkei 225 ][ CNKY ][ Japanese companies ][ TER 0.48% ][ Accumulating
+Invesco GBP Corporate Bond Screened & Tilted ][ IGBE ][ UK corporate bonds ][ TER 0.10% ][ Yield 4.82%
+iShares S&P 500 Swap ][ I500 ][ Large US companies ][ TER 0.05% ][ Accumulating
+iShares STOXX Europe 50 ][ EUN ][ Large European companies ][ TER 0.35% ][ Yield 2.36%
+iShares Healthcare Innovation ][ DRDR ][ Global healthcare companies ][ TER 0.40% ][ Accumulating
+WisdomTree Japan Equity ][ DXJP ][ Japanese companies ][ TER 0.45% ][ Yield 1.59%
+Invesco ChiNext 50 ][ CHNX ][ Chinese companies ][ TER 0.49% ][ Accumulating
+iShares Emerging Markets Dividend ][ SEDY ][ High dividend emerging markets companies ][ TER 0.65% ][ Yield 6.83%
+iShares Edge MSCI World Size Factor ][ IWFS ][ Global small companies ][ TER 0.30% ][ Accumulating
+Saturna Al‑Kawthar Global Focused Equity ][ AMAP ][ Shariah companies ][ TER 0.75% ][ Accumulating
+L&G MSCI Europe Climate Pathway ][ RIEG ][ European Companies ][ TER 0.10% ][ Accumulating
+Invesco Real Estate S&P US Select Sector ][ XREP ][ US real estate companies ][ TER 0.14% ][ Accumulating
+WisdomTree Broad Commodities ][ COMX ][ Commodities ][ TER 0.19% ][ Accumulating
+Vanguard Emerging Markets Government Bonds ][ VEMT ][ Emerging markets government bonds ][ TER 0.23% ][ Yield 5.53%
+Global X Renewable Energy Producers ][ RNRU ][ Renewable energy companies ][ TER 0.50% ][ Accumulating
+Amundi FTSE Actuaries UK Gilts ][ 0 – 5 Years ][ GIL5 ][ UK government bonds ][ TER 0.05% ][ Yield 1.89%
+HSBC MSCI World ][ HMWO ][ Global companies ][ TER 0.15% ][ Yield 1.23%
+J.P. Morgan Climate Change Solutions ][ T3PM ][ Global Companies ][ TER 0.55% ][ Accumulating
+L&G GBP Corporate Bond Screened ][ GBPC ][ UK corporate bonds ][ TER 0.09% ][ Yield 4.99%
+Xtrackers MSCI World ][ XWLD ][ Global Companies ][ TER 0.12% ][ Accumulating
+Xtrackers MSCI USA Banks ][ XUFB ][ American companies ][ TER 0.12% ][ Yield 1.67%
+Sprott Uranium Miners ][ URNP ][ Uranium companies ][ TER 0.85% ][ Accumulating
+Xtrackers MSCI World Health Care ][ XWHS ][ Global companies ][ TER 0.25% ][ Accumulating
+Invesco FTSE RAFI Emerging Markets ][ PSRM ][ Emerging markets companies ][ TER 0.49% ][ Yield 2.99%
+iShares MSCI World Quality Dividend ][ WQDS ][ High quality global companies ][ TER 0.38% ][ Yield 2.25%
+iShares MSCI EMU ESG Screened ][ SAUM ][ European companies ][ TER 0.12% ][ Accumulating
+iShares Global Government Bond ][ SGLO ][ Global government bonds ][ TER 0.20% ][ Yield 2.98%
+Invesco MSCI China Technology All Shares Stock Connect ][ MCTS ][ Chinese technology companies ][ TER 0.49% ][ Accumulating
+ARK Innovation ][ ARCK ][ Global technology companies ][ TER 0.75% ][ Accumulating
+Global X Hydrogen ][ HYGG ][ Hydrogen companies ][ TER 0.50% ][ Accumulating
+iShares MSCI China A ][ IASH ][ Large Chinese companies ][ TER 0.40% ][ Accumulating
+iShares MSCI Emerging Markets ][ IEEM ][ Emerging markets companies ][ TER 0.18% ][ Yield 1.87%
+iShares MSCI Taiwan ][ ITWN ][ Taiwan companies ][ TER 0.74% ][ Yield 1.55%
+Blackrock ESG Growth Portfolio ][ MAGG ][ Global companies ][ TER 0.25% ][ Accumulating
+iShares MSCI USA Islamic ][ ISUS ][ Large US companies ][ TER 0.30% ][ Yield 0.74%
+Xtrackers FTSE 100 Income ][ XUKX ][ Large UK companies ][ TER 0.09% ][ Yield 2.23%
+Kraneshares CSI China Internet ][ KWBP ][ Chinese Internet companies ][ TER 0.75% ][ Accumulating
+iShares Global Water ][ IH2O ][ Water companies ][ TER 0.65% ][ Yield 1.32%
+L&G GBP Corporate Bond ][ 0 – 5 Year ][ Screened ][ GBP5 ][ UK corporate bonds ][ TER 0.09% ][ Yield 4.38%
+SPDR S&P 400 U.S. Mid Cap ][ SPX4 ][ American Companies ][ TER 0.30% ][ Accumulating
+SPDR MSCI Emerging Markets Small Cap ][ EMSM ][ Emerging Market small companies ][ TER 0.55% ][ Accumulating
+L&G US Equity ][ LGUG ][ Large US companies ][ TER 0.05% ][ Accumulating
+JPM Global High Yield Corporate Bond Multi‑Factor ][ JHYP ][ Global corporate bonds ][ TER 0.35% ][ Yield 6.55%
+iShares MSCI Europe ESG Screened ][ SAEU ][ Large European companies ][ TER 0.12% ][ Accumulating
+Xtrackers MSCI India Swap ][ XCX5 ][ Indian companies ][ TER 0.19% ][ Accumulating
+Pimco US Short High‑Yield Corporate Bonds ][ STHS ][ US high‑yield bonds ][ TER 0.60% ][ Yield 7.09%
+Amundi MSCI Emerging Markets ][ AUEG ][ Emerging market companies ][ TER 0.20% ][ Accumulating
+UBS CMCI Composite ][ UC15 ][ Commodities ][ TER 0.34% ][ Accumulating
+Xtrackers MSCI World Financials ][ XWFS ][ Global companies ][ TER 0.25% ][ Accumulating
+UBS Emerging Markets Sovereign Bonds ][ SBEM ][ Emerging markets government bonds ][ TER 0.25% ][ Yield 7.63%
+HSBC Asia Pacific Ex‑Japan Sustainable Equity ][ HSXJ ][ Asia ex‑Japan companies ][ TER 0.25% ][ Accumulating
+iShares Global Inflation Linked Govt Bond ][ GILG ][ Inflation linked government bonds ][ TER 0.20% ][ Yield 1.11%
+HSBC MSCI Europe Islamic ESG ][ HIPS ][ European companies ][ TER 0.30% ][ Accumulating
+iShares Core MSCI Europe ][ SMEA ][ Large European companies ][ TER 0.12% ][ Accumulating
+iShares Core MSCI EMU ][ CEUG ][ European companies ][ TER 0.12% ][ Yield 2.51%
+iShares MSCI Poland ][ SPOL ][ Polish companies ][ TER 0.74% ][ Accumulating
+iShares European Property Yield ][ IPRP ][ European property companies ][ TER 0.40% ][ Yield 2.85%
+iShares EuroStoxx 50 ][ EUE ][ Large European companies ][ TER 0.10% ][ Yield 2.45%
+iShares S&P 500 Consumer Staples Sector ][ ICSU ][ US staples companies ][ TER 0.15% ][ Accumulating
+UBS MSCI All Country World Index Socially Responsible ][ AWSG ][ Global companies ][ TER 0.28% ][ Yield 1.10%
+Xtrackers Stoxx Europe 600 ][ XSX6 ][ European companies ][ TER 0.20% ][ Accumulating
+iShares Edge MSCI USA Momentum Factor ][ IUMF ][ High momentum US companies ][ TER 0.20% ][ Accumulating
+J.P. Morgan Emerging Markets Sovereign Bonds ][ JPBM ][ Emerging markets government bonds ][ TER 0.39% ][ Yield 6.30%
+iShares Core MSCI Japan IMI ][ SJPA ][ Japanese companies ][ TER 0.12% ][ Accumulating
+L&G Longer Dated All Commodities ][ CMFP ][ Commodities ][ TER 0.30% ][ Accumulating
+iShares USD TIPS ][ ITPG ][ American Bonds ][ TER 0.12% ][ Yield 4.55%
+WisdomTree US Efficient Core ][ WTEF ][ Large US companies ][ TER 0.20% ][ Accumulating
+iShares MSCI Europe Information Technology Sector ][ ESIT ][ European technology companies ][ TER 0.18% ][ Accumulating
+Xtrackers Euro STOXX Quality Dividend ][ XD3E ][ High dividend European companies ][ TER 0.30% ][ Yield 4.16%
+iShares BIC 50 ][ BRIC ][ Emerging markets companies ][ TER 0.74% ][ Yield 1.69%
+UBS MSCI Canada ][ UC87 ][ Canadian companies ][ TER 0.36% ][ Accumulating
+Invesco Energy S&P US Select Sector ][ XLEP ][ US energy companies ][ TER 0.14% ][ Accumulating
+Avantis Emerging Markets Equity ][ AVEG ][ Emerging Market companies ][ TER 0.35% ][ Accumulating
+iShares Developed Markets Property Yield ][ IWDP ][ Developed market property companies ][ TER 0.59% ][ Yield 3.08%
+Invesco FTSE All Share ESG Climate ][ FASE ][ Large UK companies ][ TER 0.12% ][ Yield 3.15%
+Amundi Index MSCI Emerging Markets ][ AEMD ][ Emerging markets companies ][ TER 0.18% ][ Yield 3.79%
+iShares $ Treasury Bond 20+ Year ][ IBTL ][ US government bonds ][ TER 0.07% ][ Yield 4.16%
+iShares Global Inflation‑Linked Government Bond ][ SGIL ][ Inflation‑linked government bonds ][ TER 0.20% ][ Accumulating
+iShares MSCI Japan ][ CSJP ][ Japanese companies ][ TER 0.12% ][ Accumulating
+iShares S&P 500 Utilities ][ IUSU ][ US utility companies ][ TER 0.15% ][ Accumulating
+iShares MSCI World SRI ][ SUWG ][ Global companies ][ TER 0.20% ][ Yield 1.14%
+Fidelity Sustainable Global Corporate Bond Multifactor ][ FSMG ][ Global corporate bonds ][ TER 0.25% ][ Yield 4.69%
+Invesco Morningstar US Energy Infrastructure MLP ][ MLPP ][ US energy companies ][ TER 0.50% ][ Yield 8.32%
+WisdomTree BioRevolution ][ WBIO ][ Biotech companies ][ TER 0.45% ][ Accumulating
+Franklin FTSE Brazil ][ FVUB ][ Brazilian companies ][ TER 0.19% ][ Accumulating
+Xtrackers MSCI World ESG ][ XESW ][ Global Companies ][ TER 0.20% ][ Accumulating
+Invesco MSCI Europe ][ MXEU ][ Large European companies ][ TER 0.19% ][ Accumulating
+Vanguard ESG North America All Cap ][ V3NB ][ American Companies ][ TER 0.12% ][ Accumulating
+Invesco MSCI USA ESG Universal Screened ][ ESGS ][ Large US companies ][ TER 0.09% ][ Accumulating
+iShares GBP Corporate Bond ex‑Financials ][ ISXF ][ UK corporate bonds ][ TER 0.20% ][ Yield 4.25%
+Making Europe Great Again ][ GR8 ][ European companies ][ TER 0.60% ][ Accumulating
+Invesco US Treasury ][ 7 – 10 Year ][ TRXG ][ US government bonds ][ TER 0.06% ][ Yield 4.35%
+HSBC Japan Sustainable Equity ][ HSJP ][ Japanese companies ][ TER 0.18% ][ Accumulating
+FTSE Goldman Sachs UK Gilts ][ 1 – 10 Years ][ GBPG ][ UK government bonds ][ TER 0.07% ][ Yield 4.00%
+Xtrackers USD High Yield Corporate Bond ][ XUHG ][ Global Corporate Bonds ][ TER 0.25% ][ Yield 4.77%
+WisdomTree Europe Equity Income ][ EEIP ][ High dividend European companies ][ TER 0.29% ][ Accumulating
+Fidelity Sustainable Research Enhanced Emerging Markets Equity ][ FEMS ][ Emerging Markets Companies ][ TER 0.30% ][ Accumulating
+iShares Agribusiness ][ SPAG ][ Agribusiness companies ][ TER 0.55% ][ Accumulating
+UBS MSCI EMU Socially Responsible ][ UB39 ][ European companies ][ TER 0.20% ][ Yield 1.85%
+The Sprott Junior Uranium Miners ][ URJP ][ Uranium companies ][ TER 0.85% ][ Accumulating
+VanEck Vectors Sustainable World Equal Weight ][ TSGB ][ Global companies ][ TER 0.20% ][ Yield 1.93%
+Amundi UK Government Inflation‑Linked Bond (DR) ][ GILI ][ Inflation linked bonds ][ TER 0.07% ][ Yield 0.63%
+Amundi S&P 500 II ][ SP5L ][ American Companies ][ TER 0.05% ][ Accumulating
+WisdomTree US Quality Growth ][ QGRP ][ American companies ][ TER 0.33% ][ Accumulating
+J.P. Morgan Global Emerging Markets Research Enhanced Index Equity ][ JRDM ][ Emerging markets companies ][ TER 0.30% ][ Yield 1.94%
+WisdomTree New Economy Real Estate ][ WTNR ][ Global real estate companies ][ TER 0.45% ][ Accumulating
+J.P. Morgan USD IG Corporate Bond ][ JRBU ][ US corporate bonds ][ TER 0.04% ][ Accumulating
+UBS MSCI UK IMI Socially Responsible ][ UKSR ][ UK companies ][ TER 0.23% ][ Yield 2.90%
+WisdomTree Europe Small Cap Dividend ][ DFE ][ European small companies ][ TER 0.38% ][ Yield 4.69%
+Xtrackers MSCI EMU ][ XD5S ][ European companies ][ TER 0.17% ][ Accumulating
+UBS MSCI Emerging Markets ][ UB32 ][ Emerging Markets Companies ][ TER 0.15% ][ Yield 2.28%
+Xtrackers MSCI World ][ XDWP ][ Global Companies ][ TER 0.12% ][ Yield 0.95%
+Fidelity Emerging Markets Quality Income ][ FEMQ ][ High quality emerging markets companies ][ TER 0.50% ][ Accumulating
+Vanguard ESG Global Corporate Bond ][ V3GS ][ Global corporate bonds ][ TER 0.15% ][ Accumulating
+SPDR UK Gilts ][ 1 – 5 Years ][ GLTS ][ UK government bonds ][ TER 0.15% ][ Yield 3.43%
+UBS S&P 500 ESG ][ 5ESG ][ Large US companies ][ TER 0.13% ][ Yield 0.87%
+Vanguard FTSE Japan ][ VJPN ][ Japanese companies ][ TER 0.10% ][ Yield 1.70%
+UBS CMCI Composite ][ UC90 ][ Commodities ][ TER 0.34% ][ Accumulating
+iShares USD Treasury Bond ][ 1 – 3 Years ][ IBTG ][ US government bonds ][ TER 0.10% ][ Yield 4.04%
+iShares MSCI Japan ][ IJPN ][ Japanese companies ][ TER 0.12% ][ Yield 1.68%
+iShares USD High Yield Corporate Bond ESG ][ DHYG ][ Global corporate bonds ][ TER 0.27% ][ Yield 6.53%
+Rize USA Environmental Impact ][ UVNG ][ American companies ][ TER 0.45% ][ Accumulating
+Vanguard Germany All Cap ][ VGER ][ Large German companies ][ TER 0.07% ][ Yield 1.98%
+HSBC FTSE 250 ][ HMCX ][ Mid‑size UK companies ][ TER 0.09% ][ Yield 3.58%
+iShares Global Corporate Bond ][ CRHG ][ Global corporate bonds ][ TER 0.25% ][ Yield 3.90%
+Xtrackers MSCI World Minimum Volatility ][ XDEB ][ Low volatility global companies ][ TER 0.25% ][ Accumulating
+J.P. Morgan Carbon Transition Global Equity ][ JPTC ][ Clean energy companies ][ TER 0.19% ][ Accumulating
+Xtrackers MSCI China ][ XCX6 ][ Chinese Companies ][ TER 0.65% ][ Accumulating
+Rize Circular Economy Enablers ][ CIRC ][ Global companies ][ TER 0.45% ][ Accumulating
+WisdomTree Europe Small Cap Dividend ][ DFEP ][ European small companies ][ TER 0.38% ][ Accumulating
+iShares Edge MSCI Europe Size Factor ][ IEFS ][ Small European companies ][ TER 0.25% ][ Accumulating
+iShares Asia Pacific Dividend ][ IAPD ][ High dividend Asian companies ][ TER 0.59% ][ Yield 4.19%
+Global X Autonomous and Electric Vehicles ][ DRVG ][ Automotive companies ][ TER 0.50% ][ Yield 0.82%
+HSBC MSCI Indonesia ][ HIDR ][ Indonesian companies ][ TER 0.50% ][ Yield 4.81%
+Xtrackers Global Inflation‑linked Bonds ][ XGIU ][ Inflation‑linked bonds ][ TER 0.20% ][ Accumulating
+iShares Emerging Markets Bond ][ EMHG ][ Emerging markets bonds ][ TER 0.50% ][ Yield 5.68%
+iShares MSCI Emerging Markets ESG Enhanced ][ EGDM ][ Emerging markets companies ][ TER 0.18% ][ Yield 2.01%
+WisdomTree Emerging Market Small Cap ][ DGSE ][ Emerging markets small companies ][ TER 0.54% ][ Yield 2.93%
+UBS MSCI EMU Socially Responsible ][ EUSR ][ European companies ][ TER 0.23% ][ Yield 2.22%
+Rize Global Sustainable Infrastructure ][ BRIK ][ Global companies ][ TER 0.45% ][ Yield 2.25%
+HSBC MSCI Europe Climate Paris Aligned ][ HPAE ][ Large European companies ][ TER 0.15% ][ Accumulating
+Amundi MSCI Digital Economy and Metaverse ESG Filtered ][ EBUY ][ Digital‑tech companies ][ TER 0.45% ][ Accumulating
+iShares MSCI EMU ESG Screened ][ SMUD ][ European companies ][ TER 0.12% ][ Yield 2.48%
+Vanguard Eurozone Government Bonds ][ VETY ][ European government bonds ][ TER 0.07% ][ Yield 2.51%
+HSBC MSCI Taiwan Capped ][ HTWN ][ Taiwan companies ][ TER 0.50% ][ Yield 1.64%
+iShares Emerging Markets Corporate Bond ][ EMCP ][ Emerging markets corporate bonds ][ TER 0.50% ][ Yield 5.59%
+J.P. Morgan UK Equity Core ][ JUKE ][ Large UK companies ][ TER 0.25% ][ Yield 2.87%
+Amundi EUR Corporate Bond Climate Paris Aligned ][ CRPX ][ Global Bonds ][ TER 0.14% ][ Accumulating
+iShares MSCI Emerging Markets IMI ][ EMGU ][ Emerging markets companies ][ TER 0.18% ][ Yield 1.79%
+L&G Hydrogen Economy ][ HTWG ][ Hydrogen companies ][ TER 0.49% ][ Accumulating
+Amundi Bloomberg Equal‑weight Commodity ex‑Agriculture ][ COMG ][ Commodities ][ TER 0.30% ][ Accumulating
+Xtrackers S&P 500 Swap ][ XSXG ][ American Companies ][ TER 0.07% ][ Yield 0.71%
+iShares European Corporate Bonds ][ IEAH ][ European corporate bonds ][ TER 0.11% ][ Yield 3.12%
+Global X Cybersecurity ][ BUGG ][ Cybersecurity companies ][ TER 0.50% ][ Accumulating
+Invesco MDAX ][ PEAM ][ German companies ][ TER 0.19% ][ Accumulating
+Vanguard Eurozone Corporate Bonds ][ VECA ][ European corporate bonds ][ TER 0.07% ][ Accumulating
+Vanguard USD Corporate Bonds ][ VCPA ][ US corporate bonds ][ TER 0.07% ][ Accumulating
+iShares MSCI South Africa ][ SRSA ][ South African companies ][ TER 0.65% ][ Accumulating
+WisdomTree Cloud Computing ][ KLWD ][ Cloud computing companies ][ TER 0.40% ][ Accumulating
+iShares Bloomberg Roll Select Commodity Swap ][ ROLG ][ Commodities ][ TER 0.28% ][ Accumulating
+Amundi MSCI Japan ][ LCJP ][ Japanese companies ][ TER 0.12% ][ Accumulating
+HSBC MSCI USA Climate Paris Aligned ][ HPAS ][ Large US companies ][ TER 0.12% ][ Accumulating
+Xtrackers MSCI USA Swap ][ XMUS ][ American Companies ][ TER 0.15% ][ Accumulating
+HSBC MSCI AC Far East Ex‑Japan ][ HMAF ][ Asia ex‑Japan companies ][ TER 0.45% ][ Accumulating
+HSBC S&P 500 ][ HSPX ][ Large US companies ][ TER 0.09% ][ Yield 0.91%
+iShares Global High‑Yield Corporate Bond ][ IGHY ][ Global high‑yield bonds ][ TER 0.50% ][ Yield 5.41%
+HSBC MSCI USA ][ HMUS ][ Large US companies ][ TER 0.15% ][ Yield 0.97%
+Xtrackers MSCI World ][ XDWG ][ Global companies ][ TER 0.17% ][ Yield 0.95%
+iShares $ Treasury Bond ][ 7 – 10 Year ][ IGTM ][ US government bonds ][ TER 0.10% ][ Yield 4.13%
+iShares USD Treasury Bond ][ 3 – 7 ][ yr ][ CU71 ][ American Bonds ][ TER 0.07% ][ Accumulating
+iShares Dow Jones Global Sustainability Screened ][ IGSG ][ Large US companies ][ TER 0.60% ][ Accumulating
+iShares Electric Vehicles and Driving Technology ][ GCAR ][ Chinese technology companies ][ TER 0.40% ][ Accumulating
+Invesco FTSE RAFI US 1000 ][ PSRF ][ Emerging companies ][ TER 0.39% ][ Yield 1.39%
+iShares Core EUR Govt Bond ][ SEGA ][ European Bonds ][ TER 0.07% ][ Yield 2.23%
+Invesco US Treasury Bond ][ TRGB ][ US government bonds ][ TER 0.10% ][ Yield 4.13%
+iShares Nasdaq US Biotechnology ][ BTEK ][ US technology companies ][ TER 0.35% ][ Accumulating
+Fidelity Global Quality Income ][ FGQD ][ High quality global companies ][ TER 0.40% ][ Yield 1.80%
+VanEck Emerging Markets High Yield ][ HYGB ][ High dividend emerging markets companies ][ TER 0.40% ][ Accumulating
+L&G Clean Water ][ GLGG ][ Water Companies ][ TER 0.49% ][ Accumulating
+Amundi DAX III ][ DAXX ][ German Companies ][ TER 0.15% ][ Accumulating
+Xtrackers MSCI UK ESG ][ XASX ][ Large UK companies ][ TER 0.18% ][ Yield 2.36%
+iShares US Inflation‑linked Bonds ][ 0 – 5 Years ][ TI5G ][ Inflation‑linked bonds ][ TER 0.12% ][ Yield 5.93%
+INQQ India Internet and Ecommerce ESG‑S ][ INQP ][ Indian technology companies ][ TER 0.86% ][ Accumulating
+Global X E‑commerce ][ EBIG ][ Ecommerce companies ][ TER 0.50% ][ Accumulating
+iShares Smart City Infrastructure ][ CT2B ][ Infrastructure companies ][ TER 0.40% ][ Yield 0.77%
+Vanguard EUR Corporate Bond ][ VECP ][ European corporate bonds ][ TER 0.07% ][ Yield 2.99%
+Xtrackers Future Mobility ][ XMOV ][ Global companies ][ TER 0.35% ][ Accumulating
+Amundi Euro Government Bonds ][ PRIR ][ European government bonds ][ TER 0.05% ][ Yield 1.95%
+WisdomTree Japan Equity ][ DXJG ][ Japanese companies ][ TER 0.40% ][ Accumulating
+iShares Diversified Commodity Swap ][ COMM ][ Commodities ][ TER 0.19% ][ Accumulating
+Xtrackers MSCI USA Swap ][ XUSW ][ American Companies ][ TER 0.07% ][ Yield 0.73%
+Amundi Index MSCI EMU SRI ][ SRHE ][ European companies ][ TER 0.18% ][ Accumulating
+Vanguard Emerging Markets Government Bonds ][ VEMA ][ Emerging markets government bonds ][ TER 0.23% ][ Accumulating
+iShares Edge MSCI Europe Momentum Factor ][ IEFM ][ High momentum European companies ][ TER 0.25% ][ Accumulating
+Xtrackers MSCI EMU ][ XD5E ][ European companies ][ TER 0.12% ][ Yield 2.50%
+UBS Sustainable Development Bank Bonds ][ MDBG ][ Global bonds ][ TER 0.18% ][ Yield 3.90%
+iShares MSCI AC Far East ex‑Japan Small Cap ][ ISFE ][ Asian small companies ][ TER 0.74% ][ Yield 2.27%
+Invesco BulletShares 2026 USD Corporate Bond ][ B26G ][ Global bonds ][ TER 0.12% ][ Yield 4.66%
+Xtrackers MSCI USA Communication Services ][ XUCN ][ American communication companies ][ TER 0.12% ][ Yield 0.72%
+SPDR Global Aggregate Bonds ][ GLAB ][ Global bonds ][ TER 0.10% ][ Yield 3.06%
+Amundi Index MSCI Europe SRI PAB ][ ESRG ][ European Companies ][ TER 0.18% ][ Accumulating
+Xtrackers MSCI World Swap ][ XWOS ][ Global Companies ][ TER 0.19% ][ Yield 1.29%
+HSBC MSCI Korea Capped ][ HKOR ][ Korean companies ][ TER 0.50% ][ Yield 0.72%
+UBS MSCI Switzerland 20/35 ][ UC94 ][ Swiss companies ][ TER 0.23% ][ Yield 1.61%
+iShares MSCI Mexico Capped ][ CMX1 ][ Mexican companies ][ TER 0.65% ][ Accumulating
+SPDR S&P US Dividend Aristocrats ][ USDV ][ High dividend US companies ][ TER 0.35% ][ Yield 2.06%
+Amundi CAC 40 ][ CACX ][ French Companies ][ TER 0.25% ][ Yield 2.01%
+First Trust Nasdaq Cybersecurity ][ FCBR ][ Cybersecurity companies ][ TER 0.60% ][ Accumulating
+Amundi Global Aggregate Green Bond ][ 1 – 10 ][ Y ][ XCO2 ][ Global bonds ][ TER 0.15% ][ Accumulating
+Amundi Nasdaq ‑100 II ][ NASL ][ American Companies ][ TER 0.22% ][ Accumulating
+UBS MSCI Pacific Socially Responsible ][ UB45 ][ Asian companies ][ TER 0.28% ][ Yield 1.85%
+SPDR FTSE UK All Share ][ FTAD ][ UK companies ][ TER 0.20% ][ Yield 2.87%
+KraneShares ICBCCS S&P China 500 ][ CHIP ][ Large Chinese companies ][ TER 0.55% ][ Accumulating
+UBS MSCI Japan ][ UB0D ][ Japanese companies ][ TER 0.15% ][ Yield 1.37%
+Vanguard Developed Asia Pacific ex Japan ][ VAPX ][ Asia ex‑Japan companies ][ TER 0.15% ][ Yield 2.83%
+iShares STOXX World Equity Multifactor ][ FSWD ][ Global companies ][ TER 0.30% ][ Accumulating
+UBS Bloomberg Commodity CMCI ][ UD06 ][ Commodities ][ TER 0.34% ][ Accumulating
+UBS MSCI USA Value ][ UC07 ][ Undervalued US companies ][ TER 0.20% ][ Yield 2.03%
+Global X Video Games and Esports ][ HERG ][ Video gaming companies ][ TER 0.50% ][ Yield 0.57%
+SPDR MSCI EM Asia ][ EMAS ][ Emerging Market companies ][ TER 0.55% ][ Accumulating
+Rize Sustainable Future of Food ][ FOGB ][ Future of food ][ TER 0.45% ][ Accumulating
+iShares High‑Yield Corporate Bond ][ RISE ][ Global high‑yield bonds ][ TER 0.50% ][ Yield 5.61%
+iShares MSCI EM IMI ESG Screened ][ GEDM ][ Emerging markets companies ][ TER 0.18% ][ Yield 2.02%
+J.P. Morgan USD Ultra‑Short Income ][ JPAS ][ US bonds ][ TER 0.18% ][ Accumulating
+WisdomTree US Quality Dividend Growth ][ DGRG ][ High quality US companies ][ TER 0.33% ][ Accumulating
+iShares MSCI Japan ESG Screened ][ SGJP ][ Japanese companies ][ TER 0.15% ][ Accumulating
+UBS Bloomberg Commodity CMCI ][ UD07 ][ Commodities ][ TER 0.34% ][ Accumulating
+Franklin Emerging Markets ][ FLXE ][ Emerging markets companies ][ TER 0.30% ][ Accumulating
+Vanguard ESG Global Corporate Bond ][ V3GP ][ Global corporate bonds ][ TER 0.15% ][ Yield 3.90%
+Amundi Prime Global Government Bond ][ PRIG ][ Global government bonds ][ TER 0.05% ][ Yield 2.32%
+WisdomTree US Equity Income ][ DHS ][ Large US companies ][ TER 0.29% ][ Yield 2.85%
+L&G Robo Global Robotics and Automation ][ ROBG ][ Automation and robotics ][ TER 0.80% ][ Accumulating
+Fidelity Sustainable USD Emerging Markets Bond ][ FEMP ][ Emerging markets bonds ][ TER 0.50% ][ Accumulating
+JPMorgan US Equity Premium Income ][ JEIP ][ High dividend American companies ][ TER 0.35% ][ Yield 6.62%
+iShares USD Corp Bond ][ LQDS ][ Global corporate bonds ][ TER 0.20% ][ Yield 5.02%
+Amundi US Inflation‑linked Bonds ][ TIPH ][ Inflation‑linked bonds ][ TER 0.12% ][ Yield 0.86%
+Xtrackers Global Inflation‑linked Bonds ][ XGIG ][ Inflation‑linked bonds ][ TER 0.25% ][ Yield 0.60%
+Xtrackers Global Government Bond ][ XGSG ][ Global government bonds ][ TER 0.15% ][ Yield 1.87%
+Invesco Global Clean Energy ][ GCEX ][ Clean energy companies ][ TER 0.60% ][ Yield 2.10%
+Global X Telemedicine and Digital Health ][ EDOG ][ Global healthcare companies ][ TER 0.68% ][ Yield 3.93%
+VanEck Morningstar Global Moat ][ GOGB ][ Global companies ][ TER 0.52% ][ Accumulating
+UBS US Liquid Corporate Bonds ][ 1 – 5 Years ][ UC81 ][ US corporate bonds ][ TER 0.16% ][ Yield 5.51%
+UBS MSCI United Kingdom ][ UC64 ][ UK Companies ][ TER 0.20% ][ Accumulating
+WisdomTree Europe Equity ][ HEDG ][ Large European companies ][ TER 0.32% ][ Accumulating
+iShares MSCI USA ESG Enhanced ][ EEDG ][ Large US companies ][ TER 0.07% ][ Yield 0.90%
+Amundi S&P Global Luxury ][ LUXG ][ Global luxury companies ][ TER 0.25% ][ Accumulating
+SPDR S&P Pan Asia Dividend Aristocrats ][ PADV ][ Asian Dividend Companies ][ TER 0.55% ][ Yield 2.88%
+Invesco BulletShares 2030 USD Corporate Bond ][ B30G ][ Global bonds ][ TER 0.12% ][ Yield 4.49%
+Amundi Euro Government Inflation‑Linked Bond ][ MTIX ][ European Bonds ][ TER 0.09% ][ Accumulating
+HSBC MSCI Europe ][ HMEU ][ Large European companies ][ TER 0.10% ][ Yield 2.53%
+Amundi MSCI Europe ESG Selection ][ ESGL ][ European Companies ][ TER 0.20% ][ Accumulating
+UBS Bloomberg MSCI US Liquid Corporate Sustainable ][ UC98 ][ American bonds ][ TER 0.13% ][ Yield 5.93%
+VanEck Hydrogen ][ HDGB ][ Hydrogen companies ][ TER 0.55% ][ Accumulating
+HSBC MSCI Canada ][ HCAN ][ Canadian companies ][ TER 0.35% ][ Yield 1.53%
+iShares MSCI Australia ][ SAUS ][ Australian companies ][ TER 0.50% ][ Accumulating
+iShares High‑Yield Corporate Bond ][ WIGG ][ Global high‑yield bonds ][ TER 0.55% ][ Yield 5.43%
+Amundi European Aggregate Corporate SRI Bonds ][ ECRP ][ European corporate bonds ][ TER 0.14% ][ Accumulating
+iShares MSCI Europe Consumer Staples Sector ][ ESIS ][ European staples companies ][ TER 0.18% ][ Accumulating
+VanEck J.P. Morgan Emerging Markets Local Currency Bond ][ EMGB ][ Emerging markets bonds ][ TER 0.30% ][ Accumulating
+UBS (Irl) ETF plc ‑ S&P 500 ESG ][ S5SD ][ Large US companies ][ TER 0.10% ][ Yield 0.89%
+Global X US Infrastructure Development ][ PAVG ][ Infrastructure companies ][ TER 0.47% ][ Yield 0.41%
+UBS MSCI US Liquid Corporate Bonds Sustainable ][ BSUS ][ US corporate bonds ][ TER 0.16% ][ Yield 5.03%
+SPDR S&P Emerging Markets Dividend Aristocrats ][ EMDV ][ High Dividend Emerging Market companies ][ TER 0.55% ][ Yield 3.74%
+UBS MSCI Canada ][ UB23 ][ Canadian Companies ][ TER 0.33% ][ Yield 1.83%
+J.P. Morgan US Research Enhanced Index Equity ][ JURE ][ Large US companies ][ TER 0.20% ][ Accumulating
+iShares MSCI USA ESG Minimum Volatility ][ MVEA ][ Low volatility US companies ][ TER 0.20% ][ Accumulating
+Xtrackers MSCI World Quality ESG ][ XWQS ][ Global companies ][ TER 0.25% ][ Accumulating
+UBS MSCI Emerging Markets Socially Responsible ][ UC79 ][ Emerging markets companies ][ TER 0.24% ][ Yield 2.12%
+iShares Edge MSCI Europe Quality Factor ][ IEFQ ][ High quality European companies ][ TER 0.25% ][ Accumulating
+J.P. Morgan Global Research Enhanced Index Equity ][ JRDG ][ Global companies ][ TER 0.25% ][ Yield 0.98%
+iShares Emerging Markets Government Bond ][ SEML ][ Emerging markets government bonds ][ TER 0.50% ][ Yield 5.40%
+iShares Core Euro STOXX 50 ][ CS51 ][ Large European companies ][ TER 0.10% ][ Accumulating
+iShares EUR Govt Bond ][ 3 – 5 ][ yr ][ IBGX ][ European Bonds ][ TER 0.15% ][ Yield 2.44%
+Rize Environmental Impact 100 ][ LVNG ][ Global companies ][ TER 0.55% ][ Accumulating
+Xtrackers Euro Stoxx 50 ][ XESX ][ European Companies ][ TER 0.09% ][ Yield 2.27%
+iShares Edge MSCI Emerging Markets Minimum Volatility ][ EMV ][ Low volatility emerging markets companies ][ TER 0.40% ][ Accumulating
+Franklin European Quality Dividend ][ FLXD ][ European companies ][ TER 0.25% ][ Yield 3.86%
+iShares Floating Rate Bond ][ FLO5 ][ US bonds ][ TER 0.10% ][ Yield 4.77%
+iShares Govenment Bond ][ 7 – 10 Year ][ IBGM ][ European government bonds ][ TER 0.15% ][ Yield 2.75%
+Xtrackers MSCI USA ESG ][ XESU ][ American Companies ][ TER 0.15% ][ Accumulating
+iShares MSCI Japan ESG Enhanced ][ EEJG ][ Japanese companies ][ TER 0.15% ][ Yield 1.57%
+Xtrackers MSCI Japan ][ XMJP ][ Japanese Companies ][ TER 0.12% ][ Accumulating
+Global X Clean Water ][ AQWG ][ Water companies ][ TER 0.50% ][ Accumulating
+iShares MSCI EMU Small Cap ][ CES1 ][ European small companies ][ TER 0.58% ][ Accumulating
+Amundi Euro STOXX 50 ][ MSED ][ Large European companies ][ TER 0.09% ][ Accumulating
+Invesco Preferred Shares ][ PRFP ][ American companies ][ TER 0.50% ][ Yield 5.46%
+iShares Euro STOXX Mid Cap ][ DJMC ][ Mid‑size European companies ][ TER 0.40% ][ Yield 3.34%
+Amundi Global Gender Equality ][ GEND ][ Gender equality companies ][ TER 0.20% ][ Accumulating
+iShares Euro Total Market Growth Large ][ IDJG ][ Large European companies ][ TER 0.40% ][ Yield 0.97%
+Xtrackers MSCI Emerging Markets ESG ][ XESE ][ Emerging Market Companies ][ TER 0.25% ][ Accumulating
+Invesco Global Buyback Achievers ][ SBUY ][ Global companies ][ TER 0.39% ][ Yield 1.78%
+iShares MSCI Europe Health Care Sector ][ ESIH ][ Large European companies ][ TER 0.18% ][ Accumulating
+JPM Japan Research Enhanced Index Equity (ESG) ][ JRJE ][ Japanese companies ][ TER 0.25% ][ Accumulating
+iShares STOXX Europe Equity Multifactor ][ FSEU ][ Multifactor European companies ][ TER 0.25% ][ Accumulating
+Invesco Euro Corporate Hybrid Bond ][ EHYB ][ European corporate bonds ][ TER 0.39% ][ Yield 3.11%
+UBS MSCI USA Socially Responsible ][ SRIU ][ US companies ][ TER 0.19% ][ Yield 0.94%
+iShares Developed Markets Property Yield ][ DPYG ][ Developed market property companies ][ TER 0.64% ][ Yield 2.85%
+iShares Floating Rate Bond ][ FLOS ][ Global bonds ][ TER 0.12% ][ Yield 4.85%
+iShares Edge MSCI USA Quality Factor ][ IUQF ][ High quality US companies ][ TER 0.20% ][ Accumulating
+iShares FTSE MIB ][ IMIB ][ Large Italian companies ][ TER 0.35% ][ Yield 3.88%
+iShares $ TIPS ][ ITPS ][ US government bonds ][ TER 0.10% ][ Accumulating
+Amundi European Corporate Bonds ][ PRIC ][ European corporate bonds ][ TER 0.07% ][ Yield 2.00%
+Xtrackers Global Government Bonds ][ XG7S ][ Global government bonds ][ TER 0.20% ][ Accumulating
+UBS MSCI Pacific ex Japan ][ UB20 ][ Asia ex‑Japan companies ][ TER 0.14% ][ Yield 3.86%
+iShares Core EUR Corp Bond ][ IEBC ][ Global Bonds ][ TER 0.09% ][ Yield 3.18%
+Amundi MSCI EMU ESG Leaders ][ CMU ][ European Companies ][ TER 0.25% ][ Accumulating
+J.P. Morgan Global Research Enhanced Index Equity ][ JRDU ][ Global companies ][ TER 0.20% ][ Yield 0.54%
+Invesco US Treasury ][ 7 – 10 Year ][ TRXS ][ US government bonds ][ TER 0.10% ][ Yield 4.20%
+iShares S&P 500 Consumer Discretionary Sector ][ ICDU ][ US discretionary companies ][ TER 0.15% ][ Accumulating
+iShares EUR Aggregate Bond ESG ][ SEAG ][ Global Bonds ][ TER 0.16% ][ Yield 2.25%
+iShares US Aggregate Bonds ][ IUGA ][ US bonds ][ TER 0.30% ][ Yield 3.69%
+Amundi S&P 500 Climate Paris Aligned ][ CLMT ][ American Companies ][ TER 0.07% ][ Accumulating
+Invesco BulletShares 2029 USD Corporate Bond ][ B29G ][ Global bonds ][ TER 0.12% ][ Yield 4.52%
+iShares Edge MSCI Europe Minimum Volatility ][ IMV ][ Low volatility European companies ][ TER 0.25% ][ Accumulating
+Xtrackers Bloomberg Commodity ex‑Agr and Livestock ][ XDBG ][ Commodities ][ TER 0.39% ][ Accumulating
+iShares MSCI USA SRI ][ SUAP ][ Large US companies ][ TER 0.23% ][ Yield 0.87%
+HSBC MSCI Japan ][ HMJP ][ Japanese companies ][ TER 0.12% ][ Yield 1.68%
+UBS MSCI Australia ][ AUAD ][ Australian companies ][ TER 0.40% ][ Yield 3.17%
+iShares Broad Global Government Bond ][ IGBS ][ Global government bonds ][ TER 0.13% ][ Yield 1.99%
+J.P. Morgan BetaBuilders UK Gilt ][ 1 – 5 Years ][ JG15 ][ UK government bonds ][ TER 0.07% ][ Yield 3.79%
+J.P. Morgan BetaBuilders EUR Govenment Bond ][ BBGE ][ European government bonds ][ TER 0.10% ][ Accumulating
+Amundi S&P 500 ][ 500G ][ American Companies ][ TER 0.15% ][ Accumulating
+Xtrackers MSCI Emerging Markets Swap ][ XMEM ][ Emerging markets companies ][ TER 0.49% ][ Accumulating
+Invesco BulletShares 2028 USD Corporate Bond ][ B28G ][ Global bonds ][ TER 0.12% ][ Yield 4.49%
+Fidelity US Quality Income ][ FUSI ][ High quality US companies ][ TER 0.25% ][ Yield 1.41%
+Xtrackers FTSE 250 ][ XMCX ][ UK companies ][ TER 0.15% ][ Yield 2.88%
+KraneShares ICBCCS SSE STAR Market 50 Index ][ KSTP ][ Chinese companies ][ TER 0.82% ][ Accumulating
+Xtrackers MSCI Europe ][ XMEU ][ European Companies ][ TER 0.12% ][ Accumulating
+iShares MSCI World SRI ][ SGWS ][ Global companies ][ TER 0.23% ][ Yield 1.11%
+WisdomTree Enhanced Commodity ][ WCOB ][ Commodities ][ TER 0.35% ][ Accumulating
+iShares USD Corp Bond ][ LQGH ][ US corporate bonds ][ TER 0.25% ][ Yield 4.71%
+Invesco US High Yield Fallen Angels ][ FAHY ][ American Corporate Bonds ][ TER 0.45% ][ Yield 6.75%
+J.P. Morgan Europe Research Enhanced Index Equity ][ JRDE ][ European companies ][ TER 0.25% ][ Yield 2.18%
+UBS Bloomberg ][ US 7 – 10 Year ][ Treasury Bond ][ UB82 ][ US government bonds ][ TER 0.05% ][ Yield 2.20%
+WisdomTree US Quality Dividend Growth ][ DGRP ][ High quality US companies ][ TER 0.33% ][ Yield 1.08%
+iShares Euro Corporate ESG Bond ][ SUOG ][ European corporate bonds ][ TER 0.16% ][ Yield 3.09%
+Fidelity US Equity Research Enhanced ][ FUSS ][ American Companies ][ TER 0.20% ][ Accumulating
+Amundi Global Aggregate Green Bond ][ CLIM ][ Global Bonds ][ TER 0.25% ][ Accumulating
+iShares Germany Govenment Bond ][ SDEU ][ German government bonds ][ TER 0.20% ][ Yield 2.10%
+Vanguard FTSE 250 ][ VMID ][ Mid‑size UK companies ][ TER 0.10% ][ Yield 3.78%
+Xtrackers MSCI Japan ESG ][ XESJ ][ Japanese Companies ][ TER 0.20% ][ Accumulating
+UBS MSCI World ][ UC55 ][ Global Companies ][ TER 0.30% ][ Yield 1.02%
+iShares EUR Govt Bond ][ 1 – 3 ][ yr ][ CE31 ][ European Bonds ][ TER 0.15% ][ Accumulating
+WisdomTree US Equity Income ][ DHSP ][ Large US companies ][ TER 0.29% ][ Accumulating
+iShares USD Short Duration Corp Bond ][ IGSD ][ Global Bonds ][ TER 0.20% ][ Yield 4.29%
+iShares MSCI USA Quality Dividend ][ HDIQ ][ High quality US companies ][ TER 0.35% ][ Yield 1.65%
+Xtrackers S&P 500 Equal Weight Scored & Screened ][ XZES ][ American Companies ][ TER 0.17% ][ Accumulating
+Xtrackers MSCI Global SDG 6 Clean Water & Sanitation ][ SDG6 ][ Global companies ][ TER 0.35% ][ Accumulating
+UBS MSCI EMU ][ UB06 ][ European Companies ][ TER 0.12% ][ Yield 2.50%
+WisdomTree Emerging Markets Equity Income ][ DEMS ][ High dividend emerging markets companies ][ TER 0.46% ][ Accumulating
+VanEck Global Fallen Angel High Yield ][ GFGB ][ Global high‑yield bonds ][ TER 0.40% ][ Accumulating
+SPDR Bloomberg Emerging Markets Local Bond ][ EMDL ][ Emerging Market Bonds ][ TER 0.55% ][ Yield 4.82%
+L&G ESG China CNY Bond ][ DRGG ][ Chinese bonds ][ TER 0.30% ][ Yield 2.01%
+Xtrackers MSCI AC World Screened ][ XMAW ][ Global Companies ][ TER 0.25% ][ Accumulating
+iShares USD Corp Bond ESG ][ SUOP ][ US corporate bonds ][ TER 0.17% ][ Yield 4.57%
+iShares EUR Corp Bond ][ 1 – 5 ][ yr ][ SE15 ][ Global Bonds ][ TER 0.20% ][ Yield 2.81%
+Goshawk Global Balanced ][ ROES ][ Digital‑tech companies ][ TER 0.69% ][ Accumulating
+Franklin Liberty Euro Short Maturity ][ FRXE ][ European bonds ][ TER 0.15% ][ Yield 2.51%
+Xtrackers S&P 500 Swap ][ XSPX ][ Large US companies ][ TER 0.15% ][ Accumulating
+iShares EUR Inflation Linked Govt Bond ][ IBCI ][ European Bonds ][ TER 0.09% ][ Accumulating
+Xtrackers MSCI USA Financials ][ XSFN ][ American Financial Companies ][ TER 0.12% ][ Yield 1.15%
+UBS Bloomberg Barclays MSCI Liquid Corporate Sustainable ][ CBSE ][ European corporate bonds ][ TER 0.13% ][ Yield 3.63%
+Ossiam ESG Low Carbon Shiller Barclays CAPE US Sector ][ 5HEP ][ Large US companies ][ TER 0.75% ][ Accumulating
+Invesco BulletShares 2027 USD Corporate Bond ][ B27G ][ Global bonds ][ TER 0.12% ][ Yield 4.48%
+UBS CMCI Ex‑Agriculture ][ CXAP ][ Commodities ][ TER 0.34% ][ Accumulating
+Amundi MSCI Smart Mobility ][ ELCR ][ Future of mobility companies ][ TER 0.45% ][ Accumulating
+iShares AEX ][ IAEX ][ Dutch companies ][ TER 0.30% ][ Yield 2.01%
+Amundi Global Government Inflation‑Linked Bond ][ 1 – 10 ][ Y ][ GISG ][ Global Bonds ][ TER 0.20% ][ Yield 0.74%
+Amundi MSCI Millennials ESG Filtered ][ MILL ][ Millenials companies ][ TER 0.45% ][ Accumulating
+iShares European Corporate ESG Bond ][ 0 – 3 Year ][ SUSS ][ European corporate bonds ][ TER 0.12% ][ Yield 2.75%
+Xtrackers MSCI Global SDG 11 Sustainable Cities ][ XD11 ][ Global companies ][ TER 0.35% ][ Accumulating
+UBS J.P. Morgan Global Government ESG Liquid Bond ][ EGOV ][ Global government bonds ][ TER 0.15% ][ Accumulating
+Amundi Index MSCI Europe ][ CEG2 ][ European Companies ][ TER 0.12% ][ Accumulating
+Amundi S&P 500 II ][ LSPX ][ American Companies ][ TER 0.05% ][ Yield 1.10%
+WisdomTree USD Floating Rate Treasury Bond ][ TFRP ][ US government bonds ][ TER 0.15% ][ Accumulating
+Franklin LibertyQ Global Dividend ][ FLXX ][ High dividend global companies ][ TER 0.30% ][ Yield 2.38%
+Amundi US Treasury Bond ][ 3 – 7 Year ][ U37G ][ US government bonds ][ TER 0.06% ][ Yield 2.58%
+Franklin Liberty USD Investment Grade Corporate Bond ][ FRUC ][ US corporate bonds ][ TER 0.35% ][ Yield 4.43%
+iShares Global Timber and Forestry ][ WOOD ][ Timber companies ][ TER 0.65% ][ Yield 3.28%
+Invesco US Treasury Bond ][ 3 – 7 Year ][ TR7S ][ US government bonds ][ TER 0.10% ][ Yield 4.03%
+Amundi MSCI World III ][ MSCW ][ Global companies ][ TER 0.20%
+UBS MSCI USA Socially Responsible ][ UC46 ][ American Companies ][ TER 0.22% ][ Yield 0.79%
+iShares EUR Corp Bond ex‑Financials ][ EEXF ][ Global corporate bonds ][ TER 0.20% ][ Yield 2.58%
+HSBC Europe Sustainable Equity ][ HSEP ][ Large European companies ][ TER 0.15% ][ Accumulating
+iShares MSCI Europe Ex‑UK ][ EUXS ][ Large European companies ][ TER 0.40% ][ Yield 2.02%
+Xtrackers S&P ASX 200 ][ XAUS ][ Australian companies ][ TER 0.50% ][ Yield 2.65%
+UBS Core MSCI USA ][ UC04 ][ American companies ][ TER 0.06% ][ Yield 0.96%
+WisdomTree US Quality Dividend Growth ][ DGRB ][ High quality US companies ][ TER 0.35% ][ Yield 1.05%
+UBS Sustainable Development Bank Bonds ][ MDBU ][ Global bonds ][ TER 0.15% ][ Yield 3.90%
+iShares S&P 500 Swap ][ I50D ][ American Companies ][ TER 0.05% ][ Yield 0.87%
+iShares China Large Cap ][ FXC ][ Large Chinese companies ][ TER 0.74% ][ Yield 1.74%
+iShares MSCI Europe SRI ][ IESG ][ Large European companies ][ TER 0.20% ][ Accumulating
+Invesco Nasdaq‑100 Equal Weight ][ EWQX ][ US Technology companies ][ TER 0.20% ][ Accumulating
+Amundi ETF DAX ][ CG1 ][ German Companies ][ TER 0.10% ][ Accumulating
+UBS MSCI World Socially Responsible ][ UC44 ][ Global companies ][ TER 0.22% ][ Yield 1.00%
+Han‑Gins Tech Megatrend Equal Weight ][ ITEP ][ Global technology companies ][ TER 0.59% ][ Accumulating
+iShares USD High Yield Corp Bond ][ SHYU ][ Global Bonds ][ TER 0.50% ][ Yield 6.17%
+iShares Emerging Markets Bond ][ SEMB ][ Emerging markets bonds ][ TER 0.45% ][ Yield 6.03%
+Global X Cloud Computing ][ CLO6 ][ Global technology companies ][ TER 0.55% ][ Accumulating
+iShares MSCI Emerging Markets SRI ][ SUES ][ Emerging markets companies ][ TER 0.25% ][ Accumulating
+WisdomTree UK Quality Dividend Growth ][ UGRW ][ High dividend UK companies ][ TER 0.29% ][ Yield 2.72%
+iShares EUR Govt Bond ][ 1 – 3 ][ yr ][ IBGS ][ European Bonds ][ TER 0.15% ][ Yield 2.37%
+KraneShares Electric Vehicles and Future Mobility ][ KARP ][ Automotive companies ][ TER 0.72% ][ Accumulating
+iShares MSCI Europe ESG Enhanced ][ EEUD ][ Large European companies ][ TER 0.12% ][ Yield 2.61%
+iShares MSCI North America ][ INAA ][ Large US companies ][ TER 0.40% ][ Yield 0.68%
+iShares MSCI AC Far East ex‑Japan ][ IFFF ][ Asia ex‑Japan companies ][ TER 0.74% ][ Yield 1.48%
+Amundi MSCI World II ][ WLDL ][ Global Companies ][ TER 0.30% ][ Yield 1.51%
+iShares MSCI France ][ ISFR ][ French companies ][ TER 0.25% ][ Accumulating
+Amundi Euro Government Green Bond ][ EART ][ European government bonds ][ TER 0.20% ][ Accumulating
+iShares MSCI Pacific Ex‑Japan ][ SPXJ ][ Asia ex‑Japan companies ][ TER 0.60% ][ Yield 2.95%
+Xtrackers Euro Stoxx 50 ][ XESC ][ European Companies ][ TER 0.09% ][ Accumulating
+Ossiam Shiller Barclays Cape Europe Sector Value ][ LCPE ][ Undervalued European companies ][ TER 0.65% ][ Accumulating
+Xtrackers MSCI Global SDG 3 Good Health ][ SDG3 ][ Global companies ][ TER 0.35% ][ Accumulating
+iShares Global High Yield Corporate Bond ][ GHYS ][ Global high‑yield bonds ][ TER 0.55% ][ Yield 5.69%
+Xtrackers MSCI Nordic ][ XDN0 ][ Nordic companies ][ TER 0.30% ][ Yield 2.82%
+Amundi Smart City ][ IQCY ][ Global companies ][ TER 0.45% ][ Accumulating
+WisdomTree Eurozone Quality Dividend Growth ][ EGRP ][ High quality European companies ][ TER 0.29% ][ Yield 2.08%
+iShares S&P 500 Materials Sector ][ IMSU ][ US materials companies ][ TER 0.15% ][ Accumulating
+Invesco Communications S&P US Select Sector ][ XLCP ][ American communication companies ][ TER 0.14% ][ Accumulating
+Amundi MSCI Water ESG Screened ][ WATL ][ Global Companies ][ TER 0.60% ][ Yield 0.73%
+iShares Euro STOXX Small ][ DJSC ][ Small European companies ][ TER 0.40% ][ Yield 2.86%
+Harbor Health Care ][ WELP ][ Global healthcare companies ][ TER 0.89% ][ Accumulating
+Xtrackers DAX Income ][ XDDX ][ Large German companies ][ TER 0.09% ][ Yield 2.40%
+J.P. Morgan Global Research Enhanced Index Equity ][ JGEP ][ Global companies ][ TER 0.25% ][ Accumulating
+L&G Emerging Markets Government Bond (USD) ][ 0 – 5 Year ][ Screened ][ EMDG ][ Emerging markets government bonds ][ TER 0.25% ][ Yield 5.85%
+Vanguard FTSE North America ][ VNRT ][ Large US companies ][ TER 0.08% ][ Yield 0.96%
+Lyxor STOXX Europe 600 Healthcare ][ CH5 ][ European healthcare companies ][ TER 0.30% ][ Accumulating
+SPDR 10+ Years US Corporate Bonds ][ LCRP ][ US corporate bonds ][ TER 0.12% ][ Yield 5.48%
+Xtrackers MSCI Europe ESG ][ XZEU ][ European Companies ][ TER 0.20% ][ Accumulating
+iShares MSCI Europe Consumer Discretionary Sector ][ ESIC ][ European discretionary companies ][ TER 0.18% ][ Accumulating
+iShares MSCI Japan Small Cap ][ ISJP ][ Japan small companies ][ TER 0.58% ][ Yield 1.82%
+HSBC USA Sustainable Equity ][ HSUS ][ Large US companies ][ TER 0.12% ][ Accumulating
+Invesco UK Gilts ][ 1 – 5 Year ][ GLT5 ][ UK government bonds ][ TER 0.06% ][ Yield 4.13%
+iShares MSCI Japan SRI ][ SUJA ][ Japanese companies ][ TER 0.20% ][ Accumulating
+Xtrackers II EUR Corporate Bond Short Duration SRI PAB ][ XZE5 ][ European short duration bonds ][ TER 0.16% ][ Accumulating
+Xtrackers Nifty 50 Swap ][ XNIF ][ Indian companies ][ TER 0.85% ][ Accumulating
+SPDR Morningstar Multi‑Asset Global Infrastructure ][ GIN ][ Infrastructure Companies ][ TER 0.40% ][ Yield 2.89%
+Xtrackers LPX Private Equity Swap ][ XLPE ][ Global companies ][ TER 0.70% ][ Accumulating
+WisdomTree US Equity Income ][ DHSG ][ Large US companies ][ TER 0.35% ][ Accumulating
+WisdomTree Eurozone Quality Dividend Growth ][ EGRG ][ High quality European companies ][ TER 0.29% ][ Accumulating
+L&G Ecommerce Logistics ][ ECOG ][ Ecommerce companies ][ TER 0.49% ][ Accumulating
+HSBC FTSE EPRA NAREIT Developed ][ HPRO ][ Developed market property companies ][ TER 0.24% ][ Yield 3.19%
+WisdomTree Europe Equity ][ HEDP ][ Large European companies ][ TER 0.35% ][ Yield 2.22%
+UBS USA Inflation‑linked ][ 1 – 10 Years ][ UBTP ][ Inflation linked bonds ][ TER 0.11% ][ Accumulating
+iShares OMX Stockholm Capped ][ OMXS ][ Swedish companies ][ TER 0.10% ][ Accumulating
+iShares $ Treasury Bond 20+ Year ][ IDTG ][ US government bonds ][ TER 0.10% ][ Yield 4.07%
+Xtrackers MSCI Next Generation Internet Innovation ][ XNGS ][ Global companies ][ TER 0.30% ][ Accumulating
+SPDR Global Aggregate Bonds ][ GLBL ][ Global bonds ][ TER 0.10% ][ Yield 3.07%
+iShares MSCI Canada ][ CSCA ][ Canadian companies ][ TER 0.48% ][ Accumulating
+iShares Edge MSCI USA Size Factor ][ IUSF ][ Small US companies ][ TER 0.20% ][ Accumulating
+UBS Factor MSCI USA Quality ESG ][ UC99 ][ High quality US companies ][ TER 0.25% ][ Yield 0.45%
+iShares MSCI Europe Financials Sector ][ ESIF ][ European financial companies ][ TER 0.18% ][ Accumulating
+SPDR Corporate Bonds ][ 0 – 5 Years ][ SUKC ][ Global corporate bonds ][ TER 0.20% ][ Yield 4.63%
+HSBC MSCI Pacific ex Japan ][ HMXJ ][ Asia ex‑Japan companies ][ TER 0.15% ][ Yield 3.41%
+Invesco MSCI USA ESG Universal Screened ][ ESUS ][ Large US companies ][ TER 0.09% ][ Yield 0.90%
+Guinness Sustainable Energy ][ CLMP ][ Renewable energy companies ][ TER 0.65% ][ Accumulating
+WisdomTree Global Quality Dividend Growth ][ GGRB ][ High quality global companies ][ TER 0.43% ][ Yield 1.14%
+Amundi Euro Government Bond ][ MTXX ][ European Bonds ][ TER 0.09% ][ Accumulating
+iShares MSCI USA Small Cap ][ CUS1 ][ Small US companies ][ TER 0.43% ][ Accumulating
+WisdomTree Europe Equity ][ HEDS ][ Large European companies ][ TER 0.58% ][ Accumulating
+WisdomTree Enhanced Commodity ][ WCOM ][ Commodities ][ TER 0.35% ][ Accumulating
+Invesco US Treasury Bonds ][ TRSG ][ US government bonds ][ TER 0.06% ][ Yield 4.27%
+iShares Core MSCI Pacific Ex‑Japan ][ CPJ1 ][ Asia ex‑Japan companies ][ TER 0.20% ][ Accumulating
+iShares Global High‑Yield Corporate Bond ][ GHYG ][ Global high‑yield bonds ][ TER 0.55% ][ Yield 5.30%
+WisdomTree Global Quality Dividend Growth ][ GGRP ][ High quality global companies ][ TER 0.38% ][ Yield 1.23%
+iShares Edge S&P 500 Minimum Volatility ][ MVUS ][ Low volatility US companies ][ TER 0.20% ][ Accumulating
+iShares Core MSCI EMU ][ CEU1 ][ European companies ][ TER 0.12% ][ Accumulating
+iShares Edge MSCI Europe Value Factor ][ IEFV ][ Undervalued European companies ][ TER 0.25% ][ Accumulating
+Alerian Midstream Energy Dividend ][ PMLP ][ US energy companies ][ TER 0.49% ][ Yield 3.01%
+iShares FTSE 250 ][ MIDD ][ Mid‑size UK companies ][ TER 0.40% ][ Yield 3.51%
+Xtrackers MSCI World Momentum ][ XDEM ][ High momentum global companies ][ TER 0.25% ][ Accumulating
+Vanguard USD Corporate Bonds ][ 1 – 3 Years ][ VSCA ][ US corporate bonds ][ TER 0.09% ][ Accumulating
+UBS MSCI USA Socially Responsible ][ SRUG ][ US companies ][ TER 0.22% ][ Yield 0.94%
+WisdomTree Emerging Markets Equity Income ][ DEM ][ High dividend emerging markets companies ][ TER 0.46% ][ Yield 4.44%
+Amundi EURO STOXX 50 II ][ MSEX ][ Large European companies ][ TER 0.20% ][ Accumulating
+iShares Core S&P 500 ][ GSPX ][ Large US companies ][ TER 0.10% ][ Yield 0.87%
+iShares S&P 500 Industrials Sector ][ IISU ][ US industrial companies ][ TER 0.15% ][ Accumulating
+SPDR S&P U.S. Communication Services Select Sector ][ GXLC ][ US technology companies ][ TER 0.15% ][ Accumulating
+iShares EUR High Yield Corp Bond ][ SHYG ][ Global Bonds ][ TER 0.50% ][ Yield 5.30%
+iShares MSCI USA SRI ][ SUUS ][ Large US companies ][ TER 0.20% ][ Accumulating
+SPDR S&P U.S. Technology Select Sector ][ GXLK ][ US technology companies ][ TER 0.15% ][ Accumulating
+iShares MSCI UK Small Cap ][ CUKS ][ UK small companies ][ TER 0.58% ][ Accumulating
+L&G Russell 2000 US Small Cap ][ RTWP ][ Small US companies ][ TER 0.30% ][ Accumulating
+iShares MSCI Brazil ][ IBZL ][ Brazilian companies ][ TER 0.74% ][ Yield 4.14%
+iShares MSCI EMU ESG Enhanced ][ EMUD ][ European companies ][ TER 0.12% ][ Yield 2.38%
+ETC Group Web 3.0 ][ WEBP ][ Cryptocurrency companies ][ TER 0.65% ][ Accumulating
+UBS US Inflation‑linked 10+ Years ][ T10G ][ Inflation linked bonds ][ TER 0.13% ][ Yield 4.61%
+Fidelity US Quality Income ][ FUQA ][ High quality US companies ][ TER 0.25% ][ Accumulating
+iShares Asia Property Yield ][ IASP ][ Asian property companies ][ TER 0.59% ][ Yield 3.41%
+SPDR MSCI World Technology ][ TECW ][ Global Technology Companies ][ TER 0.30% ][ Accumulating
+L&G Digital Payments ][ DPAG ][ Digital‑tech companies ][ TER 0.49% ][ Accumulating
+iShares NASDAQ 100 Swap ][ N100 ][ US technology companies ][ TER 0.20% ][ Accumulating
+iShares UK Property ][ IUKP ][ UK property companies ][ TER 0.40% ][ Yield 4.22%
+VanEck Vectors Video Gaming and eSports ][ ESGB ][ Video gaming companies ][ TER 0.55% ][ Accumulating
+iShares Core UK Gilts ][ IGLT ][ UK government bonds ][ TER 0.07% ][ Yield 4.25%
+Xtrackers S&P 500 Equal Weight ][ XDWE ][ Large US companies ][ TER 0.15% ][ Accumulating
+iShares MSCI EM Latin America ][ LTAM ][ Emerging markets companies ][ TER 0.20% ][ Yield 3.50%
+Invesco Consumer Discretionary S&P US Select Sector ][ XLYP ][ US discretionary companies ][ TER 0.14% ][ Accumulating
+Xtrackers FTSE Vietnam Swap ][ XFVT ][ Emerging Markets ][ TER 0.85% ][ Accumulating
+iShares Edge MSCI World Quality Factor ][ IWFQ ][ High quality global companies ][ TER 0.25% ][ Accumulating
+iShares Ageing Population ][ AGES ][ Ageing population companies ][ TER 0.40% ][ Accumulating
+Invesco S&P 500 High Dividend Low Volatility ][ HDLG ][ High dividend/low volatility US companies ][ TER 0.30% ][ Yield 3.86%
+WisdomTree Global Efficient Core ][ WGEC ][ Global companies ][ TER 0.25% ][ Accumulating
+US Global Investors Travel ][ TRIP ][ Travel companies ][ TER 0.69% ][ Accumulating
+iShares MSCI World ][ IWDG ][ Global companies ][ TER 0.30% ][ Yield 1.07%
+Amundi STOXX Europe 600 Banks ][ CB5 ][ European banks ][ TER 0.30% ][ Accumulating
+Invesco S&P 500 Equal Weight ][ SPEX ][ American companies ][ TER 0.20% ][ Accumulating
+Invesco MSCI China All Shares Connect ][ MCHS ][ Large Chinese companies ][ TER 0.35% ][ Accumulating
+HSBC Multi Factor Worldwide Equity ][ HWWA ][ Global companies ][ TER 0.25% ][ Yield 1.41%
+Franklin S&P 500 Paris Aligned Climate ][ 500P ][ Large US companies ][ TER 0.07% ][ Accumulating
+iShares Listed Private Equity ][ IPRV ][ Listed private equity companies ][ TER 0.75% ][ Yield 2.97%
+J.P. Morgan Global Research Enhanced Index Equity ][ JGRE ][ Global companies ][ TER 0.25% ][ Accumulating
+First Trust Cloud Computing ][ FSKY ][ Cloud computing companies ][ TER 0.60% ][ Accumulating
+VanEck Defense ][ DFNG ][ Defence companies ][ TER 0.55% ][ Accumulating
+iShares MSCI India ][ IIND ][ Indian companies ][ TER 0.65% ][ Accumulating
+Xtrackers MSCI USA Health Care ][ XSHC ][ US healthcare companies ][ TER 0.12% ][ Yield 1.21%
+iShares MSCI Korea ][ IKOR ][ Korean companies ][ TER 0.65% ][ Yield 0.90%
+iShares MSCI World ][ IGWD ][ Global companies ][ TER 0.55% ][ Accumulating
+Xtrackers MSCI USA ][ XDUS ][ Large US companies ][ TER 0.07% ][ Accumulating
+Rize Cybersecurity and Data Privacy ][ CYBP ][ Cybersecurity companies ][ TER 0.45% ][ Accumulating
+Xtrackers DAX ][ XDAX ][ Large German companies ][ TER 0.09% ][ Accumulating
+J.P. Morgan Global Equity Multi‑Factor ][ JPLG ][ Global companies ][ TER 0.20% ][ Accumulating
+iShares MSCI World Minimum Volatility ][ MINV ][ Low volatility companies ][ TER 0.30% ][ Accumulating
+iShares MSCI Turkey ][ ITKY ][ Turkish companies ][ TER 0.74% ][ Yield 1.68%
+SPDR Russell 2000 ][ R2SC ][ Small US companies ][ TER 0.30% ][ Accumulating
+WisdomTree Global Quality Dividend Growth ][ GGRG ][ High quality global companies ][ TER 0.38% ][ Accumulating
+Xtrackers MSCI World Quality ][ XDEQ ][ High quality global companies ][ TER 0.25% ][ Accumulating
+SPDR MSCI World ][ SWLH ][ Global companies ][ TER 0.17% ][ Yield 0.89%
+Xtrackers S&P 500 ][ XDPG ][ Large US companies ][ TER 0.09% ][ Accumulating
+J.P. Morgan Europe Research Enhanced Index Equity ][ JERE ][ Large European companies ][ TER 0.25% ][ Accumulating
+Invesco UK Gilts ][ GLTA ][ UK government bonds ][ TER 0.06% ][ Accumulating
+Emerging Markets Internet and Ecommerce ][ EMQP ][ Emerging markets Internet companies ][ TER 0.86% ][ Accumulating
+Xtrackers S&P Europe ex UK ][ XUEK ][ Large European companies ][ TER 0.09% ][ Yield 2.19%
+VanEck Digital Assets ][ DAGB ][ Cryptocurrency companies ][ TER 0.65% ][ Accumulating
+iShares Oil & Gas Exploration and Production ][ SPOG ][ Oil companies ][ TER 0.55% ][ Accumulating
+iShares MSCI USA ESG‑screened ][ GPSA ][ Large US companies ][ TER 0.07% ][ Accumulating
+Franklin FTSE India ][ FRIN ][ Indian companies ][ TER 0.19% ][ Accumulating
+Vanguard Developed Europe ex UK ][ VERX ][ Large European companies ][ TER 0.10% ][ Yield 2.59%
+iShares MSCI Target UK Real Estate ][ UKRE ][ UK real estate companies ][ TER 0.40% ][ Yield 7.22%
+iShares S&P Small Cap 600 ][ ISP6 ][ US small companies ][ TER 0.30% ][ Yield 1.17%
+iShares S&P 500 ][ IGUS ][ Large US companies ][ TER 0.20% ][ Accumulating
+iShares S&P 500 ][ IUSA ][ Large US companies ][ TER 0.07% ][ Yield 0.94%
+SPDR MSCI World ][ SWLD ][ Global companies ][ TER 0.12% ][ Accumulating
+Invesco MSCI World ][ MXWS ][ Global companies ][ TER 0.19% ][ Accumulating
+Vanguard S&P 500 ][ VUSA ][ Large US companies ][ TER 0.07% ][ Yield 0.96%
+Unbeatable value ][ From ][ commission‑free ][ investing, to ][ zero‑ISA ][ fees, we’re proud of our low fees. ][ Here's how we're able to do it
+Choice of 820+ ETFs ][ Low cost, diversified, index‑tracking of stock markets, bonds and commodities. ][ Browse investments
+Actionable insights ][ Know exactly which companies, sectors and regions are in your portfolio.
+Easy diversification ][ Fractional investing lets you put as little as £1 in any ETF.
+DIY or Managed ][ Build and manage your own portfolio or leave it to us.
