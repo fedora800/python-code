@@ -22,6 +22,8 @@
 \copy tbl_exchange FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_exchange_data.csv' DELIMITER ',' CSV HEADER NULL AS 'NULL';
 
 -- L02 - tbl_gics_sector
+-- https://en.wikipedia.org/wiki/Global_Industry_Classification_Standard
+-- https://traderlion.com/markets/sectors-and-industry-groups/
 \echo "Loading into table tbl_gics_sector"
 \copy tbl_gics_sector FROM '~/git-projects/python-code/timescaledb/data/instrument_lists/tbl_gics_mapping.csv' DELIMITER ',' CSV HEADER;
 

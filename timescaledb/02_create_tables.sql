@@ -32,6 +32,7 @@ CREATE TYPE typ_asset_type AS ENUM (
 DROP TYPE IF EXISTS typ_data_source CASCADE;
 CREATE TYPE typ_data_source AS ENUM (
   'INVESTING-COM',
+  'MANUAL',
   'NSEINDIA-COM',
   'ONLINE_BLOG',
   'STOCKANALYSIS-COM',
@@ -98,6 +99,7 @@ CREATE TABLE IF NOT EXISTS tbl_instrument (
   name TEXT NOT NULL,
   exchange_code TEXT REFERENCES tbl_exchange(exchange_code),
   asset_type typ_asset_type,
+  dividend_yield NUMERIC(5,2),
   country_code typ_country_code,
   dtime_created  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   dtime_updated  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -165,6 +167,7 @@ CREATE INDEX idx_tbl_price_data_1day_symbol_time
 SELECT create_hypertable('tbl_price_data_1day', 'pd_time');
 
 
-\echo "Checking the number of rows in tbl_instrument"
+\echo creating table
 select count(*) from tbl_instrument;
+
 

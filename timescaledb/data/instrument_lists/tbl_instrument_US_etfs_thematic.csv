@@ -1,0 +1,7 @@
+symbol,name,sector_code,industry_code,exchange_code,asset_type,country_code,dividend_yield, data_source, note_1
+--1100001, AI & Robotics
+BOTZ,Global X Robotics & Artificial Intelligence ETF,110,1100001,UNKNOWN,ETF,US,0.14,MANUAL,aum=2.65B;expratio=0.68
+IGPT, Invesco AI and Next Gen Software ETF,110,1100001,UNKNOWN,ETF,US,0,MANUAL,aum=420M;expratio=0.58
+ARTY,iShares Future AI & Tech ETF,110,1100001,UNKNOWN,ETF,US,0.48,MANUAL,aum=790M ;expratio=0.47
+AIQ,Global X Artificial Intelligence & Technology ETF,110,1100001,UNKNOWN,ETF,US,0.14,MANUAL,aum=2.70B ;expratio=0.68
+ARKQ,ARK Autonomous Technology & Robotics ETF,110,1100001,UNKNOWN,ETF,US,0,MANUAL,aum=990M ;expratio=0.75

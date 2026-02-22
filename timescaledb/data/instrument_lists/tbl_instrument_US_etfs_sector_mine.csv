@@ -1,0 +1,51 @@
+symbol,name,sector_code,sub_industry_code,exchange_code,asset_type,country_code,dividend_yield, data_source, note_1
+SCHH,SCHWAB STRATEGIC TR US REIT ETF,60,,UNKNOWN,ETF,US,0.07,MANUAL,
+IYR,iShares U.S. Real Estate ETF,60,,UNKNOWN,ETF,US,0.39,MANUAL,
+VNQ,Vanguard Real Estate ETF,60,UNKNOWN,ETF,US,0.39,0.3,MANUAL,
+XLRE,SELECT SECTOR SPDR TRUST RL EST SEL SEC ETF,60,,UNKNOWN,ETF,US,0.09,MANUAL,
+
+====
+
+symbol,etf name,sector,industry group,expense ratio
+XLY,Consumer Discretionary Select Sector SPDR Fund,Consumer Discretionary,Consumer Discretionary,0.12%
+VCR,Vanguard Consumer Discretionary ETF,Consumer Discretionary,Consumer Discretionary,0.10%
+XHB,SPDR S&P Homebuilders ETF,Consumer Discretionary,Homebuilders,0.35%
+XRT,SPDR S&P Retail ETF,Consumer Discretionary,Retail,0.35%
+XLP,Consumer Staples Select Sector SPDR Fund,Consumer Staples,Consumer Staples,0.12%
+VDC,Vanguard Consumer Staples ETF,Consumer Staples,Consumer Staples,0.10%
+IYK,iShares U.S. Consumer Staples ETF,Consumer Staples,Consumer Staples,0.43%
+XLC,Communication Services Select Sector SPDR Fund,Communication Services,Communication Services,0.12%
+XLE,Energy Select Sector SPDR Fund,Energy,Energy,0.12%
+VDE,Vanguard Energy ETF,Energy,Energy,0.10%
+IYE,iShares U.S. Energy ETF,Energy,Energy,0.43%
+XOP,SPDR S&P Oil & Gas Exploration & Production ETF,Energy,Oil & Gas Exploration & Production,0.35%
+XES,SPDR S&P Oil & Gas Equipment & Services ETF,Energy,Oil & Gas Equipment & Services,0.35%
+XLF,Financial Select Sector SPDR Fund,Financials,Financials,0.12%
+VFH,Vanguard Financials ETF,Financials,Financials,0.10%
+IYF,iShares U.S. Financials ETF,Financials,Financials,0.43%
+IYG,iShares U.S. Financial Services ETF,Financials,Financial Services,0.42%
+KBE,SPDR S&P Bank ETF,Financials,Banks,0.35%
+KRE,SPDR S&P Regional Banking ETF,Financials,Regional Banking,0.35%
+XLV,Health Care Select Sector SPDR Fund,Healthcare,Healthcare,0.12%
+VHT,Vanguard Health Care ETF,Healthcare,Healthcare,0.10%
+IYH,iShares U.S. Healthcare ETF,Healthcare,Healthcare,0.43%
+IHF,iShares U.S. Healthcare Providers ETF,Healthcare,Healthcare Providers,0.42%
+IHI,iShares U.S. Medical Devices ETF,Healthcare,Medical Devices,0.42%
+XLI,Industrial Select Sector SPDR Fund,Industrials,Industrials,0.12%
+VIS,Vanguard Industrials ETF,Industrials,Industrials,0.10%
+IYJ,iShares U.S. Industrials ETF,Industrials,Industrials,0.43%
+ITA,iShares U.S. Aerospace & Defense ETF,Industrials,Aerospace & Defense,0.42%
+IYT,iShares U.S. Transportation ETF,Industrials,Transportation,0.42%
+XLB,Materials Select Sector SPDR Fund,Materials,Materials,0.12%
+VAW,Vanguard Materials ETF,Materials,Materials,0.10%
+IYM,iShares U.S. Basic Materials ETF,Materials,Materials,0.43%
+XME,SPDR S&P Metals & Mining ETF,Materials,Metals & Mining,0.35%
+XLRE,Real Estate Select Sector SPDR Fund,Real Estate,Real Estate,0.12%
+VNQ,Vanguard Real Estate ETF,Real Estate,Real Estate,0.12%
+IYR,iShares U.S. Real Estate ETF,Real Estate,Real Estate,0.42%
+XLK,Technology Select Sector SPDR Fund,Technology,Technology,0.12%
+VGT,Vanguard Information Technology ETF,Technology,Technology,0.10%
+IYW,iShares U.S. Technology ETF,Technology,Technology,0.43%
+XLU,Utilities Select Sector SPDR Fund,Utilities,Utilities,0.12%
+VPU,Vanguard Utilities ETF,Utilities,Utilities,0.10%
+IDU,iShares U.S. Utilities ETF,Utilities,Utilities,0.43%
