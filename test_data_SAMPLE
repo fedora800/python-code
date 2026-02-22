@@ -1,0 +1,34 @@
+4 ORDERADD	targetId	sourceId	targetSeqNo	sequencerSeqNo	timestamp	clientTradingId	clientOrderId	securityId	orderType	timeInForce	side	quantity	limitPrice	orderCapacity	account	aqxOrderId	status	filled	matcherFlags	dea	liqProv	algoTrade	si	priceImproved	reportTrade	lis	shortCode1	partyRole1	partyRoleQualifier1	shortCode2	partyRole2	partyRoleQualifier2	shortCode3	partyRole3	partyRoleQualifier3				
+7 TRADECOMBINED	targetId	sourceId	targetSeqNo	sequencerSeqNo	timestamp	bClientTradingId	bClientOrderId	bAqxOrderId	bLiquInd	sClientTradingId	sClientOrderId	sAqxOrderId	sLiquInd	quantity	price	aqxTradeId	securityId	bOrderCapacity	sOrderCapacity	leavesQty	orderType	mifidFlags																	
+11 STOCK	targetId	sourceId	targetSeqNo	sequencerSeqNo	timestamp	id	desc	primRic	primBbg	isin	currencyId	aqxRic	aqxBbg	umtf	flags	tickTableId	marketId	tradingControlId	minimumConsideration	minimumLargeInScaleSize	sms	ems	issuedQty	stockType															
+33 ORDER_ADD_EXTENDED	targetId	sourceId	targetSeqNo	sequencerSeqNo	timestamp	clientTradingId	clientOrderId	securityId	orderType	timeInForce	side	quantity	limitPrice	orderCapacity	account	aqxOrderId	status	filled	matcherFlags	dea	liqProv	algoTrade	si	priceImproved	reportTrade	lis	shortCode1	partyRole1	partyRoleQualifier1	shortCode2	partyRole2	partyRoleQualifier2	shortCode3	partyRole3	partyRoleQualifier3	expireTime	displayQuantity	minQty	orderFlags
+50 TRADECOMBINED_EXTENDED	targetId	sourceId	targetSeqNo	sequencerSeqNo	timestamp	bClientTradingId	bClientOrderId	bAqxOrderId	bLiquInd	sClientTradingId	sClientOrderId	sAqxOrderId	sLiquInd	quantity	price	aqxTradeId	securityId	bOrderCapacity	sOrderCapacity	leavesQty	orderType	mifidFlags	mmtFlags	siTimestamp	ccpId														
+50 TRADECOMBINED_EXTENDED	targetId	sourceId	targetSeqNo	sequencerSeqNo	timestamp	bClientTradingId	bClientOrderId	bAqxOrderId	bLiquInd	sClientTradingId	sClientOrderId	sAqxOrderId	sLiquInd	quantity	price	aqxTradeId	securityId	bOrderCapacity	sOrderCapacity	leavesQty	orderType	mifidFlags	mmtFlags	siTimestamp	ccpId														
+11	12030	12030	4715	12701	1669262723910445000	4749	Future PLC	FUTR.L	FUTR LN	GB00BYZN9041	5	FUTRl.AQX	FUTRL QX	FUTRl	25	33	18	11	0	30000000000	0	0	0	0															
+11	12030	12030	4716	12702	1669262723911457000	4491	BATM Advanced Communications Ltd	BVC.L	BVC LN	IL0010849045	5	BVCl.AQX	BVCL QX	BVCl	25	32	18	11	0	6000000000	0	0	0	0															
+11	12030	12030	4717	12703	1669262723911463000	4257	Avon Rubber PLC	AVON.L	AVON LN	GB0000667013	5	AVONl.AQX	AVONL QX	AVONl	25	33	18	11	0	20000000000	0	0	0	0															
+11	12030	12030	4718	12704	1669262723911491000	3473	Tokmanni Group OYJ	TOKMAN.HE	TOKMAN FH	FI4000197934	3	TOKMAh.AQX	TOKMAH QX	TOKMAh	24	33	15	28	0	20000000000	1000000000	0	0	0															
+11	12030	12030	4719	12705	1669262723911497000	3471	Atrium Ljungberg AB	ATRLJb.ST	ATRLJB SS	SE0000191827	7	ATRLBs.AQX	ATRLBS QX	ATRLBs	24	33	13	20	0	10000000000	0	0	0	0															
+11	12030	12030	6843	14829	1669262723923856000	3	Test Amsterdam			NLTEST000004	3	TESTa.AQX	TESTA QX	TESTa	26	32	4	1	0	1500000000	0	0	0	0															
+11	12030	12030	6844	14830	1669262723923862000	2	3i Group PLC	III.L	III LN	GB00B1YW4409	5	IIIl.AQX	IIIL QX	IIIl	25	34	18	11	0	40000000000	1000000000	0	0	0															
+11	12030	12030	6845	14831	1669262723923867000	1	Test Brussels			BETEST000007	3	TESTb.AQX	TESTB QX	TESTb	26	32	7	1	0	0	0	0	0	0															
+4	240	14032	52	54502	1669272315681809000	240	52	12	1	1	1	1	100000	3	1	0	138	0	0	1	0	0	0	0	0	0	3	2	0	0	3	0	0	0	0				
+4	240	14032	53	54507	1669272316228911000	240	53	12	1	1	1	1	100000	3	1	0	138	0	0	1	0	0	0	0	0	0	3	2	0	0	3	0	0	0	0				
+4	240	14032	54	54508	1669272316768189000	240	54	12	1	1	1	1	100000	3	1	0	138	0	0	1	0	0	0	0	0	0	3	2	0	0	3	0	0	0	0				
+4	240	14032	55	54512	1669272317325201000	240	55	12	1	1	1	1	100000	3	1	0	138	0	0	1	0	0	0	0	0	0	3	2	0	0	3	0	0	0	0				
+4	241	14042	52	54513	1669272317516189000	241	52	12	1	1	1	1	100000	3	1	0	138	0	0	1	0	0	0	0	0	0	3	2	0	0	3	0	0	0	0				
+4	254	15091	2557	3139108	1669277332526157000	254	2556	343	3	1	2	2000	48590000	2	1	267288	64	0	1	0	1	1	0	0	0	0	4	2	1	4	3	1	0	0	0				
+4	254	15091	2558	3139109	1669277332526160000	254	2557	343	3	1	2	2000	48595000	2	1	267289	64	0	1	0	1	1	0	0	0	0	16	2	1	16	3	1	0	0	0				
+4	691	15075	9209	3139114	1669277332526594000	691	9208	343	3	1	2	779	48610000	2	3	267290	64	0	1	0	0	1	0	0	0	0	33562652	3	1	33562652	2	1	0	0	0				
+33	286	15105	17	1835725	1669276801313766000	286	16	2180	33	3	1	2	9110000	2	1	499	32	0	1	0	0	1	0	0	0	0	0	1	0	33554583	2	1	33554558	3	1	0	0	2	0
+33	18062	18062	234	1835726	1669276801313772000	286	16	2180	33	3	1	2	9110000	2	1	499	96	0	1	0	0	1	0	0	0	0	0	1	0	33554583	2	1	33554558	3	1	0	0	2	0
+33	205	15105	34	1835729	1669276801313973000	205	33	1886	33	3	2	24	21700000	2	1	500	32	0	1	0	0	1	0	0	0	0	0	1	0	33554583	2	1	16777614	3	3	0	0	24	0
+33	18062	18062	235	1835730	1669276801313979000	205	33	1886	33	3	2	24	21700000	2	1	500	96	0	1	0	0	1	0	0	0	0	0	1	0	33554583	2	1	16777614	3	3	0	0	24	0
+33	792	15112	36	1835750	1669276801316609000	792	35	3300	33	3	1	21	22280000	2	2	501	32	0	1	0	0	1	0	0	0	0	67114015	3	1	67114015	2	1	0	0	0	0	0	0	1
+33	18062	18062	236	1835751	1669276801316614000	792	35	3300	33	3	1	21	22280000	2	2	501	96	0	1	0	0	1	0	0	0	0	67114015	3	1	67114015	2	1	0	0	0	0	0	0	1
+7	0	0	0	1825641	1669276800286414000	257	1	67	2	225	22	60	1	521	101350000	1	1297	3	2	479	3	2																	
+7	0	0	0	1831462	1669276800947826000	260	1	259	2	151	15	256	1	400	28640000	2	3343	2	2	500	3	2																	
+7	0	0	0	1849983	1669216803049018000	293	2587	1788	2	150	8	1750	1	4	116200000	3	1300	2	2	171	3	2																	
+7	18062	18062	157366	3137955	1669277332026294000	678	276	262731	1	792	18135	266991	3	1064	8841000	1930	1576	3	2	0	32	2																	
+7	0	0	0	3138315	1669277332164784000	148	3852	265813	1	260	3178	267088	2	353	14720000	1931	2355	2	3	897	3	2																	
+7	0	0	0	3138626	1669277332303775000	259	3285	267161	2	715	23976	266900	1	28	8208000	1932	1821	2	2	0	2	2																	
